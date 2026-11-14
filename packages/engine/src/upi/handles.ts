@@ -1,7 +1,12 @@
 /**
  * UPI PSP handles (SPEC_A_ENGINE.md §6.3).
- * P1: handle → app table and the conservative "looks personal" heuristic.
- * P2: check against NPCI's published list of UPI apps and handles; add brand-claim mismatch.
+ * Handle → app table and the conservative "looks personal" heuristic. Brand-claim mismatch
+ * (UPI_NAME_MISMATCH) lives in claims/brands.ts.
+ *
+ * Checked 2026-11-14: NPCI's live member / third-party app pages (npci.org.in) render their
+ * tables client-side and could not be read, so this table is NOT verified against NPCI. Paytm
+ * (@paytm, @ptyes, @ptaxis, @pthdfc, @ptsbi) and Amazon Pay (@apl, @yapl, @rapl) were confirmed
+ * from secondary reports; the rest is well-known usage. Unknown handles only add a small risk.
  */
 export const PSP_HANDLES: Readonly<Record<string, string>> = {
   // PhonePe
