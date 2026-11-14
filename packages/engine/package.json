@@ -8,8 +8,9 @@
     "./browser": "./src/browser.ts"
   },
   "dependencies": {
+    "@akshi/content": "*",
     "@akshi/contracts": "*",
     "@akshi/model": "*",
-    "@akshi/content": "*"
+    "tldts": "^7.5.2"
   }
 }
