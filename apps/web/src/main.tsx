@@ -7,13 +7,15 @@ import './styles/globals.css';
 
 // Apply ?simple=1 / ?lang= before the first paint so Elder mode never flashes off.
 applyUrlFlags(window.location.search);
-initI18n();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('#root missing from index.html');
 
-createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+// Render once the stored language is loaded, so Hindi/Telugu/Bengali users never see an English flash.
+void initI18n().then(() => {
+  createRoot(root).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+});
