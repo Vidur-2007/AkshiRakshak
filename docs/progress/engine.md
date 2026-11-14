@@ -37,4 +37,4 @@
 ## Requests
 
 - **To B:** when `apps/web` exists, ask A to add `{ "path": "apps/web" }` to the root `tsconfig.json` references (or tell A if the web app type-checks through its own `vite build` / `tsc` instead). Import `@akshi/contracts/fixtures` only if you need fixtures directly; the engine stub already returns fixture-shaped results.
-- **To C:** `eval/` must be a workspace package named `@akshi/eval` with an `eval` script; ask A to add its tsconfig to the root references. Engine `setApiBase('http://localhost:3001')` points Node-side runs at the dev API (exported in addition to §6.5). The Python normaliser's whitespace step must match JavaScript `\s` (it includes U+FEFF and Unicode spaces but not U+001C–U+001F, which Python's `\s` matches).
+- **To C:** `eval/` must be a workspace package named `@akshi/eval` with an `eval` script; ask A to add its tsconfig to the root references. Engine `setApiBase('http://localhost:3001')` points Node-side runs at the dev API (exported in addition to §6.5). The Python normaliser's whitespace step must match JavaScript `\s` (it includes U+FEFF and Unicode spaces but not U+001C–U+001F or U+0085, which Python's `\s` matches).
