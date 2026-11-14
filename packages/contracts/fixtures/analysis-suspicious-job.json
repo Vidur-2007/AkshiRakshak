@@ -1,0 +1,217 @@
+{
+  "id": "fx-analysis-suspicious-job",
+  "createdAt": "2026-11-14T09:20:41.000Z",
+  "kind": "message",
+  "lang": "hi",
+  "detectedLang": "hi",
+  "text": "नमस्ते! घर बैठे पार्ट टाइम जॉब का मौका। बस YouTube वीडियो लाइक करें और रोज़ ₹3,000 तक कमाएं। पहले टास्क के लिए रजिस्ट्रेशन फीस सिर्फ ₹199 है। अभी जुड़ें: t.me/gharsekamai_tasks",
+  "verdict": "suspicious",
+  "riskScore": 58,
+  "confidence": 0.74,
+  "category": "job_task",
+  "categoryConfidence": 0.71,
+  "signals": [
+    {
+      "id": "TASK_JOB_PAYMENT",
+      "weight": 0.35,
+      "label": "काम के बदले कमाई का लालच",
+      "detail": "वीडियो लाइक करने जैसे आसान काम के लिए पैसे का वादा अक्सर टास्क स्कैम होता है।",
+      "spans": [
+        {
+          "start": 51,
+          "end": 67,
+          "text": "वीडियो लाइक करें"
+        },
+        {
+          "start": 71,
+          "end": 91,
+          "text": "रोज़ ₹3,000 तक कमाएं"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "ADVANCE_FEE",
+      "weight": 0.35,
+      "label": "पहले पैसे मांगना",
+      "detail": "असली नौकरी के लिए कोई रजिस्ट्रेशन फीस नहीं मांगी जाती।",
+      "spans": [
+        {
+          "start": 111,
+          "end": 126,
+          "text": "रजिस्ट्रेशन फीस"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "MODEL_PATTERN",
+      "weight": 0.25,
+      "label": "स्कैम जैसी भाषा",
+      "detail": "ऐसे शब्द कई स्कैम संदेशों में देखे गए हैं।",
+      "spans": [
+        {
+          "start": 8,
+          "end": 30,
+          "text": "घर बैठे पार्ट टाइम जॉब"
+        }
+      ],
+      "source": "model"
+    },
+    {
+      "id": "SUSPICIOUS_LINK",
+      "weight": 0.2,
+      "label": "अनजान लिंक",
+      "detail": "यह लिंक एक अनजान Telegram चैनल पर ले जाता है।",
+      "spans": [
+        {
+          "start": 154,
+          "end": 176,
+          "text": "t.me/gharsekamai_tasks"
+        }
+      ],
+      "source": "url"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "घर बैठे आसान नौकरी का ऑफ़र",
+      "reality": "काम शुरू करने से पहले ₹199 की फीस मांगी जा रही है",
+      "mismatch": true,
+      "signal": "ADVANCE_FEE"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "raw": "t.me/gharsekamai_tasks",
+        "span": {
+          "start": 154,
+          "end": 176,
+          "text": "t.me/gharsekamai_tasks"
+        },
+        "normalized": "https://t.me/gharsekamai_tasks",
+        "host": "t.me",
+        "registrableDomain": "t.me",
+        "tld": "me",
+        "risk": 30,
+        "flags": [
+          "SUSPICIOUS_LINK"
+        ],
+        "isOfficial": false,
+        "isShortener": false,
+        "isApk": false
+      }
+    ],
+    "upiIds": [],
+    "phones": [],
+    "amounts": [
+      {
+        "raw": "₹3,000",
+        "span": {
+          "start": 76,
+          "end": 82,
+          "text": "₹3,000"
+        },
+        "value": 3000,
+        "currency": "INR"
+      },
+      {
+        "raw": "₹199",
+        "span": {
+          "start": 133,
+          "end": 137,
+          "text": "₹199"
+        },
+        "value": 199,
+        "currency": "INR"
+      }
+    ],
+    "emails": [],
+    "apkMentions": [],
+    "brands": []
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 66,
+      "share": 0.5,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 52,
+      "share": 0.31,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 30,
+      "share": 0.19,
+      "available": true
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "यह संदेश टास्क वाली नकली नौकरी जैसा लगता है। आसान कमाई का वादा करके पहले फीस मांगी जा रही है।",
+  "actions": [
+    "do_not_pay",
+    "do_not_click",
+    "block_sender",
+    "report_chakshu"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 1.4,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 1.1,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 3.6,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 7.2,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 16,
+  "severity": "medium",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

@@ -1,0 +1,280 @@
+{
+  "id": "fx-analysis-email",
+  "createdAt": "2026-11-14T10:18:22.000Z",
+  "kind": "email",
+  "lang": "en",
+  "detectedLang": "en",
+  "text": "From: Income Tax Department <refunds@incometax-refund-portal.info> Reply-To: itr.refund.cell@incometax-helpdesk.online Subject: Income tax refund of Rs 18,450 approved Dear Taxpayer, your refund of Rs 18,450 is pending. Verify your bank account within 24 hours at https://incometax-refund-portal.info/claim or the refund will be cancelled. Attachment: Refund_Form.html",
+  "verdict": "scam",
+  "riskScore": 93,
+  "confidence": 0.93,
+  "category": "impersonation_govt",
+  "categoryConfidence": 0.79,
+  "signals": [
+    {
+      "id": "LOOKALIKE_DOMAIN",
+      "weight": 0.55,
+      "label": "Fake government website",
+      "detail": "Uses \"incometax\" in the name, but the real site is incometax.gov.in.",
+      "spans": [
+        {
+          "start": 264,
+          "end": 306,
+          "text": "https://incometax-refund-portal.info/claim"
+        }
+      ],
+      "source": "url"
+    },
+    {
+      "id": "BRAND_MISMATCH",
+      "weight": 0.45,
+      "label": "Sender doesn't match",
+      "detail": "Says it is from the Income Tax Department, but the email comes from incometax-refund-portal.info.",
+      "spans": [
+        {
+          "start": 6,
+          "end": 27,
+          "text": "Income Tax Department"
+        },
+        {
+          "start": 29,
+          "end": 65,
+          "text": "refunds@incometax-refund-portal.info"
+        }
+      ],
+      "source": "context"
+    },
+    {
+      "id": "RISKY_ATTACHMENT",
+      "weight": 0.4,
+      "label": "Risky attachment",
+      "detail": "An .html attachment can open a fake login page.",
+      "spans": [
+        {
+          "start": 352,
+          "end": 368,
+          "text": "Refund_Form.html"
+        }
+      ],
+      "source": "context"
+    },
+    {
+      "id": "REPLY_TO_MISMATCH",
+      "weight": 0.3,
+      "label": "Replies go elsewhere",
+      "detail": "Your reply would go to a different domain than the sender.",
+      "spans": [
+        {
+          "start": 77,
+          "end": 118,
+          "text": "itr.refund.cell@incometax-helpdesk.online"
+        }
+      ],
+      "source": "context"
+    },
+    {
+      "id": "URGENCY",
+      "weight": 0.15,
+      "label": "Rushing you",
+      "detail": "Gives you 24 hours before the \"refund will be cancelled\".",
+      "spans": [
+        {
+          "start": 245,
+          "end": 260,
+          "text": "within 24 hours"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "AUTHORITY_CLAIM",
+      "weight": 0.15,
+      "label": "Claims to be the government",
+      "detail": "Uses the name of a government department.",
+      "spans": [
+        {
+          "start": 6,
+          "end": 27,
+          "text": "Income Tax Department"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "RISKY_TLD",
+      "weight": 0.15,
+      "label": "Unusual web address ending",
+      "detail": "Government websites end in .gov.in, not .info.",
+      "spans": [],
+      "source": "url"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "Says it is from the Income Tax Department",
+      "reality": "Sent from incometax-refund-portal.info; the real department uses incometax.gov.in",
+      "mismatch": true,
+      "signal": "BRAND_MISMATCH"
+    },
+    {
+      "claim": "Sender: incometax-refund-portal.info",
+      "reality": "Replies go to incometax-helpdesk.online",
+      "mismatch": true,
+      "signal": "REPLY_TO_MISMATCH"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "raw": "https://incometax-refund-portal.info/claim",
+        "span": {
+          "start": 264,
+          "end": 306,
+          "text": "https://incometax-refund-portal.info/claim"
+        },
+        "normalized": "https://incometax-refund-portal.info/claim",
+        "host": "incometax-refund-portal.info",
+        "registrableDomain": "incometax-refund-portal.info",
+        "tld": "info",
+        "risk": 86,
+        "flags": [
+          "LOOKALIKE_DOMAIN",
+          "BRAND_MISMATCH",
+          "RISKY_TLD"
+        ],
+        "lookalikeOf": "incometax.gov.in",
+        "isOfficial": false,
+        "isShortener": false,
+        "isApk": false
+      }
+    ],
+    "upiIds": [],
+    "phones": [],
+    "amounts": [
+      {
+        "raw": "Rs 18,450",
+        "span": {
+          "start": 149,
+          "end": 158,
+          "text": "Rs 18,450"
+        },
+        "value": 18450,
+        "currency": "INR"
+      },
+      {
+        "raw": "Rs 18,450",
+        "span": {
+          "start": 198,
+          "end": 207,
+          "text": "Rs 18,450"
+        },
+        "value": 18450,
+        "currency": "INR"
+      }
+    ],
+    "emails": [
+      "refunds@incometax-refund-portal.info",
+      "itr.refund.cell@incometax-helpdesk.online"
+    ],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "Income Tax Department",
+        "kind": "govt",
+        "span": {
+          "start": 6,
+          "end": 27,
+          "text": "Income Tax Department"
+        },
+        "officialDomains": [
+          "incometax.gov.in"
+        ],
+        "mismatch": true,
+        "evidence": "Sender domain is incometax-refund-portal.info"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 88,
+      "share": 0.44,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 91,
+      "share": 0.35,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 86,
+      "share": 0.21,
+      "available": true
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "This email pretends to be from the Income Tax Department. The sender, reply address and link are not government addresses.",
+  "actions": [
+    "do_not_click",
+    "verify_official",
+    "report_cybercrime_portal",
+    "block_sender"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 1.6,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 2.2,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 4.1,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 8.3,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 18,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

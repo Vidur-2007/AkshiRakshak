@@ -1,0 +1,243 @@
+{
+  "id": "fx-analysis-url",
+  "createdAt": "2026-11-14T09:52:12.000Z",
+  "kind": "url",
+  "lang": "en",
+  "detectedLang": "en",
+  "text": "https://hdfcbenk.top/netbanking/login?ref=kyc",
+  "verdict": "scam",
+  "riskScore": 86,
+  "confidence": 0.9,
+  "category": "phishing_link",
+  "categoryConfidence": 0.86,
+  "signals": [
+    {
+      "id": "LOOKALIKE_DOMAIN",
+      "weight": 0.55,
+      "label": "Lookalike bank address",
+      "detail": "\"hdfcbenk\" is one letter away from \"hdfcbank\".",
+      "spans": [
+        {
+          "start": 8,
+          "end": 16,
+          "text": "hdfcbenk"
+        }
+      ],
+      "source": "url"
+    },
+    {
+      "id": "NEW_DOMAIN",
+      "weight": 0.45,
+      "label": "Very new website",
+      "detail": "This domain was registered 6 days ago.",
+      "spans": [],
+      "source": "url"
+    },
+    {
+      "id": "AI_FLAG",
+      "weight": 0.3,
+      "label": "AI second opinion",
+      "detail": "A bank login page on an unrelated address is a common phishing trick.",
+      "spans": [
+        {
+          "start": 21,
+          "end": 37,
+          "text": "netbanking/login"
+        }
+      ],
+      "source": "ai"
+    },
+    {
+      "id": "SUSPICIOUS_LINK",
+      "weight": 0.2,
+      "label": "Login page on an unknown site",
+      "detail": "Asks you to log in to net banking on a site that is not your bank.",
+      "spans": [
+        {
+          "start": 21,
+          "end": 37,
+          "text": "netbanking/login"
+        }
+      ],
+      "source": "url"
+    },
+    {
+      "id": "RISKY_TLD",
+      "weight": 0.15,
+      "label": "Unusual web address ending",
+      "detail": ".top addresses are cheap and often used for scam sites.",
+      "spans": [
+        {
+          "start": 16,
+          "end": 20,
+          "text": ".top"
+        }
+      ],
+      "source": "url"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "Looks like HDFC Bank's website",
+      "reality": "The address is hdfcbenk.top, one letter different from hdfcbank.com, registered 6 days ago",
+      "mismatch": true,
+      "signal": "LOOKALIKE_DOMAIN"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "raw": "https://hdfcbenk.top/netbanking/login?ref=kyc",
+        "span": {
+          "start": 0,
+          "end": 45,
+          "text": "https://hdfcbenk.top/netbanking/login?ref=kyc"
+        },
+        "normalized": "https://hdfcbenk.top/netbanking/login?ref=kyc",
+        "host": "hdfcbenk.top",
+        "registrableDomain": "hdfcbenk.top",
+        "tld": "top",
+        "risk": 88,
+        "flags": [
+          "LOOKALIKE_DOMAIN",
+          "NEW_DOMAIN",
+          "RISKY_TLD",
+          "SUSPICIOUS_LINK"
+        ],
+        "lookalikeOf": "hdfcbank.com",
+        "lookalikeDiff": [
+          {
+            "index": 5,
+            "expected": "a",
+            "actual": "e"
+          }
+        ],
+        "isOfficial": false,
+        "isShortener": false,
+        "isApk": false,
+        "expanded": {
+          "hops": [
+            {
+              "url": "https://hdfcbenk.top/netbanking/login?ref=kyc",
+              "status": 200
+            }
+          ],
+          "finalUrl": "https://hdfcbenk.top/netbanking/login?ref=kyc",
+          "truncated": false
+        },
+        "domainAge": {
+          "domain": "hdfcbenk.top",
+          "registered": "2026-11-08T00:00:00Z",
+          "ageDays": 6,
+          "registrar": "Example Registrar Ltd (sample)"
+        }
+      }
+    ],
+    "upiIds": [],
+    "phones": [],
+    "amounts": [],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "HDFC Bank",
+        "kind": "bank",
+        "span": {
+          "start": 8,
+          "end": 16,
+          "text": "hdfcbenk"
+        },
+        "officialDomains": [
+          "hdfcbank.com",
+          "hdfc.bank.in"
+        ],
+        "mismatch": true,
+        "evidence": "Lookalike of hdfcbank.com"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 24,
+      "share": 0.07,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "links",
+      "score": 88,
+      "share": 0.73,
+      "available": true
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 92,
+      "share": 0.2,
+      "available": true
+    }
+  ],
+  "explanation": "This link imitates HDFC Bank. The address is one letter off from the real one and the site is only 6 days old.",
+  "actions": [
+    "do_not_click",
+    "verify_official",
+    "report_chakshu",
+    "warn_family"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 0.4,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 840,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 0.9,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "ai",
+      "ms": 1210,
+      "status": "done"
+    }
+  ],
+  "aiUsed": true,
+  "aiProvider": "groq",
+  "offline": false,
+  "latencyMs": 1460,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

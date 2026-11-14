@@ -1,0 +1,146 @@
+{
+  "id": "fx-analysis-nosigns-otp",
+  "createdAt": "2026-11-14T09:31:10.000Z",
+  "kind": "message",
+  "lang": "en",
+  "detectedLang": "en",
+  "text": "482913 is your OTP for a transaction of Rs 2,499.00 at AMAZON on your HDFC Bank card ending XX0000. Valid for 10 minutes. Do not share your OTP with anyone. If this was not you, report it in the official HDFC Bank app.",
+  "verdict": "no_signs",
+  "riskScore": 6,
+  "confidence": 0.86,
+  "category": null,
+  "categoryConfidence": 0,
+  "signals": [
+    {
+      "id": "SAFETY_ADVICE",
+      "weight": -0.3,
+      "label": "Genuine safety advice",
+      "detail": "Real bank messages remind you never to share your OTP.",
+      "spans": [
+        {
+          "start": 122,
+          "end": 155,
+          "text": "Do not share your OTP with anyone"
+        }
+      ],
+      "source": "rule"
+    }
+  ],
+  "claimVsReality": [],
+  "entities": {
+    "urls": [],
+    "upiIds": [],
+    "phones": [],
+    "amounts": [
+      {
+        "raw": "Rs 2,499.00",
+        "span": {
+          "start": 40,
+          "end": 51,
+          "text": "Rs 2,499.00"
+        },
+        "value": 2499,
+        "currency": "INR"
+      }
+    ],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "HDFC Bank",
+        "kind": "bank",
+        "span": {
+          "start": 70,
+          "end": 79,
+          "text": "HDFC Bank"
+        },
+        "officialDomains": [
+          "hdfcbank.com",
+          "hdfc.bank.in"
+        ],
+        "mismatch": false
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 4,
+      "share": 0.4,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 8,
+      "share": 0.6,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "No warning signs found. Still, never share your OTP or PIN with anyone.",
+  "actions": [
+    "no_action_needed",
+    "verify_official"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 0.9,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 0.4,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 2.2,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 5.9,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 11,
+  "severity": "none",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

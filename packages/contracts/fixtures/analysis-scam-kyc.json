@@ -1,0 +1,290 @@
+{
+  "id": "fx-analysis-scam-kyc",
+  "createdAt": "2026-11-14T09:12:04.000Z",
+  "kind": "message",
+  "lang": "en",
+  "detectedLang": "en",
+  "text": "Dear Customer, your SBI account will be BLOCKED today due to pending KYC. Update KYC immediately at http://sbi-kyc-update.xyz/verify or call our helpline 98765 00001. -SBI Team",
+  "verdict": "scam",
+  "riskScore": 94,
+  "confidence": 0.93,
+  "category": "fake_kyc",
+  "categoryConfidence": 0.88,
+  "signals": [
+    {
+      "id": "LOOKALIKE_DOMAIN",
+      "weight": 0.55,
+      "label": "Fake bank website",
+      "detail": "The link uses \"sbi\" in its name but is not an SBI website.",
+      "spans": [
+        {
+          "start": 100,
+          "end": 132,
+          "text": "http://sbi-kyc-update.xyz/verify"
+        }
+      ],
+      "source": "url"
+    },
+    {
+      "id": "BRAND_MISMATCH",
+      "weight": 0.45,
+      "label": "Link doesn't match the bank",
+      "detail": "Says it is from SBI, but the link goes to sbi-kyc-update.xyz.",
+      "spans": [
+        {
+          "start": 20,
+          "end": 31,
+          "text": "SBI account"
+        },
+        {
+          "start": 100,
+          "end": 132,
+          "text": "http://sbi-kyc-update.xyz/verify"
+        }
+      ],
+      "source": "url"
+    },
+    {
+      "id": "MODEL_PATTERN",
+      "weight": 0.3,
+      "label": "Wording seen in scams",
+      "detail": "Wording seen in many scam messages.",
+      "spans": [
+        {
+          "start": 61,
+          "end": 72,
+          "text": "pending KYC"
+        },
+        {
+          "start": 74,
+          "end": 96,
+          "text": "Update KYC immediately"
+        }
+      ],
+      "source": "model"
+    },
+    {
+      "id": "THREAT_BLOCK",
+      "weight": 0.25,
+      "label": "Threat to block your account",
+      "detail": "Scammers scare you with a blocked account so you act without thinking.",
+      "spans": [
+        {
+          "start": 32,
+          "end": 53,
+          "text": "will be BLOCKED today"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "CUSTOMER_CARE_NUMBER",
+      "weight": 0.25,
+      "label": "Unknown helpline number",
+      "detail": "Banks do not ask you to call a mobile number from an SMS.",
+      "spans": [
+        {
+          "start": 154,
+          "end": 165,
+          "text": "98765 00001"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "BANK_IMPERSONATION",
+      "weight": 0.2,
+      "label": "Pretends to be a bank",
+      "detail": "Uses a bank name together with an urgent account action.",
+      "spans": [
+        {
+          "start": 167,
+          "end": 176,
+          "text": "-SBI Team"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "URGENCY",
+      "weight": 0.15,
+      "label": "Rushing you",
+      "detail": "Asks you to act \"immediately\".",
+      "spans": [
+        {
+          "start": 85,
+          "end": 96,
+          "text": "immediately"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "RISKY_TLD",
+      "weight": 0.15,
+      "label": "Unusual web address ending",
+      "detail": ".xyz addresses are cheap and often used for scam sites.",
+      "spans": [],
+      "source": "url"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "Says it is from SBI",
+      "reality": "Link goes to sbi-kyc-update.xyz, not sbi.co.in or sbi.bank.in",
+      "mismatch": true,
+      "signal": "BRAND_MISMATCH"
+    },
+    {
+      "claim": "Gives a bank helpline",
+      "reality": "98765 00001 is a mobile number, not an official SBI number",
+      "mismatch": true,
+      "signal": "CUSTOMER_CARE_NUMBER"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "raw": "http://sbi-kyc-update.xyz/verify",
+        "span": {
+          "start": 100,
+          "end": 132,
+          "text": "http://sbi-kyc-update.xyz/verify"
+        },
+        "normalized": "http://sbi-kyc-update.xyz/verify",
+        "host": "sbi-kyc-update.xyz",
+        "registrableDomain": "sbi-kyc-update.xyz",
+        "tld": "xyz",
+        "risk": 91,
+        "flags": [
+          "LOOKALIKE_DOMAIN",
+          "BRAND_MISMATCH",
+          "RISKY_TLD",
+          "SUSPICIOUS_LINK"
+        ],
+        "lookalikeOf": "sbi.co.in",
+        "isOfficial": false,
+        "isShortener": false,
+        "isApk": false
+      }
+    ],
+    "upiIds": [],
+    "phones": [
+      {
+        "raw": "98765 00001",
+        "span": {
+          "start": 154,
+          "end": 165,
+          "text": "98765 00001"
+        },
+        "e164": "+919876500001",
+        "claimedAs": "customer_care"
+      }
+    ],
+    "amounts": [],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "SBI",
+        "kind": "bank",
+        "span": {
+          "start": 20,
+          "end": 23,
+          "text": "SBI"
+        },
+        "officialDomains": [
+          "sbi.co.in",
+          "onlinesbi.sbi",
+          "sbi.bank.in"
+        ],
+        "mismatch": true,
+        "evidence": "Link domain sbi-kyc-update.xyz is not an SBI domain"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 72,
+      "share": 0.38,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 90,
+      "share": 0.36,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 91,
+      "share": 0.26,
+      "available": true
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "This looks like a fake KYC message. It threatens to block your account and sends you to a website that is not SBI's.",
+  "actions": [
+    "do_not_click",
+    "do_not_share_otp",
+    "verify_official",
+    "report_chakshu",
+    "block_sender"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 1.2,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 2.4,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 3.1,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 6.8,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 14,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

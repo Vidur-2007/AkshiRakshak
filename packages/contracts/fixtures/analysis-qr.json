@@ -1,0 +1,238 @@
+{
+  "id": "fx-analysis-qr",
+  "createdAt": "2026-11-14T09:45:30.000Z",
+  "kind": "qr",
+  "lang": "en",
+  "detectedLang": "en",
+  "text": "upi://pay?pa=9876500001@ybl&pn=SBI Refund&am=4999&tn=receive refund&cu=INR",
+  "verdict": "scam",
+  "riskScore": 92,
+  "confidence": 0.92,
+  "category": "qr_receive",
+  "categoryConfidence": 0.9,
+  "signals": [
+    {
+      "id": "QR_TO_RECEIVE",
+      "weight": 0.65,
+      "label": "QR to \"receive\" money",
+      "detail": "Scanning a QR and entering your PIN sends money. A QR is never needed to receive money.",
+      "spans": [
+        {
+          "start": 53,
+          "end": 67,
+          "text": "receive refund"
+        }
+      ],
+      "source": "upi"
+    },
+    {
+      "id": "UPI_NAME_MISMATCH",
+      "weight": 0.4,
+      "label": "Name doesn't match the UPI ID",
+      "detail": "The payee name says \"SBI Refund\", but the UPI ID is a personal mobile-number ID.",
+      "spans": [
+        {
+          "start": 31,
+          "end": 41,
+          "text": "SBI Refund"
+        },
+        {
+          "start": 13,
+          "end": 27,
+          "text": "9876500001@ybl"
+        }
+      ],
+      "source": "upi"
+    },
+    {
+      "id": "PERSONAL_UPI_HANDLE",
+      "weight": 0.15,
+      "label": "Personal UPI ID",
+      "detail": "Banks do not use personal mobile-number UPI IDs.",
+      "spans": [
+        {
+          "start": 13,
+          "end": 27,
+          "text": "9876500001@ybl"
+        }
+      ],
+      "source": "upi"
+    },
+    {
+      "id": "PREFILLED_AMOUNT",
+      "weight": 0.1,
+      "label": "Amount already filled in",
+      "detail": "₹4,999 is pre-filled, so one tap and your PIN would pay it.",
+      "spans": [
+        {
+          "start": 42,
+          "end": 49,
+          "text": "am=4999"
+        }
+      ],
+      "source": "upi"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "Payee shows as \"SBI Refund\"",
+      "reality": "Money goes to 9876500001@ybl, a personal PhonePe ID",
+      "mismatch": true,
+      "signal": "UPI_NAME_MISMATCH"
+    },
+    {
+      "claim": "Note says \"receive refund\"",
+      "reality": "Paying this QR sends ₹4,999 out of your account",
+      "mismatch": true,
+      "signal": "QR_TO_RECEIVE"
+    }
+  ],
+  "entities": {
+    "urls": [],
+    "upiIds": [
+      {
+        "raw": "9876500001@ybl",
+        "span": {
+          "start": 13,
+          "end": 27,
+          "text": "9876500001@ybl"
+        },
+        "handle": "ybl",
+        "psp": "PhonePe",
+        "pspKnown": true,
+        "looksPersonal": true,
+        "risk": 80,
+        "flags": [
+          "UPI_NAME_MISMATCH",
+          "PERSONAL_UPI_HANDLE"
+        ]
+      }
+    ],
+    "phones": [],
+    "amounts": [
+      {
+        "raw": "4999",
+        "span": {
+          "start": 45,
+          "end": 49,
+          "text": "4999"
+        },
+        "value": 4999,
+        "currency": "INR"
+      }
+    ],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "SBI",
+        "kind": "bank",
+        "span": {
+          "start": 31,
+          "end": 34,
+          "text": "SBI"
+        },
+        "officialDomains": [
+          "sbi.co.in",
+          "onlinesbi.sbi",
+          "sbi.bank.in"
+        ],
+        "mismatch": true,
+        "evidence": "Payee handle is a personal mobile-number UPI ID"
+      }
+    ]
+  },
+  "qr": {
+    "raw": "upi://pay?pa=9876500001@ybl&pn=SBI%20Refund&am=4999&tn=receive%20refund&cu=INR",
+    "valid": true,
+    "issues": [],
+    "pa": "9876500001@ybl",
+    "pn": "SBI Refund",
+    "am": 4999,
+    "cu": "INR",
+    "tn": "receive refund"
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 89,
+      "share": 0.55,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "links",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "upi",
+      "score": 80,
+      "share": 0.45,
+      "available": true
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "This QR asks you to pay ₹4,999 to 9876500001@ybl (shown as \"SBI Refund\"). Scanning a QR and entering your PIN always sends money; it never receives it.",
+  "actions": [
+    "do_not_pay",
+    "block_sender",
+    "report_chakshu",
+    "warn_family"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 0.6,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 1,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 1.4,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 6,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

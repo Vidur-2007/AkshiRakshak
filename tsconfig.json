@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/contracts" },
+    { "path": "packages/contracts/test" },
+    { "path": "packages/model" },
+    { "path": "packages/content" },
+    { "path": "packages/insights" },
+    { "path": "packages/engine" },
+    { "path": "api" },
+    { "path": "scripts" }
+  ]
+}

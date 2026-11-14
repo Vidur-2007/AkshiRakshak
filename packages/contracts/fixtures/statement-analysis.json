@@ -1,0 +1,497 @@
+{
+  "txns": [
+    {
+      "id": "txn-001",
+      "date": "2026-10-01T09:05:00",
+      "hasTime": true,
+      "description": "NEFT CR SALARY ACME SOFTWARE PVT LTD",
+      "amount": 85000,
+      "direction": "credit",
+      "balance": 127000,
+      "channel": "NEFT",
+      "counterparty": "Acme Software Pvt Ltd",
+      "category": "salary"
+    },
+    {
+      "id": "txn-002",
+      "date": "2026-10-01T10:30:00",
+      "hasTime": true,
+      "description": "UPI/DR/R SHARMA/House rent Oct",
+      "amount": 22000,
+      "direction": "debit",
+      "balance": 105000,
+      "channel": "UPI",
+      "counterparty": "R Sharma",
+      "category": "rent",
+      "upiId": "sharma.rent.demo@oksbi"
+    },
+    {
+      "id": "txn-003",
+      "date": "2026-10-02T13:10:00",
+      "hasTime": true,
+      "description": "UPI/DR/SWIGGY/Food order",
+      "amount": 420,
+      "direction": "debit",
+      "balance": 104580,
+      "channel": "UPI",
+      "counterparty": "Swiggy",
+      "category": "food"
+    },
+    {
+      "id": "txn-004",
+      "date": "2026-10-03T08:45:00",
+      "hasTime": true,
+      "description": "UPI/DR/UBER/Trip",
+      "amount": 260,
+      "direction": "debit",
+      "balance": 104320,
+      "channel": "UPI",
+      "counterparty": "Uber",
+      "category": "transport"
+    },
+    {
+      "id": "txn-005",
+      "date": "2026-10-04T19:20:00",
+      "hasTime": true,
+      "description": "UPI/DR/BIGBASKET/Groceries",
+      "amount": 1850,
+      "direction": "debit",
+      "balance": 102470,
+      "channel": "UPI",
+      "counterparty": "BigBasket",
+      "category": "groceries"
+    },
+    {
+      "id": "txn-006",
+      "date": "2026-10-05T21:00:00",
+      "hasTime": true,
+      "description": "UPI/DR/JIO/Prepaid recharge",
+      "amount": 349,
+      "direction": "debit",
+      "balance": 102121,
+      "channel": "UPI",
+      "counterparty": "Jio",
+      "category": "bills"
+    },
+    {
+      "id": "txn-007",
+      "date": "2026-10-06T13:30:00",
+      "hasTime": true,
+      "description": "UPI/DR/SWIGGY/Food order",
+      "amount": 380,
+      "direction": "debit",
+      "balance": 101741,
+      "channel": "UPI",
+      "counterparty": "Swiggy",
+      "category": "food"
+    },
+    {
+      "id": "txn-008",
+      "date": "2026-10-07T18:10:00",
+      "hasTime": true,
+      "description": "CARD POS AMAZON",
+      "amount": 2499,
+      "direction": "debit",
+      "balance": 99242,
+      "channel": "CARD",
+      "counterparty": "Amazon",
+      "category": "shopping"
+    },
+    {
+      "id": "txn-009",
+      "date": "2026-10-08T09:00:00",
+      "hasTime": true,
+      "description": "SIP GROWW MUTUAL FUND",
+      "amount": 5000,
+      "direction": "debit",
+      "balance": 94242,
+      "channel": "OTHER",
+      "counterparty": "Groww",
+      "category": "investment"
+    },
+    {
+      "id": "txn-010",
+      "date": "2026-10-09T20:15:00",
+      "hasTime": true,
+      "description": "UPI/DR/NEHA P/Dinner share",
+      "amount": 1200,
+      "direction": "debit",
+      "balance": 93042,
+      "channel": "UPI",
+      "counterparty": "Neha P",
+      "category": "transfers",
+      "upiId": "neha.p.demo@okaxis"
+    },
+    {
+      "id": "txn-011",
+      "date": "2026-10-10T12:40:00",
+      "hasTime": true,
+      "description": "UPI/DR/ZOMATO/Food order",
+      "amount": 510,
+      "direction": "debit",
+      "balance": 92532,
+      "channel": "UPI",
+      "counterparty": "Zomato",
+      "category": "food"
+    },
+    {
+      "id": "txn-012",
+      "date": "2026-10-11T11:00:00",
+      "hasTime": true,
+      "description": "ATM CASH WITHDRAWAL",
+      "amount": 3000,
+      "direction": "debit",
+      "balance": 89532,
+      "channel": "ATM",
+      "counterparty": "ATM",
+      "category": "cash"
+    },
+    {
+      "id": "txn-013",
+      "date": "2026-10-12T08:50:00",
+      "hasTime": true,
+      "description": "UPI/DR/UBER/Trip",
+      "amount": 240,
+      "direction": "debit",
+      "balance": 89292,
+      "channel": "UPI",
+      "counterparty": "Uber",
+      "category": "transport"
+    },
+    {
+      "id": "txn-014",
+      "date": "2026-10-13T13:20:00",
+      "hasTime": true,
+      "description": "UPI/DR/SWIGGY/Food order",
+      "amount": 450,
+      "direction": "debit",
+      "balance": 88842,
+      "channel": "UPI",
+      "counterparty": "Swiggy",
+      "category": "food"
+    },
+    {
+      "id": "txn-015",
+      "date": "2026-10-14T20:31:00",
+      "hasTime": true,
+      "description": "UPI/DR/MYNTRA/Order",
+      "amount": 1299,
+      "direction": "debit",
+      "balance": 87543,
+      "channel": "UPI",
+      "counterparty": "Myntra",
+      "category": "shopping"
+    },
+    {
+      "id": "txn-016",
+      "date": "2026-10-14T20:36:00",
+      "hasTime": true,
+      "description": "UPI/DR/MYNTRA/Order",
+      "amount": 1299,
+      "direction": "debit",
+      "balance": 86244,
+      "channel": "UPI",
+      "counterparty": "Myntra",
+      "category": "shopping"
+    },
+    {
+      "id": "txn-017",
+      "date": "2026-10-15T19:00:00",
+      "hasTime": true,
+      "description": "BILLPAY CITY POWER LTD Electricity",
+      "amount": 1450,
+      "direction": "debit",
+      "balance": 84794,
+      "channel": "OTHER",
+      "counterparty": "City Power Ltd",
+      "category": "bills"
+    },
+    {
+      "id": "txn-018",
+      "date": "2026-10-16T13:05:00",
+      "hasTime": true,
+      "description": "UPI/DR/SWIGGY/Food order",
+      "amount": 395,
+      "direction": "debit",
+      "balance": 84399,
+      "channel": "UPI",
+      "counterparty": "Swiggy",
+      "category": "food"
+    },
+    {
+      "id": "txn-019",
+      "date": "2026-10-17T10:10:00",
+      "hasTime": true,
+      "description": "UPI/DR/WELLNESS PHARMACY/Medicines",
+      "amount": 680,
+      "direction": "debit",
+      "balance": 83719,
+      "channel": "UPI",
+      "counterparty": "Wellness Pharmacy",
+      "category": "health"
+    },
+    {
+      "id": "txn-020",
+      "date": "2026-10-18T18:45:00",
+      "hasTime": true,
+      "description": "UPI/DR/BOOKMYSHOW/Tickets",
+      "amount": 700,
+      "direction": "debit",
+      "balance": 83019,
+      "channel": "UPI",
+      "counterparty": "BookMyShow",
+      "category": "entertainment"
+    },
+    {
+      "id": "txn-021",
+      "date": "2026-10-19T09:30:00",
+      "hasTime": true,
+      "description": "UPI/DR/UBER/Trip",
+      "amount": 310,
+      "direction": "debit",
+      "balance": 82709,
+      "channel": "UPI",
+      "counterparty": "Uber",
+      "category": "transport"
+    },
+    {
+      "id": "txn-022",
+      "date": "2026-10-20T14:00:00",
+      "hasTime": true,
+      "description": "UPI/CR/NEHA P/Movie share",
+      "amount": 600,
+      "direction": "credit",
+      "balance": 83309,
+      "channel": "UPI",
+      "counterparty": "Neha P",
+      "category": "transfers",
+      "upiId": "neha.p.demo@okaxis"
+    },
+    {
+      "id": "txn-023",
+      "date": "2026-10-21T19:40:00",
+      "hasTime": true,
+      "description": "UPI/DR/BIGBASKET/Groceries",
+      "amount": 2100,
+      "direction": "debit",
+      "balance": 81209,
+      "channel": "UPI",
+      "counterparty": "BigBasket",
+      "category": "groceries"
+    },
+    {
+      "id": "txn-024",
+      "date": "2026-10-22T02:47:00",
+      "hasTime": true,
+      "description": "UPI/DR/QUICK HELP SERVICES/Payment",
+      "amount": 48000,
+      "direction": "debit",
+      "balance": 33209,
+      "channel": "UPI",
+      "counterparty": "Quick Help Services",
+      "category": "transfers",
+      "upiId": "quickhelp.services77@ybl"
+    },
+    {
+      "id": "txn-025",
+      "date": "2026-10-23T12:30:00",
+      "hasTime": true,
+      "description": "UPI/DR/ZOMATO/Food order",
+      "amount": 470,
+      "direction": "debit",
+      "balance": 32739,
+      "channel": "UPI",
+      "counterparty": "Zomato",
+      "category": "food"
+    },
+    {
+      "id": "txn-026",
+      "date": "2026-10-24T08:55:00",
+      "hasTime": true,
+      "description": "UPI/DR/UBER/Trip",
+      "amount": 280,
+      "direction": "debit",
+      "balance": 32459,
+      "channel": "UPI",
+      "counterparty": "Uber",
+      "category": "transport"
+    },
+    {
+      "id": "txn-027",
+      "date": "2026-10-25T17:20:00",
+      "hasTime": true,
+      "description": "UPI/DR/FLIPKART/Order",
+      "amount": 1599,
+      "direction": "debit",
+      "balance": 30860,
+      "channel": "UPI",
+      "counterparty": "Flipkart",
+      "category": "shopping"
+    },
+    {
+      "id": "txn-028",
+      "date": "2026-10-26T20:10:00",
+      "hasTime": true,
+      "description": "UPI/DR/AIRTEL/Broadband",
+      "amount": 799,
+      "direction": "debit",
+      "balance": 30061,
+      "channel": "UPI",
+      "counterparty": "Airtel",
+      "category": "bills"
+    },
+    {
+      "id": "txn-029",
+      "date": "2026-10-27T13:15:00",
+      "hasTime": true,
+      "description": "UPI/DR/SWIGGY/Food order",
+      "amount": 430,
+      "direction": "debit",
+      "balance": 29631,
+      "channel": "UPI",
+      "counterparty": "Swiggy",
+      "category": "food"
+    },
+    {
+      "id": "txn-030",
+      "date": "2026-10-28T09:00:00",
+      "hasTime": true,
+      "description": "NACH DR CAR LOAN EMI",
+      "amount": 9500,
+      "direction": "debit",
+      "balance": 20131,
+      "channel": "OTHER",
+      "counterparty": "Car loan EMI",
+      "category": "emi"
+    }
+  ],
+  "anomalies": [
+    {
+      "id": "anom-1",
+      "txnIds": [
+        "txn-024"
+      ],
+      "type": "large_new_payee",
+      "severity": "high",
+      "score": 0.94,
+      "title": "₹48,000 to a new payee at 2:47 AM",
+      "explanation": "This is your first payment to Quick Help Services, and it is much larger than your usual payments. It was made at 2:47 AM, outside the hours you normally pay.",
+      "features": [
+        {
+          "name": "Amount",
+          "value": "₹48,000",
+          "baseline": "usual ₹750"
+        },
+        {
+          "name": "Time",
+          "value": "02:47",
+          "baseline": "usual 08:45–21:00"
+        },
+        {
+          "name": "Payee",
+          "value": "First payment",
+          "baseline": "regular payees"
+        }
+      ]
+    },
+    {
+      "id": "anom-2",
+      "txnIds": [
+        "txn-015",
+        "txn-016"
+      ],
+      "type": "duplicate",
+      "severity": "low",
+      "score": 0.38,
+      "title": "Possible duplicate charge of ₹1,299",
+      "explanation": "Two payments of ₹1,299 to Myntra were made 5 minutes apart. Check whether you were charged twice.",
+      "features": [
+        {
+          "name": "Amount",
+          "value": "₹1,299",
+          "baseline": "same amount twice"
+        },
+        {
+          "name": "Gap",
+          "value": "5 min",
+          "baseline": "within 10 min"
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "medianDebit": 749.5,
+    "p90Debit": 5000,
+    "usualHours": [
+      8,
+      21
+    ],
+    "frequentPayees": [
+      "Swiggy",
+      "Uber"
+    ]
+  },
+  "summary": {
+    "totalIn": 85600,
+    "totalOut": 107469,
+    "byCategory": [
+      {
+        "category": "transfers",
+        "amount": 49200
+      },
+      {
+        "category": "rent",
+        "amount": 22000
+      },
+      {
+        "category": "emi",
+        "amount": 9500
+      },
+      {
+        "category": "shopping",
+        "amount": 6696
+      },
+      {
+        "category": "investment",
+        "amount": 5000
+      },
+      {
+        "category": "groceries",
+        "amount": 3950
+      },
+      {
+        "category": "food",
+        "amount": 3055
+      },
+      {
+        "category": "cash",
+        "amount": 3000
+      },
+      {
+        "category": "bills",
+        "amount": 2598
+      },
+      {
+        "category": "transport",
+        "amount": 1090
+      },
+      {
+        "category": "entertainment",
+        "amount": 700
+      },
+      {
+        "category": "health",
+        "amount": 680
+      }
+    ],
+    "byMonth": [
+      {
+        "month": "2026-10",
+        "in": 85600,
+        "out": 107469
+      }
+    ]
+  },
+  "riskScore": 63,
+  "narrative": "Most of your spending this month went to transfers and rent. Two payments stand out: ₹48,000 to a new payee at 2:47 AM, and a possible duplicate ₹1,299 charge."
+}

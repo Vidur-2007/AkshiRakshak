@@ -1,0 +1,480 @@
+{
+  "id": "fx-analysis-image",
+  "createdAt": "2026-11-14T10:02:45.000Z",
+  "kind": "image",
+  "lang": "te",
+  "detectedLang": "te",
+  "text": "ప్రియమైన వినియోగదారుడా, మీ విద్యుత్ బిల్లు బకాయి ఉంది. ఈ రాత్రి 9:30 గంటలకు మీ కరెంట్ కనెక్షన్ నిలిపివేయబడుతుంది. వెంటనే విద్యుత్ అధికారికి 98765 00002 నంబరుకు కాల్ చేయండి.",
+  "verdict": "scam",
+  "riskScore": 86,
+  "confidence": 0.84,
+  "category": "bill_disconnection",
+  "categoryConfidence": 0.82,
+  "signals": [
+    {
+      "id": "MODEL_PATTERN",
+      "weight": 0.3,
+      "label": "మోసపు సందేశాల్లాంటి భాష",
+      "detail": "ఇలాంటి పదాలు చాలా మోసపు సందేశాల్లో కనిపిస్తాయి.",
+      "spans": [
+        {
+          "start": 27,
+          "end": 53,
+          "text": "విద్యుత్ బిల్లు బకాయి ఉంది"
+        }
+      ],
+      "source": "model"
+    },
+    {
+      "id": "THREAT_BLOCK",
+      "weight": 0.25,
+      "label": "సేవ నిలిపివేస్తామని బెదిరింపు",
+      "detail": "ఈ రాత్రే కరెంట్ కట్ చేస్తామని భయపెడుతున్నారు.",
+      "spans": [
+        {
+          "start": 86,
+          "end": 112,
+          "text": "కనెక్షన్ నిలిపివేయబడుతుంది"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "CUSTOMER_CARE_NUMBER",
+      "weight": 0.25,
+      "label": "తెలియని సహాయ నంబరు",
+      "detail": "విద్యుత్ సంస్థలు వ్యక్తిగత మొబైల్ నంబరు ఇచ్చి కాల్ చేయమని అడగవు.",
+      "spans": [
+        {
+          "start": 140,
+          "end": 151,
+          "text": "98765 00002"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "URGENCY",
+      "weight": 0.15,
+      "label": "తొందరపెట్టడం",
+      "detail": "వెంటనే చర్య తీసుకోమని ఒత్తిడి చేస్తున్నారు.",
+      "spans": [
+        {
+          "start": 55,
+          "end": 75,
+          "text": "ఈ రాత్రి 9:30 గంటలకు"
+        },
+        {
+          "start": 114,
+          "end": 120,
+          "text": "వెంటనే"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "AUTHORITY_CLAIM",
+      "weight": 0.15,
+      "label": "అధికారిగా చెప్పుకోవడం",
+      "detail": "విద్యుత్ అధికారి పేరుతో భయపెడుతున్నారు.",
+      "spans": [
+        {
+          "start": 121,
+          "end": 139,
+          "text": "విద్యుత్ అధికారికి"
+        }
+      ],
+      "source": "rule"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "విద్యుత్ శాఖ నుండి వచ్చినట్లు చెబుతోంది",
+      "reality": "ఒక వ్యక్తిగత మొబైల్ నంబరుకు కాల్ చేయమంటోంది; అధికారిక బిల్లు సందేశాలు ఇలా ఉండవు",
+      "mismatch": true,
+      "signal": "CUSTOMER_CARE_NUMBER"
+    }
+  ],
+  "entities": {
+    "urls": [],
+    "upiIds": [],
+    "phones": [
+      {
+        "raw": "98765 00002",
+        "span": {
+          "start": 140,
+          "end": 151,
+          "text": "98765 00002"
+        },
+        "e164": "+919876500002",
+        "claimedAs": "customer_care"
+      }
+    ],
+    "amounts": [],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "Electricity distribution company",
+        "kind": "utility",
+        "span": {
+          "start": 27,
+          "end": 35,
+          "text": "విద్యుత్"
+        },
+        "officialDomains": [],
+        "mismatch": true,
+        "evidence": "వ్యక్తిగత మొబైల్ నంబరు ఇచ్చారు"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 62,
+      "share": 0.48,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 84,
+      "share": 0.52,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "ఇది కరెంట్ బిల్లు పేరుతో జరిగే మోసంలా ఉంది. ఈ రాత్రే కనెక్షన్ కట్ చేస్తామని బెదిరించి, తెలియని నంబరుకు కాల్ చేయమంటున్నారు.",
+  "actions": [
+    "do_not_pay",
+    "verify_official",
+    "block_sender",
+    "report_chakshu"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 1.1,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 2840,
+      "status": "done"
+    },
+    {
+      "stage": "links",
+      "ms": 0.7,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 3.4,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 7.5,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "image": {
+    "width": 1080,
+    "height": 1600,
+    "boxes": [
+      {
+        "text": "ప్రియమైన",
+        "x": 60,
+        "y": 220,
+        "w": 208,
+        "h": 46,
+        "start": 0,
+        "end": 8,
+        "signalIds": []
+      },
+      {
+        "text": "వినియోగదారుడా,",
+        "x": 294,
+        "y": 220,
+        "w": 364,
+        "h": 46,
+        "start": 9,
+        "end": 23,
+        "signalIds": []
+      },
+      {
+        "text": "మీ",
+        "x": 684,
+        "y": 220,
+        "w": 52,
+        "h": 46,
+        "start": 24,
+        "end": 26,
+        "signalIds": []
+      },
+      {
+        "text": "విద్యుత్",
+        "x": 762,
+        "y": 220,
+        "w": 208,
+        "h": 46,
+        "start": 27,
+        "end": 35,
+        "signalIds": [
+          "MODEL_PATTERN"
+        ]
+      },
+      {
+        "text": "బిల్లు",
+        "x": 60,
+        "y": 284,
+        "w": 156,
+        "h": 46,
+        "start": 36,
+        "end": 42,
+        "signalIds": [
+          "MODEL_PATTERN"
+        ]
+      },
+      {
+        "text": "బకాయి",
+        "x": 242,
+        "y": 284,
+        "w": 130,
+        "h": 46,
+        "start": 43,
+        "end": 48,
+        "signalIds": [
+          "MODEL_PATTERN"
+        ]
+      },
+      {
+        "text": "ఉంది.",
+        "x": 398,
+        "y": 284,
+        "w": 130,
+        "h": 46,
+        "start": 49,
+        "end": 54,
+        "signalIds": [
+          "MODEL_PATTERN"
+        ]
+      },
+      {
+        "text": "ఈ",
+        "x": 554,
+        "y": 284,
+        "w": 26,
+        "h": 46,
+        "start": 55,
+        "end": 56,
+        "signalIds": [
+          "URGENCY"
+        ]
+      },
+      {
+        "text": "రాత్రి",
+        "x": 606,
+        "y": 284,
+        "w": 156,
+        "h": 46,
+        "start": 57,
+        "end": 63,
+        "signalIds": [
+          "URGENCY"
+        ]
+      },
+      {
+        "text": "9:30",
+        "x": 788,
+        "y": 284,
+        "w": 104,
+        "h": 46,
+        "start": 64,
+        "end": 68,
+        "signalIds": [
+          "URGENCY"
+        ]
+      },
+      {
+        "text": "గంటలకు",
+        "x": 60,
+        "y": 348,
+        "w": 156,
+        "h": 46,
+        "start": 69,
+        "end": 75,
+        "signalIds": [
+          "URGENCY"
+        ]
+      },
+      {
+        "text": "మీ",
+        "x": 242,
+        "y": 348,
+        "w": 52,
+        "h": 46,
+        "start": 76,
+        "end": 78,
+        "signalIds": []
+      },
+      {
+        "text": "కరెంట్",
+        "x": 320,
+        "y": 348,
+        "w": 156,
+        "h": 46,
+        "start": 79,
+        "end": 85,
+        "signalIds": []
+      },
+      {
+        "text": "కనెక్షన్",
+        "x": 502,
+        "y": 348,
+        "w": 208,
+        "h": 46,
+        "start": 86,
+        "end": 94,
+        "signalIds": [
+          "THREAT_BLOCK"
+        ]
+      },
+      {
+        "text": "నిలిపివేయబడుతుంది.",
+        "x": 60,
+        "y": 412,
+        "w": 468,
+        "h": 46,
+        "start": 95,
+        "end": 113,
+        "signalIds": [
+          "THREAT_BLOCK"
+        ]
+      },
+      {
+        "text": "వెంటనే",
+        "x": 554,
+        "y": 412,
+        "w": 156,
+        "h": 46,
+        "start": 114,
+        "end": 120,
+        "signalIds": [
+          "URGENCY"
+        ]
+      },
+      {
+        "text": "విద్యుత్",
+        "x": 736,
+        "y": 412,
+        "w": 208,
+        "h": 46,
+        "start": 121,
+        "end": 129,
+        "signalIds": [
+          "AUTHORITY_CLAIM"
+        ]
+      },
+      {
+        "text": "అధికారికి",
+        "x": 60,
+        "y": 476,
+        "w": 234,
+        "h": 46,
+        "start": 130,
+        "end": 139,
+        "signalIds": [
+          "AUTHORITY_CLAIM"
+        ]
+      },
+      {
+        "text": "98765",
+        "x": 320,
+        "y": 476,
+        "w": 130,
+        "h": 46,
+        "start": 140,
+        "end": 145,
+        "signalIds": [
+          "CUSTOMER_CARE_NUMBER"
+        ]
+      },
+      {
+        "text": "00002",
+        "x": 476,
+        "y": 476,
+        "w": 130,
+        "h": 46,
+        "start": 146,
+        "end": 151,
+        "signalIds": [
+          "CUSTOMER_CARE_NUMBER"
+        ]
+      },
+      {
+        "text": "నంబరుకు",
+        "x": 632,
+        "y": 476,
+        "w": 182,
+        "h": 46,
+        "start": 152,
+        "end": 159,
+        "signalIds": []
+      },
+      {
+        "text": "కాల్",
+        "x": 840,
+        "y": 476,
+        "w": 104,
+        "h": 46,
+        "start": 160,
+        "end": 164,
+        "signalIds": []
+      },
+      {
+        "text": "చేయండి.",
+        "x": 60,
+        "y": 540,
+        "w": 182,
+        "h": 46,
+        "start": 165,
+        "end": 172,
+        "signalIds": []
+      }
+    ]
+  },
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 2862,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

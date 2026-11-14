@@ -1,0 +1,15 @@
+{
+  "name": "@akshi/engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./browser": "./src/browser.ts"
+  },
+  "dependencies": {
+    "@akshi/contracts": "*",
+    "@akshi/model": "*",
+    "@akshi/content": "*"
+  }
+}

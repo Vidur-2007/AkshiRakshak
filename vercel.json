@@ -1,0 +1,18 @@
+{
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build -w @akshi/web",
+  "outputDirectory": "apps/web/dist",
+  "framework": null,
+  "functions": { "api/**/*.ts": { "maxDuration": 30 } },
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(self), microphone=(self), geolocation=()" }
+      ]
+    }
+  ]
+}

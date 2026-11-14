@@ -1,0 +1,246 @@
+{
+  "id": "fx-analysis-collect",
+  "createdAt": "2026-11-14T09:40:00.000Z",
+  "kind": "collect_request",
+  "lang": "en",
+  "detectedLang": "en",
+  "text": "Collect request from SBI Refund Desk (sbi.refund.desk@ybl) for ₹5,000. Note: Refund approved. Accept the request and enter your UPI PIN to receive ₹5,000 in your account.",
+  "verdict": "scam",
+  "riskScore": 96,
+  "confidence": 0.95,
+  "category": "upi_collect",
+  "categoryConfidence": 0.97,
+  "signals": [
+    {
+      "id": "RECEIVE_WITH_PIN",
+      "weight": 0.7,
+      "label": "PIN to \"receive\" money",
+      "detail": "Entering your UPI PIN always sends money from your account. You never need a PIN to receive money.",
+      "spans": [
+        {
+          "start": 117,
+          "end": 146,
+          "text": "enter your UPI PIN to receive"
+        }
+      ],
+      "source": "upi"
+    },
+    {
+      "id": "UPI_NAME_MISMATCH",
+      "weight": 0.4,
+      "label": "Name doesn't match the UPI ID",
+      "detail": "Calls itself \"SBI Refund Desk\" but uses a personal PhonePe UPI ID.",
+      "spans": [
+        {
+          "start": 21,
+          "end": 36,
+          "text": "SBI Refund Desk"
+        },
+        {
+          "start": 38,
+          "end": 57,
+          "text": "sbi.refund.desk@ybl"
+        }
+      ],
+      "source": "upi"
+    },
+    {
+      "id": "COLLECT_REQUEST",
+      "weight": 0.35,
+      "label": "Unexpected collect request",
+      "detail": "They contacted you first and you do not know them.",
+      "spans": [
+        {
+          "start": 0,
+          "end": 15,
+          "text": "Collect request"
+        }
+      ],
+      "source": "upi"
+    },
+    {
+      "id": "URGENCY",
+      "weight": 0.15,
+      "label": "Rushing you",
+      "detail": "You said you felt pressure to act quickly.",
+      "spans": [],
+      "source": "context"
+    },
+    {
+      "id": "PERSONAL_UPI_HANDLE",
+      "weight": 0.15,
+      "label": "Personal UPI ID",
+      "detail": "Banks do not collect or refund money from personal UPI IDs.",
+      "spans": [
+        {
+          "start": 38,
+          "end": 57,
+          "text": "sbi.refund.desk@ybl"
+        }
+      ],
+      "source": "upi"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "You will receive ₹5,000",
+      "reality": "Approving this request sends ₹5,000 from your account to sbi.refund.desk@ybl",
+      "mismatch": true,
+      "signal": "RECEIVE_WITH_PIN"
+    },
+    {
+      "claim": "Calls itself SBI Refund Desk",
+      "reality": "The UPI ID is a personal PhonePe ID, not a bank account",
+      "mismatch": true,
+      "signal": "UPI_NAME_MISMATCH"
+    }
+  ],
+  "entities": {
+    "urls": [],
+    "upiIds": [
+      {
+        "raw": "sbi.refund.desk@ybl",
+        "span": {
+          "start": 38,
+          "end": 57,
+          "text": "sbi.refund.desk@ybl"
+        },
+        "handle": "ybl",
+        "psp": "PhonePe",
+        "pspKnown": true,
+        "looksPersonal": true,
+        "risk": 78,
+        "flags": [
+          "UPI_NAME_MISMATCH",
+          "PERSONAL_UPI_HANDLE"
+        ]
+      }
+    ],
+    "phones": [],
+    "amounts": [
+      {
+        "raw": "₹5,000",
+        "span": {
+          "start": 63,
+          "end": 69,
+          "text": "₹5,000"
+        },
+        "value": 5000,
+        "currency": "INR"
+      },
+      {
+        "raw": "₹5,000",
+        "span": {
+          "start": 147,
+          "end": 153,
+          "text": "₹5,000"
+        },
+        "value": 5000,
+        "currency": "INR"
+      }
+    ],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "SBI",
+        "kind": "bank",
+        "span": {
+          "start": 21,
+          "end": 24,
+          "text": "SBI"
+        },
+        "officialDomains": [
+          "sbi.co.in",
+          "onlinesbi.sbi",
+          "sbi.bank.in"
+        ],
+        "mismatch": true,
+        "evidence": "Requester uses a personal PhonePe handle"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 93,
+      "share": 0.5,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 88,
+      "share": 0.29,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "upi",
+      "score": 78,
+      "share": 0.21,
+      "available": true
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "This is a collect-request trap. Entering your UPI PIN always sends money from your account; you never need a PIN to receive money.",
+  "actions": [
+    "decline_request",
+    "do_not_pay",
+    "block_sender",
+    "report_chakshu"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 0.8,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 1.3,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 2,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 6.1,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 12,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

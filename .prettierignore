@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+package-lock.json
+ml/.venv
+docs/*.md
+CLAUDE.md
+packages/contracts/fixtures

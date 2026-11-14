@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env*
+!.env.example
+ml/.venv/
+ml/__pycache__/
+__pycache__/
+.vercel/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+.tsbuild/

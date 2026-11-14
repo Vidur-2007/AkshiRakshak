@@ -1,0 +1,228 @@
+{
+  "id": "drill-fake-kyc-sms",
+  "title": {
+    "en": "The KYC block SMS",
+    "hi": "KYC ब्लॉक वाला SMS",
+    "te": "KYC బ్లాక్ SMS"
+  },
+  "category": "fake_kyc",
+  "difficulty": 1,
+  "channel": "sms",
+  "persona": {
+    "name": "SBI-ALERT (fake)",
+    "avatar": "bank"
+  },
+  "langs": [
+    "en",
+    "hi",
+    "te"
+  ],
+  "start": "n_start",
+  "nodes": {
+    "n_start": {
+      "id": "n_start",
+      "from": "them",
+      "text": {
+        "en": "SBI ALERT: Your account will be blocked today. Update your KYC now: http://sbi-kyc-update.xyz",
+        "hi": "SBI अलर्ट: आपका खाता आज ब्लॉक हो जाएगा। अभी KYC अपडेट करें: http://sbi-kyc-update.xyz",
+        "te": "SBI హెచ్చరిక: మీ ఖాతా ఈరోజు బ్లాక్ అవుతుంది. ఇప్పుడే KYC అప్డేట్ చేయండి: http://sbi-kyc-update.xyz"
+      },
+      "choices": [
+        {
+          "id": "c_click",
+          "next": "n_page",
+          "points": 0,
+          "redFlag": "LOOKALIKE_DOMAIN",
+          "text": {
+            "en": "Open the link and update KYC",
+            "hi": "लिंक खोलकर KYC अपडेट करें",
+            "te": "లింక్ తెరిచి KYC అప్డేట్ చేయండి"
+          },
+          "feedback": {
+            "en": "Risky. Banks do not send KYC links by SMS, and this link is not an SBI website.",
+            "hi": "जोखिम भरा। बैंक SMS से KYC लिंक नहीं भेजते, और यह लिंक SBI की वेबसाइट नहीं है।",
+            "te": "ప్రమాదకరం. బ్యాంకులు SMS ద్వారా KYC లింకులు పంపవు, ఈ లింక్ SBI వెబ్ సైట్ కాదు."
+          }
+        },
+        {
+          "id": "c_check",
+          "next": "n_check",
+          "points": 10,
+          "text": {
+            "en": "Look closely at the link first",
+            "hi": "पहले लिंक को ध्यान से देखें",
+            "te": "ముందు లింకును జాగ్రత్తగా చూడండి"
+          },
+          "feedback": {
+            "en": "Good habit. Always read the web address before you tap.",
+            "hi": "अच्छी आदत। टैप करने से पहले हमेशा वेब पता पढ़ें।",
+            "te": "మంచి అలవాటు. నొక్కే ముందు ఎప్పుడూ వెబ్ చిరునామా చదవండి."
+          }
+        },
+        {
+          "id": "c_reply",
+          "next": "n_call",
+          "points": 0,
+          "redFlag": "THREAT_BLOCK",
+          "text": {
+            "en": "Reply: \"Please help, I don't want my account blocked\"",
+            "hi": "जवाब दें: \"मदद कीजिए, मेरा खाता ब्लॉक नहीं होना चाहिए\"",
+            "te": "\"దయచేసి సహాయం చేయండి, నా ఖాతా బ్లాక్ కాకూడదు\" అని జవాబు ఇవ్వండి"
+          },
+          "feedback": {
+            "en": "Replying tells the scammer your number is active. The threat is what makes you rush.",
+            "hi": "जवाब देने से ठग को पता चलता है कि आपका नंबर चालू है। धमकी ही आपको जल्दबाज़ी कराती है।",
+            "te": "జవాబు ఇస్తే మీ నంబర్ పనిచేస్తోందని మోసగాడికి తెలుస్తుంది. బెదిరింపే మిమ్మల్ని తొందరపెడుతుంది."
+          }
+        }
+      ]
+    },
+    "n_page": {
+      "id": "n_page",
+      "from": "system",
+      "text": {
+        "en": "The page looks like SBI's site and asks for the OTP just sent to your phone.",
+        "hi": "पेज SBI की साइट जैसा दिखता है और अभी आपके फ़ोन पर आया OTP मांगता है।",
+        "te": "ఆ పేజీ SBI సైటులా కనిపిస్తుంది, ఇప్పుడే మీ ఫోనుకు వచ్చిన OTP అడుగుతోంది."
+      },
+      "choices": [
+        {
+          "id": "p_share",
+          "next": "end_scammed",
+          "points": 0,
+          "redFlag": "ASKS_OTP",
+          "text": {
+            "en": "Enter the OTP",
+            "hi": "OTP डाल दें",
+            "te": "OTP నమోదు చేయండి"
+          },
+          "feedback": {
+            "en": "An OTP lets someone approve a payment or log in as you. Never type it on a page you opened from an SMS.",
+            "hi": "OTP से कोई भी आपकी जगह भुगतान या लॉगिन कर सकता है। SMS से खुले पेज पर इसे कभी न डालें।",
+            "te": "OTP తో ఎవరైనా మీ పేరుతో చెల్లింపు లేదా లాగిన్ చేయగలరు. SMS నుండి తెరిచిన పేజీలో దాన్ని ఎప్పుడూ టైప్ చేయకండి."
+          }
+        },
+        {
+          "id": "p_close",
+          "next": "end_safe",
+          "points": 5,
+          "text": {
+            "en": "Close the page and check in the official SBI app",
+            "hi": "पेज बंद करें और SBI के आधिकारिक ऐप में देखें",
+            "te": "పేజీని మూసి, అధికారిక SBI యాప్ లో చూడండి"
+          },
+          "feedback": {
+            "en": "Right. If something really needs doing, the official app or your branch will show it.",
+            "hi": "सही। अगर सच में कुछ करना है तो आधिकारिक ऐप या आपकी शाखा में दिखेगा।",
+            "te": "సరైనది. నిజంగా ఏదైనా చేయాల్సి ఉంటే అధికారిక యాప్ లేదా మీ శాఖలో తెలుస్తుంది."
+          }
+        }
+      ]
+    },
+    "n_check": {
+      "id": "n_check",
+      "from": "system",
+      "text": {
+        "en": "The address is sbi-kyc-update.xyz. SBI's real websites end in sbi.co.in or sbi.bank.in.",
+        "hi": "पता sbi-kyc-update.xyz है। SBI की असली वेबसाइटें sbi.co.in या sbi.bank.in पर होती हैं।",
+        "te": "చిరునామా sbi-kyc-update.xyz. SBI అసలు వెబ్ సైట్లు sbi.co.in లేదా sbi.bank.in తో ముగుస్తాయి."
+      },
+      "choices": [
+        {
+          "id": "k_report",
+          "next": "end_safe",
+          "points": 10,
+          "redFlag": "LOOKALIKE_DOMAIN",
+          "text": {
+            "en": "Delete it and report the SMS on Chakshu",
+            "hi": "SMS हटाएं और चक्षु पर रिपोर्ट करें",
+            "te": "SMS తొలగించి చక్షులో రిపోర్ట్ చేయండి"
+          },
+          "feedback": {
+            "en": "Perfect. Reporting helps stop the same message reaching others.",
+            "hi": "बहुत बढ़िया। रिपोर्ट करने से यही संदेश दूसरों तक पहुंचने से रुकता है।",
+            "te": "చాలా బాగుంది. రిపోర్ట్ చేస్తే అదే సందేశం ఇతరులకు చేరకుండా ఆగుతుంది."
+          }
+        },
+        {
+          "id": "k_open",
+          "next": "n_page",
+          "points": 0,
+          "text": {
+            "en": "Open it anyway, just to see",
+            "hi": "फिर भी खोलकर देखें",
+            "te": "అయినా ఒకసారి తెరిచి చూడండి"
+          },
+          "feedback": {
+            "en": "Even opening a scam page can lead you into typing details. There is no need.",
+            "hi": "स्कैम पेज खोलना भी आपको जानकारी डालने तक ले जा सकता है। इसकी ज़रूरत नहीं।",
+            "te": "మోసపు పేజీని తెరవడం కూడా వివరాలు టైప్ చేసేలా చేయవచ్చు. అవసరం లేదు."
+          }
+        }
+      ]
+    },
+    "n_call": {
+      "id": "n_call",
+      "from": "them",
+      "text": {
+        "en": "Sir, I am calling from the SBI KYC desk. I sent you an OTP. Tell me quickly or the account closes in 10 minutes.",
+        "hi": "सर, मैं SBI KYC डेस्क से बोल रहा हूं। आपको OTP भेजा है। जल्दी बताइए, वरना 10 मिनट में खाता बंद हो जाएगा।",
+        "te": "సార్, నేను SBI KYC డెస్క్ నుండి మాట్లాడుతున్నాను. మీకు OTP పంపాను. త్వరగా చెప్పండి, లేకపోతే 10 నిమిషాల్లో ఖాతా మూసివేయబడుతుంది."
+      },
+      "choices": [
+        {
+          "id": "l_tell",
+          "next": "end_scammed",
+          "points": 0,
+          "redFlag": "ASKS_OTP",
+          "text": {
+            "en": "Read out the OTP",
+            "hi": "OTP बता दें",
+            "te": "OTP చెప్పేయండి"
+          },
+          "feedback": {
+            "en": "No bank employee ever asks for your OTP. Saying it out loud hands over your account.",
+            "hi": "कोई भी बैंक कर्मचारी कभी OTP नहीं मांगता। इसे बताना खाता सौंपने जैसा है।",
+            "te": "ఏ బ్యాంక్ ఉద్యోగీ ఎప్పుడూ OTP అడగరు. దాన్ని చెప్పడం మీ ఖాతాను అప్పగించడమే."
+          }
+        },
+        {
+          "id": "l_hang",
+          "next": "end_safe",
+          "points": 10,
+          "redFlag": "URGENCY",
+          "text": {
+            "en": "Hang up and call the number on the back of your card",
+            "hi": "फ़ोन काटें और कार्ड के पीछे लिखे नंबर पर कॉल करें",
+            "te": "ఫోన్ కట్ చేసి, మీ కార్డు వెనుక ఉన్న నంబరుకు కాల్ చేయండి"
+          },
+          "feedback": {
+            "en": "Exactly. Pressure and a ticking clock are the scammer's tools.",
+            "hi": "बिल्कुल सही। दबाव और समय की धमकी ठग के हथियार हैं।",
+            "te": "సరిగ్గా. ఒత్తిడి, సమయం బెదిరింపు మోసగాళ్ల ఆయుధాలు."
+          }
+        }
+      ]
+    },
+    "end_safe": {
+      "id": "end_safe",
+      "from": "system",
+      "end": "safe",
+      "text": {
+        "en": "Well done, you protected your account. Banks never ask for KYC updates, OTPs or PINs through SMS links or calls.",
+        "hi": "शाबाश, आपने अपना खाता बचा लिया। बैंक कभी SMS लिंक या कॉल पर KYC, OTP या PIN नहीं मांगते।",
+        "te": "శభాష్, మీరు మీ ఖాతాను కాపాడుకున్నారు. బ్యాంకులు SMS లింక్ లేదా కాల్ ద్వారా ఎప్పుడూ KYC, OTP లేదా PIN అడగవు."
+      }
+    },
+    "end_scammed": {
+      "id": "end_scammed",
+      "from": "system",
+      "end": "scammed",
+      "text": {
+        "en": "The scammer used your OTP to move money out of your account. If this happens for real, call 1930 right away.",
+        "hi": "ठग ने आपके OTP से खाते से पैसे निकाल लिए। अगर सच में ऐसा हो, तो तुरंत 1930 पर कॉल करें।",
+        "te": "మోసగాడు మీ OTP తో మీ ఖాతా నుండి డబ్బు తీసేశాడు. నిజంగా ఇలా జరిగితే, వెంటనే 1930 కు కాల్ చేయండి."
+      }
+    }
+  }
+}

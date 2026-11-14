@@ -1,0 +1,324 @@
+{
+  "id": "fx-analysis-chat",
+  "createdAt": "2026-11-14T10:10:00.000Z",
+  "kind": "chat",
+  "lang": "bn",
+  "detectedLang": "bn",
+  "text": "[12/11/26, 10:02] Swift Courier: নমস্কার, আপনার নামে একটি পার্সেল কাস্টমসে আটকে আছে। [12/11/26, 10:03] Rina: কোন পার্সেল? আমি তো কিছু অর্ডার করিনি। [12/11/26, 10:05] Swift Courier: পার্সেলে বেআইনি জিনিস পাওয়া গেছে। এখনই ₹12,500 কাস্টমস ফি না দিলে পুলিশ কেস হবে। [12/11/26, 10:06] Swift Courier: এই লিংকে ফি জমা দিন: http://parcel-release-help.site/pay [12/11/26, 10:07] Rina: আমি আগে আমার ছেলের সাথে কথা বলব। [12/11/26, 10:08] Swift Courier: কাউকে বলবেন না, এটা গোপনীয় তদন্ত। আপনার ফোনে আসা OTP এখনই পাঠান।",
+  "verdict": "scam",
+  "riskScore": 95,
+  "confidence": 0.94,
+  "category": "courier_customs",
+  "categoryConfidence": 0.84,
+  "signals": [
+    {
+      "id": "ASKS_OTP",
+      "weight": 0.35,
+      "label": "OTP চাওয়া",
+      "detail": "কোনো কুরিয়ার বা কাস্টমস কখনও OTP চায় না।",
+      "spans": [
+        {
+          "start": 493,
+          "end": 507,
+          "text": "OTP এখনই পাঠান"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "ADVANCE_FEE",
+      "weight": 0.35,
+      "label": "আগে টাকা চাওয়া",
+      "detail": "পার্সেল ছাড়াতে ফি চাওয়া হচ্ছে।",
+      "spans": [
+        {
+          "start": 221,
+          "end": 239,
+          "text": "₹12,500 কাস্টমস ফি"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "THREAT_LEGAL",
+      "weight": 0.3,
+      "label": "আইনি হুমকি",
+      "detail": "পুলিশ কেসের ভয় দেখিয়ে টাকা চাওয়া হচ্ছে।",
+      "spans": [
+        {
+          "start": 248,
+          "end": 261,
+          "text": "পুলিশ কেস হবে"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "SECRECY",
+      "weight": 0.25,
+      "label": "গোপন রাখতে বলা",
+      "detail": "কাউকে না বলতে বলা প্রতারণার একটি সাধারণ কৌশল।",
+      "spans": [
+        {
+          "start": 443,
+          "end": 457,
+          "text": "কাউকে বলবেন না"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "SUSPICIOUS_LINK",
+      "weight": 0.2,
+      "label": "সন্দেহজনক লিংক",
+      "detail": "লিংকটি কোনো সরকারি বা কুরিয়ার সংস্থার ওয়েবসাইট নয়।",
+      "spans": [
+        {
+          "start": 317,
+          "end": 352,
+          "text": "http://parcel-release-help.site/pay"
+        }
+      ],
+      "source": "url"
+    },
+    {
+      "id": "ESCALATION",
+      "weight": 0.2,
+      "label": "ধাপে ধাপে চাপ বাড়ানো",
+      "detail": "প্রথমে সমস্যা, তারপর লিংক, শেষে OTP চাওয়া হয়েছে।",
+      "spans": [],
+      "source": "context"
+    },
+    {
+      "id": "URGENCY",
+      "weight": 0.15,
+      "label": "তাড়াহুড়ো করানো",
+      "detail": "এখনই কাজ করার জন্য চাপ দেওয়া হচ্ছে।",
+      "spans": [
+        {
+          "start": 216,
+          "end": 220,
+          "text": "এখনই"
+        },
+        {
+          "start": 497,
+          "end": 501,
+          "text": "এখনই"
+        }
+      ],
+      "source": "rule"
+    },
+    {
+      "id": "RISKY_TLD",
+      "weight": 0.15,
+      "label": "অস্বাভাবিক ওয়েব ঠিকানা",
+      "detail": ".site ঠিকানা সস্তা এবং প্রায়ই প্রতারণার জন্য ব্যবহার হয়।",
+      "spans": [
+        {
+          "start": 343,
+          "end": 348,
+          "text": ".site"
+        }
+      ],
+      "source": "url"
+    }
+  ],
+  "claimVsReality": [
+    {
+      "claim": "কাস্টমস থেকে পার্সেল আটকানোর কথা বলছে",
+      "reality": "ফি জমার লিংক parcel-release-help.site, এটি সরকারি ওয়েবসাইট নয় (সরকারি সাইট .gov.in-এ শেষ হয়)",
+      "mismatch": true,
+      "signal": "SUSPICIOUS_LINK"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "raw": "http://parcel-release-help.site/pay",
+        "span": {
+          "start": 317,
+          "end": 352,
+          "text": "http://parcel-release-help.site/pay"
+        },
+        "normalized": "http://parcel-release-help.site/pay",
+        "host": "parcel-release-help.site",
+        "registrableDomain": "parcel-release-help.site",
+        "tld": "site",
+        "risk": 62,
+        "flags": [
+          "SUSPICIOUS_LINK",
+          "RISKY_TLD"
+        ],
+        "isOfficial": false,
+        "isShortener": false,
+        "isApk": false
+      }
+    ],
+    "upiIds": [],
+    "phones": [],
+    "amounts": [
+      {
+        "raw": "₹12,500",
+        "span": {
+          "start": 221,
+          "end": 228,
+          "text": "₹12,500"
+        },
+        "value": 12500,
+        "currency": "INR"
+      }
+    ],
+    "emails": [],
+    "apkMentions": [],
+    "brands": [
+      {
+        "brand": "Customs (CBIC)",
+        "kind": "govt",
+        "span": {
+          "start": 66,
+          "end": 74,
+          "text": "কাস্টমসে"
+        },
+        "officialDomains": [
+          "cbic.gov.in"
+        ],
+        "mismatch": true,
+        "evidence": "Payment link is not a .gov.in site"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "layer": "rules",
+      "score": 90,
+      "share": 0.47,
+      "available": true
+    },
+    {
+      "layer": "model",
+      "score": 86,
+      "share": 0.33,
+      "available": true
+    },
+    {
+      "layer": "links",
+      "score": 62,
+      "share": 0.2,
+      "available": true
+    },
+    {
+      "layer": "upi",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "indicators",
+      "score": 0,
+      "share": 0,
+      "available": false
+    },
+    {
+      "layer": "ai",
+      "score": 0,
+      "share": 0,
+      "available": false
+    }
+  ],
+  "explanation": "এটি কুরিয়ার বা কাস্টমসের নাম করে প্রতারণার মতো দেখাচ্ছে। পুলিশ কেসের ভয় দেখিয়ে ফি আর OTP চাওয়া হচ্ছে।",
+  "actions": [
+    "do_not_share_otp",
+    "do_not_pay",
+    "do_not_click",
+    "block_sender",
+    "report_chakshu"
+  ],
+  "stages": [
+    {
+      "stage": "read",
+      "ms": 2.1,
+      "status": "done"
+    },
+    {
+      "stage": "ocr",
+      "ms": 0,
+      "status": "skipped"
+    },
+    {
+      "stage": "links",
+      "ms": 1.6,
+      "status": "done"
+    },
+    {
+      "stage": "patterns",
+      "ms": 5.2,
+      "status": "done"
+    },
+    {
+      "stage": "model",
+      "ms": 9.4,
+      "status": "done"
+    },
+    {
+      "stage": "ai",
+      "ms": 0,
+      "status": "skipped"
+    }
+  ],
+  "chat": [
+    {
+      "index": 0,
+      "sender": "them",
+      "text": "[12/11/26, 10:02] Swift Courier: নমস্কার, আপনার নামে একটি পার্সেল কাস্টমসে আটকে আছে।",
+      "risk": 30,
+      "start": 0,
+      "end": 84
+    },
+    {
+      "index": 1,
+      "sender": "me",
+      "text": "[12/11/26, 10:03] Rina: কোন পার্সেল? আমি তো কিছু অর্ডার করিনি।",
+      "risk": 5,
+      "start": 85,
+      "end": 147
+    },
+    {
+      "index": 2,
+      "sender": "them",
+      "text": "[12/11/26, 10:05] Swift Courier: পার্সেলে বেআইনি জিনিস পাওয়া গেছে। এখনই ₹12,500 কাস্টমস ফি না দিলে পুলিশ কেস হবে।",
+      "risk": 74,
+      "start": 148,
+      "end": 262
+    },
+    {
+      "index": 3,
+      "sender": "them",
+      "text": "[12/11/26, 10:06] Swift Courier: এই লিংকে ফি জমা দিন: http://parcel-release-help.site/pay",
+      "risk": 82,
+      "start": 263,
+      "end": 352
+    },
+    {
+      "index": 4,
+      "sender": "me",
+      "text": "[12/11/26, 10:07] Rina: আমি আগে আমার ছেলের সাথে কথা বলব।",
+      "risk": 5,
+      "start": 353,
+      "end": 409
+    },
+    {
+      "index": 5,
+      "sender": "them",
+      "text": "[12/11/26, 10:08] Swift Courier: কাউকে বলবেন না, এটা গোপনীয় তদন্ত। আপনার ফোনে আসা OTP এখনই পাঠান।",
+      "risk": 95,
+      "start": 410,
+      "end": 508
+    }
+  ],
+  "aiUsed": false,
+  "offline": true,
+  "latencyMs": 21,
+  "severity": "critical",
+  "engineVersion": "0.0.0-fixture",
+  "modelVersion": "fixture"
+}

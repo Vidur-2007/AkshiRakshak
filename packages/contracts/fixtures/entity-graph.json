@@ -1,0 +1,154 @@
+{
+  "nodes": [
+    {
+      "id": "upi:kyc.update.helpdesk@ybl",
+      "type": "upi",
+      "label": "kyc.update.helpdesk@ybl",
+      "risk": 90,
+      "mine": false,
+      "reports": 7,
+      "sampleData": true
+    },
+    {
+      "id": "phone:+919876500001",
+      "type": "phone",
+      "label": "+91 98765 00001",
+      "risk": 92,
+      "mine": true,
+      "reports": 5,
+      "sampleData": false
+    },
+    {
+      "id": "domain:sbi-kyc-update.xyz",
+      "type": "domain",
+      "label": "sbi-kyc-update.xyz",
+      "risk": 91,
+      "mine": true,
+      "reports": 6,
+      "sampleData": false
+    },
+    {
+      "id": "campaign:kyc-block-wave",
+      "type": "campaign",
+      "label": "KYC block wave (sample)",
+      "risk": 90,
+      "mine": false,
+      "reports": 18,
+      "sampleData": true
+    },
+    {
+      "id": "upi:sbi.refund.desk@ybl",
+      "type": "upi",
+      "label": "sbi.refund.desk@ybl",
+      "risk": 85,
+      "mine": true,
+      "reports": 4,
+      "sampleData": false
+    },
+    {
+      "id": "upi:9876500001@ybl",
+      "type": "upi",
+      "label": "9876500001@ybl",
+      "risk": 80,
+      "mine": true,
+      "reports": 3,
+      "sampleData": false
+    },
+    {
+      "id": "campaign:refund-collect",
+      "type": "campaign",
+      "label": "Refund collect requests (sample)",
+      "risk": 85,
+      "mine": false,
+      "reports": 9,
+      "sampleData": true
+    },
+    {
+      "id": "domain:parcel-release-help.site",
+      "type": "domain",
+      "label": "parcel-release-help.site",
+      "risk": 62,
+      "mine": true,
+      "reports": 2,
+      "sampleData": false
+    },
+    {
+      "id": "phone:+919876500003",
+      "type": "phone",
+      "label": "+91 98765 00003",
+      "risk": 70,
+      "mine": false,
+      "reports": 3,
+      "sampleData": true
+    },
+    {
+      "id": "campaign:parcel-customs-fee",
+      "type": "campaign",
+      "label": "Parcel customs fee (sample)",
+      "risk": 70,
+      "mine": false,
+      "reports": 5,
+      "sampleData": true
+    },
+    {
+      "id": "domain:hdfcbenk.top",
+      "type": "domain",
+      "label": "hdfcbenk.top",
+      "risk": 88,
+      "mine": true,
+      "reports": 0,
+      "sampleData": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "phone:+919876500001",
+      "target": "domain:sbi-kyc-update.xyz",
+      "kind": "appears_with"
+    },
+    {
+      "source": "upi:kyc.update.helpdesk@ybl",
+      "target": "campaign:kyc-block-wave",
+      "kind": "part_of"
+    },
+    {
+      "source": "phone:+919876500001",
+      "target": "campaign:kyc-block-wave",
+      "kind": "part_of"
+    },
+    {
+      "source": "domain:sbi-kyc-update.xyz",
+      "target": "campaign:kyc-block-wave",
+      "kind": "part_of"
+    },
+    {
+      "source": "upi:sbi.refund.desk@ybl",
+      "target": "campaign:refund-collect",
+      "kind": "part_of"
+    },
+    {
+      "source": "upi:9876500001@ybl",
+      "target": "campaign:refund-collect",
+      "kind": "part_of"
+    },
+    {
+      "source": "upi:9876500001@ybl",
+      "target": "phone:+919876500001",
+      "kind": "appears_with"
+    },
+    {
+      "source": "domain:parcel-release-help.site",
+      "target": "campaign:parcel-customs-fee",
+      "kind": "part_of"
+    },
+    {
+      "source": "phone:+919876500003",
+      "target": "campaign:parcel-customs-fee",
+      "kind": "part_of"
+    }
+  ],
+  "stats": {
+    "clusters": 3,
+    "largestCluster": 7
+  }
+}

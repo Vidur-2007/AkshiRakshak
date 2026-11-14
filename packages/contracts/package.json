@@ -1,0 +1,14 @@
+{
+  "name": "@akshi/contracts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./fixtures": "./src/fixtures.ts",
+    "./fixtures/*.json": "./fixtures/*.json"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}
