@@ -11,15 +11,16 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
+import { QRScannerSheet } from '@/components/modules/QRScannerSheet';
 import { AiToggle } from '@/components/scan/AiToggle';
 import { DropZone, type DropPayload } from '@/components/scan/DropZone';
 import { SampleChips } from '@/components/scan/SampleChips';
+import { ScreenshotFlow, type ScreenshotPayload } from '@/components/scan/ScreenshotFlow';
 import { ScanButton } from '@/components/scan/ScanButton';
 import { StageTicker } from '@/components/scan/StageTicker';
 import { TypeDetectChip } from '@/components/scan/TypeDetectChip';
 import { useScan } from '@/components/scan/useScan';
 import type { ScanPrefillState } from '@/components/shell/paletteStore';
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { detectInputKind, warmup } from '@/lib/engine';
 import { fadeUp, stagger, transition } from '@/lib/motion';
@@ -47,7 +48,7 @@ function useAutoGrow(value: string, maxPx = 420) {
   return ref;
 }
 
-type Soon = 'screenshot' | 'qr' | null;
+type Sheet = 'screenshot' | 'qr' | null;
 
 const toolBtn =
   'relative inline-flex min-h-10 items-center gap-2 rounded-chip px-3 text-sm text-text-2 transition-colors duration-150 hover:bg-white/6 hover:text-text disabled:opacity-50 outline-none focus-visible:outline-2 focus-visible:outline-brand';
@@ -59,8 +60,9 @@ export default function ScanPage() {
   const prefill = useMemo(() => readPrefill(location.state), [location.state]);
   const [text, setText] = useState(prefill?.prefill ?? '');
   const [pasteHint, setPasteHint] = useState(false);
-  const [soon, setSoon] = useState<Soon>(null);
-  const { run, busy, failed, ticker } = useScan();
+  const [sheet, setSheet] = useState<Sheet>(null);
+  const [droppedImage, setDroppedImage] = useState<File | null>(null);
+  const { run, runCore, busy, failed, ticker } = useScan();
   const inputRef = useAutoGrow(text);
   const inputId = useId();
   const autoRan = useRef(false);
@@ -103,9 +105,21 @@ export default function ScanPage() {
     }
   };
 
+  // Good OCR → image scan with boxes; weak OCR → the text the user corrected
+  const onScreenshot = (p: ScreenshotPayload) => {
+    if (p.kind === 'image')
+      void runCore({ kind: 'image', text: p.ocr.text, ocr: p.ocr }, { image: p.image });
+    else {
+      setText(p.text);
+      void runCore({ kind: 'message', text: p.text });
+    }
+  };
+
   const onDrop = (p: DropPayload) => {
-    if (p.kind === 'image') setSoon('screenshot');
-    else setText(p.text.slice(0, MAX_INPUT));
+    if (p.kind === 'image') {
+      setDroppedImage(p.file);
+      setSheet('screenshot');
+    } else setText(p.text.slice(0, MAX_INPUT));
   };
 
   return (
@@ -180,18 +194,30 @@ export default function ScanPage() {
             </button>
             <button
               type="button"
-              onClick={() => setSoon('screenshot')}
+              onClick={() => {
+                setDroppedImage(null);
+                setSheet('screenshot');
+              }}
               className={toolBtn}
               disabled={busy}
+              aria-label={t('scan.uploadScreenshot')}
             >
               <ImageUp className="size-4" aria-hidden />
-              <span className="hidden sm:inline">{t('scan.uploadScreenshot')}</span>
-              <span className="sr-only sm:hidden">{t('scan.uploadScreenshot')}</span>
+              <span className="hidden sm:inline" aria-hidden>
+                {t('scan.uploadScreenshot')}
+              </span>
             </button>
-            <button type="button" onClick={() => setSoon('qr')} className={toolBtn} disabled={busy}>
+            <button
+              type="button"
+              onClick={() => setSheet('qr')}
+              className={toolBtn}
+              disabled={busy}
+              aria-label={t('scan.scanQr')}
+            >
               <QrCode className="size-4" aria-hidden />
-              <span className="hidden sm:inline">{t('scan.scanQr')}</span>
-              <span className="sr-only sm:hidden">{t('scan.scanQr')}</span>
+              <span className="hidden sm:inline" aria-hidden>
+                {t('scan.scanQr')}
+              </span>
             </button>
             {hasText && !busy && (
               <button
@@ -243,18 +269,17 @@ export default function ScanPage() {
 
       <DropZone onDrop={onDrop} />
 
-      <Sheet open={soon !== null} onOpenChange={(o) => !o && setSoon(null)}>
-        <SheetContent
-          side="bottom"
-          closeLabel={t('shell.close')}
-          className="mx-auto max-w-xl sm:mb-6 sm:rounded-sheet sm:border"
-        >
-          <SheetTitle>{t('scan.soonTitle')}</SheetTitle>
-          <SheetDescription className="text-base">
-            {soon === 'qr' ? t('scan.qrSoon') : t('scan.screenshotSoon')}
-          </SheetDescription>
-        </SheetContent>
-      </Sheet>
+      <ScreenshotFlow
+        open={sheet === 'screenshot'}
+        onOpenChange={(o) => !o && setSheet(null)}
+        file={droppedImage}
+        onReady={onScreenshot}
+      />
+      <QRScannerSheet
+        open={sheet === 'qr'}
+        onOpenChange={(o) => !o && setSheet(null)}
+        onDecoded={(payload) => void runCore({ kind: 'qr', qrPayload: payload, text: payload })}
+      />
     </m.section>
   );
 }

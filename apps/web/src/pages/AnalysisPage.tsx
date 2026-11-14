@@ -10,6 +10,7 @@ import { HighlightedText } from '@/components/analysis/HighlightedText';
 import { LayerBreakdownBar } from '@/components/analysis/LayerBreakdownBar';
 import { PrivacyFooter } from '@/components/analysis/PrivacyFooter';
 import { ReasonList } from '@/components/analysis/ReasonList';
+import { ResultSection } from '@/components/analysis/InlineResult';
 import { ReadAloudButton } from '@/components/analysis/ReadAloudButton';
 import {
   REVEAL_MS,
@@ -18,13 +19,18 @@ import {
   useReveal,
   useRevealTransition,
 } from '@/components/analysis/reveal';
+import { ScreenshotOverlay } from '@/components/analysis/ScreenshotOverlay';
 import { VerdictHeader } from '@/components/analysis/VerdictHeader';
+import { ChatExtras } from '@/components/modules/ChatViews';
+import { DomainAgeBadge, RedirectHops } from '@/components/modules/LinkExtras';
+import { QRXray } from '@/components/modules/QRXray';
+import { URLAnatomy } from '@/components/modules/URLAnatomy';
 import type { AnalysisLocationState } from '@/components/scan/useScan';
 import { PageFallback } from '@/components/shell/PageFallback';
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { categoryText, LANGS, type AnalysisResult, type Lang } from '@/lib/engine';
-import { loadResult, peekResult } from '@/lib/scan';
+import { loadImage, loadResult, peekResult } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
 import { VERDICT_COLOR } from '@/lib/risk';
 import { cn } from '@/lib/utils';
@@ -98,6 +104,20 @@ function Announcer({ text }: { text: string }) {
   );
 }
 
+/** The screenshot behind an image scan, if this device still has it. */
+function useStoredImage(result: AnalysisResult): Blob | null {
+  const [blob, setBlob] = useState<Blob | null>(null);
+  useEffect(() => {
+    if (result.kind !== 'image' || !result.image) return;
+    let alive = true;
+    void loadImage(result.id).then((b) => alive && setBlob(b));
+    return () => {
+      alive = false;
+    };
+  }, [result]);
+  return blob;
+}
+
 function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean }) {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
@@ -113,6 +133,11 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
     ? (result.detectedLang as Lang)
     : undefined;
   const flagged = result.signals.some((s) => s.spans.length > 0);
+  const image = useStoredImage(result);
+  const urlFinding = result.kind === 'url' ? result.entities.urls[0] : undefined;
+  const e = result.entities;
+  const hasEntities = e.urls.length + e.upiIds.length + e.phones.length + e.amounts.length > 0;
+  const hasExtras = !!image || !!result.qr || !!urlFinding || !!result.chat?.length;
   usePageTitle(`${verdictWord} · ${result.riskScore}/100`);
 
   // One short vibration on a scam verdict, when the dock rises (Android, haptics on)
@@ -170,28 +195,69 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
 
         {/* Desktop: two columns. Mobile: one stack in reading order (wrappers become `contents`). */}
         <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-start lg:gap-6">
-          <div className="contents lg:sticky lg:top-[calc(var(--topbar-h)+24px)] lg:flex lg:flex-col lg:gap-4">
+          <div
+            className={cn(
+              'contents lg:flex lg:flex-col lg:gap-4',
+              // a short left column stays in view; a tall one (screenshot, extras) scrolls
+              !hasExtras && 'lg:sticky lg:top-[calc(var(--topbar-h)+24px)]',
+            )}
+          >
             <m.section
               layoutId="scan-card"
               className="order-2 rounded-sheet border border-glass-border bg-surface p-5 shadow-2xl shadow-black/30 sm:p-6 lg:order-none"
             >
               <h2 className="text-sm font-medium tracking-wide text-text-2 uppercase">
-                {t('analysis.messageTitle')}
+                {image ? t('overlay.title') : t('analysis.messageTitle')}
               </h2>
-              <p className="mt-1 text-sm text-text-2">
-                {flagged ? t('analysis.highlightsHint') : t('analysis.noHighlights')}
-              </p>
-              <div className="mt-4 max-h-[60vh] overflow-y-auto pr-1">
-                <HighlightedText text={result.text} signals={result.signals} lang={textLang} />
-              </div>
+              {image && result.image ? (
+                <div className="mt-3">
+                  <ScreenshotOverlay result={result} image={image} />
+                </div>
+              ) : (
+                <>
+                  <p className="mt-1 text-sm text-text-2">
+                    {flagged ? t('analysis.highlightsHint') : t('analysis.noHighlights')}
+                  </p>
+                  <div className="mt-4 max-h-[60vh] overflow-y-auto pr-1">
+                    <HighlightedText text={result.text} signals={result.signals} lang={textLang} />
+                  </div>
+                </>
+              )}
             </m.section>
-            <Section
-              title={t('analysis.entitiesTitle')}
-              delayMs={REVEAL_MS.reasons + 200}
-              className="order-5 lg:order-none"
-            >
-              <EntityChips entities={result.entities} />
-            </Section>
+            {(result.qr || urlFinding || result.chat?.length) && (
+              <div className="order-2 flex flex-col gap-4 lg:order-none">
+                {result.qr && (
+                  <ResultSection title={t('xray.title')} delayMs={REVEAL_MS.reasons + 100}>
+                    <QRXray payload={result.qr} />
+                  </ResultSection>
+                )}
+                {urlFinding && (
+                  <ResultSection title={t('anatomy.title')} delayMs={REVEAL_MS.reasons + 100}>
+                    <div className="flex flex-col gap-4">
+                      {urlFinding.domainAge && (
+                        <div>
+                          <DomainAgeBadge age={urlFinding.domainAge} />
+                        </div>
+                      )}
+                      <URLAnatomy finding={urlFinding} />
+                      {urlFinding.expanded && urlFinding.expanded.hops.length > 0 && (
+                        <RedirectHops chain={urlFinding.expanded} />
+                      )}
+                    </div>
+                  </ResultSection>
+                )}
+                <ChatExtras result={result} />
+              </div>
+            )}
+            {hasEntities && (
+              <Section
+                title={t('analysis.entitiesTitle')}
+                delayMs={REVEAL_MS.reasons + 200}
+                className="order-5 lg:order-none"
+              >
+                <EntityChips entities={result.entities} />
+              </Section>
+            )}
           </div>
 
           <div className="contents lg:flex lg:flex-col lg:gap-4">
