@@ -3,7 +3,9 @@
  * Components import from '@/lib/engine'. Before Merge 1 these packages are stubs
  * that return fixture-shaped data; after it the same names return real results.
  */
-import type { Lang, OcrResult } from '@akshi/contracts';
+import type { Lang, OcrResult, StageTiming } from '@akshi/contracts';
+import * as engineNs from '@akshi/engine';
+import i18n from './i18n';
 
 // ── Types (SPEC.md §6) ────────────────────────────────────────────────────────
 export type {
@@ -87,6 +89,20 @@ export {
   signalText,
   warmup,
 } from '@akshi/engine';
+
+// ── Stage names for the StageTicker. `stageText` is new on feat/engine (Phase 1)
+//    and reaches main at Merge 1. Until then we fall back to our own locale strings;
+//    after the merge the engine's version is used with no change here.
+//    TODO(M1): replace with a plain re-export once main has it.
+type StageName = StageTiming['stage'];
+type StageTextFn = (stage: StageName, lang: Lang) => string;
+const engineStageText = (engineNs as unknown as { stageText?: StageTextFn }).stageText;
+const stageFallback: StageTextFn = (stage, lang) =>
+  i18n.isInitialized ? i18n.t(`stage.${stage}`, { lng: lang }) : stage;
+
+export function stageText(stage: StageName, lang: Lang): string {
+  return engineStageText ? engineStageText(stage, lang) : stageFallback(stage, lang);
+}
 
 // ── Engine browser entry (OCR) — loaded lazily so tesseract stays out of the
 //    initial bundle (SPEC_B_WEB.md §7).

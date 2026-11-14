@@ -91,7 +91,10 @@
     "tour": "Take the 60-second tour"
   },
   "page": {
-    "landing": { "title": "Home", "body": "Scan Anything. Stop Fraud Before It Happens." },
+    "landing": {
+      "title": "Home",
+      "body": "Scan Anything. Stop Fraud Before It Happens."
+    },
     "scan": {
       "title": "Quick Scan",
       "body": "Paste a message, UPI ID or link and get a verdict in about a second."
@@ -164,5 +167,13 @@
       "title": "Page not found",
       "body": "This page does not exist. Try a scan instead."
     }
+  },
+  "stage": {
+    "read": "Reading",
+    "ocr": "Reading the screenshot",
+    "links": "Checking links",
+    "patterns": "Checking patterns",
+    "model": "Model",
+    "ai": "AI second opinion"
   }
 }
