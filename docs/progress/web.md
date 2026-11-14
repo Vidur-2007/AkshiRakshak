@@ -30,9 +30,34 @@
 - **Bundle**: only English ships in the first load. hi/te/bn are about 5 KB chunks: the stored language loads before first render, so there's no English flash, and the others prefetch at idle. First load **189 KB gzipped**; ScanPage chunk 5.5 KB, AnalysisPage 12.6 KB.
 - **Tests** (86 in `apps/web`, 153 in the repo): span merging and segments, RiskGauge arc maths, StageTicker minimum duration (`withMinDuration` with a fake clock), ticker state and progress, `pickVoice`, evidence text and blockable values, `buildRequest` per kind (AI never requested offline, 20k cap), HighlightedText rendering (merged controls, popover lists every signal, Enter opens it), ReasonList order, RiskGauge label and ticks, StageTicker statuses, and two full Quick Scan → Analysis flows through the real router (fake KYC → Scam with highlights, actions and the announcement; genuine OTP → "No warning signs found", and "safe" never appears).
 
+### Phase 2 — QR & links, collect guard, messages, screenshots (14 Nov 2026)
+
+- **QR & links (`/modules/qr-link`)**: one input for a link, UPI ID or `upi://` text; three samples labelled "Sample data" (lookalike link, refund QR, bank website); `?value=` from entity chips pre-fills and runs the check. Results show inline (verdict, reasons, actions, dock) with:
+  - **QRScannerSheet**: rear camera via `getUserMedia`; `BarcodeDetector` when it supports QR, otherwise jsQR in a Web Worker (frames downscaled to 720 px, every 180 ms); corner brackets that close in once (no loop, §3.3); torch toggle when the track reports `torch`; "Upload QR image" always available; denied, no-camera and unsupported each get their own message and point to upload. The camera stops when the sheet closes.
+  - **QRXray**: payee, UPI ID (mono) with its app (only well-known handles: PhonePe, Google Pay, Paytm, Amazon Pay, BHIM; otherwise the handle itself), prefilled-amount badge, note, a "QR opens a website" banner, the raw contents, and "You never scan a QR to receive money".
+  - **URLAnatomy**: scheme, ignored text before `@`, subdomain, real website, port, path and query as labelled parts; a character-by-character lookalike row against `lookalikeOf` with `lookalikeDiff` marked; notes for IP hosts, punycode, http and the `@` trick, and an "official domain" note.
+  - **RedirectHops** (status per hop, final domain emphasised) and **DomainAgeBadge** (red under 30 days, amber under 90, "Age unavailable" on error).
+- **Collect-request guard (`/modules/collect`)**: requester name, UPI ID, amount (Indian formats) and note, plus four big toggle questions (accessible radio groups with arrow keys) mapped to `CollectRequestInput`; unanswered questions count as "not sure". **CollectRequestMock** redraws a generic phone frame live. "Fill from a screenshot" runs on-device OCR and fills UPI ID, amount and note from the engine's entities. The result shows inline. **PinPadExplainer**: four keys light up one by one while ₹ coins move from an illustrative balance to the requester. It ends on "Entering your PIN sends money. You never need a PIN to receive.", has a replay button, and shows the final state at once under reduced motion.
+- **Messages (`/modules/messages`)**: Auto / Message / Chat / Email choice (Auto prefers email headers, because the engine's detector reads header lines as a chat); upload screenshot. Chats get a **RiskLine** (SVG, threshold lines at 40/70, escalation marker) and a **ChatThreadView** (them left, me right, a risk-coloured edge per bubble, WhatsApp prefixes stripped, "Risk rises here" chip). Emails get an **EmailHeaderCard** (From / Reply-To / Subject, the Reply-To row highlighted when its registrable domain differs).
+- **Screenshot flow (§5.7)**, shared by Quick Scan (button and drop zone), Messages and the collect guard: preview, `ocrImage(blob, [uiLang, 'en'])` with a progress bar and "this stays on your phone"; a weak read (confidence < 60 or fewer than 12 letters) gets "Hard to read. Type the message instead?" with an editable box pre-filled. Images over 15 MB and non-images are refused. A good read is analysed as `kind: 'image'` with the OCR result.
+- **Screenshots in history**: Dexie schema v2 adds `images` (scan id → Blob), with an in-memory fallback. On `/scan/:id`, **ScreenshotOverlay** replaces the text panel: boxes over flagged words, strongest first on the 600 ms underline clock, each tappable with the same popover as spans. When the image is not on this device, the plain text panel shows.
+- **Analysis screen additions**: QRXray for QR results, URLAnatomy (+ age, hops) for link results, and the chat risk line and thread for chat results. The left column is sticky only when it is short. The empty "Details found" card is gone.
+- **Actions**: every screen now goes through `runAnalysis()` in `lib/scan.ts`, which adds the UI language, AI opt-in (online only), link extras when online and **the Dexie blocklist** to every `analyze` call. The Reject/Block, Report and Copy evidence sheets from Phase 1 are unchanged, except that the Chakshu line now reads "For suspected fraud calls and messages, not completed fraud. If money was lost, call 1930." in all four languages.
+- **Dependency**: `jsqr@1.4.0` (Apache-2.0), used only inside the QR worker chunk (46 KB gzipped). It loads only when `BarcodeDetector` is missing.
+- **Bundle**: first load 191 KB gzipped. Page chunks: QrLink 2.3 KB, Collect 4.4 KB, Messages 1.7 KB, Scan 4.4 KB, Analysis 7.1 KB.
+- **Tests** (133 in `apps/web`, 200 in the repo): URL parts (Indian second-level domains, engine domain only when it is a real suffix, IP, punycode, `@` trick, broken punycode rejected), lookalike rows, chat bubbles and escalation, email headers and Reply-To mismatch (`bank.in` is a registry zone), collect mapping, amounts and pre-fill, PIN trigger, weak OCR, image limits, QR frame sizing, camera error kinds, plus components (QRXray, URLAnatomy with lookalike diff, RedirectHops, DomainAgeBadge, PinPadExplainer, chat thread, risk line, email card, ScreenshotOverlay with popovers) and flows through the real router (Refund QR sample → x-ray with UPI ID; `?value=` link → anatomy; collect form → live mock → PIN explainer when "they said I will receive"; no explainer for a known person; chat → risk line and thread; email → header card mismatch; screenshot upload → OCR → `/scan/:id` with the screenshot; non-image refused).
+
+### Not exercised with the stub engine (check after Merge 1)
+
+- `RECEIVE_WITH_PIN` never appears in stub results, so the PIN explainer also plays whenever the user answers "Yes, they said I will receive money" (that is the trap itself; `shouldExplainPin` in `lib/collect.ts`). A test covers the signal path with a synthetic result.
+- `inspectUrl` in the stub returns no `lookalikeOf`/`lookalikeDiff`, `expanded` or `domainAge`, and its host parsing breaks on punycode (host = the whole URL). URLAnatomy splits URLs itself and only trusts the engine's registrable domain when it is a real suffix of the host. The lookalike row, RedirectHops and DomainAgeBadge are tested with synthetic findings only. `/api/expand` and `/api/domain-age` were never called (no network extras in the stub, and the dev API was not running).
+- Stub OCR ignores the image and always returns the Telugu electricity-bill fixture with confidence 87, so the weak-OCR path is tested only through `isWeakOcr`. The stub's image boxes carry no `signalIds` (Telugu text gets no keyword hits), so on the stub the overlay shows "No words in the screenshot were flagged". Flagged boxes are tested with a synthetic result.
+- The stub's `detectInputKind` reads an email with headers as a chat; the Messages page's Auto mode works around it. The stub email result's `claimVsReality` comes from the fixture (Income Tax), not from the pasted email.
+- Real camera scanning, torch and BarcodeDetector were not run: jsdom has no camera, and this session had no browser.
+
 ## In progress
 
-- Nothing. Phase 2 (QR & link, collect request + PIN pad, messages/chat, screenshot flow) is next.
+- Nothing. Phase 3 (emergency, Elder mode, transactions, dashboard) is next.
 
 ### Notes from A's Phase 1 (on feat/engine, not yet on main)
 
@@ -46,7 +71,8 @@
 - vite-plugin-pwa and the manifest/share target: Phase 4, as SPEC_B_WEB §2.1 says.
 - `playwright.config.ts` and e2e specs: Phase 5. CI's e2e job skips until the config exists.
 - `lib/share.ts` (image share cards) and `styles/print.css`: P4 share cards, P3 complaint draft.
-- Screenshot upload and Scan QR on Quick Scan open a placeholder sheet until Phase 2. `/modules/qr-link?value=` is already linked from entity chips; the page reads it in Phase 2.
+- RiskLine is a small hand-made SVG rather than Recharts. Recharts would be well over 100 KB gzipped, and CLAUDE.md asks the human before adding a dependency that size. Phase 3's statement chart needs a chart library anyway, so decide on Recharts then.
+- **Real-phone test (prompt item 6) not done**: camera QR scan, screenshot upload and the PIN explainer still need a run on an Android phone through the Vercel preview URL. The session had no browser or phone, and the GitHub CLI isn't installed, so I couldn't read the preview URL either.
 - Elder mode's simplified Quick Scan and full-screen verdict: Phase 3 (M10.1). Today Elder mode only turns the reveal choreography off and enlarges text.
 - shadcn components beyond the five primitives are added as screens need them, using `components.json`.
 
@@ -58,6 +84,7 @@
 - The root `npm run typecheck` does not cover `apps/web` yet (see Request 1). `npm run build -w @akshi/web` runs `tsc -b` on the web project, so type errors still fail the build and CI's build step.
 - Not checked in a real browser: this session had no browser, so the reveal timings, the shared-element morph, the popovers and the mobile dock are covered by jsdom tests and code review only. Check on a phone and a laptop before the demo recording.
 - The shared-element morph runs after the Quick Scan page finishes its 250 ms exit (`AnimatePresence mode="wait"`), so the card moves from where it was during the exit. If it looks off in the browser, switch that pair to `mode="popLayout"`.
+- `npm audit` reports a moderate minimatch advisory in the root dev dependency `typescript-eslint` (lint only, not shipped). Root dev dependencies are Laptop A's; see Request 4.
 - Font files (all scripts, 400/500/600/700) are emitted but only fetched when a glyph in their unicode-range is shown.
 
 ## Requests
@@ -65,3 +92,4 @@
 1. **Laptop A — root `tsconfig.json`:** add `{ "path": "apps/web" }` to `references` so `npm run typecheck` covers the web app. `apps/web/tsconfig.json` is a solution file, and its two projects are composite and emit to `.tsbuild/web/` (already gitignored).
 2. **Laptop A — engine bundle size:** please keep `@akshi/contracts/fixtures` out of the real engine (the Phase 0 stub imports it), and add `"sideEffects": false` to `packages/{contracts,engine,content,insights,model}/package.json` if the modules allow it, so the web bundler can drop unused exports. Goal: the engine chunk fits inside `/scan`'s 200 KB budget together with the 189 KB shell, or we agree to load the engine after first paint.
 3. **Laptop A / Laptop C — fake KYC sample verdict:** A's log shows `SAMPLE_MESSAGES` fake KYC at 47 (suspicious). The demo and the e2e test both open with it as a clear Scam. Please tune the rules or the sample (or tell B to change the test) before M1.
+4. **Laptop A — dev dependency advisory:** `npm audit` flags minimatch (GHSA-g3hv-75wg-m249) through `typescript-eslint` ≤ 8.72.2. The suggested `--force` fix downgrades typescript-eslint (breaking). Lint-only, nothing shipped; bump typescript-eslint when a fixed release is out.
