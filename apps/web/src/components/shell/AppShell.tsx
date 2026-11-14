@@ -16,6 +16,12 @@ const Toaster = lazy(() =>
   import('@/components/ui/sonner').then((mod) => ({ default: mod.Toaster })),
 );
 
+function isFreshScan(state: unknown): boolean {
+  return (
+    typeof state === 'object' && state !== null && (state as { fresh?: unknown }).fresh === true
+  );
+}
+
 /** The frame around every route (SPEC_B_WEB.md §4). */
 export function AppShell() {
   const { t } = useTranslation();
@@ -40,12 +46,14 @@ export function AppShell() {
           tabIndex={-1}
           className="relative min-h-[calc(100dvh-var(--topbar-h))] pb-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+24px)] outline-none lg:pb-12"
         >
-          {/* Route change: outgoing fades and moves up 8px, incoming fades in (§4.1). */}
+          {/* Route change: outgoing fades and moves up 8px, incoming fades in (§4.1).
+              Straight after a scan the incoming page skips its fade, so the shared
+              "scan-card" morph carries the transition instead. */}
           <AnimatePresence mode="wait" initial={false}>
             <m.div
               key={location.pathname}
               variants={pageVariants}
-              initial="initial"
+              initial={isFreshScan(location.state) ? false : 'initial'}
               animate="animate"
               exit="exit"
             >

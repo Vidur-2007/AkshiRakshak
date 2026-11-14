@@ -8,7 +8,7 @@ import { ROUTE_PATHS, routes } from './routes';
 
 const TITLE: Record<string, string> = {
   '/scan': en.page.scan.title,
-  '/scan/abc123': en.page.analysis.title,
+  '/scan/abc123': en.analysis.notFoundTitle,
   '/modules/collect': en.page.collect.title,
   '/modules/messages': en.page.messages.title,
   '/modules/transactions': en.page.transactions.title,
