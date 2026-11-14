@@ -1,0 +1,60 @@
+{
+  "generatedBy": "scripts/ocr-assets.ts",
+  "tesseractJs": "7.0.0",
+  "tesseractCore": "7.0.0",
+  "tessdata": {
+    "repo": "https://github.com/tesseract-ocr/tessdata_fast",
+    "commit": "87416418657359cb625c412a48b6e1d6d41c29bd",
+    "licence": "Apache-2.0"
+  },
+  "files": [
+    {
+      "path": "tesseract/worker.min.js",
+      "source": "npm:tesseract.js@7.0.0/dist/worker.min.js",
+      "bytes": 111307,
+      "sha256": "576b7df7e3393e137e51849357c9adb53fe7ac1bb69bfa06cf3d61520f182c6d"
+    },
+    {
+      "path": "tesseract/tesseract-core-relaxedsimd-lstm.wasm.js",
+      "source": "npm:tesseract.js-core@7.0.0/tesseract-core-relaxedsimd-lstm.wasm.js",
+      "bytes": 3905767,
+      "sha256": "861a536cf9ef8e63cb644d57bab39c388f37f7d6b6f60024b741c5f6b39a59b3"
+    },
+    {
+      "path": "tesseract/tesseract-core-simd-lstm.wasm.js",
+      "source": "npm:tesseract.js-core@7.0.0/tesseract-core-simd-lstm.wasm.js",
+      "bytes": 3899472,
+      "sha256": "c58b46a4c796c0b8afccf77591d5b875b6896b45d402bbce8caa6f5362447b38"
+    },
+    {
+      "path": "tesseract/tesseract-core-lstm.wasm.js",
+      "source": "npm:tesseract.js-core@7.0.0/tesseract-core-lstm.wasm.js",
+      "bytes": 3896484,
+      "sha256": "eef5f8b2f8e20e150680b20adaec4a60babafee3adbe8a94583c81fee46e8680"
+    },
+    {
+      "path": "tessdata/eng.traineddata.gz",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/eng.traineddata (gzipped; original sha256 7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2)",
+      "bytes": 1962155,
+      "sha256": "b130d16b69e3888bc099133991a50a5b50e1da0e3ff6ca31a5496fab0fb386c3"
+    },
+    {
+      "path": "tessdata/hin.traineddata.gz",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/hin.traineddata (gzipped; original sha256 4c73ffc59d497c186b19d1e90f5d721d678ea6b2e277b719bee4e2af12271825)",
+      "bytes": 920821,
+      "sha256": "2bc56d6b657329759a9e10759cc157ad9d546e91e0698c04d23a36df43d97986"
+    },
+    {
+      "path": "tessdata/tel.traineddata.gz",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/tel.traineddata (gzipped; original sha256 d10691fddd5b67802e1c12800ebb321d3b8bcd8d24a2ac3ff206f93188c04ab5)",
+      "bytes": 1232465,
+      "sha256": "51379aaa2c2154c078358945f91583dab578b0c286e90cd8453e7eb0c124432b"
+    },
+    {
+      "path": "tessdata/ben.traineddata.gz",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/ben.traineddata (gzipped; original sha256 31163084c279aaebd376216f0c3d5c17ad4b5fee8db49dae79c20000b5de5964)",
+      "bytes": 548295,
+      "sha256": "a340f9b90560794b3ad23582c561bdc1453958443a40de647762e484afbf4b47"
+    }
+  ]
+}

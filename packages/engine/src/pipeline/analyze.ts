@@ -4,11 +4,14 @@
  *
  * Works fully offline for message, url, upi_id, phone, qr and collect_request. Network extras
  * (redirect expansion, domain age) run only when allowed and online, within a 3-second budget,
- * and never fail the scan. The model stage is stub-safe; AI arrives in P3.
+ * and never fail the scan. The model stage is stub-safe (layer unavailable when no model loads).
+ * The AI stage runs only when options.cloudAI is true and the device is online; it sends masked
+ * text to /api/ai/analyze and is blended per §8.2 (never more than +15 points).
  */
 import {
   normalizeText,
   type ActionId,
+  type AiAnalyzeResponse,
   type AnalysisResult,
   type AnalyzeRequest,
   type ClaimCheck,
@@ -29,7 +32,8 @@ import { dedupeSpans, extractEntities } from '../extract/entities';
 import { categoryText, signalText, template } from '../i18n';
 import { blocklistMatch, lookupIndicator } from '../indicators';
 import { inspectUrlsNetwork, rescoreUrl } from '../links/inspect';
-import { getModel, modelSignal } from '../model';
+import { getModel, modelSignal, safePredict } from '../model';
+import { aiSignals, isOnline, requestAiOpinion } from '../ai';
 import { CATALOG } from '../rules/catalog';
 import { matchRules, toSignals } from '../rules/engine';
 import { analyzeCollect, collectToText, type CollectAnalysis } from '../upi/collect';
@@ -292,12 +296,12 @@ export async function analyzeRequest(
   let modelSig: Signal | null = null;
   const model = layerOn('model') ? await getModel() : null;
   if (model && text) {
-    prediction = await run('model', () => model.predict(text));
-    modelSig = modelSignal(text, prediction, req.lang);
+    onStage?.({ stage: 'model', ms: 0, status: 'running' });
+    const m0 = now();
+    prediction = safePredict(model, text);
+    emit({ stage: 'model', ms: round2(now() - m0), status: prediction ? 'done' : 'failed' });
+    if (prediction) modelSig = modelSignal(text, prediction, req.lang);
   } else skip('model');
-
-  // ── ai (P3) ──
-  skip('ai');
   signal?.throwIfAborted();
 
   const linkSignals = layerOn('links')
@@ -306,7 +310,7 @@ export async function analyzeRequest(
         ...identity.signals.filter((s) => CATALOG[s.id].layer !== 'rules'),
       ]
     : [];
-  const signals = mergeSignals([
+  const localSignals = mergeSignals([
     ...ruleSignals,
     ...identity.signals.filter((s) => CATALOG[s.id].layer === 'rules'),
     ...linkSignals,
@@ -323,21 +327,60 @@ export async function analyzeRequest(
     qr?.qrKind === 'website' && entities.urls.some((u) => !u.isOfficial) ? 40 : 0;
   const calibration = loadCalibration();
   const modelScore = prediction ? Math.round(100 * prediction.pScam) : null;
-  const fusion = fuse({
-    signals,
-    entities,
-    calibration,
-    useLinks: layerOn('links'),
-    indicators: ind.score,
-    maxReports: ind.maxReports,
-    model: modelScore,
-    ai: null,
-    contexts: identity.contexts,
-    extraFloor: Math.max(collect?.floor ?? 0, websiteQrFloor),
-    rulesRelevant: !singleItem,
-  });
+  const fuseWith = (signals: Signal[], ai: number | null) =>
+    fuse({
+      signals,
+      entities,
+      calibration,
+      useLinks: layerOn('links'),
+      indicators: ind.score,
+      maxReports: ind.maxReports,
+      model: modelScore,
+      ai,
+      contexts: identity.contexts,
+      extraFloor: Math.max(collect?.floor ?? 0, websiteQrFloor),
+      rulesRelevant: !singleItem,
+    });
+  const local = fuseWith(localSignals, null);
+
+  // ── ai: opt-in, online, masked text only ──
+  let ai: AiAnalyzeResponse | null = null;
+  if (opts.cloudAI === true && layerOn('ai') && isOnline() && text) {
+    onStage?.({ stage: 'ai', ms: 0, status: 'running' });
+    const a0 = now();
+    const localCat = chooseCategory(
+      verdictOf(local.riskScore, calibration),
+      localSignals,
+      text,
+      prediction,
+    ).category;
+    ai = await requestAiOpinion({
+      text,
+      kind: req.kind,
+      lang: req.lang,
+      ruleSignals: localSignals.filter((s) => s.weight > 0).map((s) => s.id),
+      localCategory: localCat,
+      localScore: local.riskScore,
+      ...(signal ? { signal } : {}),
+    }).catch(() => null);
+    emit({ stage: 'ai', ms: round2(now() - a0), status: ai ? 'done' : 'failed' });
+  } else skip('ai');
+  signal?.throwIfAborted();
+
+  // AI_FLAG signals are kept one per red flag (not merged)
+  const signals = ai
+    ? [...localSignals, ...aiSignals(ai, text, req.lang)].sort((a, b) => b.weight - a.weight)
+    : localSignals;
+  const fusion = ai ? fuseWith(signals, ai.likelihood) : local;
   const verdict = verdictOf(fusion.riskScore, calibration);
-  const chosen = chooseCategory(verdict, signals, text, prediction);
+  const ruleChoice = chooseCategory(verdict, signals, text, prediction);
+  // §8.4 step 1: the AI category wins when it agrees with the rules or the model
+  const chosen =
+    ai?.category &&
+    verdict !== 'no_signs' &&
+    (ai.category === ruleChoice.category || ai.category === prediction?.category)
+      ? { category: ai.category, confidence: Math.round(ai.likelihood) / 100 }
+      : ruleChoice;
   // a QR that opens a website is a phishing route when nothing more specific was found
   const category =
     qr?.qrKind === 'website' && chosen.category === 'other' ? 'phishing_link' : chosen.category;
@@ -347,9 +390,11 @@ export async function analyzeRequest(
   const receiveTrap = verdict !== 'no_signs' && signals.some((s) => s.id === 'RECEIVE_WITH_PIN');
   const body = receiveTrap
     ? template('pinTruth', req.lang)
-    : qr?.lead && verdict !== 'no_signs' && category
-      ? categoryText(category, req.lang).oneLiner
-      : explain(verdict, category, signals, req.lang);
+    : ai?.explanation && verdict !== 'no_signs'
+      ? ai.explanation
+      : qr?.lead && verdict !== 'no_signs' && category
+        ? categoryText(category, req.lang).oneLiner
+        : explain(verdict, category, signals, req.lang);
   const explanation = [qr?.lead, body].filter(Boolean).join(' ');
 
   const result: AnalysisResult = {
@@ -376,12 +421,13 @@ export async function analyzeRequest(
     explanation,
     actions: [],
     stages,
-    aiUsed: false,
-    offline: !links.networkUsed,
+    aiUsed: ai !== null,
+    offline: !links.networkUsed && ai === null,
     latencyMs: 0,
     engineVersion: ENGINE_VERSION,
     modelVersion: MODEL_VERSION,
   };
+  if (ai) result.aiProvider = ai.provider;
   if (qr?.payload) result.qr = qr.payload;
   if (req.kind === 'chat')
     result.chat = chatTurns(raw, text, (t) => scoreLive(t, req.lang).riskScore);

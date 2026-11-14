@@ -150,6 +150,12 @@ const ARREST_CONTEXT: readonly SignalId[] = ['STAY_ON_CALL'];
 
 export const CATEGORY_CONTEXT: readonly CategoryContext[] = [
   {
+    when: 'BRAND_MISMATCH',
+    withAny: ARREST_CONTEXT,
+    textAny: DIGITAL_ARREST_WORDS,
+    category: 'digital_arrest',
+  },
+  {
     when: 'THREAT_LEGAL',
     withAny: ARREST_CONTEXT,
     textAny: DIGITAL_ARREST_WORDS,

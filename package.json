@@ -22,12 +22,18 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "eval": "npm run eval --workspaces --if-present",
-    "fixtures": "tsx scripts/build-fixtures.ts"
+    "fixtures": "tsx scripts/build-fixtures.ts",
+    "ocr-assets": "tsx scripts/ocr-assets.ts"
   },
   "dependencies": {
-    "@akshi/contracts": "*",
+    "@ai-sdk/google": "^4.0.121",
+    "@ai-sdk/groq": "^4.0.84",
     "@akshi/content": "*",
+    "@akshi/contracts": "*",
     "@akshi/engine": "*",
+    "ai": "^7.0.173",
+    "tldts": "^7.5.2",
+    "undici": "^8.12.4",
     "zod": "^4.6.7"
   },
   "devDependencies": {

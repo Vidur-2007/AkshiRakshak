@@ -6,7 +6,7 @@ import {
   type StageTiming,
 } from '@akshi/contracts';
 import { describe, expect, it } from 'vitest';
-import { ocrImage } from '../src/browser';
+import { buildOcrResult } from '../src/browser';
 import { analyze as analyzeOnline, maskPII, parseUpiUri, scoreLive, warmup } from '../src/index';
 
 /** Tests here never touch the network: network extras are switched off unless a test sets them. */
@@ -35,7 +35,31 @@ function expectValidSpans(r: Awaited<ReturnType<typeof analyze>>) {
 
 describe('analyze()', () => {
   it('validates against AnalysisResultSchema for every input kind', async () => {
-    const ocr = await ocrImage(new Blob(), ['te']);
+    const words = ['మీ', 'ఖాతా', 'బ్లాక్', 'అవుతుంది.', 'OTP', 'చెప్పండి'];
+    const ocr = buildOcrResult(
+      {
+        confidence: 81,
+        blocks: [
+          {
+            paragraphs: [
+              {
+                lines: [
+                  {
+                    words: words.map((text, i) => ({
+                      text,
+                      bbox: { x0: i * 100, y0: 10, x1: i * 100 + 90, y1: 50 },
+                    })),
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      800,
+      200,
+      ['te'],
+    );
     for (const kind of INPUT_KINDS) {
       const req: AnalyzeRequest = {
         kind,

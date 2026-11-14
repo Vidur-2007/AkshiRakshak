@@ -8,9 +8,27 @@ import { signalText } from './i18n';
 
 let modelPromise: Promise<TextModel | null> | null = null;
 
+/** Memoised: the model JSON loads once (first scan or warmup()). Null when unavailable. */
 export function getModel(): Promise<TextModel | null> {
-  modelPromise ??= loadModel().catch(() => null);
+  modelPromise ??= Promise.resolve()
+    .then(() => loadModel())
+    .catch(() => null);
   return modelPromise;
+}
+
+/** Tests only: forget the memoised model so a mocked loader is called again. */
+export function resetModelCache(): void {
+  modelPromise = null;
+}
+
+/** predict() that never throws: a broken model makes the layer unavailable, not the scan fail. */
+export function safePredict(model: TextModel, text: string): ModelPrediction | null {
+  try {
+    const p = model.predict(text);
+    return Number.isFinite(p.pScam) ? { ...p, pScam: Math.min(1, Math.max(0, p.pScam)) } : null;
+  } catch {
+    return null;
+  }
 }
 
 const WORD_CHAR = /[\p{L}\p{M}\p{N}]/u;

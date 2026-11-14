@@ -12,6 +12,7 @@ export default tseslint.config(
       '**/test-results/**',
       '.vercel/**',
       'ml/**',
+      'packages/engine/assets/**',
     ],
   },
   js.configs.recommended,

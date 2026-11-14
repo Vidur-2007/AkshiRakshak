@@ -6,3 +6,4 @@ ml/.venv
 docs/*.md
 CLAUDE.md
 packages/contracts/fixtures
+packages/engine/assets

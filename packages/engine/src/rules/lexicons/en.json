@@ -96,7 +96,11 @@
         "jail",
         "prosecution",
         "legal notice",
-        "you will be arrested"
+        "you will be arrested",
+        "drugs",
+        "parcel with drugs",
+        "illegal drugs",
+        "contraband"
       ],
       "regex": ["\\bf[\\s.]?i[\\s.]?r\\b"]
     },
@@ -173,7 +177,11 @@
         "skype call",
         "you are under surveillance",
         "keep the call connected",
-        "stay connected on video"
+        "stay connected on video",
+        "stay on the video call",
+        "remain on video call",
+        "do not leave the video call",
+        "keep the video call on"
       ],
       "regex": []
     },
