@@ -136,8 +136,29 @@ const PARCEL_WORDS =
   /parcel|courier|customs|fedex|dtdc|पार्सल|कूरियर|कुरियर|कस्टम|పార్సెల్|కొరియర్|కస్టమ్స్|পার্সেল|কুরিয়ার|কাস্টমস/iu;
 const LOAN_WORDS = /\bloan\b|लोन|ऋण|రుణం|లోన్|ঋণ|লোন/iu;
 const SIM_WORDS = /\bsim\b|सिम|సిమ్|সিম/iu;
+const DIGITAL_ARREST_WORDS = /digital arrest|डिजिटल अरेस्ट|డిజిటల్ అరెస్ట్|ডিজিটাল অ্যারেস্ট/iu;
+/** Digital-arrest scripts often mention a parcel with drugs; the call-control signals decide. */
+const ARREST_CONTEXT: readonly SignalId[] = ['STAY_ON_CALL'];
 
 export const CATEGORY_CONTEXT: readonly CategoryContext[] = [
+  {
+    when: 'THREAT_LEGAL',
+    withAny: ARREST_CONTEXT,
+    textAny: DIGITAL_ARREST_WORDS,
+    category: 'digital_arrest',
+  },
+  {
+    when: 'ADVANCE_FEE',
+    withAny: ARREST_CONTEXT,
+    textAny: DIGITAL_ARREST_WORDS,
+    category: 'digital_arrest',
+  },
+  {
+    when: 'AUTHORITY_CLAIM',
+    withAny: ARREST_CONTEXT,
+    textAny: DIGITAL_ARREST_WORDS,
+    category: 'digital_arrest',
+  },
   { when: 'THREAT_BLOCK', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
   { when: 'THREAT_BLOCK', textAny: SIM_WORDS, category: 'impersonation_govt' },
   { when: 'URGENCY', textAny: UTILITY_WORDS, category: 'bill_disconnection' },

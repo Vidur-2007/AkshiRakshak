@@ -152,6 +152,14 @@ const GOLDEN: Golden[] = [
     category: 'digital_arrest',
   },
   {
+    name: 'digital arrest with a parcel and a "verification amount" (not courier_customs)',
+    lang: 'hi',
+    text: 'Main Mumbai Cyber Crime se Inspector Sharma bol raha hoon. Aapke Aadhaar se ek parcel mein drugs mile hain. Aap digital arrest mein hain, call disconnect mat kijiye aur kisi ko mat batana. Case band karne ke liye turant verification amount bhejo.',
+    expect: 'scam',
+    signals: ['THREAT_LEGAL', 'STAY_ON_CALL', 'ADVANCE_FEE'],
+    category: 'digital_arrest',
+  },
+  {
     name: 'Hinglish KYC block with OTP ask',
     lang: 'hi',
     text: 'Aapka khata band ho jayega. Turant KYC update karein aur aaya hua OTP bhejo.',
