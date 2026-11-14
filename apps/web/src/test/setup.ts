@@ -30,3 +30,10 @@ if (typeof window !== 'undefined' && !('ResizeObserver' in window)) {
   (window as unknown as { ResizeObserver: typeof ResizeObserverStub }).ResizeObserver =
     ResizeObserverStub;
 }
+
+// jsdom lacks object URLs, which image previews use.
+if (typeof URL.createObjectURL !== 'function') {
+  let n = 0;
+  URL.createObjectURL = () => `blob:test/${++n}`;
+  URL.revokeObjectURL = () => undefined;
+}

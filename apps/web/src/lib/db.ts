@@ -32,6 +32,13 @@ export interface StatementRecord {
   analysis: StatementAnalysis;
 }
 
+/** The screenshot behind an image scan, kept on this device for the box overlay (M2.2). */
+export interface ImageRecord {
+  id: string;
+  blob: Blob;
+  createdAt: string;
+}
+
 export interface DojoRecord {
   drillId: string;
   score: number;
@@ -43,6 +50,7 @@ export class AkshiDB extends Dexie {
   blocklist!: EntityTable<BlockEntry, 'value'>;
   statements!: EntityTable<StatementRecord, 'id'>;
   dojo!: EntityTable<DojoRecord, 'drillId'>;
+  images!: EntityTable<ImageRecord, 'id'>;
 
   constructor(name = 'akshi') {
     super(name);
@@ -52,6 +60,8 @@ export class AkshiDB extends Dexie {
       statements: 'id, createdAt, name',
       dojo: 'drillId, score, completedAt',
     });
+    // v2 (Phase 2): screenshots for image scans, keyed by scan id
+    this.version(2).stores({ images: 'id, createdAt' });
   }
 }
 

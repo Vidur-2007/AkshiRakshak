@@ -2,8 +2,15 @@
  * Quick Scan helpers: building the AnalyzeRequest and keeping results reachable even
  * when IndexedDB is unavailable (private windows, blocked storage).
  */
-import { getScan, saveScan } from './db';
-import type { AnalysisResult, AnalyzeRequest, InputKind, Lang } from './engine';
+import { blocklistValues, db, getScan, saveScan } from './db';
+import {
+  analyze,
+  type AnalysisResult,
+  type AnalyzeRequest,
+  type InputKind,
+  type Lang,
+  type StageTiming,
+} from './engine';
 
 export const MAX_INPUT = 20_000;
 
@@ -91,4 +98,58 @@ export function peekResult(id: string): AnalysisResult | null {
 /** Test helper. */
 export function rememberResult(result: AnalysisResult): void {
   memory.set(result.id, result);
+}
+
+// ── One way in for every module ──────────────────────────────────────────────
+
+export type RequestCore = Omit<AnalyzeRequest, 'lang' | 'options'>;
+
+/**
+ * Runs analyze() with the app-wide options: UI language, AI opt-in (online only),
+ * link extras when online, and the user's blocklist from Dexie (§2.3). Every screen
+ * goes through here so no scan forgets the blocklist.
+ */
+export async function runAnalysis(
+  core: RequestCore,
+  o: Omit<ScanOptions, 'blocklist'>,
+  onStage?: (s: StageTiming) => void,
+): Promise<AnalysisResult> {
+  const blocklist = await blocklistValues();
+  const req: AnalyzeRequest = {
+    ...core,
+    ...(core.text !== undefined ? { text: core.text.slice(0, MAX_INPUT) } : {}),
+    lang: o.lang,
+    options: {
+      cloudAI: o.cloudAI && o.online,
+      expandLinks: o.online,
+      domainAge: o.online,
+      blocklist,
+      ...(o.signal ? { signal: o.signal } : {}),
+    },
+  };
+  return analyze(req, onStage);
+}
+
+// ── Screenshots behind image scans ───────────────────────────────────────────
+
+const images = new Map<string, Blob>();
+
+/** Keeps the screenshot on this device (memory + Dexie) for the box overlay. */
+export async function storeImage(id: string, blob: Blob): Promise<void> {
+  images.set(id, blob);
+  try {
+    await db.images.put({ id, blob, createdAt: new Date().toISOString() });
+  } catch {
+    /* memory copy is enough for this tab */
+  }
+}
+
+export async function loadImage(id: string): Promise<Blob | null> {
+  const cached = images.get(id);
+  if (cached) return cached;
+  try {
+    return (await db.images.get(id))?.blob ?? null;
+  } catch {
+    return null;
+  }
 }

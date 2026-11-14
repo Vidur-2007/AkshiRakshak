@@ -1,8 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { blocklistValues } from '@/lib/db';
-import { analyze, detectInputKind } from '@/lib/engine';
-import { buildRequest, storeResult, toTextKind } from '@/lib/scan';
+import { detectInputKind, type AnalysisResult } from '@/lib/engine';
+import {
+  buildRequest,
+  runAnalysis,
+  storeImage,
+  storeResult,
+  toTextKind,
+  type RequestCore,
+} from '@/lib/scan';
 import { applyStage, initialTicker, withMinDuration, type TickerState } from '@/lib/scanTiming';
 import { useAppStore } from '@/lib/store';
 
@@ -11,22 +17,27 @@ export interface AnalysisLocationState {
   fresh?: boolean;
 }
 
+export interface RunExtras {
+  /** screenshot behind an image scan, kept on this device for the overlay */
+  image?: Blob;
+}
+
 /**
- * Runs a Quick Scan: analyze with live stage events, keep the ticker up for at least
- * 400 ms, save to history (and broadcast), then open /scan/:id.
+ * Runs one analysis with live stage events, keeps the ticker up for at least 400 ms
+ * (never longer), and saves the result to history (which broadcasts it). Used for
+ * inline results in the modules; useScan adds navigation to /scan/:id.
  */
-export function useScan() {
-  const navigate = useNavigate();
+export function useAnalysis() {
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
   const [ticker, setTicker] = useState<TickerState>(initialTicker);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => () => abortRef.current?.abort(), []);
 
   const run = useCallback(
-    async (raw: string) => {
-      if (!raw.trim()) return;
+    async (core: RequestCore, extras: RunExtras = {}): Promise<AnalysisResult | null> => {
       abortRef.current?.abort();
       const ctrl = new AbortController();
       abortRef.current = ctrl;
@@ -35,31 +46,72 @@ export function useScan() {
       setTicker(initialTicker());
       setBusy(true);
       try {
-        const result = await withMinDuration(async () => {
-          const blocklist = await blocklistValues();
-          const kind = toTextKind(detectInputKind(raw).kind);
-          const req = buildRequest(raw, kind, {
-            lang,
-            cloudAI: aiOptIn,
-            online,
-            blocklist,
-            signal: ctrl.signal,
-          });
-          return analyze(req, (s) => setTicker((prev) => applyStage(prev, s)));
-        });
-        if (ctrl.signal.aborted) return;
-        await storeResult(result);
-        setLastResultId(result.id);
-        const state: AnalysisLocationState = { fresh: true };
-        navigate(`/scan/${result.id}`, { state });
+        const r = await withMinDuration(() =>
+          runAnalysis(core, { lang, cloudAI: aiOptIn, online, signal: ctrl.signal }, (s) =>
+            setTicker((prev) => applyStage(prev, s)),
+          ),
+        );
+        if (ctrl.signal.aborted) return null;
+        if (extras.image) await storeImage(r.id, extras.image);
+        await storeResult(r);
+        setLastResultId(r.id);
+        setResult(r);
+        return r;
       } catch {
         if (!ctrl.signal.aborted) setFailed(true);
+        return null;
       } finally {
         if (abortRef.current === ctrl) setBusy(false);
       }
     },
-    [navigate],
+    [],
   );
 
-  return { run, busy, failed, ticker };
+  const reset = useCallback(() => {
+    abortRef.current?.abort();
+    setResult(null);
+    setFailed(false);
+    setBusy(false);
+  }, []);
+
+  return { run, reset, busy, failed, ticker, result };
+}
+
+/** Quick Scan: analyse, then open /scan/:id with the reveal. */
+export function useScan() {
+  const navigate = useNavigate();
+  const analysis = useAnalysis();
+  const { run: runCore } = analysis;
+
+  const runCoreAndOpen = useCallback(
+    async (core: RequestCore, extras?: RunExtras) => {
+      const r = await runCore(core, extras);
+      if (!r) return;
+      const state: AnalysisLocationState = { fresh: true };
+      navigate(`/scan/${r.id}`, { state });
+    },
+    [runCore, navigate],
+  );
+
+  /** Free text from the scan box: the input kind is detected. */
+  const run = useCallback(
+    (raw: string) => {
+      if (!raw.trim()) return Promise.resolve();
+      const { lang } = useAppStore.getState();
+      const {
+        options: _o,
+        lang: _l,
+        ...core
+      } = buildRequest(raw, toTextKind(detectInputKind(raw).kind), {
+        lang,
+        cloudAI: false,
+        online: false,
+        blocklist: [],
+      });
+      return runCoreAndOpen(core);
+    },
+    [runCoreAndOpen],
+  );
+
+  return { ...analysis, run, runCore: runCoreAndOpen };
 }
