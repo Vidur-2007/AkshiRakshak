@@ -4,6 +4,7 @@
  */
 import { normalizeText, type Lang, type LiveScore } from '@akshi/contracts';
 import { loadCalibration } from '@akshi/model';
+import { liveContexts } from '../claims/brands';
 import { matchRules, toSignals } from '../rules/engine';
 import { highestFloor, rulesLayerScore, verdictOf } from './fusion';
 
@@ -15,7 +16,12 @@ export function scoreLive(text: string, lang: Lang = 'en'): LiveScore {
   let hits = matchRules(t);
   if (!HAS_PHONE.test(t)) hits = hits.filter((h) => h.id !== 'CUSTOMER_CARE_NUMBER');
   const signals = toSignals(hits, lang);
-  const riskScore = Math.round(Math.max(rulesLayerScore(signals), highestFloor(signals)));
+  const riskScore = Math.round(
+    Math.max(
+      rulesLayerScore(signals),
+      highestFloor(signals, { contexts: liveContexts(t, signals) }),
+    ),
+  );
   return {
     riskScore,
     verdict: verdictOf(riskScore, loadCalibration()),

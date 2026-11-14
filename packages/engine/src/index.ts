@@ -9,7 +9,7 @@ import {
   type StageTiming,
   type UrlFinding,
 } from '@akshi/contracts';
-import { inspectUrlLocal } from './links/inspect';
+import { inspectUrlLocal, inspectUrlNetwork } from './links/inspect';
 import { getModel } from './model';
 import { getJson } from './net';
 import { analyzeRequest } from './pipeline/analyze';
@@ -32,12 +32,17 @@ export function analyze(
   return analyzeRequest(req, onStage);
 }
 
-/** P1: local checks only. P2 adds official domains and lookalikes; network extras follow (§6.2). */
+/**
+ * URL inspector (§6.2): local checks always; redirect expansion and domain age when allowed and
+ * online, within a 3-second budget. Offline or on any network error the local finding is returned.
+ */
 export async function inspectUrl(
   url: string,
-  _opts?: { expand?: boolean; domainAge?: boolean; signal?: AbortSignal },
+  opts?: { expand?: boolean; domainAge?: boolean; signal?: AbortSignal },
 ): Promise<UrlFinding> {
-  return inspectUrlLocal(normalizeText(url));
+  const local = inspectUrlLocal(normalizeText(url));
+  if (opts?.expand === false && opts.domainAge === false) return local;
+  return (await inspectUrlNetwork(local, opts ?? {})).finding;
 }
 
 /** Loads the model and compiles the lexicons. */

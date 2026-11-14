@@ -13,7 +13,17 @@ export interface Floor {
   requiresAny?: readonly SignalId[];
   /** floor applies only if a matched indicator has at least this many reports */
   minReports?: number;
+  /** floor applies only in this message context (set by the pipeline, see FloorContext) */
+  requiresContext?: FloorContext;
 }
+
+/**
+ * Message facts that floors can depend on:
+ * - official_claim: the message claims a bank, government body or utility (brand claim, or
+ *   BANK_IMPERSONATION / AUTHORITY_CLAIM fired)
+ * - bank_or_govt_lookalike: a link imitates a bank or government domain
+ */
+export type FloorContext = 'official_claim' | 'bank_or_govt_lookalike';
 
 export interface CatalogEntry {
   /** contribution −1..1; negative reduces risk */
@@ -34,13 +44,6 @@ const RECEIVE_WORDING: readonly SignalId[] = [
   'WRONG_TRANSFER_RETURN',
   'COLLECT_REQUEST',
 ];
-const OFFICIAL_CLAIM: readonly SignalId[] = [
-  'BANK_IMPERSONATION',
-  'AUTHORITY_CLAIM',
-  'BRAND_MISMATCH',
-  'THREAT_BLOCK',
-];
-
 const rule = (weight: number, category: ScamCategory | null, floor?: Floor): CatalogEntry =>
   floor
     ? { weight, category, layer: 'rules', lexical: true, floor }
@@ -65,7 +68,7 @@ export const CATALOG: Readonly<Record<SignalId, CatalogEntry>> = {
   ASKS_PIN: rule(0.55, 'upi_collect', { score: 85, requiresAny: RECEIVE_WORDING }),
   ASKS_CVV_PASSWORD: rule(0.45, 'phishing_link'),
   ASKS_REMOTE_APP: rule(0.5, 'remote_access'),
-  APK_LINK: rule(0.55, 'malicious_apk', { score: 80, requiresAny: OFFICIAL_CLAIM }),
+  APK_LINK: rule(0.55, 'malicious_apk', { score: 80, requiresContext: 'official_claim' }),
   RECEIVE_WITH_PIN: rule(0.7, 'upi_collect', { score: 85 }),
   COLLECT_REQUEST: rule(0.2, 'upi_collect'),
   QR_TO_RECEIVE: rule(0.65, 'qr_receive', { score: 85 }),
@@ -78,13 +81,18 @@ export const CATALOG: Readonly<Record<SignalId, CatalogEntry>> = {
   CUSTOMER_CARE_NUMBER: rule(0.25, 'fake_customer_care'),
   // identity
   BANK_IMPERSONATION: rule(0.2, 'fake_kyc'),
-  BRAND_MISMATCH: link(0.45, 'phishing_link'),
-  UPI_NAME_MISMATCH: { weight: 0.4, category: 'qr_receive', layer: 'upi', lexical: false },
-  PERSONAL_UPI_HANDLE: { weight: 0.15, category: null, layer: 'upi', lexical: false },
+  // Identity signals are in the rules layer: the claim-vs-reality check is identity evidence from the message itself (a claimed
+  // brand vs its link, UPI ID or phone number), not a property of one link.
+  BRAND_MISMATCH: { weight: 0.45, category: 'phishing_link', layer: 'rules', lexical: false },
+  UPI_NAME_MISMATCH: { weight: 0.4, category: null, layer: 'rules', lexical: false }, // category from context
+  PERSONAL_UPI_HANDLE: { weight: 0.15, category: null, layer: 'rules', lexical: false },
   REPLY_TO_MISMATCH: { weight: 0.3, category: 'phishing_link', layer: 'rules', lexical: false },
   // links and files
   SUSPICIOUS_LINK: link(0.2, 'phishing_link'),
-  LOOKALIKE_DOMAIN: link(0.55, 'phishing_link', { score: 75, requiresAny: OFFICIAL_CLAIM }),
+  LOOKALIKE_DOMAIN: link(0.55, 'phishing_link', {
+    score: 75,
+    requiresContext: 'bank_or_govt_lookalike',
+  }),
   SHORTENED_URL: link(0.15, null),
   IP_URL: link(0.4, 'phishing_link'),
   RISKY_TLD: link(0.15, null),
@@ -162,12 +170,23 @@ export const CATEGORY_CONTEXT: readonly CategoryContext[] = [
   { when: 'THREAT_BLOCK', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
   { when: 'THREAT_BLOCK', textAny: SIM_WORDS, category: 'impersonation_govt' },
   { when: 'URGENCY', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
+  {
+    when: 'UPI_NAME_MISMATCH',
+    withAny: ['RECEIVE_WITH_PIN', 'COLLECT_REQUEST'],
+    category: 'upi_collect',
+  },
+  { when: 'UPI_NAME_MISMATCH', textAny: /^upi:\/\//i, category: 'qr_receive' },
+  { when: 'ADVANCE_FEE', textAny: /\bkyc\b|केवाईसी|కేవైసీ|কেওয়াইসি/iu, category: 'fake_kyc' },
   { when: 'ADVANCE_FEE', withAny: ['PRIZE_LOTTERY'], category: 'lottery_prize' },
   { when: 'ADVANCE_FEE', withAny: ['TASK_JOB_PAYMENT'], category: 'job_task' },
   { when: 'ADVANCE_FEE', textAny: PARCEL_WORDS, category: 'courier_customs' },
   { when: 'ADVANCE_FEE', textAny: LOAN_WORDS, category: 'loan_app' },
   { when: 'THREAT_LEGAL', textAny: PARCEL_WORDS, category: 'courier_customs' },
   { when: 'ASKS_OTP', withAny: ['BANK_IMPERSONATION', 'THREAT_BLOCK'], category: 'fake_kyc' },
+  { when: 'ASKS_OTP', textAny: PARCEL_WORDS, category: 'courier_customs' },
+  { when: 'BRAND_MISMATCH', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
+  { when: 'BRAND_MISMATCH', textAny: PARCEL_WORDS, category: 'courier_customs' },
+  { when: 'BRAND_MISMATCH', withAny: ['BANK_IMPERSONATION', 'THREAT_BLOCK'], category: 'fake_kyc' },
   { when: 'CUSTOMER_CARE_NUMBER', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
 ];
 

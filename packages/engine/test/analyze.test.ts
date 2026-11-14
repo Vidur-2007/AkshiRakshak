@@ -7,7 +7,14 @@ import {
 } from '@akshi/contracts';
 import { describe, expect, it } from 'vitest';
 import { ocrImage } from '../src/browser';
-import { analyze, maskPII, parseUpiUri, scoreLive, warmup } from '../src/index';
+import { analyze as analyzeOnline, maskPII, parseUpiUri, scoreLive, warmup } from '../src/index';
+
+/** Tests here never touch the network: network extras are switched off unless a test sets them. */
+const analyze: typeof analyzeOnline = (req, onStage) =>
+  analyzeOnline(
+    { ...req, options: { expandLinks: false, domainAge: false, ...req.options } },
+    onStage,
+  );
 
 const KYC =
   'Dear SBI customer, your account will be blocked today. Update KYC immediately and share the OTP. Call 98765 00001.';
@@ -186,11 +193,12 @@ describe('analyze()', () => {
 });
 
 describe('scoreLive()', () => {
-  it('returns a valid LiveScore that matches analyze() for text without links', async () => {
-    const live = LiveScoreSchema.parse(scoreLive(KYC, 'en'));
+  it('returns a valid LiveScore that matches analyze() for text without links, brands or phones', async () => {
+    const plain = 'Your account will be blocked today. Share the OTP you received immediately.';
+    const live = LiveScoreSchema.parse(scoreLive(plain, 'en'));
     const full = await analyze({
       kind: 'message',
-      text: KYC,
+      text: plain,
       lang: 'en',
       options: { layers: { indicators: false } },
     });

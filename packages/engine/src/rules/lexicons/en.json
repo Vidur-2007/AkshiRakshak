@@ -395,7 +395,13 @@
         "file charges",
         "documentation charges",
         "pay first",
-        "delivery charges to release"
+        "delivery charges to release",
+        "kyc fee",
+        "kyc charges",
+        "pay the fee",
+        "pay a fee",
+        "unlock fee",
+        "reactivation fee"
       ],
       "regex": []
     },

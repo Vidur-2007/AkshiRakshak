@@ -12,7 +12,8 @@ import type {
   SignalId,
   Verdict,
 } from '@akshi/contracts';
-import { CATALOG, CATEGORY_CONTEXT, FLOOR_SIGNALS } from '../rules/catalog';
+import { SIGNAL_IDS } from '@akshi/contracts';
+import { CATALOG, CATEGORY_CONTEXT, FLOOR_SIGNALS, type FloorContext } from '../rules/catalog';
 
 const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 
@@ -24,16 +25,23 @@ export function rulesLayerScore(signals: readonly Signal[]): number {
   for (const s of signals) {
     const e = CATALOG[s.id];
     if (e.floor) floorFired = true;
-    if (e.weight > 0 && e.layer === 'rules') keep *= 1 - e.weight;
-    else if (e.weight < 0) negative += e.weight;
+    // the signal's own weight (e.g. COLLECT_REQUEST +0.15 for an unknown requester, §6.5)
+    if (s.weight > 0 && e.layer === 'rules') keep *= 1 - Math.min(s.weight, 1);
+    else if (s.weight < 0) negative += s.weight;
   }
   let r = 100 * (1 - keep);
   if (!floorFired) r *= 1 + negative;
   return clamp(r, 0, 100);
 }
 
+export interface FloorOptions {
+  maxReports?: number;
+  contexts?: ReadonlySet<FloorContext>;
+}
+
 /** Highest floor whose conditions hold (§5.2). */
-export function highestFloor(signals: readonly Signal[], maxReports = 0): number {
+export function highestFloor(signals: readonly Signal[], opts: FloorOptions = {}): number {
+  const maxReports = opts.maxReports ?? 0;
   const ids = new Set<SignalId>(signals.map((s) => s.id));
   let floor = 0;
   for (const id of ids) {
@@ -42,6 +50,7 @@ export function highestFloor(signals: readonly Signal[], maxReports = 0): number
     if (!f) continue;
     if (f.requiresAny && !f.requiresAny.some((r) => ids.has(r))) continue;
     if (f.minReports !== undefined && maxReports < f.minReports) continue;
+    if (f.requiresContext && !opts.contexts?.has(f.requiresContext)) continue;
     floor = Math.max(floor, f.score);
   }
   return floor;
@@ -73,6 +82,15 @@ export interface FusionInput {
   model: number | null;
   /** AI likelihood 0–100, or null when not used */
   ai: number | null;
+  /** floor contexts for this message (official claim, bank/govt lookalike) */
+  contexts?: ReadonlySet<FloorContext>;
+  /** extra floor outside the catalog (collect request "you will receive" → 90, §6.5) */
+  extraFloor?: number;
+  /**
+   * false for single-item inputs (a bare URL, UPI ID or phone, or a QR that only holds a URL):
+   * there is no message text for the rules layer to judge, so it is not a relevant layer (§8.2).
+   */
+  rulesRelevant?: boolean;
 }
 
 export interface FusionResult {
@@ -82,7 +100,7 @@ export interface FusionResult {
   layers: LayerContribution[];
 }
 
-/** §8.2 combination. An unflagged link (risk 0) is absence of evidence, so the links layer counts only when L > 0. */
+/** §8.2 combination; the links layer is relevant whenever the message has links or UPI IDs. */
 export function fuse(input: FusionInput): FusionResult {
   const { fusion, aiBlend } = input.calibration;
   const rules = rulesLayerScore(input.signals);
@@ -90,18 +108,23 @@ export function fuse(input: FusionInput): FusionResult {
   const upiMax = Math.max(0, ...input.entities.upiIds.map((u) => u.risk));
   const links = input.useLinks ? Math.max(urlMax, upiMax) : 0;
 
-  const parts: { layer: 'rules' | 'model' | 'links'; w: number; s: number }[] = [
-    { layer: 'rules', w: fusion.rules, s: rules },
-  ];
+  const parts: { layer: 'rules' | 'model' | 'links'; w: number; s: number }[] = [];
+  const linksRelevant =
+    input.useLinks && input.entities.urls.length + input.entities.upiIds.length > 0;
+  if (input.rulesRelevant !== false || !linksRelevant)
+    parts.push({ layer: 'rules', w: fusion.rules, s: rules });
   if (input.model !== null) parts.push({ layer: 'model', w: fusion.model, s: input.model });
-  if (links > 0) parts.push({ layer: 'links', w: fusion.links, s: links });
+  if (linksRelevant) parts.push({ layer: 'links', w: fusion.links, s: links });
   const wSum = parts.reduce((a, p) => a + p.w, 0) || 1;
   const weighted = parts.reduce((a, p) => a + p.w * p.s, 0) / wSum;
 
   const base = input.indicators !== null ? Math.max(weighted, input.indicators) : weighted;
   let final = input.ai !== null ? (1 - aiBlend) * base + aiBlend * input.ai : base;
   final = Math.min(final, base + 15);
-  const floor = highestFloor(input.signals, input.maxReports);
+  const floor = Math.max(
+    highestFloor(input.signals, { maxReports: input.maxReports, contexts: input.contexts }),
+    input.extraFloor ?? 0,
+  );
   final = Math.max(final, floor);
   const riskScore = Math.round(clamp(final, 0, 100));
 
@@ -176,9 +199,13 @@ export function categoryHint(
   return CATALOG[id].category;
 }
 
+const ORDER = new Map<SignalId, number>(SIGNAL_IDS.map((id, i) => [id, i]));
+
 /**
- * §8.4: AI (later) → model (prob ≥ 0.5) → rule hints. Rule hints vote by weight, so several
- * signals that point at the same scam outweigh one generic signal (e.g. OTP ask inside a KYC message).
+ * §8.4: AI (P3) → model (category probability ≥ 0.5) → the category hint of the highest-weighted
+ * rule signal (refined by CATEGORY_CONTEXT; signals without a hint are skipped). Rules-layer
+ * signals come first; link/UPI signals are used only when no rule signal has a hint.
+ * Ties go to the signal listed first in SIGNAL_IDS. `no_signs` → null.
  */
 export function chooseCategory(
   verdict: Verdict,
@@ -192,23 +219,15 @@ export function chooseCategory(
     if (p >= 0.5) return { category: model.category, confidence: Math.round(p * 100) / 100 };
   }
   const ids = new Set<SignalId>(signals.map((s) => s.id));
-  const votes = new Map<ScamCategory, number>();
-  let total = 0;
-  for (const s of signals) {
-    if (s.weight <= 0) continue;
-    const c = categoryHint(s.id, ids, text);
-    if (!c) continue;
-    votes.set(c, (votes.get(c) ?? 0) + s.weight);
-    total += s.weight;
-  }
-  let best: ScamCategory | null = null;
-  let bestVotes = 0;
-  for (const [c, v] of votes) {
-    if (v > bestVotes) {
-      best = c;
-      bestVotes = v;
+  const ranked = signals
+    .filter((s) => s.weight > 0 && s.id !== 'MODEL_PATTERN' && s.id !== 'AI_FLAG')
+    .sort((a, b) => b.weight - a.weight || (ORDER.get(a.id) ?? 0) - (ORDER.get(b.id) ?? 0));
+  for (const rulesOnly of [true, false]) {
+    for (const s of ranked) {
+      if (rulesOnly && CATALOG[s.id].layer !== 'rules') continue;
+      const c = categoryHint(s.id, ids, text);
+      if (c) return { category: c, confidence: Math.round(clamp(s.weight, 0, 1) * 100) / 100 };
     }
   }
-  if (!best) return { category: 'other', confidence: 0.3 };
-  return { category: best, confidence: Math.round(clamp(bestVotes / total, 0, 1) * 100) / 100 };
+  return { category: 'other', confidence: 0.3 };
 }

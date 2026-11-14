@@ -152,12 +152,18 @@
       "label": "Reported before",
       "detail": "This number, UPI ID or website appears in scam reports (sample data)."
     },
-    "BLOCKLISTED": { "label": "You blocked this", "detail": "You added this to your block list." },
+    "BLOCKLISTED": {
+      "label": "You blocked this",
+      "detail": "You added this to your block list."
+    },
     "MODEL_PATTERN": {
       "label": "Wording seen in scams",
       "detail": "Wording seen in many scam messages."
     },
-    "AI_FLAG": { "label": "AI second opinion", "detail": "The AI check flagged this part." },
+    "AI_FLAG": {
+      "label": "AI second opinion",
+      "detail": "The AI check flagged this part."
+    },
     "SAFETY_ADVICE": {
       "label": "Real safety advice",
       "detail": "Genuine bank messages remind you never to share your OTP."
@@ -323,6 +329,34 @@
     "noSigns": "No warning signs found. Still, never share your OTP or PIN with anyone.",
     "reasons": "Warning signs: {reasons}.",
     "listSep": ", ",
-    "genericLead": "This shows signs of a scam."
+    "genericLead": "This shows signs of a scam.",
+    "pinTruth": "Entering your UPI PIN always sends money from your account. You never need a PIN to receive money.",
+    "qrPayee": "This QR pays {pa} (shown as \"{pn}\").",
+    "qrPayeeNoName": "This QR pays {pa}.",
+    "qrWebsite": "This QR opens a website, not a payment.",
+    "claimBrand": "Says it is from {brand}",
+    "realityLink": "Link goes to {domain}, not {official}",
+    "realityLinkUnknown": "Link goes to {domain}, which is not an official {brand} website",
+    "realityLinkAge": "{reality}, registered {days} days ago",
+    "realityUpiPersonal": "Money would go to {upi}, a personal UPI ID",
+    "realityPhonePersonal": "Asks you to call {phone}, a personal mobile number",
+    "claimLookalike": "Looks like {brand}'s website",
+    "realityLookalike": "The address is {domain}, not {official}",
+    "claimReceive": "You will receive {amount}",
+    "claimReceiveMoney": "You will receive money",
+    "realityPinSends": "Approving this request sends {amount} from your account to {upi}",
+    "realityPinSendsMoney": "Entering your UPI PIN sends money from your account",
+    "claimPayeeName": "Payee shows as \"{name}\"",
+    "realityPayeeUpi": "Money goes to {upi}, a personal UPI ID",
+    "claimQrNote": "Note says \"{note}\"",
+    "realityQrPays": "Paying this QR sends {amount} from your account",
+    "realityQrPaysMoney": "Paying this QR sends money from your account",
+    "claimQrPayment": "Looks like a payment QR",
+    "realityQrWebsite": "It opens the website {domain}",
+    "claimRequester": "Requester calls itself \"{name}\"",
+    "realityRequesterPersonal": "{upi} is a personal UPI ID, not an official account",
+    "evidenceLink": "Link domain {domain} is not an official {brand} domain",
+    "evidenceUpi": "Uses the personal UPI ID {upi}",
+    "evidencePhone": "Gives the personal mobile number {phone}"
   }
 }

@@ -16,7 +16,41 @@ export interface Strings {
   stages: Partial<Record<StageTiming['stage'], string>>;
   templates: Partial<Record<TemplateKey, string>>;
 }
-export type TemplateKey = 'noSigns' | 'reasons' | 'listSep' | 'genericLead';
+export const TEMPLATE_KEYS = [
+  'noSigns',
+  'reasons',
+  'listSep',
+  'genericLead',
+  'pinTruth',
+  'qrPayee',
+  'qrPayeeNoName',
+  'qrWebsite',
+  'claimBrand',
+  'realityLink',
+  'realityLinkUnknown',
+  'realityLinkAge',
+  'realityUpiPersonal',
+  'realityPhonePersonal',
+  'claimLookalike',
+  'realityLookalike',
+  'claimReceive',
+  'claimReceiveMoney',
+  'realityPinSends',
+  'realityPinSendsMoney',
+  'claimPayeeName',
+  'realityPayeeUpi',
+  'claimQrNote',
+  'realityQrPays',
+  'realityQrPaysMoney',
+  'claimQrPayment',
+  'realityQrWebsite',
+  'claimRequester',
+  'realityRequesterPersonal',
+  'evidenceLink',
+  'evidenceUpi',
+  'evidencePhone',
+] as const;
+export type TemplateKey = (typeof TEMPLATE_KEYS)[number];
 
 export const STRINGS: Readonly<Record<Lang, Strings>> = { en, hi, te, bn };
 const EN = en as Strings;

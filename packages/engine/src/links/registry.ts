@@ -1,7 +1,500 @@
 /**
- * Link registry (SPEC_A_ENGINE.md §6.1).
- * P1: shorteners and risky TLDs. P2 adds the verified official-domain / brand table and homoglyphs.
+ * Link and brand registry (SPEC_A_ENGINE.md §6.1).
+ *
+ * Official domains checked by web search on 2026-11-14. RBI circular RBI/2025-26/28
+ * (22 Apr 2025) moved banks to `.bank.in` by 31 Oct 2025; IDRBT is the exclusive registrar
+ * and only RBI-regulated banks can register, so any registrable domain under `bank.in` is
+ * treated as a bank domain (restriction still in force on 2026-11-14). Legacy bank domains
+ * are kept: they redirect to the new ones and still appear in genuine messages.
+ *
+ * `verified` notes per brand: 'web' = confirmed on 2026-11-14 from the brand's own site or
+ * multiple reports; 'partial' = some domains confirmed; 'knowledge' = well-known domain not
+ * re-confirmed on that date (see docs/progress/engine.md).
  */
+import type { BrandClaim } from '@akshi/contracts';
+
+export type BrandKind = BrandClaim['kind'];
+
+export interface Brand {
+  id: string;
+  /** display name */
+  name: string;
+  kind: BrandKind;
+  /** official registrable domains (lower case), primary first */
+  domains: readonly string[];
+  /** brand-owned top-level domains (e.g. `.sbi`): every domain under them is official */
+  tlds?: readonly string[];
+  /** words that claim the brand in a message (Latin matched on word boundaries; Indic as substrings) */
+  claims: readonly string[];
+  /** labels compared with link labels for lookalikes (lower case, ASCII) */
+  tokens: readonly string[];
+  /** UPI handles that belong to the brand itself (after '@') */
+  upiHandles?: readonly string[];
+  verified: 'web' | 'partial' | 'knowledge';
+}
+
+export const BRANDS: readonly Brand[] = [
+  // ── banks ──
+  {
+    id: 'sbi',
+    name: 'SBI',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['sbi.bank.in', 'sbi.co.in', 'onlinesbi.sbi', 'bank.sbi'],
+    tlds: ['sbi'],
+    claims: [
+      'sbi',
+      'state bank of india',
+      'state bank',
+      'yono',
+      'एसबीआई',
+      'स्टेट बैंक',
+      'ఎస్బీఐ',
+      'స్టేట్ బ్యాంక్',
+      'এসবিআই',
+      'স্টেট ব্যাংক',
+    ],
+    tokens: ['sbi', 'onlinesbi', 'statebank', 'yonosbi', 'sbionline'],
+    upiHandles: ['sbi', 'oksbi'],
+  },
+  {
+    id: 'hdfc',
+    name: 'HDFC Bank',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['hdfc.bank.in', 'hdfcbank.com'],
+    tlds: ['hdfcbank'],
+    claims: ['hdfc', 'hdfc bank', 'एचडीएफसी', 'హెచ్డీఎఫ్సీ', 'এইচডিএফসি'],
+    tokens: ['hdfcbank', 'hdfc'],
+    upiHandles: ['hdfcbank', 'okhdfcbank', 'pthdfc'],
+  },
+  {
+    id: 'icici',
+    name: 'ICICI Bank',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['icici.bank.in', 'icicibank.com'],
+    claims: ['icici', 'icici bank', 'आईसीआईसीआई', 'ఐసీఐసీఐ', 'আইসিআইসিআই'],
+    tokens: ['icicibank', 'icici'],
+    upiHandles: ['icici', 'okicici'],
+  },
+  {
+    id: 'axis',
+    name: 'Axis Bank',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['axis.bank.in', 'axisbank.com'],
+    claims: ['axis bank', 'एक्सिस बैंक', 'యాక్సిస్ బ్యాంక్', 'অ্যাক্সিস ব্যাংক'],
+    tokens: ['axisbank', 'axis'],
+    upiHandles: ['axisbank', 'axis', 'okaxis', 'ptaxis'],
+  },
+  {
+    id: 'kotak',
+    name: 'Kotak Mahindra Bank',
+    kind: 'bank',
+    verified: 'partial',
+    domains: ['kotak.bank.in', 'kotak.com'],
+    claims: ['kotak', 'kotak mahindra', 'कोटक', 'కోటక్', 'কোটাক'],
+    tokens: ['kotak', 'kotakbank'],
+    upiHandles: ['kotak', 'kmbl'],
+  },
+  {
+    id: 'pnb',
+    name: 'Punjab National Bank',
+    kind: 'bank',
+    verified: 'partial',
+    domains: ['pnb.bank.in', 'pnbindia.in'],
+    claims: [
+      'pnb',
+      'punjab national bank',
+      'पंजाब नेशनल बैंक',
+      'పంజాబ్ నేషనల్ బ్యాంక్',
+      'পাঞ্জাব ন্যাশনাল ব্যাংক',
+    ],
+    tokens: ['pnb', 'pnbindia', 'pnbonline'],
+    upiHandles: ['pnb'],
+  },
+  {
+    id: 'bob',
+    name: 'Bank of Baroda',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['bankofbaroda.bank.in', 'bankofbaroda.in', 'bankofbaroda.com'],
+    claims: ['bank of baroda', 'बैंक ऑफ बड़ौदा', 'బ్యాంక్ ఆఫ్ బరోడా', 'ব্যাংক অফ বরোদা'],
+    tokens: ['bankofbaroda', 'barodabank', 'bobibanking', 'bobworld'],
+    upiHandles: ['barodampay'],
+  },
+  {
+    id: 'canara',
+    name: 'Canara Bank',
+    kind: 'bank',
+    verified: 'partial',
+    domains: ['canarabank.bank.in', 'canarabank.com', 'canarabank.in'],
+    claims: ['canara bank', 'केनरा बैंक', 'కెనరా బ్యాంక్', 'কানাড়া ব্যাংক'],
+    tokens: ['canarabank', 'canara'],
+    upiHandles: ['cnrb'],
+  },
+  {
+    id: 'union',
+    name: 'Union Bank of India',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['unionbankofindia.bank.in', 'unionbankofindia.co.in'],
+    claims: ['union bank', 'union bank of india', 'यूनियन बैंक', 'యూనియన్ బ్యాంక్', 'ইউনিয়ন ব্যাংক'],
+    tokens: ['unionbankofindia', 'unionbank'],
+    upiHandles: ['unionbank', 'uboi'],
+  },
+  {
+    id: 'idfc',
+    name: 'IDFC FIRST Bank',
+    kind: 'bank',
+    verified: 'web',
+    domains: ['idfcfirst.bank.in', 'idfcfirstbank.com'],
+    claims: ['idfc', 'idfc first', 'आईडीएफसी', 'ఐడీఎఫ్సీ', 'আইডিএফসি'],
+    tokens: ['idfcfirst', 'idfcfirstbank', 'idfc'],
+    upiHandles: ['idfcbank', 'idfcfirst'],
+  },
+  {
+    id: 'yes',
+    name: 'Yes Bank',
+    kind: 'bank',
+    verified: 'partial',
+    domains: ['yes.bank.in', 'yesbank.bank.in', 'yesbank.in'],
+    claims: ['yes bank', 'यस बैंक', 'యెస్ బ్యాంక్', 'ইয়েস ব্যাংক'],
+    tokens: ['yesbank'],
+    upiHandles: ['yesbank', 'yesbankltd', 'ptyes', 'yapl'],
+  },
+  {
+    id: 'indusind',
+    name: 'IndusInd Bank',
+    kind: 'bank',
+    verified: 'knowledge',
+    domains: ['indusind.bank.in', 'indusind.com'],
+    claims: ['indusind', 'इंडसइंड', 'ఇండస్ఇండ్', 'ইন্ডাসইন্ড'],
+    tokens: ['indusind', 'indusindbank'],
+    upiHandles: ['indus'],
+  },
+  // ── regulators, government ──
+  {
+    id: 'rbi',
+    name: 'RBI',
+    kind: 'govt',
+    verified: 'web',
+    domains: ['rbi.org.in'],
+    claims: [
+      'rbi',
+      'reserve bank',
+      'reserve bank of india',
+      'आरबीआई',
+      'रिज़र्व बैंक',
+      'ఆర్బీఐ',
+      'আরবিআই',
+    ],
+    tokens: ['rbi', 'reservebank', 'rbiindia'],
+  },
+  {
+    id: 'npci',
+    name: 'NPCI',
+    kind: 'govt',
+    verified: 'web',
+    domains: ['npci.org.in'],
+    claims: ['npci', 'एनपीसीआई'],
+    tokens: ['npci'],
+  },
+  {
+    id: 'bhim',
+    name: 'BHIM',
+    kind: 'payment_app',
+    verified: 'knowledge',
+    domains: ['bhimupi.org.in', 'npci.org.in'],
+    claims: ['bhim', 'भीम'],
+    tokens: ['bhimupi', 'bhim'],
+    upiHandles: ['upi'],
+  },
+  {
+    id: 'incometax',
+    name: 'Income Tax Department',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['incometax.gov.in'],
+    claims: [
+      'income tax',
+      'incometax',
+      'itr refund',
+      'आयकर',
+      'इनकम टैक्स',
+      'ఆదాయపు పన్ను',
+      'ইনকাম ট্যাক্স',
+      'আয়কর',
+    ],
+    tokens: ['incometax', 'incometaxindia', 'itrefund', 'efiling'],
+  },
+  {
+    id: 'uidai',
+    name: 'UIDAI (Aadhaar)',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['uidai.gov.in'],
+    claims: ['uidai', 'aadhaar', 'aadhar', 'आधार', 'ఆధార్', 'আধার'],
+    tokens: ['uidai', 'aadhaar', 'aadhar', 'myaadhaar'],
+  },
+  {
+    id: 'indiapost',
+    name: 'India Post',
+    kind: 'courier',
+    verified: 'knowledge',
+    domains: ['indiapost.gov.in'],
+    claims: [
+      'india post',
+      'indiapost',
+      'speed post',
+      'इंडिया पोस्ट',
+      'डाक विभाग',
+      'ఇండియా పోస్ట్',
+      'ইন্ডিয়া পোস্ট',
+    ],
+    tokens: ['indiapost', 'speedpost', 'indpost'],
+  },
+  {
+    id: 'epfo',
+    name: 'EPFO',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['epfindia.gov.in'],
+    claims: ['epfo', 'epf', 'provident fund', 'पीएफ', 'ఈపీఎఫ్ఓ', 'ইপিএফও'],
+    tokens: ['epfindia', 'epfo'],
+  },
+  {
+    id: 'parivahan',
+    name: 'Parivahan (e-Challan)',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['parivahan.gov.in'],
+    claims: [
+      'parivahan',
+      'e-challan',
+      'echallan',
+      'traffic challan',
+      'challan',
+      'चालान',
+      'చలాన్',
+      'চালান',
+    ],
+    tokens: ['parivahan', 'echallan', 'challan'],
+  },
+  {
+    id: 'cybercrime',
+    name: 'National Cyber Crime Reporting Portal',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['cybercrime.gov.in'],
+    claims: ['cybercrime.gov.in', 'cyber crime portal'],
+    tokens: ['cybercrime'],
+  },
+  {
+    id: 'sancharsaathi',
+    name: 'Sanchar Saathi',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['sancharsaathi.gov.in'],
+    claims: ['sanchar saathi', 'chakshu', 'संचार साथी'],
+    tokens: ['sancharsaathi', 'chakshu'],
+  },
+  {
+    id: 'trai',
+    name: 'TRAI',
+    kind: 'govt',
+    verified: 'knowledge',
+    domains: ['trai.gov.in'],
+    claims: ['trai', 'ट्राई', 'ట్రాయ్'],
+    tokens: ['trai'],
+  },
+  // ── payment apps ──
+  {
+    id: 'paytm',
+    name: 'Paytm',
+    kind: 'payment_app',
+    verified: 'knowledge',
+    domains: ['paytm.com', 'paytm.in'],
+    claims: ['paytm', 'पेटीएम', 'పేటీఎం', 'পেটিএম'],
+    tokens: ['paytm'],
+    upiHandles: ['paytm', 'ptyes', 'ptaxis', 'pthdfc', 'ptsbi'],
+  },
+  {
+    id: 'phonepe',
+    name: 'PhonePe',
+    kind: 'payment_app',
+    verified: 'web',
+    domains: ['phonepe.com'],
+    claims: ['phonepe', 'phone pe', 'फोनपे', 'ఫోన్పే', 'ফোনপে'],
+    tokens: ['phonepe'],
+    upiHandles: ['ybl', 'ibl', 'axl'],
+  },
+  {
+    id: 'gpay',
+    name: 'Google Pay',
+    kind: 'payment_app',
+    verified: 'knowledge',
+    domains: ['google.com', 'google.co.in'],
+    claims: ['google pay', 'gpay', 'गूगल पे', 'గూగుల్ పే', 'গুগল পে'],
+    tokens: ['googlepay', 'gpay'],
+    upiHandles: ['okaxis', 'okhdfcbank', 'okicici', 'oksbi'],
+  },
+  // ── e-commerce ──
+  {
+    id: 'amazon',
+    name: 'Amazon',
+    kind: 'ecommerce',
+    verified: 'knowledge',
+    domains: ['amazon.in', 'amazon.com', 'amazonpay.in'],
+    claims: ['amazon', 'अमेज़न', 'अमेजन', 'అమెజాన్', 'আমাজন'],
+    tokens: ['amazon', 'amazonpay'],
+    upiHandles: ['apl', 'yapl', 'rapl'],
+  },
+  {
+    id: 'flipkart',
+    name: 'Flipkart',
+    kind: 'ecommerce',
+    verified: 'knowledge',
+    domains: ['flipkart.com'],
+    claims: ['flipkart', 'फ्लिपकार्ट', 'ఫ్లిప్కార్ట్', 'ফ্লিপকার্ট'],
+    tokens: ['flipkart'],
+  },
+  // ── couriers ──
+  {
+    id: 'bluedart',
+    name: 'Blue Dart',
+    kind: 'courier',
+    verified: 'web',
+    domains: ['bluedart.com'],
+    claims: ['blue dart', 'bluedart', 'ब्लू डार्ट'],
+    tokens: ['bluedart'],
+  },
+  {
+    id: 'dtdc',
+    name: 'DTDC',
+    kind: 'courier',
+    verified: 'web',
+    domains: ['dtdc.com'],
+    claims: ['dtdc', 'डीटीडीसी'],
+    tokens: ['dtdc'],
+  },
+  {
+    id: 'delhivery',
+    name: 'Delhivery',
+    kind: 'courier',
+    verified: 'web',
+    domains: ['delhivery.com'],
+    claims: ['delhivery', 'डेल्हीवरी'],
+    tokens: ['delhivery'],
+  },
+  {
+    id: 'fedex',
+    name: 'FedEx',
+    kind: 'courier',
+    verified: 'knowledge',
+    domains: ['fedex.com'],
+    claims: ['fedex', 'fed ex', 'फेडेक्स', 'ఫెడెక్స్', 'ফেডেক্স'],
+    tokens: ['fedex'],
+  },
+  // ── telecom ──
+  {
+    id: 'jio',
+    name: 'Jio',
+    kind: 'telecom',
+    verified: 'web',
+    domains: ['jio.com'],
+    claims: ['jio', 'reliance jio', 'जियो', 'జియో', 'জিও'],
+    tokens: ['jio', 'myjio', 'reliancejio'],
+  },
+  {
+    id: 'airtel',
+    name: 'Airtel',
+    kind: 'telecom',
+    verified: 'web',
+    domains: ['airtel.in'],
+    claims: ['airtel', 'एयरटेल', 'ఎయిర్టెల్', 'এয়ারটেল'],
+    tokens: ['airtel', 'myairtel'],
+  },
+  {
+    id: 'vi',
+    name: 'Vi (Vodafone Idea)',
+    kind: 'telecom',
+    verified: 'web',
+    domains: ['myvi.in'],
+    claims: ['vodafone', 'vodafone idea', 'वोडाफोन', 'వొడాఫోన్', 'ভোডাফোন'],
+    tokens: ['myvi', 'vodafone', 'vodafoneidea'],
+  },
+  // ── utilities (no single official domain: many state distribution companies) ──
+  {
+    id: 'electricity',
+    name: 'Electricity distribution company',
+    kind: 'utility',
+    verified: 'knowledge',
+    domains: [],
+    claims: [
+      'electricity board',
+      'electricity department',
+      'electricity office',
+      'electricity officer',
+      'power department',
+      'bescom',
+      'msedcl',
+      'mahavitaran',
+      'tpddl',
+      'bses',
+      'tangedco',
+      'tsspdcl',
+      'apspdcl',
+      'cesc',
+      'wbsedcl',
+      'uppcl',
+      'बिजली विभाग',
+      'बिजली अधिकारी',
+      'विद्युत विभाग',
+      'విద్యుత్ శాఖ',
+      'విద్యుత్ అధికారి',
+      'విద్యుత్ సంస్థ',
+      'বিদ্যুৎ দপ্তর',
+      'বিদ্যুৎ অফিস',
+    ],
+    tokens: [],
+  },
+];
+
+export const BRAND_BY_ID: ReadonlyMap<string, Brand> = new Map(BRANDS.map((b) => [b.id, b]));
+
+/** Suffix rules: any registrable domain under these belongs to the brand kind. */
+export const BANK_SUFFIX = 'bank.in';
+export const GOVT_SUFFIXES: readonly string[] = ['gov.in', 'nic.in'];
+
+/** Legitimate domains whose labels contain a brand token but are not brand imitations. */
+export const NOT_LOOKALIKE: ReadonlySet<string> = new Set([
+  'amazonaws.com',
+  'googleusercontent.com',
+  'googleapis.com',
+  'jiomart.com',
+  'jiosaavn.com',
+  'jiocinema.com',
+  'jiohotstar.com',
+  'airtelxstream.in',
+  'paytmmall.com',
+  'paytmbank.com',
+  'sbicard.com',
+  'sbilife.co.in',
+  'sbimf.com',
+  'sbisecurities.in',
+  'hdfclife.com',
+  'hdfcsec.com',
+  'hdfcergo.com',
+  'icicidirect.com',
+  'iciciprulife.com',
+  'icicilombard.com',
+  'axismf.com',
+  'axisdirect.in',
+  'kotaksecurities.com',
+  'kotaklife.com',
+]);
 
 export const SHORTENERS: ReadonlySet<string> = new Set([
   'bit.ly',
@@ -27,6 +520,13 @@ export const SHORTENERS: ReadonlySet<string> = new Set([
   'bl.ink',
   'short.gy',
   'qr.ae',
+  'surl.li',
+  'urlz.fr',
+  'lnkd.in',
+  'shorte.st',
+  'adf.ly',
+  'bitly.ws',
+  'linktr.ee',
 ]);
 
 /** Weight only, never decisive. */
@@ -57,3 +557,44 @@ export const RISKY_TLDS: ReadonlySet<string> = new Set([
   'cf',
   'gq',
 ]);
+
+/** Single-character homoglyphs → Latin (Cyrillic, Greek, digits, symbols). */
+export const HOMOGLYPHS: Readonly<Record<string, string>> = {
+  // Cyrillic
+  [String.fromCodePoint(0x0430)]: 'a',
+  [String.fromCodePoint(0x0435)]: 'e',
+  [String.fromCodePoint(0x043e)]: 'o',
+  [String.fromCodePoint(0x0440)]: 'p',
+  [String.fromCodePoint(0x0441)]: 'c',
+  [String.fromCodePoint(0x0443)]: 'y',
+  [String.fromCodePoint(0x0445)]: 'x',
+  [String.fromCodePoint(0x0456)]: 'i',
+  [String.fromCodePoint(0x0458)]: 'j',
+  [String.fromCodePoint(0x0455)]: 's',
+  [String.fromCodePoint(0x043a)]: 'k',
+  [String.fromCodePoint(0x043c)]: 'm',
+  [String.fromCodePoint(0x0442)]: 't',
+  [String.fromCodePoint(0x043d)]: 'h',
+  [String.fromCodePoint(0x0432)]: 'b',
+  // Greek
+  [String.fromCodePoint(0x03bf)]: 'o',
+  [String.fromCodePoint(0x03c1)]: 'p',
+  [String.fromCodePoint(0x03b1)]: 'a',
+  [String.fromCodePoint(0x03b9)]: 'i',
+  [String.fromCodePoint(0x03ba)]: 'k',
+  [String.fromCodePoint(0x03bd)]: 'v',
+  // digits and symbols
+  '0': 'o',
+  '1': 'l',
+  '3': 'e',
+  '5': 's',
+  '@': 'a',
+  $: 's',
+};
+
+/** Look-alike sequences, applied after single characters. `1` is tried as both `l` and `i`. */
+export const HOMOGLYPH_SEQUENCES: readonly [string, string][] = [
+  ['rn', 'm'],
+  ['vv', 'w'],
+  ['cl', 'd'],
+];

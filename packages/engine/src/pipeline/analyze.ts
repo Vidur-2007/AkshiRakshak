@@ -2,14 +2,16 @@
  * analyze() orchestration (SPEC.md §7.2): read → ocr → links → patterns → model → ai → fusion.
  * Every stage reports `running` then `done`/`skipped`/`failed` through onStage with real timings.
  *
- * P1 status: read and patterns are complete; links does local structural checks plus indicator
- * and blocklist lookup; model is stub-safe; ai is skipped (P3); claims-vs-reality and brand
- * claims arrive in P2.
+ * Works fully offline for message, url, upi_id, phone, qr and collect_request. Network extras
+ * (redirect expansion, domain age) run only when allowed and online, within a 3-second budget,
+ * and never fail the scan. The model stage is stub-safe; AI arrives in P3.
  */
 import {
   normalizeText,
+  type ActionId,
   type AnalysisResult,
   type AnalyzeRequest,
+  type ClaimCheck,
   type Entities,
   type IndicatorMatch,
   type Lang,
@@ -20,25 +22,28 @@ import {
   type StageTiming,
 } from '@akshi/contracts';
 import { loadCalibration, MODEL_VERSION } from '@akshi/model';
-import { claimsVsReality, detectBrands } from '../claims/brands';
+import { analyzeIdentity } from '../claims/brands';
 import { chatTurns } from '../context/chat';
 import { countScripts, detectLang, scriptsPresent } from '../detect/lang';
 import { dedupeSpans, extractEntities } from '../extract/entities';
-import { signalText } from '../i18n';
+import { categoryText, signalText, template } from '../i18n';
 import { blocklistMatch, lookupIndicator } from '../indicators';
+import { inspectUrlsNetwork, rescoreUrl } from '../links/inspect';
 import { getModel, modelSignal } from '../model';
 import { CATALOG } from '../rules/catalog';
 import { matchRules, toSignals } from '../rules/engine';
-import { collectToText } from '../upi/collect';
-import { parseUpiUri } from '../upi/uri';
+import { analyzeCollect, collectToText, type CollectAnalysis } from '../upi/collect';
+import { analyzeQr, type QrAnalysis } from '../upi/qr';
 import { ENGINE_VERSION } from '../version';
-import { chooseActions } from './actions';
+import { chooseActions, MONEY_LOST } from './actions';
 import { explain } from './explain';
 import { chooseCategory, confidenceOf, fuse, severityOf, verdictOf } from './fusion';
 import { scoreLive } from './live';
+import { noisyOrRisk } from '../links/inspect';
 
 const now = (): number => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 const round2 = (n: number): number => Math.round(n * 100) / 100;
+const weightOf = (id: SignalId) => CATALOG[id].weight;
 
 function newId(): string {
   const c = (globalThis as { crypto?: { randomUUID?: () => string } }).crypto;
@@ -78,26 +83,29 @@ export function rawInputText(req: AnalyzeRequest): string {
   }
 }
 
-/** Signals from local URL flags, with the spans of the URLs that carry each flag. */
+/** Signals from URL flags, with the spans of the URLs that carry each flag. */
 function urlSignals(entities: Entities, lang: Lang): Signal[] {
   const byFlag = new Map<SignalId, Span[]>();
   for (const u of entities.urls) {
     for (const f of u.flags) {
+      if (f === 'OFFICIAL_DOMAIN' || f === 'BRAND_MISMATCH') continue; // message-level, from claims
       const list = byFlag.get(f) ?? [];
       if (u.span) list.push(u.span);
       byFlag.set(f, list);
     }
   }
-  return [...byFlag].map(([id, spans]) => ({
-    id,
-    weight: weightOf(id),
-    source: 'url' as const,
-    ...signalText(id, lang),
-    spans,
-  }));
+  return [...byFlag].map(([id, spans]) => {
+    const young =
+      id === 'NEW_DOMAIN' && entities.urls.some((u) => (u.domainAge?.ageDays ?? 999) < 30);
+    return {
+      id,
+      weight: young ? 0.45 : weightOf(id),
+      source: 'url' as const,
+      ...signalText(id, lang),
+      spans,
+    };
+  });
 }
-
-const weightOf = (id: SignalId) => CATALOG[id].weight;
 
 interface IndicatorPass {
   signals: Signal[];
@@ -138,35 +146,41 @@ function indicatorPass(
   for (const u of entities.urls) check(u.registrableDomain, u.span);
 
   const signals: Signal[] = [];
-  if (anyBlocked)
-    signals.push({
-      id: 'BLOCKLISTED',
-      weight: weightOf('BLOCKLISTED'),
-      source: 'indicator',
-      ...signalText('BLOCKLISTED', lang),
-      spans: dedupeSpans(blocked),
-    });
-  if (anyKnown)
-    signals.push({
-      id: 'KNOWN_INDICATOR',
-      weight: weightOf('KNOWN_INDICATOR'),
-      source: 'indicator',
-      ...signalText('KNOWN_INDICATOR', lang),
-      spans: dedupeSpans(known),
-    });
+  const sig = (id: SignalId, spans: Span[]): Signal => ({
+    id,
+    weight: weightOf(id),
+    source: 'indicator',
+    ...signalText(id, lang),
+    spans: dedupeSpans(spans),
+  });
+  if (anyBlocked) signals.push(sig('BLOCKLISTED', blocked));
+  if (anyKnown) signals.push(sig('KNOWN_INDICATOR', known));
   const score = anyBlocked || maxReports >= 3 ? 95 : anyKnown ? 60 : null;
   return { signals, score, maxReports };
 }
 
-/** Merge signals with the same id (e.g. APK_LINK from a URL and from wording). */
+/** Merge signals with the same id: union of spans, highest weight. */
 function mergeSignals(signals: Signal[]): Signal[] {
   const byId = new Map<SignalId, Signal>();
   for (const s of signals) {
     const prev = byId.get(s.id);
     if (!prev) byId.set(s.id, { ...s, spans: [...s.spans] });
-    else prev.spans = dedupeSpans([...prev.spans, ...s.spans]);
+    else {
+      prev.spans = dedupeSpans([...prev.spans, ...s.spans]);
+      prev.weight = Math.max(prev.weight, s.weight);
+    }
   }
   return [...byId.values()].sort((a, b) => b.weight - a.weight);
+}
+
+function dedupeClaims(claims: ClaimCheck[]): ClaimCheck[] {
+  const seen = new Set<string>();
+  return claims.filter((c) => {
+    const k = `${c.claim}|${c.reality}`;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
 }
 
 export async function analyzeRequest(
@@ -197,7 +211,7 @@ export async function analyzeRequest(
     }
   }
 
-  // read
+  // ── read ──
   const raw = rawInputText(req);
   const read = await run('read', () => {
     const text = normalizeText(raw);
@@ -206,29 +220,74 @@ export async function analyzeRequest(
   });
   const { text } = read;
 
-  // ocr happens before analyze() via ocrImage(); the result is passed in req.ocr
+  // ── ocr: happens before analyze() via ocrImage(); the result arrives in req.ocr ──
   skip('ocr');
 
-  // links: entities, local URL checks, indicators and blocklist
-  const links = await run('links', () => {
+  // ── links: entities, local URL/UPI checks, QR payload, network extras, indicators ──
+  const links = await run('links', async () => {
     const entities = extractEntities(text);
-    entities.brands = detectBrands(text);
-    const ind = indicatorPass(entities, opts.blocklist, req.lang, layerOn('indicators'));
-    return { entities, ind, urlSigs: layerOn('links') ? urlSignals(entities, req.lang) : [] };
+    const qr: QrAnalysis | undefined =
+      req.kind === 'qr' ? analyzeQr(req.qrPayload ?? req.text ?? '', text, req.lang) : undefined;
+    let networkUsed = false;
+    if (
+      layerOn('links') &&
+      entities.urls.length &&
+      (opts.expandLinks !== false || opts.domainAge !== false)
+    ) {
+      networkUsed = await inspectUrlsNetwork(entities.urls, {
+        expand: opts.expandLinks !== false,
+        domainAge: opts.domainAge !== false,
+        ...(signal ? { signal } : {}),
+      });
+    }
+    return { entities, qr, networkUsed };
   });
-  const { entities } = links;
+  const { entities, qr } = links;
   signal?.throwIfAborted();
 
-  // patterns: lexicons, negation and safety handling, obfuscation
-  const patternSignals = await run('patterns', () => {
+  // ── patterns: lexicons, then identity (claims vs reality) and the collect form ──
+  const patterns = await run('patterns', () => {
     let hits = matchRules(text, read.scripts);
     if (entities.phones.length === 0) hits = hits.filter((h) => h.id !== 'CUSTOMER_CARE_NUMBER');
-    return toSignals(hits, req.lang);
+    const ruleSignals = toSignals(hits, req.lang);
+    const payeeName = qr?.payeeName ?? req.collect?.requesterName;
+    const payeeUpi = qr?.payeeUpi ?? req.collect?.requesterUpi;
+    const identity = analyzeIdentity({
+      text,
+      entities,
+      ruleSignals,
+      lang: req.lang,
+      ...(payeeName ? { payeeName } : {}),
+      ...(payeeUpi ? { payeeUpi } : {}),
+    });
+    entities.brands = identity.brands;
+    const moneyLost = MONEY_LOST.test(normalizeText(req.collect?.note ?? ''));
+    const collect: CollectAnalysis | undefined =
+      req.kind === 'collect_request' && req.collect
+        ? analyzeCollect(req.collect, text, req.lang, moneyLost)
+        : undefined;
+    return { ruleSignals, identity, collect };
   });
-  const apk = patternSignals.find((s) => s.id === 'APK_LINK');
+  const { ruleSignals, identity, collect } = patterns;
+  const apk = ruleSignals.find((s) => s.id === 'APK_LINK');
   if (apk) entities.apkMentions = dedupeSpans([...entities.apkMentions, ...apk.spans]);
 
-  // model
+  // QR amount and payee belong to the payee's UPI finding
+  if (qr?.payeeUpi) {
+    const payee = entities.upiIds.find((u) => u.raw.toLowerCase() === qr.payeeUpi!.toLowerCase());
+    if (
+      payee &&
+      qr.signals.some((s) => s.id === 'PREFILLED_AMOUNT') &&
+      !payee.flags.includes('PREFILLED_AMOUNT')
+    ) {
+      payee.flags.push('PREFILLED_AMOUNT');
+      payee.risk = Math.max(payee.risk, noisyOrRisk(payee.flags));
+    }
+  }
+  entities.urls.forEach(rescoreUrl);
+  const ind = indicatorPass(entities, opts.blocklist, req.lang, layerOn('indicators'));
+
+  // ── model ──
   let prediction: ModelPrediction | null = null;
   let modelSig: Signal | null = null;
   const model = layerOn('model') ? await getModel() : null;
@@ -237,16 +296,31 @@ export async function analyzeRequest(
     modelSig = modelSignal(text, prediction, req.lang);
   } else skip('model');
 
-  // ai (P3)
+  // ── ai (P3) ──
   skip('ai');
   signal?.throwIfAborted();
 
+  const linkSignals = layerOn('links')
+    ? [
+        ...urlSignals(entities, req.lang),
+        ...identity.signals.filter((s) => CATALOG[s.id].layer !== 'rules'),
+      ]
+    : [];
   const signals = mergeSignals([
-    ...patternSignals,
-    ...links.urlSigs,
-    ...links.ind.signals,
+    ...ruleSignals,
+    ...identity.signals.filter((s) => CATALOG[s.id].layer === 'rules'),
+    ...linkSignals,
+    ...(qr?.signals ?? []),
+    ...(collect?.signals ?? []),
+    ...ind.signals,
     ...(modelSig ? [modelSig] : []),
   ]);
+  // single-item inputs: the rules layer has no message text to judge (see FusionInput.rulesRelevant)
+  const singleItem =
+    req.kind === 'url' || req.kind === 'upi_id' || req.kind === 'phone' || qr?.qrKind === 'website';
+  // A QR expected to be a payment that opens a non-official website is a warning sign in itself (M4.2).
+  const websiteQrFloor =
+    qr?.qrKind === 'website' && entities.urls.some((u) => !u.isOfficial) ? 40 : 0;
   const calibration = loadCalibration();
   const modelScore = prediction ? Math.round(100 * prediction.pScam) : null;
   const fusion = fuse({
@@ -254,18 +328,29 @@ export async function analyzeRequest(
     entities,
     calibration,
     useLinks: layerOn('links'),
-    indicators: links.ind.score,
-    maxReports: links.ind.maxReports,
+    indicators: ind.score,
+    maxReports: ind.maxReports,
     model: modelScore,
     ai: null,
+    contexts: identity.contexts,
+    extraFloor: Math.max(collect?.floor ?? 0, websiteQrFloor),
+    rulesRelevant: !singleItem,
   });
   const verdict = verdictOf(fusion.riskScore, calibration);
-  const { category, confidence: categoryConfidence } = chooseCategory(
-    verdict,
-    signals,
-    text,
-    prediction,
-  );
+  const chosen = chooseCategory(verdict, signals, text, prediction);
+  // a QR that opens a website is a phishing route when nothing more specific was found
+  const category =
+    qr?.qrKind === 'website' && chosen.category === 'other' ? 'phishing_link' : chosen.category;
+  const categoryConfidence = chosen.confidence;
+
+  // explanation: PIN truth for receive-with-PIN traps; QR payee (or "opens a website") always first
+  const receiveTrap = verdict !== 'no_signs' && signals.some((s) => s.id === 'RECEIVE_WITH_PIN');
+  const body = receiveTrap
+    ? template('pinTruth', req.lang)
+    : qr?.lead && verdict !== 'no_signs' && category
+      ? categoryText(category, req.lang).oneLiner
+      : explain(verdict, category, signals, req.lang);
+  const explanation = [qr?.lead, body].filter(Boolean).join(' ');
 
   const result: AnalysisResult = {
     id: newId(),
@@ -281,29 +366,37 @@ export async function analyzeRequest(
     category,
     categoryConfidence,
     signals,
-    claimVsReality: claimsVsReality(entities, req.lang),
+    claimVsReality: dedupeClaims([
+      ...(collect?.claims ?? []),
+      ...(qr?.claims ?? []),
+      ...identity.claims,
+    ]),
     entities,
     layers: fusion.layers,
-    explanation: explain(verdict, category, signals, req.lang),
+    explanation,
     actions: [],
     stages,
     aiUsed: false,
-    offline: true,
+    offline: !links.networkUsed,
     latencyMs: 0,
     engineVersion: ENGINE_VERSION,
     modelVersion: MODEL_VERSION,
   };
-  if (req.kind === 'qr') result.qr = parseUpiUri(req.qrPayload ?? req.text ?? '');
+  if (qr?.payload) result.qr = qr.payload;
   if (req.kind === 'chat')
     result.chat = chatTurns(raw, text, (t) => scoreLive(t, req.lang).riskScore);
-  const userText =
-    req.kind === 'collect_request'
-      ? (req.collect?.note ?? '')
-      : (result.chat ?? [])
-          .filter((t) => t.sender === 'me')
-          .map((t) => t.text)
-          .join(' ');
-  result.actions = chooseActions(verdict, category, signals, text, normalizeText(userText));
+
+  let actions: ActionId[];
+  if (collect && verdict !== 'no_signs') actions = collect.actions;
+  else {
+    const userText = (result.chat ?? [])
+      .filter((t) => t.sender === 'me')
+      .map((t) => t.text)
+      .join(' ');
+    actions = chooseActions(verdict, category, signals, text, normalizeText(userText));
+  }
+  result.actions = actions;
+
   if (req.kind === 'image' && req.ocr && normalizeText(req.ocr.text) === req.ocr.text) {
     result.image = {
       width: req.ocr.width,

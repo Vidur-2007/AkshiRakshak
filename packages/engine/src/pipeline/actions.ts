@@ -51,7 +51,7 @@ const BY_SIGNAL: Partial<Record<SignalId, ActionId>> = {
 };
 
 /** "I already sent / paid", "money was debited" in four languages. */
-const MONEY_LOST =
+export const MONEY_LOST =
   /\b(?:i|we)\s(?:have\s|already\s)?(?:sent|paid|transferred)\b|\bmoney\s(?:was\s|got\s|has\sbeen\s)?(?:deducted|debited|gone)\b|\blost\s(?:my\s)?money\b|maine paise (?:bhej|de)|मैंने (?:पैसे|रुपये) (?:भेज|दे)|पैसे कट गए|నేను డబ్బు పంపాను|డబ్బు పోయింది|আমি টাকা পাঠিয়েছি|টাকা কেটে নিয়েছে/iu;
 const MENTIONS_BANK = /\bbank\b|\b(?:sbi|hdfc|icici|axis|kotak|pnb|yono)\b|बैंक|బ్యాంక|ব্যাংক|ব্যাঙ্ক/iu;
 
