@@ -19,3 +19,14 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
 afterEach(() => {
   cleanup();
 });
+
+// jsdom lacks ResizeObserver, which Radix popovers measure with.
+if (typeof window !== 'undefined' && !('ResizeObserver' in window)) {
+  class ResizeObserverStub {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  (window as unknown as { ResizeObserver: typeof ResizeObserverStub }).ResizeObserver =
+    ResizeObserverStub;
+}
