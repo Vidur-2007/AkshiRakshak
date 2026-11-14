@@ -1,0 +1,168 @@
+{
+  "app": {
+    "name": "Akshi Rakshak",
+    "tagline": "Scan Anything. Stop Fraud Before It Happens.",
+    "subhead": "Paste a message, link, UPI ID or QR code. We check it for scam signs right here on your device.",
+    "skipToContent": "Skip to content",
+    "logoLabel": "Akshi Rakshak home"
+  },
+  "nav": {
+    "main": "Main",
+    "home": "Home",
+    "scan": "Scan",
+    "modules": "Modules",
+    "dashboard": "Dashboard",
+    "network": "Network",
+    "learn": "Learn",
+    "more": "More",
+    "settings": "Settings",
+    "collect": "Collect request",
+    "messages": "Messages",
+    "transactions": "Transactions",
+    "qrLink": "QR & links",
+    "dojo": "Scam Dojo",
+    "ask": "Ask Akshi",
+    "proof": "Proof",
+    "sos": "Emergency help",
+    "sosShort": "SOS",
+    "tour": "60-second tour"
+  },
+  "navDesc": {
+    "collect": "Someone asked you for money on UPI",
+    "messages": "One message, a whole chat or an email",
+    "transactions": "Spot odd payments in a bank statement",
+    "qrLink": "See where a QR code or link really goes",
+    "dojo": "Practise spotting scams in scripted chats",
+    "ask": "Questions about scams and what to do",
+    "proof": "How well the detector works, measured"
+  },
+  "shell": {
+    "sosPill": "I think I'm being scammed",
+    "offline": "Offline — checks still work",
+    "elderMode": "Elder mode",
+    "elderModeHint": "Large text, one step at a time, verdicts read aloud",
+    "language": "Language",
+    "moreTitle": "More",
+    "close": "Close",
+    "search": "Search",
+    "openPalette": "Open the command palette"
+  },
+  "palette": {
+    "title": "Command palette",
+    "placeholder": "Type a page or an action…",
+    "empty": "Nothing found.",
+    "groupGo": "Go to",
+    "groupActions": "Actions",
+    "groupLanguage": "Language",
+    "pasteAndScan": "Paste and scan",
+    "elderOn": "Turn Elder mode on",
+    "elderOff": "Turn Elder mode off",
+    "clipboardEmpty": "The clipboard is empty.",
+    "clipboardDenied": "Could not read the clipboard. Long-press the scan box and paste instead."
+  },
+  "verdict": {
+    "scam": "Scam",
+    "suspicious": "Suspicious",
+    "no_signs": "No warning signs found"
+  },
+  "elderVerdict": {
+    "scam": "STOP",
+    "suspicious": "CAREFUL",
+    "no_signs": "No warning signs found"
+  },
+  "lang": {
+    "en": "English",
+    "hi": "हिन्दी",
+    "te": "తెలుగు",
+    "bn": "বাংলা"
+  },
+  "placeholder": {
+    "inProgress": "Being built — arrives in phase {{phase}}",
+    "sampleData": "Sample data",
+    "goHome": "Go to home",
+    "scanNow": "Scan now",
+    "prefilled": "Ready to scan:"
+  },
+  "landing": {
+    "inputLabel": "Paste any message to see the risk",
+    "inputPlaceholder": "e.g. Your account will be blocked today, update KYC",
+    "liveRisk": "Live risk",
+    "outOf100": "out of 100",
+    "tour": "Take the 60-second tour"
+  },
+  "page": {
+    "landing": { "title": "Home", "body": "Scan Anything. Stop Fraud Before It Happens." },
+    "scan": {
+      "title": "Quick Scan",
+      "body": "Paste a message, UPI ID or link and get a verdict in about a second."
+    },
+    "analysis": {
+      "title": "Analysis",
+      "body": "The verdict, the risk score and the exact phrases that gave the scam away."
+    },
+    "collect": {
+      "title": "Collect-request guard",
+      "body": "Someone sent you a payment request? Check it before you enter any PIN."
+    },
+    "messages": {
+      "title": "Messages and chats",
+      "body": "Check one message, a whole chat or an email."
+    },
+    "transactions": {
+      "title": "Statement scan",
+      "body": "Upload a bank statement CSV to spot unusual payments."
+    },
+    "qrLink": {
+      "title": "QR and link inspector",
+      "body": "See what a QR code or link really leads to before you pay or tap."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "body": "Your scans, threats caught, and a lookup for UPI IDs, phone numbers and websites."
+    },
+    "network": {
+      "title": "Network",
+      "body": "How the phone numbers, UPI IDs and websites in your scans connect."
+    },
+    "sos": {
+      "title": "Emergency help",
+      "body": "Answer a few questions and get the steps to take right now. If money has left your account, call 1930."
+    },
+    "sosReport": {
+      "title": "Complaint draft",
+      "body": "A printable summary of what happened. Save it as PDF and keep it for your complaint."
+    },
+    "dojo": {
+      "title": "Scam Dojo",
+      "body": "Practise spotting scams in scripted chats. No real money, no real people."
+    },
+    "dojoPlayer": {
+      "title": "Drill",
+      "body": "A scripted scam chat. Pick your replies and see which red flags you caught."
+    },
+    "ask": {
+      "title": "Ask Akshi",
+      "body": "Questions about scams, UPI and what to do next. Works offline."
+    },
+    "proof": {
+      "title": "Proof",
+      "body": "How well the detector works, measured on held-out test data."
+    },
+    "settings": {
+      "title": "Settings",
+      "body": "Language, Elder mode, AI second opinion, voice, and the data stored on this device."
+    },
+    "shareTarget": {
+      "title": "Shared to Akshi",
+      "body": "Something you shared from another app, ready to scan."
+    },
+    "tour": {
+      "title": "60-second tour",
+      "body": "A quick guided run through the main checks, using built-in samples."
+    },
+    "notFound": {
+      "title": "Page not found",
+      "body": "This page does not exist. Try a scan instead."
+    }
+  }
+}
