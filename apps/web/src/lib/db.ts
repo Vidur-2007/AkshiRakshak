@@ -131,3 +131,89 @@ export async function deleteEverything(): Promise<void> {
   broadcast({ type: 'cleared' });
   window.location.reload();
 }
+
+// ── Phase 3: statements, blocklist management, privacy counts ───────────────
+
+export async function saveStatement(
+  name: string,
+  analysis: StatementAnalysis,
+): Promise<StatementRecord> {
+  const rec: StatementRecord = {
+    id: globalThis.crypto?.randomUUID?.() ?? `st-${Date.now().toString(36)}`,
+    createdAt: new Date().toISOString(),
+    name,
+    analysis,
+  };
+  try {
+    await db.statements.put(rec);
+    broadcast({ type: 'statement', id: rec.id });
+  } catch {
+    /* history unavailable; the analysis is still on screen */
+  }
+  return rec;
+}
+
+export async function recentStatements(limit = 5): Promise<StatementRecord[]> {
+  try {
+    return await db.statements.orderBy('createdAt').reverse().limit(limit).toArray();
+  } catch {
+    return [];
+  }
+}
+
+export async function listBlocklist(): Promise<BlockEntry[]> {
+  try {
+    return await db.blocklist.orderBy('addedAt').reverse().toArray();
+  } catch {
+    return [];
+  }
+}
+
+export async function removeFromBlocklist(value: string): Promise<void> {
+  await db.blocklist.delete(value);
+  broadcast({ type: 'blocklist' });
+}
+
+export interface StorageCounts {
+  scans: number;
+  blocklist: number;
+  statements: number;
+  images: number;
+  dojo: number;
+}
+
+/** What is stored on this device, for the privacy panel. */
+export async function storageCounts(): Promise<StorageCounts> {
+  const count = async (t: { count(): Promise<number> }) => {
+    try {
+      return await t.count();
+    } catch {
+      return 0;
+    }
+  };
+  const [scans, blocklist, statements, images, dojo] = await Promise.all([
+    count(db.scans),
+    count(db.blocklist),
+    count(db.statements),
+    count(db.images),
+    count(db.dojo),
+  ]);
+  return { scans, blocklist, statements, images, dojo };
+}
+
+export async function allScans(): Promise<ScanRecord[]> {
+  try {
+    return await db.scans.orderBy('createdAt').reverse().toArray();
+  } catch {
+    return [];
+  }
+}
+
+export async function scansByIds(ids: string[]): Promise<ScanRecord[]> {
+  try {
+    const rows = await db.scans.bulkGet(ids);
+    return rows.filter((r): r is ScanRecord => !!r);
+  } catch {
+    return [];
+  }
+}

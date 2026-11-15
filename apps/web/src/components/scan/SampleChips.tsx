@@ -1,11 +1,10 @@
 import { FlaskConical } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { SAMPLE_MESSAGES, type L10n, type Lang, type SampleMessage } from '@/lib/engine';
+import { SAMPLE_MESSAGES, type SampleMessage } from '@/lib/engine';
+import { l10n } from '@/lib/l10n';
 import { useAppStore } from '@/lib/store';
 
-export function l10n(text: L10n, lang: Lang): string {
-  return text[lang] ?? text.en;
-}
+export { l10n } from '@/lib/l10n';
 
 /** Bundled samples (M1.8), labelled "Sample data" (SPEC.md §1.3). Clicking fills the input and scans. */
 export function SampleChips({

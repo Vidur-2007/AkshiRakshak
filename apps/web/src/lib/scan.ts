@@ -3,6 +3,8 @@
  * when IndexedDB is unavailable (private windows, blocked storage).
  */
 import { blocklistValues, db, getScan, saveScan } from './db';
+import { useSession } from './session';
+import { broadcast } from './broadcast';
 import {
   analyze,
   type AnalysisResult,
@@ -74,9 +76,11 @@ const memory = new Map<string, AnalysisResult>();
 export async function storeResult(result: AnalysisResult): Promise<void> {
   memory.set(result.id, result);
   try {
-    await saveScan(result);
+    await saveScan(result); // broadcasts on success
   } catch {
-    /* history unavailable; this tab still has the result */
+    // History unavailable: this tab still has the result, and same-tab listeners
+    // (an open Dashboard) can read it from memory.
+    broadcast({ type: 'scan', id: result.id });
   }
 }
 
@@ -127,7 +131,9 @@ export async function runAnalysis(
       ...(o.signal ? { signal: o.signal } : {}),
     },
   };
-  return analyze(req, onStage);
+  const result = await analyze(req, onStage);
+  if (result.aiUsed) useSession.getState().countAiCall();
+  return result;
 }
 
 // ── Screenshots behind image scans ───────────────────────────────────────────
