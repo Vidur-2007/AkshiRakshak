@@ -157,29 +157,85 @@
 
 #### Bundle sizes vs SPEC_B_WEB §7 (gzipped JS, measured from `dist` by following each page's static imports)
 
-| Route | Total | Budget | Notes |
-|---|---|---|---|
-| First load (shell, any route) | **196.3 KB** | — | React, router, i18n (en only), Motion core, Radix menus, Zustand |
-| `/scan` | **309.0 KB** | **≤ 200 KB** | **Over.** On top of the shell: engine stub 32.3 KB + contracts/zod schemas 26.0 KB (Laptop A's packages), Dexie 31.3 KB (web), page code about 25 KB |
-| `/scan/:id` | 331.7 KB | — | |
-| `/` landing | 309.1 KB | LCP < 2.5 s | Poster paints first; ShieldCore 2.2 KB loads at idle; Lenis 5.2 KB lazy |
-| `/modules/qr-link` | 324.7 KB | — | QR worker (jsQR) 45.9 KB loads only without BarcodeDetector |
-| `/modules/collect` | 323.5 KB | — | |
-| `/modules/messages` | 323.0 KB | — | |
-| `/modules/transactions` | 318.4 KB | — | |
-| `/learn/dojo/:id` | 307.4 KB | — | |
-| `/dashboard` | 298.4 KB | — | |
-| `/sos` | 296.4 KB | — | |
-| `/network` | 291.7 KB | — | + ForceGraphView 67.8 KB lazy |
-| `/learn/ask` | 257.6 KB | — | |
-| `/proof` | 258.9 KB | — | |
-| `/settings` | 259.2 KB | — | |
+| Route                         | Total        | Budget       | Notes                                                                                                                                                |
+| ----------------------------- | ------------ | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| First load (shell, any route) | **196.3 KB** | —            | React, router, i18n (en only), Motion core, Radix menus, Zustand                                                                                     |
+| `/scan`                       | **309.0 KB** | **≤ 200 KB** | **Over.** On top of the shell: engine stub 32.3 KB + contracts/zod schemas 26.0 KB (Laptop A's packages), Dexie 31.3 KB (web), page code about 25 KB |
+| `/scan/:id`                   | 331.7 KB     | —            |                                                                                                                                                      |
+| `/` landing                   | 309.1 KB     | LCP < 2.5 s  | Poster paints first; ShieldCore 2.2 KB loads at idle; Lenis 5.2 KB lazy                                                                              |
+| `/modules/qr-link`            | 324.7 KB     | —            | QR worker (jsQR) 45.9 KB loads only without BarcodeDetector                                                                                          |
+| `/modules/collect`            | 323.5 KB     | —            |                                                                                                                                                      |
+| `/modules/messages`           | 323.0 KB     | —            |                                                                                                                                                      |
+| `/modules/transactions`       | 318.4 KB     | —            |                                                                                                                                                      |
+| `/learn/dojo/:id`             | 307.4 KB     | —            |                                                                                                                                                      |
+| `/dashboard`                  | 298.4 KB     | —            |                                                                                                                                                      |
+| `/sos`                        | 296.4 KB     | —            |                                                                                                                                                      |
+| `/network`                    | 291.7 KB     | —            | + ForceGraphView 67.8 KB lazy                                                                                                                        |
+| `/learn/ask`                  | 257.6 KB     | —            |                                                                                                                                                      |
+| `/proof`                      | 258.9 KB     | —            |                                                                                                                                                      |
+| `/settings`                   | 259.2 KB     | —            |                                                                                                                                                      |
 
 Lazy chunks: Motion features 31.3 KB (after first paint), command palette 5.9 KB, Ask slide-over 0.3 KB, ShieldCore 2.2 KB, Lenis 5.2 KB, ForceGraphView 67.8 KB, QR worker 45.9 KB. Lighthouse was not run (no browser in this session).
 
+### Phase 5 — integration, languages, accessibility, performance, e2e (15 Nov 2026)
+
+**Integration (§9).** I trial-merged `origin/feat/data` and `origin/feat/engine` (A's Phase 6, `8b25c8e`) on a local throwaway branch. That branch was never pushed and is now deleted. Results with the real engine:
+
+- Typecheck clean; 595/595 unit tests and 53/53 Playwright tests pass after three fixes, all now on `feat/web`:
+  - two tests assumed the stub (stage wording; the screenshot test relied on the stub's fake OCR, so it now stubs only OCR and runs the real analysis);
+  - the weak-OCR rule now matches the engine's (confidence < 55 or < 15 non-space characters; was 60/12);
+  - the three Tesseract cores (3.8 MB each) were being precached. Now they're cached on first use like tessdata. Precache went from 13.8 MB to 2.7 MB.
+- The fake KYC sample is a clear **Scam** on A's branch (Request 3 is resolved there).
+- A's requests to B: `inlineConst: false` done; engine loads after first paint (`lib/engineLoader.ts`) done; `warmup(lang)` on /scan open and on language change done; engine lazy chunks are precached by `**/*.js` (checked: `engine-*.js` is in `sw.js`).
+- **Model chunk:** C's `@akshi/model` is still a stub (`loadModel()` returns null), so there's no model chunk yet. The `model` manual chunk and the `**/*.js` precache will pick it up when C ships the weights as an imported JSON.
+- Tessdata loads from `/engine-assets/tessdata/` (CacheFirst, not precached).
+
+**Languages.** en, hi, te and bn have every key (the locale test checks key parity). At 360 px with 200% text there's no horizontal scroll in any language on /, /scan, /modules/collect, /sos and /settings. Screenshots of te Analysis, bn SOS and hi landing show no clipped text. `docs/i18n-review.md` doesn't exist yet, so there were no reviewer corrections to apply.
+
+**Accessibility (§6).** axe (WCAG 2.0/2.1/2.2 A and AA, serious and critical) is clean on 13 routes plus the analysis. Fixes:
+
+- visible focus ring everywhere (Tailwind's `outline-none` was hiding `focus-visible:outline-2`);
+- scam fill behind white text raised to 4.96:1 (`--risk-scam-solid`);
+- labels on hidden file inputs; stronger "unavailable layer" text; Proof heatmap contrast;
+- 200% text: base `grid-cols-1` on 20 responsive grids, wrapping buttons and headers, `min-w-0` in the shell;
+- the mobile action dock clears the raised Scan button.
+
+Playwright also checks: the keyboard path Quick Scan → phrase popover → Copy evidence with a visible ring, the aria-live verdict ("Scam. Risk N out of 100."), the gauge label, and Elder tap targets of at least 56 px.
+
+**Performance (§7).**
+
+- A real bug fixed: on Windows, when Vite was started from a lowercase `c:\` cwd (Git Bash), the entry and `@/` imports reached React as `C:/…` and `c:/…`. Rolldown bundled React twice and **every page went blank** (null hook dispatcher). `vite.config.ts` now builds root and alias with an uppercase drive letter.
+- Engine, Dexie and broadcast load after first paint; the screenshot/QR sheets, top-bar menus and the More sheet are lazy; Elder scan is split out.
+- Four static Geist weights (137 KB) replaced by the variable fonts (29 KB).
+- Page headers on / and /scan use a CSS transform-only rise, so the LCP text paints on the first frame (before this, Motion held it at opacity 0 until its features chunk loaded).
+- ShieldCore pauses offscreen (Playwright compares canvas frames). Blur layers are unchanged since Phase 4.
+
+| Route (gzipped JS)     | Phase 4  | Phase 5      | Budget      |
+| ---------------------- | -------- | ------------ | ----------- |
+| First load (any route) | 196.3 KB | **169.1 KB** | —           |
+| `/scan`                | 309.0 KB | **180.7 KB** | ≤ 200 KB ✅ |
+| `/` landing            | 309.1 KB | 253.6 KB     | —           |
+| `/scan/:id`            | 331.7 KB | 327.3 KB     | —           |
+| `/modules/qr-link`     | 324.7 KB | 313.2 KB     | —           |
+| `/proof`               | 258.9 KB | 234.1 KB     | —           |
+
+Lighthouse 12.6 mobile (simulated slow 4G, 4× CPU) against `vite preview` on this laptop, two runs each:
+
+| Page    | Score | FCP       | LCP       | TBT        | CLS |
+| ------- | ----- | --------- | --------- | ---------- | --- |
+| `/scan` | 74–75 | 3.4–3.5 s | 4.6–4.7 s | 120–140 ms | 0   |
+| `/`     | 70    | 3.4–3.6 s | 5.2 s     | 190–200 ms | 0   |
+
+Before the font and entrance changes: /scan 69 (LCP 5.1 s), / 68 (LCP 5.8 s). **LCP < 2.5 s is not met.** About 90% of LCP is render delay: booting a client-rendered React app under 4× CPU throttling. Getting further would need prerendering the landing and /scan HTML; not done.
+
+**Playwright (§8).** The ten smoke tests pass on desktop-chrome, desktop-edge (msedge channel) and mobile-chrome (Pixel 7): 30/30, plus 22 accessibility tests and 1 performance test, all green on the stub engine and on the trial merge with the real engine. Run with `npx playwright test` in `apps/web`. Set `BASE_URL=https://<preview>` to run against a deployed preview; the local web server is skipped when it's set.
+
+**Real devices.** Laptop Chrome and Edge are covered by Playwright on this machine. **Not done:** a mid-range Android phone and the Vercel preview run. There's no phone here, and without the `gh` CLI I can't read the preview URL. See Deferred.
+
 ## In progress
 
-- **Merge 1 is waiting.** `origin/main` still has only the Phase 0 skeleton (`c81f239`). I haven't merged anything: the prompt says to wait until the human confirms A's PR (after C's) is on `main`. Then: `git fetch`, merge `origin/main` into `feat/web` (take main's `package-lock.json`, `npm install`), re-check every screen with the real engine, open the PR.
+- **Merge 2 is waiting** (order C, A, then B). On 15 Nov `origin/main` still had only the Phase 0 skeleton (`c81f239`). Once A's PR is on `main`: `git fetch`, merge `origin/main` into `feat/web` (take main's `package-lock.json`, then `npm install`), run typecheck, unit tests, build and `npx playwright test`, push, then open the PR `feat/web → main`. The trial merge (Phase 5 above) suggests this goes cleanly apart from the lockfile.
+- After the merge, `stageText` in `lib/engine.ts` can become a plain re-export (`TODO(M1)`). The bundler's "stageText is undefined" warning on the stub is expected until then.
 
 ### Notes from A's Phase 1 (on feat/engine, not yet on main)
 
@@ -191,23 +247,24 @@ Lazy chunks: Motion features 31.3 KB (after first paint), command palette 5.9 KB
 ## Deferred
 
 - vite-plugin-pwa and the manifest/share target: Phase 4, as SPEC_B_WEB §2.1 says.
-- `playwright.config.ts` and e2e specs: Phase 5. CI's e2e job skips until the config exists.
 - `lib/share.ts` (image share cards) and `styles/print.css`: P4 share cards, P3 complaint draft.
 - **Charts**: the human chose hand-made SVG over Recharts (about 125 KB gzipped) in Phase 3. RiskLine, StatementChart, the dashboard bars and DayArea are all custom; there's no tooltip or zoom.
 - `/tour` (60-second judge tour) is Phase 6.
 - The ShieldCore point sphere uses a Fibonacci lattice rather than icosphere vertices (an even spread with the same look; Canvas 2D, no three.js). M9.2 (3D network toggle) isn't built: it needs three.js, which was declined for size.
 - **Two-tab live dashboard not checked in a browser**: BroadcastChannel between two real tabs, the print dialog, `navigator.vibrate`, speech and the `tel:` links are covered by unit and flow tests only. Open `/dashboard` in one tab, scan in another, and check the feed.
-- **Real-phone test (prompt item 6) not done**: camera QR scan, screenshot upload and the PIN explainer still need a run on an Android phone through the Vercel preview URL. The session had no browser or phone, and the GitHub CLI isn't installed, so I couldn't read the preview URL either.
+- **Real-phone test (Phase 2 item 6 and Phase 5 item 5) not done**: camera QR scan, screenshot upload, the PIN explainer, the morph and the mobile dock still need a run on a mid-range Android phone in Chrome through the Vercel preview URL. There's no phone here, and the GitHub CLI isn't installed, so I couldn't read the preview URL either. Then run `BASE_URL=<preview URL> npx playwright test` in `apps/web` against the preview.
+- **LCP under 2.5 s** (§7) would need prerendered HTML for / and /scan. Lighthouse mobile is about 70–75; see the Phase 5 table.
 - Elder mode's simplified Quick Scan and full-screen verdict: Phase 3 (M10.1). Today Elder mode only turns the reveal choreography off and enlarges text.
 - shadcn components beyond the five primitives are added as screens need them, using `components.json`.
 
 ## Known issues
 
-- On feat/engine the fake KYC sample scores 47 (**Suspicious**). The demo opening (SPEC.md §13.1) and Playwright test 2 (SPEC_B_WEB §8) expect **Scam**. See Request 3.
+- On the stub engine (main) the fake KYC sample is only **Suspicious**; Playwright test 4 accepts that only when `data-engine-version` contains "stub". On A's Phase 6 branch it's a clear **Scam**.
+- Bengali emergency questions fall back to English: C's content stub only has en and hi.
+- **Windows builds:** if a shell's cwd sits inside `apps/web/dist`, Vite can't empty `dist` (EPERM) and you get a stale build without an obvious error. Build from outside `dist`.
 
-- **`/scan` is 309 KB gzipped against a 200 KB budget** (see the Phase 4 table). Plan for the Phase 5 performance pass, after the real engine merges: load Dexie (31 KB) and the engine with its zod schemas (58 KB with the stub) after the scan page paints, behind `warmup()`, keeping only `detectInputKind` and the sample list eager. Then re-measure with the real engine and run Lighthouse on a phone. Earlier note: /scan was about 249 KB in Phase 1 Most of the stub's weight is `@akshi/contracts/fixtures`, which parses every fixture with zod when the module loads. See Request 2.
 - The root `npm run typecheck` does not cover `apps/web` yet (see Request 1). `npm run build -w @akshi/web` runs `tsc -b` on the web project, so type errors still fail the build and CI's build step.
-- Not checked in a real browser: this session had no browser, so the reveal timings, the shared-element morph, the popovers and the mobile dock are covered by jsdom tests and code review only. Check on a phone and a laptop before the demo recording.
+- Checked in desktop Chrome, Edge and emulated Pixel 7 through Playwright (Phase 5), but not yet on a real phone (see Deferred).
 - The shared-element morph runs after the Quick Scan page finishes its 250 ms exit (`AnimatePresence mode="wait"`), so the card moves from where it was during the exit. If it looks off in the browser, switch that pair to `mode="popLayout"`.
 - `npm audit` reports a moderate minimatch advisory in the root dev dependency `typescript-eslint` (lint only, not shipped). Root dev dependencies are Laptop A's; see Request 4.
 - Font files (all scripts, 400/500/600/700) are emitted but only fetched when a glyph in their unicode-range is shown.
@@ -218,3 +275,4 @@ Lazy chunks: Motion features 31.3 KB (after first paint), command palette 5.9 KB
 2. **Laptop A — engine bundle size:** please keep `@akshi/contracts/fixtures` out of the real engine (the Phase 0 stub imports it), and add `"sideEffects": false` to `packages/{contracts,engine,content,insights,model}/package.json` if the modules allow it, so the web bundler can drop unused exports. Goal: the engine chunk fits inside `/scan`'s 200 KB budget together with the 189 KB shell, or we agree to load the engine after first paint.
 3. **Laptop A / Laptop C — fake KYC sample verdict:** A's log shows `SAMPLE_MESSAGES` fake KYC at 47 (suspicious). The demo and the e2e test both open with it as a clear Scam. Please tune the rules or the sample (or tell B to change the test) before M1.
 4. **Laptop A — dev dependency advisory:** `npm audit` flags minimatch (GHSA-g3hv-75wg-m249) through `typescript-eslint` ≤ 8.72.2. The suggested `--force` fix downgrades typescript-eslint (breaking). Lint-only, nothing shipped; bump typescript-eslint when a fixed release is out.
+5. **Laptop A — root `eslint.config.js`:** add `'.tsbuild/**'` to `ignores`. After any `tsc -b` (including `npm run typecheck`), `npm run lint` fails with 125 errors in the generated `.d.ts` files under `.tsbuild/` (gitignored, so CI only hits this if lint runs after typecheck in the same job). Real lint is clean in `apps/web`.
