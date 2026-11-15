@@ -7,6 +7,10 @@ describe('screenshot helpers', () => {
     expect(isWeakOcr({ text: 'Your account will be blocked today', confidence: 87 })).toBe(false);
     expect(isWeakOcr({ text: 'Your account will be blocked today', confidence: 40 })).toBe(true);
     expect(isWeakOcr({ text: '— · …  ok', confidence: 95 })).toBe(true);
+    // the engine's thresholds: 55 confidence, 15 non-space characters
+    expect(isWeakOcr({ text: 'Your account will be blocked today', confidence: 55 })).toBe(false);
+    expect(isWeakOcr({ text: 'Block account now', confidence: 90 })).toBe(false);
+    expect(isWeakOcr({ text: 'Block account', confidence: 90 })).toBe(true);
   });
 
   it('accepts images up to 15 MB', () => {
