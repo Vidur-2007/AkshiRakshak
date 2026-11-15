@@ -4,7 +4,7 @@
  */
 import { dayKey, lastDays } from './charts';
 import type { ScanRecord } from './db';
-import type { ScamCategory } from './engine';
+import type { ScamCategory, SignalId } from './engine';
 
 export interface Kpis {
   scans: number;
@@ -63,4 +63,58 @@ export function telHref(phone: string): string | null {
     .replace(/(?!^)\+/g, '');
   const digits = cleaned.replace('+', '');
   return digits.length >= 6 && digits.length <= 15 ? `tel:${cleaned}` : null;
+}
+
+// ── Personal tips (M11.6, P2) ──────────────────────────────────────────────────
+
+/** Tip groups, each triggered by signals seen in the user's own flagged checks. */
+const TIP_SIGNALS = {
+  codes: ['ASKS_OTP', 'ASKS_PIN', 'ASKS_CVV_PASSWORD'],
+  receive: ['RECEIVE_WITH_PIN', 'COLLECT_REQUEST', 'QR_TO_RECEIVE'],
+  links: [
+    'SUSPICIOUS_LINK',
+    'LOOKALIKE_DOMAIN',
+    'SHORTENED_URL',
+    'IP_URL',
+    'RISKY_TLD',
+    'PUNYCODE',
+    'APK_LINK',
+  ],
+  apps: ['ASKS_REMOTE_APP', 'RISKY_ATTACHMENT'],
+  pressure: ['THREAT_BLOCK', 'THREAT_LEGAL', 'STAY_ON_CALL', 'SECRECY'],
+  money: ['ADVANCE_FEE', 'TASK_JOB_PAYMENT', 'TOO_GOOD_RETURNS', 'PRIZE_LOTTERY'],
+} as const satisfies Record<string, readonly SignalId[]>;
+
+export type TipId = keyof typeof TIP_SIGNALS | 'contact' | 'start';
+
+export interface PersonalTip {
+  id: TipId;
+  /** how many of the user's flagged checks showed this pattern */
+  count: number;
+}
+
+/**
+ * Up to `max` tips from the user's history: the patterns that showed up most often in
+ * their flagged checks, then a trusted-contact nudge. Only counts, never message text.
+ */
+export function personalTips(
+  scans: readonly Pick<ScanRecord, 'verdict' | 'result'>[],
+  hasContact: boolean,
+  max = 3,
+): PersonalTip[] {
+  const flagged = scans.filter((s) => s.verdict === 'scam' || s.verdict === 'suspicious');
+  const tips: PersonalTip[] = [];
+  for (const [id, ids] of Object.entries(TIP_SIGNALS) as [
+    keyof typeof TIP_SIGNALS,
+    readonly SignalId[],
+  ][]) {
+    const count = flagged.filter((s) =>
+      s.result.signals.some((sig) => sig.weight > 0 && ids.includes(sig.id)),
+    ).length;
+    if (count > 0) tips.push({ id, count });
+  }
+  tips.sort((a, b) => b.count - a.count);
+  if (!hasContact) tips.push({ id: 'contact', count: 0 });
+  if (scans.length === 0) return [{ id: 'start', count: 0 }];
+  return tips.slice(0, max);
 }

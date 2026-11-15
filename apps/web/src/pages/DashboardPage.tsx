@@ -1,7 +1,8 @@
-import { ExternalLink, Search } from 'lucide-react';
+import { ExternalLink, Lightbulb, Search } from 'lucide-react';
 import { Tabs } from 'radix-ui';
 import { useCallback, useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 import { RevealProvider } from '@/components/analysis/reveal';
 import {
   BarList,
@@ -15,7 +16,7 @@ import {
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { subscribe } from '@/lib/broadcast';
-import { byCategory, byDay, computeKpis } from '@/lib/dashboard';
+import { byCategory, byDay, computeKpis, personalTips } from '@/lib/dashboard';
 import { allScans, toScanRecord, type ScanRecord } from '@/lib/db';
 import {
   categoryText,
@@ -71,6 +72,37 @@ export function useLiveHistory(): ScanRecord[] | null {
   return scans;
 }
 
+/** Personal tips (M11.6): patterns from the user's own flagged checks. */
+function Tips({ scans }: { scans: ScanRecord[] }) {
+  const { t } = useTranslation();
+  const hasContact = useAppStore((s) => !!s.trustedContact);
+  const tips = personalTips(scans, hasContact);
+  return (
+    <ul className="flex flex-col gap-3">
+      {tips.map((tip) => (
+        <li key={tip.id} className="flex gap-3">
+          <Lightbulb className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
+          <div className="min-w-0">
+            <p className="font-medium">{t(`tips.${tip.id}.title`)}</p>
+            <p className="mt-0.5 text-sm text-text-2">{t(`tips.${tip.id}.body`)}</p>
+            {tip.count > 0 && (
+              <p className="mt-1 text-xs text-text-2">{t('tips.seen', { count: tip.count })}</p>
+            )}
+            {tip.id === 'contact' && (
+              <Link
+                to="/settings"
+                className="mt-1 inline-block text-sm text-brand underline-offset-4 hover:underline"
+              >
+                {t('tips.contactLink')}
+              </Link>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Shield() {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
@@ -91,6 +123,11 @@ function Shield() {
             {scans && <RecentDetectionsFeed scans={list} />}
           </Card>
           <div className="flex flex-col gap-4">
+            {scans && (
+              <Card title={t('tips.title')}>
+                <Tips scans={list} />
+              </Card>
+            )}
             <Card title={t('dash.byCategoryTitle')}>
               <BarList
                 rows={categoryRows(byCategory(list), lang)}
