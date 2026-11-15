@@ -47,6 +47,15 @@ describe('routes', () => {
     render(<RouterProvider router={router} />);
     const h1 = await screen.findByRole('heading', { level: 1 }, { timeout: 4000 });
     expect(h1.textContent).toContain(title);
+    if (path.startsWith('/sos')) {
+      // emergency help is a full-screen takeover: no navigation chrome (§5.9)
+      expect(screen.queryAllByRole('navigation')).toHaveLength(0);
+      if (path === '/sos') {
+        const call = screen.getByRole('link', { name: new RegExp(en.sos.call1930) });
+        expect(call.getAttribute('href')).toBe('tel:1930');
+      }
+      return;
+    }
     // shell is present: SOS links and the main nav
     expect(screen.getAllByRole('link', { name: en.shell.sosPill }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0);

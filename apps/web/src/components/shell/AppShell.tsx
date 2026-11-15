@@ -28,6 +28,8 @@ export function AppShell() {
   const location = useLocation();
   const outlet = useOutlet();
   useShellEffects();
+  // Emergency help is a calm full-screen takeover (§5.9): no navigation chrome.
+  const takeover = location.pathname === '/sos' || location.pathname.startsWith('/sos/');
 
   return (
     <LazyMotion features={loadMotionFeatures} strict>
@@ -38,13 +40,17 @@ export function AppShell() {
         >
           {t('app.skipToContent')}
         </a>
-        <TopBar />
-        <MobileHeader />
+        {!takeover && <TopBar />}
+        {!takeover && <MobileHeader />}
         <OfflinePill />
         <main
           id="main"
           tabIndex={-1}
-          className="relative min-h-[calc(100dvh-var(--topbar-h))] pb-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+24px)] outline-none lg:pb-12"
+          className={
+            takeover
+              ? 'relative min-h-dvh outline-none'
+              : 'relative min-h-[calc(100dvh-var(--topbar-h))] pb-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+24px)] outline-none lg:pb-12'
+          }
         >
           {/* Route change: outgoing fades and moves up 8px, incoming fades in (§4.1).
               Straight after a scan the incoming page skips its fade, so the shared
@@ -61,7 +67,7 @@ export function AppShell() {
             </m.div>
           </AnimatePresence>
         </main>
-        <BottomTabBar />
+        {!takeover && <BottomTabBar />}
         <CommandPaletteHost />
         <Suspense fallback={null}>
           <Toaster />
