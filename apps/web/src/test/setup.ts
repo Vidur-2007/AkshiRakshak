@@ -37,3 +37,21 @@ if (typeof URL.createObjectURL !== 'function') {
   URL.createObjectURL = () => `blob:test/${++n}`;
   URL.revokeObjectURL = () => undefined;
 }
+
+// jsdom lacks IntersectionObserver (in-view story sections, ShieldCore pausing).
+if (typeof window !== 'undefined' && !('IntersectionObserver' in window)) {
+  class IntersectionObserverStub {
+    readonly root = null;
+    readonly rootMargin = '0px';
+    readonly thresholds = [0];
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() {
+      return [];
+    }
+  }
+  (
+    window as unknown as { IntersectionObserver: typeof IntersectionObserverStub }
+  ).IntersectionObserver = IntersectionObserverStub;
+}

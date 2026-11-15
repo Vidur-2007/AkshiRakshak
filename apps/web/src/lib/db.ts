@@ -217,3 +217,25 @@ export async function scansByIds(ids: string[]): Promise<ScanRecord[]> {
     return [];
   }
 }
+
+// ── Phase 4: Dojo scores ─────────────────────────────────────────────────────
+
+/** Keeps the best score per drill. Returns the stored best. */
+export async function saveDojoScore(drillId: string, score: number): Promise<number> {
+  try {
+    const prev = await db.dojo.get(drillId);
+    if (prev && prev.score >= score) return prev.score;
+    await db.dojo.put({ drillId, score, completedAt: new Date().toISOString() });
+  } catch {
+    /* scores are a convenience; ignore storage failures */
+  }
+  return score;
+}
+
+export async function dojoScores(): Promise<Map<string, number>> {
+  try {
+    return new Map((await db.dojo.toArray()).map((d) => [d.drillId, d.score]));
+  } catch {
+    return new Map();
+  }
+}
