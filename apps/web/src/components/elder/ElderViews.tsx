@@ -73,6 +73,7 @@ export function ElderVerdict({
         </m.span>
         <h1
           id="elder-verdict"
+          data-tour="elder-verdict"
           className="text-[clamp(2.75rem,12vw,5rem)] leading-none font-bold tracking-tight"
           style={{ color }}
         >

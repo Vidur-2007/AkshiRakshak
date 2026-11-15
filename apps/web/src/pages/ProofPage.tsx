@@ -213,7 +213,10 @@ function Proof({ r }: { r: EvalReport }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div
+        data-tour="proof-metrics"
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
+      >
         <MetricCard
           label={t('proof.precision')}
           value={r.overall.precision}

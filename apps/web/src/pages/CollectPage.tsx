@@ -1,7 +1,16 @@
-import { ImageUp, ShieldQuestion } from 'lucide-react';
+import { FlaskConical, ImageUp, ShieldQuestion } from 'lucide-react';
 import { m } from 'motion/react';
-import { useId, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router';
 import { InlineResult, ResultSection } from '@/components/analysis/InlineResult';
 import { REVEAL_MS } from '@/components/analysis/reveal';
 import { ChoiceGroup } from '@/components/modules/ChoiceGroup';
@@ -15,6 +24,7 @@ import { usePageTitle } from '@/hooks/usePageTitle';
 import {
   EMPTY_COLLECT,
   prefillFromEntities,
+  SAMPLE_COLLECT,
   shouldExplainPin,
   toCollectInput,
   type CollectForm,
@@ -50,12 +60,33 @@ export default function CollectPage() {
   const set = <K extends keyof CollectForm>(k: K, v: CollectForm[K]) =>
     setForm((f) => ({ ...f, [k]: v }));
 
+  const check = useCallback(
+    (f: CollectForm) => {
+      const collect = toCollectInput(f);
+      setAskedReceive(collect.toldYouWillReceive);
+      void run({ kind: 'collect_request', collect });
+    },
+    [run],
+  );
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const collect = toCollectInput(form);
-    setAskedReceive(collect.toldYouWillReceive);
-    void run({ kind: 'collect_request', collect });
+    check(form);
   };
+  const runSample = useCallback(() => {
+    setForm(SAMPLE_COLLECT);
+    setPrefillNote(null);
+    check(SAMPLE_COLLECT);
+  }, [check]);
+
+  // ?sample=refund (judge tour, demo): fill in the bundled sample and check it
+  const [params] = useSearchParams();
+  const sampleRan = useRef(false);
+  useEffect(() => {
+    if (params.get('sample') === 'refund' && !sampleRan.current) {
+      sampleRan.current = true;
+      runSample();
+    }
+  }, [params, runSample]);
 
   // Screenshot → OCR → fill the fields we can read (UPI ID, amount, note)
   const onScreenshot = async (p: ScreenshotPayload) => {
@@ -111,6 +142,20 @@ export default function CollectPage() {
               >
                 <ImageUp aria-hidden />
                 {t('collect.screenshot')}
+              </button>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full border border-glass-border px-2 py-0.5 text-xs text-text-2">
+                <FlaskConical className="size-3" aria-hidden />
+                {t('placeholder.sampleData')}
+              </span>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={runSample}
+                className="min-h-10 rounded-chip border border-glass-border bg-surface px-3.5 text-sm text-text transition-colors hover:border-brand/40 disabled:opacity-50 outline-none focus-visible:outline-2 focus-visible:outline-brand"
+              >
+                {t('collect.sampleRefund')}
               </button>
             </div>
             {prefillNote && (
@@ -237,7 +282,11 @@ export default function CollectPage() {
             result={result}
             before={
               explain ? (
-                <ResultSection title={t('pin.title')} delayMs={REVEAL_MS.verdict + 200}>
+                <ResultSection
+                  title={t('pin.title')}
+                  delayMs={REVEAL_MS.verdict + 200}
+                  tourId="pin"
+                >
                   <PinPadExplainer
                     amount={toCollectInput(form).amount}
                     requesterName={form.requesterName}

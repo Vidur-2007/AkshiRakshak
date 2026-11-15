@@ -73,3 +73,21 @@ export function prefillFromEntities(e: Entities, text: string): Partial<CollectF
 export function shouldExplainPin(result: AnalysisResult, toldYouWillReceive: boolean): boolean {
   return toldYouWillReceive || result.signals.some((s) => s.id === 'RECEIVE_WITH_PIN');
 }
+
+/**
+ * Bundled collect-request sample (synthetic, matches the "Refund collect request"
+ * message sample): a stranger's refund desk says you will receive money.
+ */
+export const SAMPLE_COLLECT: CollectForm = {
+  requesterName: 'SBI Refund Desk',
+  requesterUpi: 'sbi.refund.desk@ybl',
+  amount: '5000',
+  note: 'Refund of Rs 5,000',
+  toldYouWillReceive: true,
+  contactedFirst: 'them',
+  underPressure: true,
+  knowRequester: 'no',
+};
+
+/** `/modules/collect?sample=refund` fills the form with the sample and checks it. */
+export const SAMPLE_COLLECT_QUERY = 'sample=refund';

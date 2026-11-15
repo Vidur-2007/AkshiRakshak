@@ -3,6 +3,9 @@ import { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollRestoration, useLocation, useOutlet } from 'react-router';
 import { loadMotionFeatures, pageVariants } from '@/lib/motion';
+import { useAppStore } from '@/lib/store';
+import { useTour } from '@/lib/tour';
+import { cn } from '@/lib/utils';
 import { BottomTabBar } from './BottomTabBar';
 import { CommandPaletteHost } from './CommandPaletteHost';
 import { MobileHeader } from './MobileHeader';
@@ -10,6 +13,9 @@ import { OfflinePill } from './OfflinePill';
 import { PageFallback } from './PageFallback';
 import { TopBar } from './TopBar';
 import { useShellEffects } from './useShellEffects';
+
+// The judge tour's overlay loads only while a tour runs (§5.17)
+const TourOverlay = lazy(() => import('@/components/tour/TourOverlay'));
 
 // sonner loads in its own chunk right after first paint
 const Toaster = lazy(() =>
@@ -27,6 +33,8 @@ export function AppShell() {
   const { t } = useTranslation();
   const location = useLocation();
   const outlet = useOutlet();
+  const touring = useTour((s) => s.active);
+  const online = useAppStore((s) => s.online);
   useShellEffects();
   // Emergency help is a calm full-screen takeover (§5.9): no navigation chrome.
   const takeover = location.pathname === '/sos' || location.pathname.startsWith('/sos/');
@@ -46,11 +54,13 @@ export function AppShell() {
         <main
           id="main"
           tabIndex={-1}
-          className={
+          className={cn(
             takeover
               ? 'relative min-h-dvh outline-none'
-              : 'relative min-h-[calc(100dvh-var(--topbar-h))] pb-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+24px)] outline-none lg:pb-12'
-          }
+              : 'relative min-h-[calc(100dvh-var(--topbar-h))] pb-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+24px)] outline-none lg:pb-12',
+            // room for the "Offline" pill, so it never covers a page title
+            !online && 'pt-12',
+          )}
         >
           {/* Route change: outgoing fades and moves up 8px, incoming fades in (§4.1).
               Straight after a scan the incoming page skips its fade, so the shared
@@ -72,6 +82,11 @@ export function AppShell() {
         <Suspense fallback={null}>
           <Toaster />
         </Suspense>
+        {touring && (
+          <Suspense fallback={null}>
+            <TourOverlay />
+          </Suspense>
+        )}
         <ScrollRestoration />
       </MotionConfig>
     </LazyMotion>

@@ -112,7 +112,7 @@ export default function LandingPage() {
                 {t('placeholder.scanNow')}
                 <ArrowRight aria-hidden />
               </button>
-              <Link to="/tour" className={buttonVariants({ size: 'lg', variant: 'outline' })}>
+              <Link to="/tour?start=1" className={buttonVariants({ size: 'lg', variant: 'outline' })}>
                 <Play aria-hidden />
                 {t('landing.tour')}
               </Link>

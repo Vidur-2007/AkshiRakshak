@@ -411,7 +411,8 @@
     "mockPay": "Pay",
     "mockDecline": "Decline",
     "mockUnknown": "Unknown",
-    "resultTitle": "Result"
+    "resultTitle": "Result",
+    "sampleRefund": "Refund desk request"
   },
   "pin": {
     "title": "What the PIN really does",
@@ -561,7 +562,8 @@
     "errorsRow": "Row {{row}}: {{message}}",
     "recent": "Recent statement checks",
     "txnCount": "{{n}} transactions",
-    "chooseAnother": "Check another statement"
+    "chooseAnother": "Check another statement",
+    "legendPayments": "Other payments"
   },
   "spend": {
     "food": "Food",
@@ -770,5 +772,101 @@
     "failed": "Could not make the image.",
     "dojoTitle": "I practised spotting scams",
     "practised": "Practised with Akshi Rakshak"
+  },
+  "tour": {
+    "label": "Tour progress",
+    "stepOf": "Step {{n}} of {{total}}",
+    "next": "Next",
+    "finish": "Finish",
+    "skip": "Skip tour",
+    "pause": "Pause",
+    "resume": "Resume",
+    "start": "Start the tour",
+    "offline": "Uses built-in samples only, so it works offline.",
+    "steps": {
+      "kyc": {
+        "title": "A fake KYC message",
+        "body": "One of the built-in samples: \"your SBI account will be blocked today, update KYC\" with a link. Next, we check it."
+      },
+      "reveal": {
+        "title": "The verdict and the reasons",
+        "body": "A risk score, the phrases that gave it away and how each check decided. The text checks ran on this device."
+      },
+      "collect": {
+        "title": "Collect request and UPI PIN",
+        "body": "A \"refund desk\" says you will receive money if you accept. Entering your UPI PIN only ever sends money; the PIN pad shows why."
+      },
+      "qr": {
+        "title": "QR x-ray",
+        "body": "What a QR really does before you pay: who gets the money, how much and the note."
+      },
+      "proof": {
+        "title": "Measured, not claimed",
+        "body": "Precision, recall and F1 from the evaluation set. If the numbers are placeholders, this page says so."
+      },
+      "elder": {
+        "title": "Elder mode: one clear word",
+        "body": "Large text, one word and one next step for older family members. Elder mode turns off again when the tour ends."
+      }
+    }
+  },
+  "listen": {
+    "open": "Listen to a call",
+    "title": "Listen to a call",
+    "body": "Put the call on speaker and tap Start. We flag scam phrases as they are said.",
+    "privacy": "Your browser turns the speech into text (Chrome uses Google's speech service for this). The scam check runs on this device. We don't record or save the call.",
+    "start": "Start listening",
+    "stop": "Stop",
+    "listening": "Listening…",
+    "needsInternet": "Turning speech into text needs the internet.",
+    "alertsTitle": "Warnings",
+    "hangUp": "Hang up. Don't share any code and don't install any app.",
+    "heard": "Heard: \"{{phrase}}\"",
+    "empty": "The words from the call appear here.",
+    "check": "Check this transcript",
+    "error": {
+      "denied": "Microphone access is blocked. Allow it in the browser to use this.",
+      "network": "The speech service could not be reached. Check your connection.",
+      "unsupported": "This browser can't turn speech into text.",
+      "no-speech": "No speech heard.",
+      "other": "Listening stopped. Try again."
+    }
+  },
+  "tips": {
+    "title": "Tips for you",
+    "seen": "Seen in {{count}} of your flagged checks",
+    "contactLink": "Open Settings",
+    "codes": {
+      "title": "Never share an OTP or PIN",
+      "body": "No bank, police officer or company ever needs your OTP, UPI PIN or password."
+    },
+    "receive": {
+      "title": "You never need a PIN to receive money",
+      "body": "Entering your UPI PIN or scanning a QR only ever sends money. Decline collect requests from strangers."
+    },
+    "links": {
+      "title": "Check links before you tap",
+      "body": "Paste a link into the QR & link inspector first, and open your bank only from its official app."
+    },
+    "apps": {
+      "title": "Don't install apps a caller asks for",
+      "body": "Screen-sharing apps and APK files let a stranger control your phone."
+    },
+    "pressure": {
+      "title": "Threats and rushing are the trick",
+      "body": "Banks and police don't threaten to block you or ask you to stay on the call. Hang up and call the official number."
+    },
+    "money": {
+      "title": "Paying to earn is a trap",
+      "body": "A fee to get a job, a prize or high returns means you will lose more. Stop paying."
+    },
+    "contact": {
+      "title": "Add a trusted family member",
+      "body": "Add their number in Settings so Elder mode can call them in one tap."
+    },
+    "start": {
+      "title": "Tips from your own checks",
+      "body": "Check any message you are unsure about. Tips based on what you checked appear here."
+    }
   }
 }

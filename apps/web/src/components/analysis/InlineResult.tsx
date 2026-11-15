@@ -20,12 +20,15 @@ export function ResultSection({
   hint,
   delayMs = REVEAL_MS.reasons,
   className,
+  tourId,
   children,
 }: {
   title: string;
   hint?: string;
   delayMs?: number;
   className?: string;
+  /** anchor for the judge tour's coach mark */
+  tourId?: string;
   children: ReactNode;
 }) {
   const tr = useRevealTransition();
@@ -34,6 +37,7 @@ export function ResultSection({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={tr(delayMs, 0.4)}
+      data-tour={tourId}
       className={cn('surface p-5 sm:p-6', className)}
     >
       <h2 className="text-sm font-medium tracking-wide text-text-2 uppercase">{title}</h2>

@@ -22,19 +22,11 @@ import {
 } from '@/lib/engine';
 import { fadeUp, stagger } from '@/lib/motion';
 import type { RequestCore } from '@/lib/scan';
+import { QR_LINK_SAMPLES } from '@/lib/qrSamples';
 import { TEXT_STAGES } from '@/lib/scanTiming';
 import { useAppStore } from '@/lib/store';
 
-/** Bundled samples, obviously synthetic (SPEC.md §1.3). */
-const SAMPLES = [
-  { key: 'link', value: 'http://sbi-kyc-update.xyz/verify?id=88213' },
-  {
-    key: 'qr',
-    value:
-      'upi://pay?pa=refund.desk@ybl&pn=SBI%20Refund%20Desk&am=4999&tn=Refund%20processing&cu=INR',
-  },
-  { key: 'official', value: 'https://www.onlinesbi.sbi' },
-] as const;
+const SAMPLES = QR_LINK_SAMPLES;
 
 type Source = 'typed' | 'qr';
 
@@ -109,7 +101,7 @@ export default function QrLinkPage() {
   const before = (
     <>
       {payload && (
-        <ResultSection title={t('xray.title')} delayMs={REVEAL_MS.verdict + 200}>
+        <ResultSection title={t('xray.title')} delayMs={REVEAL_MS.verdict + 200} tourId="qr-xray">
           <QRXray payload={payload} />
         </ResultSection>
       )}
@@ -167,9 +159,9 @@ export default function QrLinkPage() {
             autoCorrect="off"
             spellCheck={false}
             maxLength={4000}
-            className="min-h-12 flex-1 rounded-card bg-surface/80 px-3 font-mono text-sm text-text outline-none placeholder:font-sans placeholder:text-text-2/70 focus-visible:outline-2 focus-visible:outline-brand"
+            className="min-h-12 min-w-0 flex-1 rounded-card bg-surface/80 px-3 font-mono text-sm text-text outline-none placeholder:font-sans placeholder:text-text-2/70 focus-visible:outline-2 focus-visible:outline-brand"
           />
-          <div className="flex gap-2">
+          <div className="flex shrink-0 gap-2">
             <button
               type="button"
               onClick={() => setScanOpen(true)}

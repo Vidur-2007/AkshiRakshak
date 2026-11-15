@@ -262,7 +262,7 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
           </div>
 
           <div className="contents lg:flex lg:flex-col lg:gap-4">
-            <section className="order-1 surface p-5 sm:p-6 lg:order-none">
+            <section data-tour="verdict" className="order-1 surface p-5 sm:p-6 lg:order-none">
               <VerdictHeader result={result} />
             </section>
             <Section
