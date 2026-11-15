@@ -87,7 +87,6 @@ export {
   parseUpiUri,
   scoreLive,
   signalText,
-  warmup,
 } from '@akshi/engine';
 
 // ── Stage names for the StageTicker. `stageText` is new on feat/engine (Phase 1)
@@ -102,6 +101,13 @@ const stageFallback: StageTextFn = (stage, lang) =>
 
 export function stageText(stage: StageName, lang: Lang): string {
   return engineStageText ? engineStageText(stage, lang) : stageFallback(stage, lang);
+}
+
+// ── warmup(lang): the real engine (feat/engine Phase 5) loads the lexicon and
+//    string packs for a language; the Phase 0 stub takes no argument. Works with both.
+type WarmupFn = (lang?: Lang) => Promise<void>;
+export function warmup(lang?: Lang): Promise<void> {
+  return (engineNs.warmup as WarmupFn)(lang);
 }
 
 // ── Engine browser entry (OCR) — loaded lazily so tesseract stays out of the

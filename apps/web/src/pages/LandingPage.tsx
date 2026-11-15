@@ -11,7 +11,6 @@ import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { TIER_SETTINGS } from '@/lib/deviceTier';
 import type { Verdict } from '@/lib/engine';
-import { fadeUp, stagger } from '@/lib/motion';
 import { MAX_INPUT } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
 
@@ -77,26 +76,21 @@ export default function LandingPage() {
 
   return (
     <>
-      <m.section
-        variants={stagger(0.08)}
-        initial="hidden"
-        animate="show"
+      <section
         aria-labelledby="hero-title"
-        className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:pt-16"
+        className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:pt-16"
       >
         <div className="order-2 lg:order-1">
-          <m.h1
+          <h1
             id="hero-title"
-            variants={fadeUp}
-            className="text-hero font-semibold tracking-tight text-balance"
+
+            className="enter-rise text-hero font-semibold tracking-tight text-balance"
           >
             {t('app.tagline')}
-          </m.h1>
-          <m.p variants={fadeUp} className="mt-5 max-w-xl text-lg text-text-2">
-            {t('app.subhead')}
-          </m.p>
+          </h1>
+          <p className="enter-rise mt-5 max-w-xl text-lg text-text-2">{t('app.subhead')}</p>
 
-          <m.form variants={fadeUp} onSubmit={submit}>
+          <form onSubmit={submit} className="enter-rise">
             <m.div layoutId="scan-card" className="glass mt-8 rounded-sheet p-4">
               <label htmlFor={inputId} className="text-sm font-medium text-text">
                 {t('landing.inputLabel')}
@@ -123,10 +117,10 @@ export default function LandingPage() {
                 {t('landing.tour')}
               </Link>
             </div>
-          </m.form>
+          </form>
         </div>
 
-        <m.div variants={fadeUp} className="order-1 flex justify-center lg:order-2">
+        <div className="enter-rise order-1 flex justify-center lg:order-2">
           <div className="relative aspect-square w-[min(72vw,22rem)] lg:w-[min(36vw,30rem)]">
             {coreReady ? (
               <Suspense fallback={<ShieldPoster className="absolute inset-0" settle={settle} />}>
@@ -141,8 +135,8 @@ export default function LandingPage() {
               <ShieldPoster className="absolute inset-0" settle={settle} />
             )}
           </div>
-        </m.div>
-      </m.section>
+        </div>
+      </section>
 
       <Story />
     </>

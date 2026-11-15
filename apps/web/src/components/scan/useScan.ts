@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { detectInputKind, type AnalysisResult } from '@/lib/engine';
+import type { AnalysisResult } from '@/lib/engine';
+import { loadEngine } from '@/lib/engineLoader';
 import {
   buildRequest,
   runAnalysis,
@@ -95,9 +96,10 @@ export function useScan() {
 
   /** Free text from the scan box: the input kind is detected. */
   const run = useCallback(
-    (raw: string) => {
-      if (!raw.trim()) return Promise.resolve();
+    async (raw: string) => {
+      if (!raw.trim()) return;
       const { lang } = useAppStore.getState();
+      const { detectInputKind } = await loadEngine();
       const {
         options: _o,
         lang: _l,

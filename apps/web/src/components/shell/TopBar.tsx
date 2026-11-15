@@ -1,14 +1,9 @@
 import { ChevronDown, MessageCircleQuestion, Search } from 'lucide-react';
 import { lazy, Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, NavLink, useLocation } from 'react-router';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { NavLink, useLocation } from 'react-router';
 import { cn } from '@/lib/utils';
+import { linkBase } from './linkBase';
 import { ElderToggle } from './ElderToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Logo } from './Logo';
@@ -28,9 +23,6 @@ import { SosPill } from './SosButton';
 // Ask slide-over loads on first open (§5.13)
 const AskSlideOver = lazy(() => import('@/components/learn/AskSlideOver'));
 
-const linkBase =
-  'inline-flex min-h-10 items-center gap-1.5 rounded-chip px-3 text-sm font-medium transition-colors duration-150 outline-none focus-visible:outline-2 focus-visible:outline-brand';
-
 function TopLink({ item }: { item: NavItem }) {
   const { t } = useTranslation();
   return (
@@ -46,36 +38,28 @@ function TopLink({ item }: { item: NavItem }) {
   );
 }
 
-function TopMenu({ label, items, active }: { label: string; items: NavItem[]; active: boolean }) {
-  const { t } = useTranslation();
+// Radix dropdown + floating-ui load after first paint (§7); until then the trigger
+// renders as a plain button that looks the same.
+const TopMenu = lazy(() => import('./TopMenu'));
+
+function MenuFallback({ label, active }: { label: string; active: boolean }) {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          linkBase,
-          'data-[state=open]:bg-white/8 data-[state=open]:text-text',
-          active ? 'bg-white/8 text-text' : 'text-text-2 hover:text-text',
-        )}
-      >
-        {label}
-        <ChevronDown className="size-3.5 opacity-70" aria-hidden />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-80">
-        {items.map((item) => (
-          <DropdownMenuItem key={item.to} asChild>
-            <Link to={item.to}>
-              <item.icon aria-hidden />
-              <span className="flex flex-col">
-                <span className="font-medium text-text">{t(`nav.${item.key}`)}</span>
-                {item.descKey && (
-                  <span className="text-xs text-text-2">{t(`navDesc.${item.descKey}`)}</span>
-                )}
-              </span>
-            </Link>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button
+      type="button"
+      className={cn(linkBase, active ? 'bg-white/8 text-text' : 'text-text-2')}
+      aria-haspopup="menu"
+    >
+      {label}
+      <ChevronDown className="size-3.5 opacity-70" aria-hidden />
+    </button>
+  );
+}
+
+function LazyTopMenu(props: { label: string; items: NavItem[]; active: boolean }) {
+  return (
+    <Suspense fallback={<MenuFallback label={props.label} active={props.active} />}>
+      <TopMenu {...props} />
+    </Suspense>
   );
 }
 
@@ -92,10 +76,10 @@ export function TopBar() {
         <Logo />
         <nav aria-label={t('nav.main')} className="ml-2 flex items-center gap-0.5">
           <TopLink item={SCAN} />
-          <TopMenu label={t('nav.modules')} items={MODULES} active={isModulesPath(pathname)} />
+          <LazyTopMenu label={t('nav.modules')} items={MODULES} active={isModulesPath(pathname)} />
           <TopLink item={DASHBOARD} />
           <TopLink item={NETWORK} />
-          <TopMenu label={t('nav.learn')} items={LEARN} active={isLearnPath(pathname)} />
+          <LazyTopMenu label={t('nav.learn')} items={LEARN} active={isLearnPath(pathname)} />
         </nav>
         <div className="ml-auto flex items-center gap-2">
           <button

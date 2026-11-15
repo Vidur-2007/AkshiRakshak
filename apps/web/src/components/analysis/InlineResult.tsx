@@ -55,7 +55,7 @@ function Body({
   const { t } = useTranslation();
   const online = useAppStore((s) => s.online);
   return (
-    <div className="flex flex-col gap-4 pb-28 lg:pb-0">
+    <div className="flex flex-col gap-4 pb-28 lg:pb-0" data-engine-version={result.engineVersion}>
       <section className="surface p-5 sm:p-6">
         <VerdictHeader result={result} />
       </section>

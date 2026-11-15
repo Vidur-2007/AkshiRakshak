@@ -2,17 +2,14 @@
  * Quick Scan helpers: building the AnalyzeRequest and keeping results reachable even
  * when IndexedDB is unavailable (private windows, blocked storage).
  */
-import { blocklistValues, db, getScan, saveScan } from './db';
+import type { AnalysisResult, AnalyzeRequest, InputKind, Lang, StageTiming } from './engine';
+import { loadEngine } from './engineLoader';
 import { useSession } from './session';
-import { broadcast } from './broadcast';
-import {
-  analyze,
-  type AnalysisResult,
-  type AnalyzeRequest,
-  type InputKind,
-  type Lang,
-  type StageTiming,
-} from './engine';
+
+// The engine, Dexie and the broadcast schema load on demand, so pages that import
+// this module (Quick Scan) paint before them (SPEC_B_WEB.md §7).
+const loadDb = () => import('./db');
+const loadBroadcast = () => import('./broadcast');
 
 export const MAX_INPUT = 20_000;
 
@@ -76,11 +73,15 @@ const memory = new Map<string, AnalysisResult>();
 export async function storeResult(result: AnalysisResult): Promise<void> {
   memory.set(result.id, result);
   try {
-    await saveScan(result); // broadcasts on success
+    await (await loadDb()).saveScan(result); // broadcasts on success
   } catch {
     // History unavailable: this tab still has the result, and same-tab listeners
     // (an open Dashboard) can read it from memory.
-    broadcast({ type: 'scan', id: result.id });
+    try {
+      (await loadBroadcast()).broadcast({ type: 'scan', id: result.id });
+    } catch {
+      /* nothing else to tell */
+    }
   }
 }
 
@@ -88,7 +89,7 @@ export async function loadResult(id: string): Promise<AnalysisResult | null> {
   const cached = memory.get(id);
   if (cached) return cached;
   try {
-    return (await getScan(id))?.result ?? null;
+    return (await (await loadDb()).getScan(id))?.result ?? null;
   } catch {
     return null;
   }
@@ -118,6 +119,7 @@ export async function runAnalysis(
   o: Omit<ScanOptions, 'blocklist'>,
   onStage?: (s: StageTiming) => void,
 ): Promise<AnalysisResult> {
+  const [{ analyze }, { blocklistValues }] = await Promise.all([loadEngine(), loadDb()]);
   const blocklist = await blocklistValues();
   const req: AnalyzeRequest = {
     ...core,
@@ -144,6 +146,7 @@ const images = new Map<string, Blob>();
 export async function storeImage(id: string, blob: Blob): Promise<void> {
   images.set(id, blob);
   try {
+    const { db } = await loadDb();
     await db.images.put({ id, blob, createdAt: new Date().toISOString() });
   } catch {
     /* memory copy is enough for this tab */
@@ -154,6 +157,7 @@ export async function loadImage(id: string): Promise<Blob | null> {
   const cached = images.get(id);
   if (cached) return cached;
   try {
+    const { db } = await loadDb();
     return (await db.images.get(id))?.blob ?? null;
   } catch {
     return null;

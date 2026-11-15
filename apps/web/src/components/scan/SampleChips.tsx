@@ -1,6 +1,6 @@
 import { FlaskConical } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { SAMPLE_MESSAGES, type SampleMessage } from '@/lib/engine';
+import type { SampleMessage } from '@/lib/engine';
 import { l10n } from '@/lib/l10n';
 import { useAppStore } from '@/lib/store';
 
@@ -8,9 +8,12 @@ export { l10n } from '@/lib/l10n';
 
 /** Bundled samples (M1.8), labelled "Sample data" (SPEC.md §1.3). Clicking fills the input and scans. */
 export function SampleChips({
+  samples,
   onPick,
   disabled,
 }: {
+  /** SAMPLE_MESSAGES, passed in once the engine has loaded (empty before) */
+  samples: readonly SampleMessage[];
   onPick: (s: SampleMessage) => void;
   disabled?: boolean;
 }) {
@@ -27,8 +30,8 @@ export function SampleChips({
           {t('placeholder.sampleData')}
         </span>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {SAMPLE_MESSAGES.map((s) => (
+      <div className="flex min-h-10 flex-wrap gap-2">
+        {samples.map((s) => (
           <button
             key={s.id}
             type="button"

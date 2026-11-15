@@ -1,6 +1,8 @@
 import { ClipboardPaste, ImageUp, QrCode, ShieldCheck, X } from 'lucide-react';
 import { AnimatePresence, m } from 'motion/react';
 import {
+  lazy,
+  Suspense,
   useEffect,
   useId,
   useLayoutEffect,
@@ -11,24 +13,31 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
-import { ElderScan } from '@/components/elder/ElderViews';
-import { QRScannerSheet } from '@/components/modules/QRScannerSheet';
+import { ElderScan } from '@/components/elder/ElderScan';
 import { AiToggle } from '@/components/scan/AiToggle';
 import { DropZone, type DropPayload } from '@/components/scan/DropZone';
 import { SampleChips } from '@/components/scan/SampleChips';
-import { ScreenshotFlow, type ScreenshotPayload } from '@/components/scan/ScreenshotFlow';
+import type { ScreenshotPayload } from '@/components/scan/ScreenshotFlow';
 import { ScanButton } from '@/components/scan/ScanButton';
 import { StageTicker } from '@/components/scan/StageTicker';
 import { TypeDetectChip } from '@/components/scan/TypeDetectChip';
 import { useScan } from '@/components/scan/useScan';
 import type { ScanPrefillState } from '@/components/shell/paletteStore';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { detectInputKind, warmup } from '@/lib/engine';
-import { fadeUp, stagger, transition } from '@/lib/motion';
+import { useEngine } from '@/lib/engineLoader';
+import { transition } from '@/lib/motion';
 import { MAX_INPUT, toTextKind } from '@/lib/scan';
 import { TEXT_STAGES, tickerProgress } from '@/lib/scanTiming';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
+
+// Sheets load when first opened; the screenshot flow carries OCR, the QR sheet jsQR.
+const ScreenshotFlow = lazy(() =>
+  import('@/components/scan/ScreenshotFlow').then((m) => ({ default: m.ScreenshotFlow })),
+);
+const QRScannerSheet = lazy(() =>
+  import('@/components/modules/QRScannerSheet').then((m) => ({ default: m.QRScannerSheet })),
+);
 
 function readPrefill(state: unknown): ScanPrefillState | null {
   if (typeof state !== 'object' || state === null) return null;
@@ -70,10 +79,17 @@ export default function ScanPage() {
   const inputId = useId();
   const autoRan = useRef(false);
 
-  // §5.2: load the model and lexicons as soon as the scan page opens
+  // The engine loads after first paint (§7); then warmup(lang) loads the model and the
+  // lexicons for the UI language, again on a language switch (§5.2, A's request).
+  const engine = useEngine();
+  const lang = useAppStore((s) => s.lang);
   useEffect(() => {
-    void warmup().catch(() => undefined);
-  }, []);
+    if (engine) void engine.warmup(lang).catch(() => undefined);
+  }, [engine, lang]);
+  const [sheetsUsed, setSheetsUsed] = useState(false);
+  useEffect(() => {
+    if (sheet) setSheetsUsed(true);
+  }, [sheet]);
 
   // Palette "Paste and scan" and the share target arrive with autoScan
   useEffect(() => {
@@ -89,7 +105,10 @@ export default function ScanPage() {
     return () => window.clearTimeout(id);
   }, [pasteHint]);
 
-  const kind = useMemo(() => toTextKind(detectInputKind(text).kind), [text]);
+  const kind = useMemo(
+    () => (engine ? toTextKind(engine.detectInputKind(text).kind) : 'message'),
+    [engine, text],
+  );
   const hasText = text.trim().length > 0;
 
   const submit = (e?: FormEvent) => {
@@ -125,8 +144,8 @@ export default function ScanPage() {
     } else setText(p.text.slice(0, MAX_INPUT));
   };
 
-  const sheets = (
-    <>
+  const sheets = sheetsUsed && (
+    <Suspense fallback={null}>
       <ScreenshotFlow
         open={sheet === 'screenshot'}
         onOpenChange={(o) => !o && setSheet(null)}
@@ -138,7 +157,7 @@ export default function ScanPage() {
         onOpenChange={(o) => !o && setSheet(null)}
         onDecoded={(payload) => void runCore({ kind: 'qr', qrPayload: payload, text: payload })}
       />
-    </>
+    </Suspense>
   );
 
   // Elder Safety Mode: one big input, one big Scan button, screenshot and QR (§5.10)
@@ -163,23 +182,14 @@ export default function ScanPage() {
   }
 
   return (
-    <m.section
-      variants={stagger(0.06)}
-      initial="hidden"
-      animate="show"
+    <section
       aria-labelledby="page-title"
       className="mx-auto w-full max-w-3xl px-4 pt-8 sm:px-6 lg:pt-12"
     >
-      <m.h1
-        variants={fadeUp}
-        id="page-title"
-        className="text-xl font-semibold tracking-tight sm:text-2xl"
-      >
+      <h1 id="page-title" className="enter-rise text-xl font-semibold tracking-tight sm:text-2xl">
         {t('page.scan.title')}
-      </m.h1>
-      <m.p variants={fadeUp} className="mt-2 text-text-2">
-        {t('page.scan.body')}
-      </m.p>
+      </h1>
+      <p className="enter-rise mt-2 text-text-2">{t('page.scan.body')}</p>
 
       <form onSubmit={submit} className="mt-6">
         {/* Shared element: this card morphs into the message panel on /scan/:id (§5.3) */}
@@ -191,7 +201,7 @@ export default function ScanPage() {
             <label htmlFor={inputId} className="text-sm font-medium text-text-2">
               {t('scan.inputLabel')}
             </label>
-            <TypeDetectChip kind={kind} visible={hasText} />
+            <TypeDetectChip kind={kind} visible={hasText && !!engine} />
           </div>
           <textarea
             ref={inputRef}
@@ -292,9 +302,10 @@ export default function ScanPage() {
         </div>
       </form>
 
-      <m.div variants={fadeUp} className="mt-2 flex flex-col gap-6">
+      <div className="enter-rise mt-2 flex flex-col gap-6">
         <AiToggle />
         <SampleChips
+          samples={engine?.SAMPLE_MESSAGES ?? []}
           disabled={busy}
           onPick={(s) => {
             setText(s.text);
@@ -305,11 +316,11 @@ export default function ScanPage() {
           <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
           {t('scan.onDevice')}
         </p>
-      </m.div>
+      </div>
 
       <DropZone onDrop={onDrop} />
 
       {sheets}
-    </m.section>
+    </section>
   );
 }

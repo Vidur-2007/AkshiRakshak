@@ -3,12 +3,10 @@
  * subsets, so a browser only downloads the scripts the page actually shows.
  * font-display: swap is Fontsource's default.
  */
-@import '@fontsource/geist-sans/latin-400.css';
-@import '@fontsource/geist-sans/latin-500.css';
-@import '@fontsource/geist-sans/latin-600.css';
-@import '@fontsource/geist-sans/latin-700.css';
-@import '@fontsource/geist-mono/latin-400.css';
-@import '@fontsource/geist-mono/latin-600.css';
+
+/* Geist as variable fonts: one ~29 KB file for every weight (four static weights were ~137 KB). */
+@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource-variable/geist-mono/wght.css';
 
 @import '@fontsource/noto-sans-devanagari/devanagari-400.css';
 @import '@fontsource/noto-sans-devanagari/devanagari-600.css';

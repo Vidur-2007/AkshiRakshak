@@ -154,7 +154,7 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
   const glow = VERDICT_COLOR[result.verdict];
 
   return (
-    <div className="relative">
+    <div className="relative" data-engine-version={result.engineVersion}>
       {/* Faint radial glow in the risk colour, arriving with the verdict (§5.3) */}
       <m.div
         aria-hidden

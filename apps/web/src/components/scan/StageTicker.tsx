@@ -1,7 +1,7 @@
 import { Check, Circle, CircleSlash, LoaderCircle, X } from 'lucide-react';
 import { m } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { stageText } from '@/lib/engine';
+import { useEngine } from '@/lib/engineLoader';
 import { fadeUp, stagger } from '@/lib/motion';
 import type { TickerStage, TickerState, TickerStatus } from '@/lib/scanTiming';
 import { useAppStore } from '@/lib/store';
@@ -29,6 +29,7 @@ function StatusIcon({ status }: { status: TickerStatus }) {
 export function StageTicker({ state, stages }: { state: TickerState; stages: TickerStage[] }) {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
+  const engine = useEngine();
   return (
     <m.ol
       variants={stagger(0.04)}
@@ -50,7 +51,7 @@ export function StageTicker({ state, stages }: { state: TickerState; stages: Tic
             )}
           >
             <StatusIcon status={status} />
-            <span>{stageText(stage, lang)}</span>
+            <span>{engine ? engine.stageText(stage, lang) : t(`stage.${stage}`)}</span>
             <span className="sr-only">: {t(`stageStatus.${status}`)}</span>
           </m.li>
         );

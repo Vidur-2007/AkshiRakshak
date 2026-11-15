@@ -1,13 +1,15 @@
 import { Ellipsis } from 'lucide-react';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router';
 import { cn } from '@/lib/utils';
-import { MoreSheet } from './MoreSheet';
 import { DASHBOARD, HOME, isLearnPath, LEARN_TAB, SCAN, type NavItem } from './nav';
 
+// The More sheet (Radix dialog) loads on first tap (§7).
+const MoreSheet = lazy(() => import('./MoreSheet').then((m) => ({ default: m.MoreSheet })));
+
 const tabBase =
-  'flex min-h-tap flex-1 flex-col items-center justify-center gap-0.5 rounded-chip text-[0.7rem] font-medium leading-tight transition-colors duration-150 outline-none focus-visible:outline-2 focus-visible:outline-brand';
+  'flex min-h-tap min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-chip text-[0.7rem] font-medium leading-tight transition-colors duration-150 outline-none focus-visible:outline-2 focus-visible:outline-brand';
 
 function Tab({ item, active }: { item: NavItem; active?: boolean }) {
   const { t } = useTranslation();
@@ -30,6 +32,7 @@ export function BottomTabBar() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const [moreOpen, setMoreOpen] = useState(false);
+  const [moreLoaded, setMoreLoaded] = useState(false);
   const scanActive = pathname === '/scan' || pathname.startsWith('/scan/');
   return (
     <>
@@ -40,7 +43,7 @@ export function BottomTabBar() {
         <div className="mx-auto flex h-tabbar max-w-xl items-stretch gap-1 px-2 py-1.5">
           <Tab item={HOME} />
           <Tab item={DASHBOARD} />
-          <div className="flex flex-1 justify-center">
+          <div className="flex min-w-0 flex-1 justify-center">
             <NavLink
               to={SCAN.to}
               aria-label={t('nav.scan')}
@@ -56,7 +59,10 @@ export function BottomTabBar() {
           <Tab item={LEARN_TAB} active={isLearnPath(pathname)} />
           <button
             type="button"
-            onClick={() => setMoreOpen(true)}
+            onClick={() => {
+              setMoreLoaded(true);
+              setMoreOpen(true);
+            }}
             aria-haspopup="dialog"
             aria-expanded={moreOpen}
             className={cn(tabBase, moreOpen ? 'text-brand' : 'text-text-2 hover:text-text')}
@@ -66,7 +72,11 @@ export function BottomTabBar() {
           </button>
         </div>
       </nav>
-      <MoreSheet open={moreOpen} onOpenChange={setMoreOpen} />
+      {moreLoaded && (
+        <Suspense fallback={null}>
+          <MoreSheet open={moreOpen} onOpenChange={setMoreOpen} />
+        </Suspense>
+      )}
     </>
   );
 }
