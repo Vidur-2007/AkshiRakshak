@@ -11,7 +11,7 @@
 import { normalizeText, type AssistantAnswer, type FaqItem, type Lang } from '@akshi/contracts';
 import { FAQ } from '@akshi/content';
 import { isOnline } from './ai';
-import { template } from './i18n';
+import { ensureStrings, template } from './i18n';
 import { maskPII } from './mask';
 import { postJson } from './net';
 import { netSchemas } from './schemas-lazy';
@@ -175,6 +175,7 @@ export async function askAssistant(
   lang: Lang,
   opts?: { online?: boolean; signal?: AbortSignal },
 ): Promise<AssistantAnswer> {
+  await ensureStrings(lang);
   const top = searchFaq(question, lang, 3);
   const offline = offlineAnswer(top, lang);
   if (!opts?.online || !isOnline() || !top.length) return offline;

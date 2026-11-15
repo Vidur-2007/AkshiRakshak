@@ -5,15 +5,17 @@ import {
   normalizeText,
   type AnalysisResult,
   type AnalyzeRequest,
+  type Lang,
   type StageTiming,
   type UrlFinding,
 } from '@akshi/contracts';
 import { inspectUrlLocal, inspectUrlNetwork } from './links/inspect';
 import { getModel } from './model';
+import type * as Pipeline from './pipeline/analyze';
 import { getJson } from './net';
 import { netSchemas } from './schemas-lazy';
-import { analyzeRequest } from './pipeline/analyze';
-import { precompileLexicons } from './rules/engine';
+import { ensureLexicons, precompileLexicons, SCRIPTS_BY_LANG } from './rules/engine';
+import { ensureStrings, loadAllStrings } from './i18n';
 
 export { ENGINE_VERSION } from './version';
 export { setApiBase } from './net';
@@ -34,11 +36,18 @@ export {
 export { isWeakOcr, WEAK_OCR_CONFIDENCE, WEAK_OCR_MIN_CHARS } from './ocr/quality';
 export { signalText, categoryText, actionText, stageText } from './i18n';
 
-export function analyze(
+/**
+ * The full pipeline is its own chunk (SPEC_A_ENGINE.md §14): the core holds scoreLive and what it
+ * needs; warmup() preloads the pipeline so the first scan does not wait for it.
+ */
+let pipeline: Promise<typeof Pipeline> | null = null;
+const loadPipeline = () => (pipeline ??= import('./pipeline/analyze'));
+
+export async function analyze(
   req: AnalyzeRequest,
   onStage?: (s: StageTiming) => void,
 ): Promise<AnalysisResult> {
-  return analyzeRequest(req, onStage);
+  return (await loadPipeline()).analyzeRequest(req, onStage);
 }
 
 /**
@@ -54,10 +63,19 @@ export async function inspectUrl(
   return (await inspectUrlNetwork(local, opts ?? {})).finding;
 }
 
-/** Loads the model and compiles the lexicons. */
-export async function warmup(): Promise<void> {
+/**
+ * Loads the model, the lexicons and the strings, and compiles the lexicons. With a language,
+ * only that language's lexicon packs and strings are loaded (other scripts load when first seen);
+ * without one, everything is.
+ */
+export async function warmup(lang?: Lang): Promise<void> {
+  await Promise.all([
+    ensureLexicons(lang ? SCRIPTS_BY_LANG[lang] : undefined),
+    lang ? ensureStrings(lang) : loadAllStrings(),
+    getModel(),
+    loadPipeline(),
+  ]);
   precompileLexicons();
-  await getModel();
 }
 
 export async function apiHealth(): Promise<{ online: boolean; ai: boolean }> {

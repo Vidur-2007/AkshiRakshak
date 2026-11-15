@@ -10,7 +10,7 @@ import {
   type Span,
   type UpiIdFinding,
 } from '@akshi/contracts';
-import { parse } from 'tldts';
+import { parse } from 'tldts-icann';
 import { inspectUrlLocal } from '../links/inspect';
 import { looksPersonal, pspOf } from '../upi/handles';
 

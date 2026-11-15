@@ -6,9 +6,9 @@
  * Isomorphic and synchronous; nothing leaves the device.
  */
 import { normalizeText, type Lang, type LiveScore, type SignalId } from '@akshi/contracts';
-import { signalText } from './i18n';
+import { ensureStrings, signalText } from './i18n';
 import { scoreLive } from './pipeline/live';
-import { matchRules } from './rules/engine';
+import { ensureLexicons, matchRules, SCRIPTS_BY_LANG } from './rules/engine';
 
 /** Signals worth interrupting a phone call for. */
 export const CALL_ALERT_SIGNALS: readonly SignalId[] = [
@@ -51,6 +51,9 @@ export interface LiveListener {
 }
 
 export function createLiveListener(lang: Lang): LiveListener {
+  // start loading this language's lexicon and strings now; push() uses what has loaded
+  void ensureLexicons(SCRIPTS_BY_LANG[lang]);
+  void ensureStrings(lang);
   let finals = '';
   const alerted = new Set<SignalId>();
   return {

@@ -12,7 +12,7 @@
     "@akshi/contracts": "*",
     "@akshi/model": "*",
     "tesseract.js": "7.0.0",
-    "tldts": "^7.5.2"
+    "tldts-icann": "7.5.2"
   },
   "sideEffects": false
 }

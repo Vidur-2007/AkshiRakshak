@@ -8,15 +8,18 @@ import {
   type SignalId,
 } from '@akshi/contracts';
 import { describe, expect, it } from 'vitest';
-import { STRINGS, actionText, signalText } from '../src/i18n';
+import { actionText, loadAllStrings, signalText } from '../src/i18n';
 import { CATALOG } from '../src/rules/catalog';
 import {
-  LEXICONS,
   deobfuscate,
   detectObfuscation,
+  loadLexicons,
   matchRules,
   scriptOfString,
 } from '../src/rules/engine';
+
+const STRINGS = await loadAllStrings();
+const LEXICONS = await loadLexicons();
 
 const ids = (raw: string) =>
   matchRules(normalizeText(raw))

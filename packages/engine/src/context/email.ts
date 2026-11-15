@@ -8,7 +8,7 @@
  * The body goes through the normal pipeline.
  */
 import type { BrandClaim, ClaimCheck, Lang, Signal, SignalId, Span } from '@akshi/contracts';
-import { parse } from 'tldts';
+import { parse } from 'tldts-icann';
 import { findBrandClaims } from '../claims/brands';
 import { signalText, template } from '../i18n';
 import { isOfficialFor } from '../links/inspect';

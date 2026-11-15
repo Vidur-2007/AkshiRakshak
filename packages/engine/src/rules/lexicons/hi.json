@@ -1,6 +1,6 @@
 {
   "lang": "hi",
-  "scripts": ["deva", "latn"],
+  "scripts": ["deva"],
   "signals": {
     "URGENCY": {
       "phrases": [
@@ -17,18 +17,7 @@
         "अंतिम चेतावनी",
         "फौरन",
         "शीघ्र",
-        "देर न करें",
-        "turant",
-        "aaj hi",
-        "jaldi karo",
-        "jaldi kare",
-        "jaldi karein",
-        "foran",
-        "fauran",
-        "24 ghante mein",
-        "aaj raat",
-        "der mat karo",
-        "abhi ke abhi"
+        "देर न करें"
       ],
       "regex": []
     },
@@ -49,19 +38,7 @@
         "सिम ब्लॉक",
         "निलंबित",
         "फ्रीज़ कर दिया",
-        "बिजली कट जाएगी",
-        "khata band",
-        "account band",
-        "block ho jayega",
-        "block ho jaega",
-        "band ho jayega",
-        "band ho jaega",
-        "band kar diya jayega",
-        "bijli kat jayegi",
-        "bijli kaat di jayegi",
-        "connection kat jayega",
-        "sim band ho jayega",
-        "account block ho"
+        "बिजली कट जाएगी"
       ],
       "regex": []
     },
@@ -81,21 +58,7 @@
         "नशीले पदार्थ",
         "कानूनी कार्रवाई",
         "जेल",
-        "पुलिस केस",
-        "giraftar",
-        "griftar",
-        "gireftar",
-        "arrest kar",
-        "warrant jaari",
-        "case darj",
-        "fir darj",
-        "jail ho jayegi",
-        "jail jaoge",
-        "kanooni karyavahi",
-        "kanuni karwai",
-        "police case",
-        "drugs mile",
-        "money laundering case"
+        "पुलिस केस"
       ],
       "regex": []
     },
@@ -114,16 +77,7 @@
         "कस्टम्स",
         "आयकर विभाग",
         "इंस्पेक्टर",
-        "नारकोटिक्स",
-        "cyber crime se",
-        "police station se",
-        "cbi se",
-        "crime branch se",
-        "inspector bol raha",
-        "officer bol raha",
-        "trai se",
-        "customs se",
-        "mumbai police se"
+        "नारकोटिक्स"
       ],
       "regex": []
     },
@@ -140,16 +94,7 @@
         "बैंक को मत बताना",
         "किसी से बात मत करना",
         "चुपचाप",
-        "यह बात किसी से न कहें",
-        "kisi ko mat batana",
-        "kisi ko mat bataiye",
-        "kisi ko nahi batana",
-        "gupt rakhein",
-        "family ko mat batana",
-        "ghar walon ko mat batana",
-        "confidential hai",
-        "secret rakhna",
-        "bank ko mat batana"
+        "यह बात किसी से न कहें"
       ],
       "regex": []
     },
@@ -164,16 +109,7 @@
         "कैमरा चालू रखें",
         "लाइन पर बने रहें",
         "कॉल डिस्कनेक्ट मत",
-        "कॉल बंद मत करना",
-        "call mat katna",
-        "call disconnect mat",
-        "phone mat katna",
-        "video call pe raho",
-        "video call par rahe",
-        "camera on rakho",
-        "line pe bane raho",
-        "call cut mat karna",
-        "call disconnect mat kijiye"
+        "कॉल बंद मत करना"
       ],
       "regex": []
     },
@@ -192,24 +128,9 @@
         "आया हुआ OTP",
         "कोड बताइए",
         "OTP बोलिए",
-        "OTP फॉरवर्ड",
-        "otp batao",
-        "otp bata do",
-        "otp bataiye",
-        "otp bhejo",
-        "otp bhej do",
-        "otp share karo",
-        "otp share karein",
-        "otp de do",
-        "otp bolo",
-        "otp forward karo",
-        "aaya hua otp",
-        "code batao"
+        "OTP फॉरवर्ड"
       ],
-      "regex": [
-        "(?:otp|ओटीपी)[^.!?।]{0,15}(?:बता|भेज|शेयर|बोल|दे दो|दीजिए)",
-        "\\bo[\\s.*_-]?t[\\s.*_-]?p\\b[^.!?]{0,15}\\b(?:bata|bhej|share kar|de do|bol)"
-      ]
+      "regex": ["(?:otp|ओटीपी)[^.!?।]{0,15}(?:बता|भेज|शेयर|बोल|दे दो|दीजिए)"]
     },
     "ASKS_PIN": {
       "phrases": [
@@ -224,18 +145,7 @@
         "PIN डालिए",
         "PIN दर्ज",
         "पिन लगाएं",
-        "पिन डालकर",
-        "pin daalo",
-        "pin dalo",
-        "pin daaliye",
-        "pin dalein",
-        "upi pin daalo",
-        "pin batao",
-        "pin bata do",
-        "pin enter karo",
-        "pin enter karein",
-        "atm pin batao",
-        "pin daal ke"
+        "पिन डालकर"
       ],
       "regex": []
     },
@@ -248,15 +158,7 @@
         "पासवर्ड बताएं",
         "पासवर्ड भेजें",
         "नेट बैंकिंग पासवर्ड",
-        "एक्सपायरी डेट",
-        "cvv batao",
-        "cvv number batao",
-        "card number batao",
-        "password batao",
-        "password bhejo",
-        "card details bhejo",
-        "expiry date batao",
-        "card ke peeche"
+        "एक्सपायरी डेट"
       ],
       "regex": []
     },
@@ -269,15 +171,7 @@
         "स्क्रीन शेयरिंग",
         "रिमोट ऐप",
         "क्विक सपोर्ट",
-        "स्क्रीन दिखाइए",
-        "anydesk download karo",
-        "anydesk install",
-        "screen share karo",
-        "screen share karein",
-        "teamviewer download",
-        "quick support app",
-        "app download karke code batao",
-        "screen dikhao"
+        "स्क्रीन दिखाइए"
       ],
       "regex": []
     },
@@ -291,15 +185,7 @@
         "APK फाइल",
         "APK फ़ाइल",
         "इस लिंक से अपडेट करें",
-        "शादी का कार्ड डाउनलोड",
-        "is link se app",
-        "ye app install karo",
-        "yeh app download karo",
-        "apk download karo",
-        "apk install karo",
-        "is app ko install",
-        "link se app download",
-        "shaadi ka card download"
+        "शादी का कार्ड डाउनलोड"
       ],
       "regex": []
     },
@@ -312,15 +198,7 @@
         "पिन डालें और पैसे",
         "पैसे लेने के लिए पिन",
         "रिक्वेस्ट स्वीकार करें और पैसे पाएं",
-        "पेमेंट रिसीव करने के लिए पिन",
-        "paise paane ke liye pin",
-        "paise lene ke liye pin",
-        "pin daalo paise mil jayenge",
-        "pin dalo paise aa jayenge",
-        "refund ke liye pin",
-        "receive karne ke liye pin",
-        "pin daalke paise",
-        "request accept karo paise milenge"
+        "पेमेंट रिसीव करने के लिए पिन"
       ],
       "regex": ["(?:पिन|\\bpin\\b)[^.!?।]{0,30}(?:पैसे (?:मिल|आ)|paise (?:mil|aa)|receive)"]
     },
@@ -333,15 +211,7 @@
         "रिक्वेस्ट एक्सेप्ट",
         "रिक्वेस्ट अप्रूव",
         "पैसे की रिक्वेस्ट",
-        "अनुरोध स्वीकार करें",
-        "request bheji hai",
-        "request accept karo",
-        "request accept karein",
-        "request approve karo",
-        "collect request bheja",
-        "payment request bheji",
-        "request aayi hogi",
-        "request pe click"
+        "अनुरोध स्वीकार करें"
       ],
       "regex": []
     },
@@ -354,15 +224,7 @@
         "QR कोड स्कैन करें और पैसे",
         "स्कैन करके रिफंड",
         "पेमेंट लेने के लिए स्कैन",
-        "स्कैन करते ही पैसे",
-        "qr scan karo paise",
-        "scan karke paise milenge",
-        "scan karo paise aa jayenge",
-        "paise lene ke liye scan",
-        "qr code scan karke payment",
-        "scan karke refund",
-        "scan karo aur pin",
-        "qr scan karke paise"
+        "स्कैन करते ही पैसे"
       ],
       "regex": []
     },
@@ -379,17 +241,7 @@
         "फाइल चार्ज",
         "वेरिफिकेशन चार्ज",
         "बीमा शुल्क",
-        "पहले भुगतान करें",
-        "processing fees",
-        "registration fees",
-        "pehle pay karo",
-        "pehle payment karo",
-        "token amount bhejo",
-        "file charge",
-        "verification amount",
-        "security amount",
-        "advance payment karo",
-        "fees bhejo"
+        "पहले भुगतान करें"
       ],
       "regex": []
     },
@@ -405,17 +257,7 @@
         "केबीसी",
         "कौन बनेगा करोड़पति",
         "जैकपॉट",
-        "विजेता",
-        "lottery lagi",
-        "lucky draw mein",
-        "aapne jeeta",
-        "aapne jeete",
-        "aap jeet gaye",
-        "inaam",
-        "inam",
-        "kbc lottery",
-        "badhai ho aapne",
-        "lottery jeeti"
+        "विजेता"
       ],
       "regex": []
     },
@@ -430,16 +272,7 @@
         "दोगुना",
         "बिना जोखिम",
         "निश्चित लाभ",
-        "भारी मुनाफा",
-        "paisa double",
-        "paise double",
-        "guaranteed return milega",
-        "roz munafa",
-        "daily profit milega",
-        "double ho jayega",
-        "bina risk",
-        "pakka profit",
-        "munafa pakka"
+        "भारी मुनाफा"
       ],
       "regex": []
     },
@@ -456,17 +289,7 @@
         "टास्क पूरा करें",
         "रिव्यू देकर कमाएं",
         "टेलीग्राम पर जुड़ें",
-        "प्रीपेड टास्क",
-        "ghar baithe",
-        "ghar baithe kamaye",
-        "ghar se kaam",
-        "like karke kamao",
-        "video like karo",
-        "roz kamao",
-        "daily kamai",
-        "task complete karo",
-        "review dekar kamao",
-        "rozana kamai"
+        "प्रीपेड टास्क"
       ],
       "regex": []
     },
@@ -480,15 +303,7 @@
         "पैसे लौटा दें",
         "वापस भेज दें",
         "पैसे वापस भेज",
-        "गलती से आपके खाते",
-        "galti se bhej",
-        "galti se paise",
-        "galti se transfer",
-        "paise wapas kar",
-        "paise wapas bhej",
-        "paise lauta do",
-        "wapas bhej do",
-        "galat number pe"
+        "गलती से आपके खाते"
       ],
       "regex": []
     },
@@ -502,15 +317,7 @@
         "संपर्क करें",
         "अधिकारी से संपर्क",
         "व्हाट्सएप करें",
-        "पर कॉल करें",
-        "customer care se baat",
-        "is number pe call karo",
-        "is number par call karein",
-        "helpline pe call",
-        "is number pe sampark",
-        "call karein",
-        "sampark karein",
-        "call kijiye"
+        "पर कॉल करें"
       ],
       "regex": []
     },
@@ -528,16 +335,7 @@
         "योनो",
         "नेट बैंकिंग बंद",
         "री-केवाईसी",
-        "KYC लंबित",
-        "kyc update karo",
-        "kyc update karein",
-        "kyc karwayein",
-        "pan update karo",
-        "aadhaar link karo",
-        "sbi customer",
-        "yono block",
-        "kyc pending hai",
-        "kyc karwa lo"
+        "KYC लंबित"
       ],
       "regex": []
     },
@@ -554,16 +352,10 @@
         "यदि यह लेनदेन आपने नहीं किया",
         "आपके द्वारा नहीं किया गया",
         "साझा न करें",
-        "शेयर न करें",
-        "kisi ke saath share na karein",
-        "kabhi share na karein",
-        "share na karein",
-        "bank kabhi nahi maangta",
-        "agar aapne nahi kiya"
+        "शेयर न करें"
       ],
       "regex": [
-        "(?:otp|ओटीपी|pin|पिन|cvv|पासवर्ड)(?:(?!बताएं|बताइए|बता दो|भेज|दे दो|बोलिए|शेयर करें)[^.!?]){0,30}(?:किसी|कभी)[^.!?]{0,15}(?:न|नहीं|मत)\\s?(?:बता|शेयर|साझा|दें|दे)",
-        "\\b(?:otp|pin|cvv)\\b(?:(?!batao|bhejo|bhej do|de do|bolo)[^.!?]){0,30}\\bkisi ko\\s(?:na|mat|nahi)\\s(?:bata|share)"
+        "(?:otp|ओटीपी|pin|पिन|cvv|पासवर्ड)(?:(?!बताएं|बताइए|बता दो|भेज|दे दो|बोलिए|शेयर करें)[^.!?]){0,30}(?:किसी|कभी)[^.!?]{0,15}(?:न|नहीं|मत)\\s?(?:बता|शेयर|साझा|दें|दे)"
       ]
     }
   }

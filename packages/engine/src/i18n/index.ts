@@ -3,10 +3,7 @@
  * to English per string. Non-English files carry "_review": "pending" until a reader checks them.
  */
 import type { ActionId, Lang, ScamCategory, SignalId, StageTiming } from '@akshi/contracts';
-import bn from './bn.json';
 import en from './en.json';
-import hi from './hi.json';
-import te from './te.json';
 
 export interface Strings {
   _review?: string;
@@ -64,8 +61,54 @@ export const TEMPLATE_KEYS = [
 ] as const;
 export type TemplateKey = (typeof TEMPLATE_KEYS)[number];
 
-export const STRINGS: Readonly<Record<Lang, Strings>> = { en, hi, te, bn };
 const EN = en as Strings;
+
+/**
+ * English is in the core bundle; Hindi, Telugu and Bengali load lazily (SPEC_A_ENGINE.md §14).
+ * Until a language has loaded, its strings fall back to English, exactly like a missing key.
+ * analyze() awaits the request language; warmup(lang) preloads it.
+ */
+const LAZY: Readonly<Record<Exclude<Lang, 'en'>, () => Promise<{ default: unknown }>>> = {
+  hi: () => import('./hi.json'),
+  te: () => import('./te.json'),
+  bn: () => import('./bn.json'),
+};
+const loaded: Partial<Record<Lang, Strings>> = { en: EN };
+const loading = new Map<Lang, Promise<void>>();
+
+export function stringsReady(lang: Lang): boolean {
+  return loaded[lang] !== undefined;
+}
+
+/** Loads one language's strings (memoised). Never rejects; English stays the fallback. */
+export function ensureStrings(lang: Lang): Promise<void> {
+  if (loaded[lang]) return Promise.resolve();
+  let p = loading.get(lang);
+  if (!p) {
+    p = LAZY[lang as Exclude<Lang, 'en'>]()
+      .then((m) => {
+        loaded[lang] = m.default as Strings;
+      })
+      .catch(() => {
+        loading.delete(lang);
+      });
+    loading.set(lang, p);
+  }
+  return p;
+}
+
+/** Strings for a language, loading it in the background if needed (English until then). */
+function S(lang: Lang): Strings {
+  const s = loaded[lang];
+  if (!s) void ensureStrings(lang);
+  return s ?? EN;
+}
+
+/** Every language's strings (loads all). Tests and tools. */
+export async function loadAllStrings(): Promise<Readonly<Record<Lang, Strings>>> {
+  await Promise.all((['hi', 'te', 'bn'] as const).map(ensureStrings));
+  return { en: EN, hi: S('hi'), te: S('te'), bn: S('bn') };
+}
 
 const ACTION_HREF: Partial<Record<ActionId, string>> = {
   report_chakshu: 'https://sancharsaathi.gov.in/sfc/',
@@ -74,12 +117,12 @@ const ACTION_HREF: Partial<Record<ActionId, string>> = {
 };
 
 export function signalText(id: SignalId, lang: Lang): { label: string; detail: string } {
-  const s = STRINGS[lang].signals[id] ?? EN.signals[id];
+  const s = S(lang).signals[id] ?? EN.signals[id];
   return { label: s?.label ?? id, detail: s?.detail ?? '' };
 }
 
 export function categoryText(c: ScamCategory, lang: Lang): { name: string; oneLiner: string } {
-  const s = STRINGS[lang].categories[c] ?? EN.categories[c];
+  const s = S(lang).categories[c] ?? EN.categories[c];
   return { name: s?.name ?? c, oneLiner: s?.oneLiner ?? '' };
 }
 
@@ -87,7 +130,7 @@ export function actionText(
   a: ActionId,
   lang: Lang,
 ): { label: string; body: string; href?: string } {
-  const s = STRINGS[lang].actions[a] ?? EN.actions[a];
+  const s = S(lang).actions[a] ?? EN.actions[a];
   const out: { label: string; body: string; href?: string } = {
     label: s?.label ?? a,
     body: s?.body ?? '',
@@ -98,10 +141,10 @@ export function actionText(
 }
 
 export function stageText(stage: StageTiming['stage'], lang: Lang): string {
-  return STRINGS[lang].stages[stage] ?? EN.stages[stage] ?? stage;
+  return S(lang).stages[stage] ?? EN.stages[stage] ?? stage;
 }
 
 export function template(key: TemplateKey, lang: Lang, vars: Record<string, string> = {}): string {
-  const t = STRINGS[lang].templates[key] ?? EN.templates[key] ?? '';
+  const t = S(lang).templates[key] ?? EN.templates[key] ?? '';
   return t.replace(/\{(\w+)\}/g, (_m, k: string) => vars[k] ?? '');
 }

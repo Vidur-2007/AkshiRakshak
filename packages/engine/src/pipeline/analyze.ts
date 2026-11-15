@@ -25,7 +25,8 @@ import {
   type Span,
   type StageTiming,
 } from '@akshi/contracts';
-import { loadCalibration, MODEL_VERSION } from '@akshi/model';
+import { MODEL_VERSION } from '@akshi/model';
+import { currentCalibration } from './calibration';
 import { analyzeIdentity } from '../claims/brands';
 import { analyzeChat, type ChatAnalysis } from '../context/chat';
 import { analyzeEmail, type EmailAnalysis } from '../context/email';
@@ -33,13 +34,13 @@ import { isWeakOcr } from '../ocr/quality';
 import { detectCollectScreen, type CollectScreen } from '../upi/collectScreen';
 import { countScripts, detectLang, scriptsPresent } from '../detect/lang';
 import { dedupeSpans, extractEntities } from '../extract/entities';
-import { categoryText, signalText, template } from '../i18n';
+import { categoryText, ensureStrings, signalText, template } from '../i18n';
 import { blocklistMatch, lookupIndicator } from '../indicators';
 import { inspectUrlsNetwork, rescoreUrl } from '../links/inspect';
 import { getModel, modelSignal, safePredict } from '../model';
 import { aiSignals, isOnline, requestAiOpinion } from '../ai';
 import { CATALOG } from '../rules/catalog';
-import { matchRules, toSignals } from '../rules/engine';
+import { ensureLexicons, matchRules, toSignals } from '../rules/engine';
 import {
   analyzeCollect,
   COLLECT_ACTIONS,
@@ -243,6 +244,8 @@ export async function analyzeRequest(
     return { text, detectedLang: detectLang(text, counts), scripts: scriptsPresent(counts) };
   });
   const { text } = read;
+  // lazy packs (§14): lexicons for the scripts in the text, strings for the user's language
+  await Promise.all([ensureLexicons(read.scripts), ensureStrings(req.lang)]);
 
   // ── ocr: happens before analyze() via ocrImage(); the result arrives in req.ocr ──
   skip('ocr');
@@ -377,7 +380,7 @@ export async function analyzeRequest(
   // A QR expected to be a payment that opens a non-official website is a warning sign in itself (M4.2).
   const websiteQrFloor =
     qr?.qrKind === 'website' && entities.urls.some((u) => !u.isOfficial) ? 40 : 0;
-  const calibration = loadCalibration();
+  const calibration = currentCalibration();
   const modelScore = prediction ? Math.round(100 * prediction.pScam) : null;
   const fuseWith = (signals: Signal[], ai: number | null) =>
     fuse({
@@ -486,7 +489,7 @@ export async function analyzeRequest(
     text,
     verdict,
     riskScore: fusion.riskScore,
-    severity: severityOf(fusion.riskScore),
+    severity: severityOf(fusion.riskScore, verdict),
     confidence:
       req.kind === 'image' && req.ocr && isWeakOcr(req.ocr)
         ? Math.min(0.6, confidenceOf(signals, fusion.rules, modelScore, verdict, text.length))

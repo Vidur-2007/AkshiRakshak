@@ -1,0 +1,322 @@
+{
+  "lang": "hi",
+  "scripts": ["latn"],
+  "signals": {
+    "URGENCY": {
+      "phrases": [
+        "turant",
+        "aaj hi",
+        "jaldi karo",
+        "jaldi kare",
+        "jaldi karein",
+        "foran",
+        "fauran",
+        "24 ghante mein",
+        "aaj raat",
+        "der mat karo",
+        "abhi ke abhi"
+      ],
+      "regex": []
+    },
+    "THREAT_BLOCK": {
+      "phrases": [
+        "khata band",
+        "account band",
+        "block ho jayega",
+        "block ho jaega",
+        "band ho jayega",
+        "band ho jaega",
+        "band kar diya jayega",
+        "bijli kat jayegi",
+        "bijli kaat di jayegi",
+        "connection kat jayega",
+        "sim band ho jayega",
+        "account block ho"
+      ],
+      "regex": []
+    },
+    "THREAT_LEGAL": {
+      "phrases": [
+        "giraftar",
+        "griftar",
+        "gireftar",
+        "arrest kar",
+        "warrant jaari",
+        "case darj",
+        "fir darj",
+        "jail ho jayegi",
+        "jail jaoge",
+        "kanooni karyavahi",
+        "kanuni karwai",
+        "police case",
+        "drugs mile",
+        "money laundering case"
+      ],
+      "regex": []
+    },
+    "AUTHORITY_CLAIM": {
+      "phrases": [
+        "cyber crime se",
+        "police station se",
+        "cbi se",
+        "crime branch se",
+        "inspector bol raha",
+        "officer bol raha",
+        "trai se",
+        "customs se",
+        "mumbai police se"
+      ],
+      "regex": []
+    },
+    "SECRECY": {
+      "phrases": [
+        "kisi ko mat batana",
+        "kisi ko mat bataiye",
+        "kisi ko nahi batana",
+        "gupt rakhein",
+        "family ko mat batana",
+        "ghar walon ko mat batana",
+        "confidential hai",
+        "secret rakhna",
+        "bank ko mat batana"
+      ],
+      "regex": []
+    },
+    "STAY_ON_CALL": {
+      "phrases": [
+        "call mat katna",
+        "call disconnect mat",
+        "phone mat katna",
+        "video call pe raho",
+        "video call par rahe",
+        "camera on rakho",
+        "line pe bane raho",
+        "call cut mat karna",
+        "call disconnect mat kijiye"
+      ],
+      "regex": []
+    },
+    "ASKS_OTP": {
+      "phrases": [
+        "otp batao",
+        "otp bata do",
+        "otp bataiye",
+        "otp bhejo",
+        "otp bhej do",
+        "otp share karo",
+        "otp share karein",
+        "otp de do",
+        "otp bolo",
+        "otp forward karo",
+        "aaya hua otp",
+        "code batao"
+      ],
+      "regex": ["\\bo[\\s.*_-]?t[\\s.*_-]?p\\b[^.!?]{0,15}\\b(?:bata|bhej|share kar|de do|bol)"]
+    },
+    "ASKS_PIN": {
+      "phrases": [
+        "pin daalo",
+        "pin dalo",
+        "pin daaliye",
+        "pin dalein",
+        "upi pin daalo",
+        "pin batao",
+        "pin bata do",
+        "pin enter karo",
+        "pin enter karein",
+        "atm pin batao",
+        "pin daal ke"
+      ],
+      "regex": []
+    },
+    "ASKS_CVV_PASSWORD": {
+      "phrases": [
+        "cvv batao",
+        "cvv number batao",
+        "card number batao",
+        "password batao",
+        "password bhejo",
+        "card details bhejo",
+        "expiry date batao",
+        "card ke peeche"
+      ],
+      "regex": []
+    },
+    "ASKS_REMOTE_APP": {
+      "phrases": [
+        "anydesk download karo",
+        "anydesk install",
+        "screen share karo",
+        "screen share karein",
+        "teamviewer download",
+        "quick support app",
+        "app download karke code batao",
+        "screen dikhao"
+      ],
+      "regex": []
+    },
+    "APK_LINK": {
+      "phrases": [
+        "is link se app",
+        "ye app install karo",
+        "yeh app download karo",
+        "apk download karo",
+        "apk install karo",
+        "is app ko install",
+        "link se app download",
+        "shaadi ka card download"
+      ],
+      "regex": []
+    },
+    "RECEIVE_WITH_PIN": {
+      "phrases": [
+        "paise paane ke liye pin",
+        "paise lene ke liye pin",
+        "pin daalo paise mil jayenge",
+        "pin dalo paise aa jayenge",
+        "refund ke liye pin",
+        "receive karne ke liye pin",
+        "pin daalke paise",
+        "request accept karo paise milenge"
+      ],
+      "regex": []
+    },
+    "COLLECT_REQUEST": {
+      "phrases": [
+        "request bheji hai",
+        "request accept karo",
+        "request accept karein",
+        "request approve karo",
+        "collect request bheja",
+        "payment request bheji",
+        "request aayi hogi",
+        "request pe click"
+      ],
+      "regex": []
+    },
+    "QR_TO_RECEIVE": {
+      "phrases": [
+        "qr scan karo paise",
+        "scan karke paise milenge",
+        "scan karo paise aa jayenge",
+        "paise lene ke liye scan",
+        "qr code scan karke payment",
+        "scan karke refund",
+        "scan karo aur pin",
+        "qr scan karke paise"
+      ],
+      "regex": []
+    },
+    "ADVANCE_FEE": {
+      "phrases": [
+        "processing fees",
+        "registration fees",
+        "pehle pay karo",
+        "pehle payment karo",
+        "token amount bhejo",
+        "file charge",
+        "verification amount",
+        "security amount",
+        "advance payment karo",
+        "fees bhejo"
+      ],
+      "regex": []
+    },
+    "PRIZE_LOTTERY": {
+      "phrases": [
+        "lottery lagi",
+        "lucky draw mein",
+        "aapne jeeta",
+        "aapne jeete",
+        "aap jeet gaye",
+        "inaam",
+        "inam",
+        "kbc lottery",
+        "badhai ho aapne",
+        "lottery jeeti"
+      ],
+      "regex": []
+    },
+    "TOO_GOOD_RETURNS": {
+      "phrases": [
+        "paisa double",
+        "paise double",
+        "guaranteed return milega",
+        "roz munafa",
+        "daily profit milega",
+        "double ho jayega",
+        "bina risk",
+        "pakka profit",
+        "munafa pakka"
+      ],
+      "regex": []
+    },
+    "TASK_JOB_PAYMENT": {
+      "phrases": [
+        "ghar baithe",
+        "ghar baithe kamaye",
+        "ghar se kaam",
+        "like karke kamao",
+        "video like karo",
+        "roz kamao",
+        "daily kamai",
+        "task complete karo",
+        "review dekar kamao",
+        "rozana kamai"
+      ],
+      "regex": []
+    },
+    "WRONG_TRANSFER_RETURN": {
+      "phrases": [
+        "galti se bhej",
+        "galti se paise",
+        "galti se transfer",
+        "paise wapas kar",
+        "paise wapas bhej",
+        "paise lauta do",
+        "wapas bhej do",
+        "galat number pe"
+      ],
+      "regex": []
+    },
+    "CUSTOMER_CARE_NUMBER": {
+      "phrases": [
+        "customer care se baat",
+        "is number pe call karo",
+        "is number par call karein",
+        "helpline pe call",
+        "is number pe sampark",
+        "call karein",
+        "sampark karein",
+        "call kijiye"
+      ],
+      "regex": []
+    },
+    "BANK_IMPERSONATION": {
+      "phrases": [
+        "kyc update karo",
+        "kyc update karein",
+        "kyc karwayein",
+        "pan update karo",
+        "aadhaar link karo",
+        "sbi customer",
+        "yono block",
+        "kyc pending hai",
+        "kyc karwa lo"
+      ],
+      "regex": []
+    },
+    "SAFETY_ADVICE": {
+      "phrases": [
+        "kisi ke saath share na karein",
+        "kabhi share na karein",
+        "share na karein",
+        "bank kabhi nahi maangta",
+        "agar aapne nahi kiya"
+      ],
+      "regex": [
+        "\\b(?:otp|pin|cvv)\\b(?:(?!batao|bhejo|bhej do|de do|bolo)[^.!?]){0,30}\\bkisi ko\\s(?:na|mat|nahi)\\s(?:bata|share)"
+      ]
+    }
+  }
+}

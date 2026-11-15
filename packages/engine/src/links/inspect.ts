@@ -8,7 +8,7 @@
  * with a 3-second total budget; any failure is silent and the local finding stands.
  */
 import { type SignalId, type Span, type UrlFinding } from '@akshi/contracts';
-import { parse } from 'tldts';
+import { parse } from 'tldts-icann';
 import { getJson } from '../net';
 import { netSchemas } from '../schemas-lazy';
 import { CATALOG } from '../rules/catalog';

@@ -3,7 +3,7 @@
  * 'image' and 'collect_request' come from the UI (upload / guided form), never from text.
  */
 import type { InputKind } from '@akshi/contracts';
-import { parse } from 'tldts';
+import { parse } from 'tldts-icann';
 import { UPI_ID_FULL } from '../extract/entities';
 
 /** WhatsApp exports: iOS "[dd/mm/yy, hh:mm(:ss)] Name:" and Android "dd/mm/yyyy, hh:mm - Name:" */

@@ -4,7 +4,7 @@
  */
 import type { IndicatorMatch } from '@akshi/contracts';
 import { INDICATORS } from '@akshi/content';
-import { parse } from 'tldts';
+import { parse } from 'tldts-icann';
 
 /** Canonical form used for indicator and blocklist comparison. */
 export function canonicalValue(

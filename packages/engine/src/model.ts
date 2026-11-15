@@ -21,6 +21,11 @@ export function resetModelCache(): void {
   modelPromise = null;
 }
 
+/** Tests and benchmarks only: use this model instead of calling loadModel(). */
+export function __setModel(model: TextModel | null): void {
+  modelPromise = Promise.resolve(model);
+}
+
 /** predict() that never throws: a broken model makes the layer unavailable, not the scan fail. */
 export function safePredict(model: TextModel, text: string): ModelPrediction | null {
   try {

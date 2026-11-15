@@ -16,10 +16,8 @@ import { countScripts, scriptsPresent, type Script } from '../detect/lang';
 import { dedupeSpans, overlaps } from '../extract/entities';
 import { signalText } from '../i18n';
 import { CATALOG } from './catalog';
-import bn from './lexicons/bn.json';
 import en from './lexicons/en.json';
-import hi from './lexicons/hi.json';
-import te from './lexicons/te.json';
+import hiLatn from './lexicons/hi-latn.json';
 
 export interface LexiconEntry {
   phrases: string[];
@@ -30,7 +28,85 @@ export interface Lexicon {
   scripts: string[];
   signals: Partial<Record<SignalId, LexiconEntry>>;
 }
-export const LEXICONS: Readonly<Record<Lang, Lexicon>> = { en, hi, te, bn };
+
+/**
+ * Lexicon packs, one per (language, script). Latin packs (English, romanised Hindi) are in the
+ * core bundle; Devanagari, Telugu and Bengali packs load lazily (SPEC_A_ENGINE.md §14) the first
+ * time a text in that script is seen, or on warmup(). analyze() awaits them; scoreLive() uses
+ * what is loaded and starts loading the rest.
+ */
+type Pack = 'en' | 'hi-latn' | 'hi' | 'te' | 'bn';
+const PACKS_BY_SCRIPT: Readonly<Partial<Record<Script, readonly Pack[]>>> = {
+  latn: ['en', 'hi-latn'],
+  deva: ['hi'],
+  telu: ['te'],
+  beng: ['bn'],
+};
+export const SCRIPTS_BY_LANG: Readonly<Record<Lang, readonly Script[]>> = {
+  en: ['latn'],
+  hi: ['latn', 'deva'],
+  te: ['latn', 'telu'],
+  bn: ['latn', 'beng'],
+};
+const LAZY: Readonly<Record<'hi' | 'te' | 'bn', () => Promise<{ default: unknown }>>> = {
+  hi: () => import('./lexicons/hi.json'),
+  te: () => import('./lexicons/te.json'),
+  bn: () => import('./lexicons/bn.json'),
+};
+const loaded = new Map<Pack, Lexicon>([
+  ['en', en as Lexicon],
+  ['hi-latn', hiLatn as Lexicon],
+]);
+const loading = new Map<Pack, Promise<void>>();
+
+function loadPack(pack: Pack): Promise<void> {
+  if (loaded.has(pack)) return Promise.resolve();
+  let p = loading.get(pack);
+  if (!p) {
+    p = LAZY[pack as keyof typeof LAZY]()
+      .then((m) => {
+        loaded.set(pack, m.default as Lexicon);
+      })
+      .catch(() => {
+        loading.delete(pack); // retry on the next call
+      });
+    loading.set(pack, p);
+  }
+  return p;
+}
+
+const packsFor = (scripts: Iterable<Script>): Pack[] => [
+  ...new Set([...scripts].flatMap((s) => PACKS_BY_SCRIPT[s] ?? [])),
+];
+
+/** True when every lexicon pack for these scripts is loaded. */
+export function lexiconsReady(scripts: Iterable<Script>): boolean {
+  return packsFor(scripts).every((p) => loaded.has(p));
+}
+
+/** Loads the lexicon packs for these scripts (all scripts when omitted). Never rejects. */
+export async function ensureLexicons(
+  scripts: Iterable<Script> = Object.keys(PACKS_BY_SCRIPT) as Script[],
+): Promise<void> {
+  await Promise.all(packsFor(scripts).map(loadPack));
+}
+
+/** Every lexicon by language (loads all packs; romanised Hindi merged into hi). Tests and tools. */
+export async function loadLexicons(): Promise<Readonly<Record<Lang, Lexicon>>> {
+  await ensureLexicons();
+  const get = (p: Pack) => loaded.get(p) ?? { lang: p, scripts: [], signals: {} };
+  const merge = (a: Lexicon, b: Lexicon): Lexicon => {
+    const signals: Partial<Record<SignalId, LexiconEntry>> = {};
+    for (const lex of [a, b])
+      for (const [id, e] of Object.entries(lex.signals) as [SignalId, LexiconEntry][]) {
+        const cur = (signals[id] ??= { phrases: [], regex: [] });
+        cur.phrases.push(...e.phrases);
+        cur.regex.push(...e.regex);
+      }
+    return { lang: a.lang, scripts: [...a.scripts, ...b.scripts], signals };
+  };
+  return { en: get('en'), hi: merge(get('hi'), get('hi-latn')), te: get('te'), bn: get('bn') };
+}
 
 export interface RuleHit {
   id: SignalId;
@@ -103,16 +179,21 @@ function compileGroups(lex: Lexicon): Map<Script, Matcher[]> {
   return out;
 }
 
-const compiled = new Map<Lang, Map<Script, Matcher[]>>();
-function groupsFor(lang: Lang): Map<Script, Matcher[]> {
-  let g = compiled.get(lang);
-  if (!g) compiled.set(lang, (g = compileGroups(LEXICONS[lang])));
+const compiled = new Map<Pack, Map<Script, Matcher[]>>();
+/** Compiled groups of a loaded pack, or null while it is not loaded. */
+function groupsFor(pack: Pack): Map<Script, Matcher[]> | null {
+  let g = compiled.get(pack);
+  if (!g) {
+    const lex = loaded.get(pack);
+    if (!lex) return null;
+    compiled.set(pack, (g = compileGroups(lex)));
+  }
   return g;
 }
 
 /** Compile every lexicon now (warmup) so the first scoreLive call is fast. */
 export function precompileLexicons(): void {
-  for (const lang of Object.keys(LEXICONS) as Lang[]) groupsFor(lang);
+  for (const pack of loaded.keys()) groupsFor(pack);
 }
 
 // ───────────── de-obfuscation (length-preserving) ─────────────
@@ -291,8 +372,11 @@ export function matchRules(
 ): RuleHit[] {
   const probe = deobfuscate(text);
   const found = new Map<SignalId, Span[]>();
-  for (const lang of Object.keys(LEXICONS) as Lang[]) {
-    for (const [script, matchers] of groupsFor(lang)) {
+  if (!lexiconsReady(scripts)) void ensureLexicons(scripts); // ready for the next call
+  for (const pack of packsFor(scripts)) {
+    const groups = groupsFor(pack);
+    if (!groups) continue;
+    for (const [script, matchers] of groups) {
       if (!scripts.has(script)) continue;
       for (const { id, re } of matchers) {
         re.lastIndex = 0;
