@@ -8,7 +8,54 @@
  * Box coordinates are in the OcrResult's own width × height (the downscaled image).
  */
 import { normalizeText, type Lang, type OcrBox, type OcrResult } from '@akshi/contracts';
+import { postJson } from './net';
 import { getOcrWorker } from './ocr/worker';
+import { netSchemas } from './schemas-lazy';
+
+/** Cloud vision accepts at most 1.5 MB of image bytes. */
+export const MAX_VISION_BYTES = 1_500_000;
+/** Confidence reported for cloud-vision text (Gemini gives none; above the weak-OCR line). */
+export const CLOUD_VISION_CONFIDENCE = 75;
+
+async function blobToBase64(blob: Blob): Promise<string> {
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000)
+    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+
+/**
+ * Cloud vision fallback (M2.3, P2) for weak on-device OCR. Opt-in only: the image itself leaves
+ * the device (it cannot be masked), so ask the user first. Sends the downscaled image to
+ * /api/ai/vision (Gemini) and returns an OcrResult without boxes, or null on any failure.
+ */
+export async function ocrWithCloudVision(
+  image: Blob,
+  lang: Lang,
+  opts: { signal?: AbortSignal } = {},
+): Promise<OcrResult | null> {
+  const { source, width, height } = await prepareImage(image);
+  if (source.size > MAX_VISION_BYTES) return null;
+  const mediaType =
+    source.type && /^image\/(png|jpeg|webp)$/.test(source.type) ? source.type : 'image/png';
+  const raw = await postJson(
+    '/api/ai/vision',
+    { imageBase64: `data:${mediaType};base64,${await blobToBase64(source)}`, lang },
+    { timeoutMs: 15_000, ...(opts.signal ? { signal: opts.signal } : {}) },
+  );
+  if (raw === null) return null;
+  const parsed = (await netSchemas()).AiVisionResponseSchema.safeParse(raw);
+  if (!parsed.success) return null;
+  return {
+    text: normalizeText(parsed.data.text),
+    boxes: [],
+    width,
+    height,
+    confidence: CLOUD_VISION_CONFIDENCE,
+    langs: [lang],
+  };
+}
 
 export { setOcrAssetBase, terminateOcr } from './ocr/worker';
 export { isWeakOcr } from './ocr/quality';
