@@ -4,7 +4,6 @@ import {
   ExternalLink,
   Flag,
   Phone,
-  Send,
   ShieldX,
   Siren,
   type LucideIcon,
@@ -21,6 +20,7 @@ import { actionText, categoryText, type ActionId, type AnalysisResult } from '@/
 import { blockableValues, buildEvidenceText, type EvidenceLabels } from '@/lib/evidence';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
+import { AnalysisShareCard, ShareImageButton } from '@/components/share/ShareCards';
 import { REVEAL_MS, useRevealTransition } from './reveal';
 
 type SheetKind = { kind: 'action'; id: ActionId } | { kind: 'reject' } | { kind: 'report' } | null;
@@ -337,10 +337,15 @@ export function ActionDock({ result }: { result: AnalysisResult }) {
             {t('analysis.copyEvidence')}
           </button>
           {risky && (
-            <button type="button" onClick={() => void warnFamily()} className={dockBtn}>
-              <Send className="size-4 text-brand" aria-hidden />
-              {t('analysis.warnFamily')}
-            </button>
+            // Warn family = the share card image (M7.2); the text warning is the fallback
+            <ShareImageButton
+              card={<AnalysisShareCard result={result} lang={lang} />}
+              filename={`akshi-warning-${result.id.slice(0, 8)}.png`}
+              text={t('analysis.warnFamily')}
+              label={t('analysis.warnFamily')}
+              className={cn(dockBtn, 'border-glass-border bg-surface-2')}
+              onFallback={() => void warnFamily()}
+            />
           )}
           {risky && (
             <Link to="/sos" className={cn(dockBtn, 'border-risk-scam/50 text-text')}>
