@@ -15,6 +15,7 @@ import {
   type AnalysisResult,
   type AnalyzeRequest,
   type ClaimCheck,
+  type ScamCategory,
   type Entities,
   type IndicatorMatch,
   type Lang,
@@ -26,7 +27,10 @@ import {
 } from '@akshi/contracts';
 import { loadCalibration, MODEL_VERSION } from '@akshi/model';
 import { analyzeIdentity } from '../claims/brands';
-import { chatTurns } from '../context/chat';
+import { analyzeChat, type ChatAnalysis } from '../context/chat';
+import { analyzeEmail, type EmailAnalysis } from '../context/email';
+import { isWeakOcr } from '../ocr/quality';
+import { detectCollectScreen, type CollectScreen } from '../upi/collectScreen';
 import { countScripts, detectLang, scriptsPresent } from '../detect/lang';
 import { dedupeSpans, extractEntities } from '../extract/entities';
 import { categoryText, signalText, template } from '../i18n';
@@ -36,7 +40,12 @@ import { getModel, modelSignal, safePredict } from '../model';
 import { aiSignals, isOnline, requestAiOpinion } from '../ai';
 import { CATALOG } from '../rules/catalog';
 import { matchRules, toSignals } from '../rules/engine';
-import { analyzeCollect, collectToText, type CollectAnalysis } from '../upi/collect';
+import {
+  analyzeCollect,
+  COLLECT_ACTIONS,
+  collectToText,
+  type CollectAnalysis,
+} from '../upi/collect';
 import { analyzeQr, type QrAnalysis } from '../upi/qr';
 import { ENGINE_VERSION } from '../version';
 import { chooseActions, MONEY_LOST } from './actions';
@@ -115,6 +124,9 @@ interface IndicatorPass {
   signals: Signal[];
   score: number | null;
   maxReports: number;
+  /** category of the matched indicator with the most reports */
+  category?: ScamCategory;
+  blocked: boolean;
 }
 
 function indicatorPass(
@@ -128,6 +140,7 @@ function indicatorPass(
   let maxReports = 0;
   let anyBlocked = false;
   let anyKnown = false;
+  let topCategory: ScamCategory | undefined;
   const check = (value: string, span: Span | undefined, attach?: (m: IndicatorMatch) => void) => {
     const b = blocklistMatch(value, blocklist);
     if (b) {
@@ -140,6 +153,7 @@ function indicatorPass(
     const k = lookupIndicator(value);
     if (k) {
       anyKnown = true;
+      if (k.reports >= maxReports && k.category) topCategory = k.category;
       maxReports = Math.max(maxReports, k.reports);
       if (span) known.push(span);
       attach?.(k);
@@ -160,7 +174,13 @@ function indicatorPass(
   if (anyBlocked) signals.push(sig('BLOCKLISTED', blocked));
   if (anyKnown) signals.push(sig('KNOWN_INDICATOR', known));
   const score = anyBlocked || maxReports >= 3 ? 95 : anyKnown ? 60 : null;
-  return { signals, score, maxReports };
+  return {
+    signals,
+    score,
+    maxReports,
+    blocked: anyBlocked,
+    ...(topCategory ? { category: topCategory } : {}),
+  };
 }
 
 /** Merge signals with the same id: union of spans, highest weight. */
@@ -270,9 +290,40 @@ export async function analyzeRequest(
       req.kind === 'collect_request' && req.collect
         ? analyzeCollect(req.collect, text, req.lang, moneyLost)
         : undefined;
-    return { ruleSignals, identity, collect };
+    const exclude = [
+      ...entities.urls.flatMap((u) => (u.span ? [u.span] : [])),
+      ...entities.upiIds.flatMap((u) => (u.span ? [u.span] : [])),
+    ];
+    const email: EmailAnalysis | undefined =
+      req.kind === 'email' ? analyzeEmail(raw, text, req.lang, exclude) : undefined;
+    if (email) {
+      // sender-domain judgement replaces the link-only judgement for the same brand
+      const byName = new Map(entities.brands.map((b) => [b.brand, b]));
+      for (const b of email.brands) {
+        const prev = byName.get(b.brand);
+        byName.set(b.brand, prev && prev.mismatch && !b.mismatch ? prev : b);
+      }
+      entities.brands = [...byName.values()];
+    }
+    const screen: CollectScreen | null =
+      req.kind === 'image' ? detectCollectScreen(text, entities, req.lang) : null;
+    const chat: ChatAnalysis | undefined =
+      req.kind === 'chat'
+        ? analyzeChat(raw, text, (t) => scoreLive(t, req.lang).riskScore)
+        : undefined;
+    const contextSignals: Signal[] = [...(email?.signals ?? []), ...(screen?.signals ?? [])];
+    if (chat?.escalation) {
+      contextSignals.push({
+        id: 'ESCALATION',
+        weight: CATALOG.ESCALATION.weight,
+        source: 'context',
+        ...signalText('ESCALATION', req.lang),
+        spans: chat.escalationSpans,
+      });
+    }
+    return { ruleSignals, identity, collect, email, screen, chat, contextSignals };
   });
-  const { ruleSignals, identity, collect } = patterns;
+  const { ruleSignals, identity, collect, email, screen, chat, contextSignals } = patterns;
   const apk = ruleSignals.find((s) => s.id === 'APK_LINK');
   if (apk) entities.apkMentions = dedupeSpans([...entities.apkMentions, ...apk.spans]);
 
@@ -316,6 +367,7 @@ export async function analyzeRequest(
     ...linkSignals,
     ...(qr?.signals ?? []),
     ...(collect?.signals ?? []),
+    ...contextSignals,
     ...ind.signals,
     ...(modelSig ? [modelSig] : []),
   ]);
@@ -383,7 +435,11 @@ export async function analyzeRequest(
       : ruleChoice;
   // a QR that opens a website is a phishing route when nothing more specific was found
   const category =
-    qr?.qrKind === 'website' && chosen.category === 'other' ? 'phishing_link' : chosen.category;
+    qr?.qrKind === 'website' && chosen.category === 'other'
+      ? 'phishing_link'
+      : chosen.category === 'other' && ind.category
+        ? ind.category
+        : chosen.category;
   const categoryConfidence = chosen.confidence;
 
   // explanation: PIN truth for receive-with-PIN traps; QR payee (or "opens a website") always first
@@ -395,7 +451,31 @@ export async function analyzeRequest(
       : qr?.lead && verdict !== 'no_signs' && category
         ? categoryText(category, req.lang).oneLiner
         : explain(verdict, category, signals, req.lang);
-  const explanation = [qr?.lead, body].filter(Boolean).join(' ');
+  // lookups (bare UPI ID, number or website): say what the bundled reports and the blocklist show
+  let lookupLead: string | undefined;
+  let lookupBody = body;
+  if (req.kind === 'url' || req.kind === 'upi_id' || req.kind === 'phone') {
+    const what = template(
+      req.kind === 'url' ? 'whatUrl' : req.kind === 'upi_id' ? 'whatUpi' : 'whatPhone',
+      req.lang,
+    );
+    const others = signals.some(
+      (s) => s.weight > 0 && s.id !== 'KNOWN_INDICATOR' && s.id !== 'BLOCKLISTED',
+    );
+    if (ind.blocked) lookupLead = template('lookupBlocked', req.lang, { what });
+    else if (ind.score !== null) {
+      const cat = ind.category ?? category;
+      lookupLead = template('lookupReported', req.lang, {
+        what,
+        reports: String(ind.maxReports),
+        category: cat ? categoryText(cat, req.lang).name : '',
+      });
+    }
+    if (lookupLead && !others) lookupBody = '';
+    else if (!lookupLead && verdict === 'no_signs')
+      lookupBody = template('lookupClean', req.lang, { what });
+  }
+  const explanation = [qr?.lead, lookupLead, lookupBody].filter(Boolean).join(' ');
 
   const result: AnalysisResult = {
     id: newId(),
@@ -407,13 +487,18 @@ export async function analyzeRequest(
     verdict,
     riskScore: fusion.riskScore,
     severity: severityOf(fusion.riskScore),
-    confidence: confidenceOf(signals, fusion.rules, modelScore, verdict, text.length),
+    confidence:
+      req.kind === 'image' && req.ocr && isWeakOcr(req.ocr)
+        ? Math.min(0.6, confidenceOf(signals, fusion.rules, modelScore, verdict, text.length))
+        : confidenceOf(signals, fusion.rules, modelScore, verdict, text.length),
     category,
     categoryConfidence,
     signals,
     claimVsReality: dedupeClaims([
       ...(collect?.claims ?? []),
       ...(qr?.claims ?? []),
+      ...(screen?.claims ?? []),
+      ...(email?.claims ?? []),
       ...identity.claims,
     ]),
     entities,
@@ -429,11 +514,11 @@ export async function analyzeRequest(
   };
   if (ai) result.aiProvider = ai.provider;
   if (qr?.payload) result.qr = qr.payload;
-  if (req.kind === 'chat')
-    result.chat = chatTurns(raw, text, (t) => scoreLive(t, req.lang).riskScore);
+  if (chat) result.chat = chat.risks;
 
   let actions: ActionId[];
   if (collect && verdict !== 'no_signs') actions = collect.actions;
+  else if (screen && verdict !== 'no_signs') actions = [...COLLECT_ACTIONS];
   else {
     const userText = (result.chat ?? [])
       .filter((t) => t.sender === 'me')

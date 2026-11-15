@@ -358,6 +358,18 @@
     "realityRequesterPersonal": "{upi} একটি ব্যক্তিগত UPI ID, কোনো আসল অ্যাকাউন্ট নয়",
     "evidenceLink": "লিংকের ডোমেইন {domain} {brand}-এর আসল ডোমেইন নয়",
     "evidenceUpi": "ব্যক্তিগত UPI ID {upi} ব্যবহার করছে",
-    "evidencePhone": "ব্যক্তিগত মোবাইল নম্বর {phone} দেওয়া হয়েছে"
+    "evidencePhone": "ব্যক্তিগত মোবাইল নম্বর {phone} দেওয়া হয়েছে",
+    "claimSender": "প্রেরক: {domain}",
+    "realitySender": "{domain} থেকে পাঠানো, {official} থেকে নয়",
+    "realitySenderUnknown": "{domain} থেকে পাঠানো, যা {brand}-এর আসল ঠিকানা নয়",
+    "realityReplyTo": "উত্তর যাবে {domain}-এ",
+    "evidenceSender": "প্রেরকের ডোমেইন {domain} {brand}-এর আসল ডোমেইন নয়",
+    "whatUpi": "UPI ID",
+    "whatPhone": "নম্বর",
+    "whatUrl": "ওয়েবসাইট",
+    "lookupReported": "এই {what} {reports}টি প্রতারণার রিপোর্টে আছে ({category}, নমুনা ডেটা)।",
+    "lookupBlocked": "আপনি এই {what} আগে ব্লক করেছেন।",
+    "lookupClean": "আমাদের নমুনা তালিকায় এই {what}-এর কোনো রিপোর্ট নেই। এতে প্রমাণ হয় না যে এটি আসল, তাই টাকা দেওয়া বা তথ্য দেওয়ার আগে যাচাই করুন।",
+    "faqNotCovered": "আমাদের গাইডে এখনও এটি নেই। অ্যাকাউন্ট থেকে টাকা গেলে 1930-এ কল করুন বা cybercrime.gov.in-এ রিপোর্ট করুন।"
   }
 }

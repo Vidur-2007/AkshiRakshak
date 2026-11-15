@@ -2,7 +2,6 @@
  * @akshi/engine — public API (SPEC.md §6.5). Isomorphic: no DOM APIs here.
  */
 import {
-  HealthResponseSchema,
   normalizeText,
   type AnalysisResult,
   type AnalyzeRequest,
@@ -12,6 +11,7 @@ import {
 import { inspectUrlLocal, inspectUrlNetwork } from './links/inspect';
 import { getModel } from './model';
 import { getJson } from './net';
+import { netSchemas } from './schemas-lazy';
 import { analyzeRequest } from './pipeline/analyze';
 import { precompileLexicons } from './rules/engine';
 
@@ -22,7 +22,8 @@ export { detectInputKind } from './detect/kind';
 export { parseUpiUri } from './upi/uri';
 export { maskPII } from './mask';
 export { lookupIndicator } from './indicators';
-export { askAssistant } from './assistant';
+export { askAssistant, searchFaq } from './assistant';
+export { isWeakOcr, WEAK_OCR_CONFIDENCE, WEAK_OCR_MIN_CHARS } from './ocr/quality';
 export { signalText, categoryText, actionText, stageText } from './i18n';
 
 export function analyze(
@@ -52,7 +53,9 @@ export async function warmup(): Promise<void> {
 }
 
 export async function apiHealth(): Promise<{ online: boolean; ai: boolean }> {
-  const res = HealthResponseSchema.safeParse(await getJson('/api/health', { timeoutMs: 2000 }));
+  const raw = await getJson('/api/health', { timeoutMs: 2000 });
+  if (raw === null) return { online: false, ai: false };
+  const res = (await netSchemas()).HealthResponseSchema.safeParse(raw);
   if (!res.success) return { online: false, ai: false };
   return { online: true, ai: res.data.ai.groq || res.data.ai.gemini };
 }

@@ -11,6 +11,7 @@ import { normalizeText, type Lang, type OcrBox, type OcrResult } from '@akshi/co
 import { getOcrWorker } from './ocr/worker';
 
 export { setOcrAssetBase, terminateOcr } from './ocr/worker';
+export { isWeakOcr } from './ocr/quality';
 
 export const MAX_OCR_WIDTH = 1600;
 

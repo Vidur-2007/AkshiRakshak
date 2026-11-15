@@ -7,15 +7,10 @@
  * Network extras (only through src/net.ts): redirect expansion and domain age, run in parallel
  * with a 3-second total budget; any failure is silent and the local finding stands.
  */
-import {
-  DomainAgeSchema,
-  RedirectChainSchema,
-  type SignalId,
-  type Span,
-  type UrlFinding,
-} from '@akshi/contracts';
+import { type SignalId, type Span, type UrlFinding } from '@akshi/contracts';
 import { parse } from 'tldts';
 import { getJson } from '../net';
+import { netSchemas } from '../schemas-lazy';
 import { CATALOG } from '../rules/catalog';
 import { findLookalike } from './lookalike';
 import { toUnicodeHost } from './punycode';
@@ -224,6 +219,7 @@ export async function inspectUrlNetwork(
         : null,
     ]);
     if (ctrl.signal.aborted) return { finding: u, used: false };
+    const { RedirectChainSchema, DomainAgeSchema } = await netSchemas();
     const chain = RedirectChainSchema.safeParse(chainRaw);
     if (chain.success && !ctrl.signal.aborted) {
       used = true;

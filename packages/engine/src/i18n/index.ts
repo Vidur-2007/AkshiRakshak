@@ -49,6 +49,18 @@ export const TEMPLATE_KEYS = [
   'evidenceLink',
   'evidenceUpi',
   'evidencePhone',
+  'claimSender',
+  'realitySender',
+  'realitySenderUnknown',
+  'realityReplyTo',
+  'evidenceSender',
+  'whatUpi',
+  'whatPhone',
+  'whatUrl',
+  'lookupReported',
+  'lookupBlocked',
+  'lookupClean',
+  'faqNotCovered',
 ] as const;
 export type TemplateKey = (typeof TEMPLATE_KEYS)[number];
 

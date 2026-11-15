@@ -193,6 +193,7 @@ export const CATEGORY_CONTEXT: readonly CategoryContext[] = [
   { when: 'BRAND_MISMATCH', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
   { when: 'BRAND_MISMATCH', textAny: PARCEL_WORDS, category: 'courier_customs' },
   { when: 'BRAND_MISMATCH', withAny: ['BANK_IMPERSONATION', 'THREAT_BLOCK'], category: 'fake_kyc' },
+  { when: 'BRAND_MISMATCH', withAny: ['AUTHORITY_CLAIM'], category: 'impersonation_govt' },
   { when: 'CUSTOMER_CARE_NUMBER', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
 ];
 

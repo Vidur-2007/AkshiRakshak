@@ -4,7 +4,6 @@
  * it again (never trust the network) and maps red-flag quotes back to spans in the original text.
  */
 import {
-  AiAnalyzeResponseSchema,
   type AiAnalyzeRequest,
   type AiAnalyzeResponse,
   type InputKind,
@@ -17,6 +16,7 @@ import {
 import { signalText } from './i18n';
 import { maskPII } from './mask';
 import { postJson } from './net';
+import { netSchemas } from './schemas-lazy';
 
 /** Server tries Groq then Gemini with 8 s each; leave room for both. */
 export const AI_CLIENT_TIMEOUT_MS = 20_000;
@@ -49,7 +49,8 @@ export async function requestAiOpinion(input: AiInput): Promise<AiAnalyzeRespons
     timeoutMs: AI_CLIENT_TIMEOUT_MS,
     ...(input.signal ? { signal: input.signal } : {}),
   });
-  const parsed = AiAnalyzeResponseSchema.safeParse(raw);
+  if (raw === null) return null;
+  const parsed = (await netSchemas()).AiAnalyzeResponseSchema.safeParse(raw);
   if (!parsed.success) return null;
   // the server already keeps only exact quotes; re-check against what we sent
   const redFlags = parsed.data.redFlags.filter((f) => f.quote && body.maskedText.includes(f.quote));

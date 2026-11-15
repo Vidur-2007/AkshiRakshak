@@ -357,6 +357,18 @@
     "realityRequesterPersonal": "{upi} is a personal UPI ID, not an official account",
     "evidenceLink": "Link domain {domain} is not an official {brand} domain",
     "evidenceUpi": "Uses the personal UPI ID {upi}",
-    "evidencePhone": "Gives the personal mobile number {phone}"
+    "evidencePhone": "Gives the personal mobile number {phone}",
+    "claimSender": "Sender: {domain}",
+    "realitySender": "Sent from {domain}, not {official}",
+    "realitySenderUnknown": "Sent from {domain}, which is not an official {brand} address",
+    "realityReplyTo": "Replies go to {domain}",
+    "evidenceSender": "Sender domain {domain} is not an official {brand} domain",
+    "whatUpi": "UPI ID",
+    "whatPhone": "number",
+    "whatUrl": "website",
+    "lookupReported": "This {what} appears in {reports} scam reports ({category}, sample data).",
+    "lookupBlocked": "You blocked this {what} earlier.",
+    "lookupClean": "No reports found for this {what} in our sample list. That does not prove it is genuine, so check before you pay or share anything.",
+    "faqNotCovered": "Our guide does not cover this yet. If money left your account, call 1930 or report at cybercrime.gov.in."
   }
 }

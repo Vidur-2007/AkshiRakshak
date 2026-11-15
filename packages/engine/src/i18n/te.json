@@ -358,6 +358,18 @@
     "realityRequesterPersonal": "{upi} ఒక వ్యక్తిగత UPI ID, అధికారిక ఖాతా కాదు",
     "evidenceLink": "లింక్ డొమైన్ {domain} {brand} అధికారిక డొమైన్ కాదు",
     "evidenceUpi": "వ్యక్తిగత UPI ID {upi} వాడుతోంది",
-    "evidencePhone": "వ్యక్తిగత మొబైల్ నంబరు {phone} ఇచ్చింది"
+    "evidencePhone": "వ్యక్తిగత మొబైల్ నంబరు {phone} ఇచ్చింది",
+    "claimSender": "పంపినవారు: {domain}",
+    "realitySender": "{domain} నుండి పంపబడింది, {official} నుండి కాదు",
+    "realitySenderUnknown": "{domain} నుండి పంపబడింది, ఇది {brand} అధికారిక చిరునామా కాదు",
+    "realityReplyTo": "జవాబులు {domain} కు వెళ్తాయి",
+    "evidenceSender": "పంపినవారి డొమైన్ {domain} {brand} అధికారిక డొమైన్ కాదు",
+    "whatUpi": "UPI ID",
+    "whatPhone": "నంబరు",
+    "whatUrl": "వెబ్ సైట్",
+    "lookupReported": "ఈ {what} {reports} మోసపు ఫిర్యాదుల్లో ఉంది ({category}, నమూనా డేటా).",
+    "lookupBlocked": "మీరు ఈ {what} ను ఇంతకు ముందు బ్లాక్ చేశారు.",
+    "lookupClean": "మా నమూనా జాబితాలో ఈ {what} పై ఫిర్యాదులు లేవు. అయినా ఇది నిజమైనదని రుజువు కాదు, కాబట్టి చెల్లించే లేదా వివరాలు ఇచ్చే ముందు తనిఖీ చేయండి.",
+    "faqNotCovered": "మా గైడ్ లో దీని గురించి ఇంకా లేదు. మీ ఖాతా నుండి డబ్బు వెళ్తే, 1930 కు కాల్ చేయండి లేదా cybercrime.gov.in లో ఫిర్యాదు చేయండి."
   }
 }
