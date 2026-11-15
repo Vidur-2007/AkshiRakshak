@@ -118,7 +118,8 @@ packages/engine/
     extract/entities.ts urls, upi ids, phones, amounts, emails, apk mentions
     rules/catalog.ts    signal weights, floors, signal→category map
     rules/engine.ts     lexicon + regex matcher
-    rules/lexicons/{en,hi,te,bn}.json
+    rules/lexicons/{en,hi-latn}.json   core: English and romanised Hindi
+    rules/lexicons/{hi,te,bn}.json     lazy per script: Devanagari, Telugu, Bengali
     links/inspect.ts    URL inspector
     links/registry.ts   official domains, brands, shorteners, risky TLDs, homoglyphs
     upi/handles.ts      PSP handles, personal vs merchant heuristics
@@ -175,7 +176,7 @@ All spans are offsets into the normalised text.
 
 ### 5.1 Lexicon format
 
-`rules/lexicons/<lang>.json`:
+`rules/lexicons/<lang>.json` (one script per file: romanised Hindi lives in `hi-latn.json` so Latin text never waits for a lazy pack):
 
 ```json
 {

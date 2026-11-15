@@ -1,6 +1,31 @@
 # Progress — engine
 
+## Production
+
+- **URL: not deployed yet.** No Vercel project is linked to the repo (no `.vercel/`, no GitHub deployments or webhooks on 2026-11-15) and `main` is still the Phase 0 skeleton. Smoke check: not run on production (see In progress). `npm run smoke -- <url>` is ready and was dry-run against `npm run dev:api`: expand (2 hops, http→https), the private-address refusal and domain-age pass; health/AI/ask fail locally only because no keys are set.
+
 ## Done
+
+**Phase 5 — calibration, performance, deploy prep (2026-11-15), branch `feat/engine`.** `git merge origin/main`: already up to date. 381 tests pass.
+
+- **Eval-driven fixes (task 1): not started — blocked.** There is no C eval report: `packages/content/src/eval-report.json`, `eval/out/report.md` and `docs/eval-notes.md` do not exist on any branch and `feat/data` has no commits. Nothing was tuned; the golden suite was not changed.
+- **Calibration (task 2):** analyze() and scoreLive() already read thresholds, fusion weights and the AI blend from `loadCalibration()`. New `pipeline/calibration.ts` checks C's values by hand (no zod in the core): `0 < suspicious < scam < 100`, weights in [0, 1] with `rules > 0`, `aiBlend` in [0, 1]; anything invalid (or a throwing loader) falls back to the spec defaults as a whole, with one console warning. Severity keeps the §7.3 bands but is clamped to the verdict, so moved thresholds cannot give "scam / medium" or "No warning signs found / high". `test/calibration.test.ts` mocks C's loader and checks verdicts, layer weights, scoreLive and the fallback.
+- **Performance (task 3), SPEC_A §14:**
+
+  | Budget | Result |
+  |---|---|
+  | `scoreLive` 1,000 chars < 5 ms | **2.2 ms** median (laptop) |
+  | `analyze` p95 < 150 ms, model loaded, offline, ≤ 2,000 chars | **17.4 ms** p95 (p50 4.7, max 23) on 200 messages |
+  | Engine core ≤ 60 KB gz excluding lexicons and model JSON | **54.2 KB** (60.0 KB with the two Latin lexicon packs) |
+  | Lexicons lazy per script, ≤ 40 KB gz total | **13.7 KB** total; Devanagari 3.0, Telugu 2.7, Bengali 2.5 KB load on first use |
+
+  - The analyze benchmark (`test/perf.test.ts`) uses C's 200 validation texts (`packages/model/test/parity-fixtures.json`) and C's model when they exist. Until then it runs on a synthetic 200-message corpus (four languages, scam and genuine, chats, emails, 40–2,000 chars) with a **proxy model** built to C's §4.1/§4.4 spec (same featuriser, 20,000-feature cap, TF-IDF + L2, sparse category logits, top-25 contributions with spans). **Rerun after Merge 2 for the real number.** Stage p95: links 6.2 ms, patterns 7.0 ms, model 7.2 ms.
+  - Bundle work: tldts → **tldts-icann 7.5.2** (same API and maintainer; the engine never enabled private suffixes, so results are identical — checked on 34 hosts and the full suite; −16 KB gz). Romanised Hindi split out to `hi-latn.json` (core, with English); `hi`/`te`/`bn` lexicon packs load per script. hi/te/bn **strings** load lazily and fall back to English per string until loaded. The **analyze pipeline** is its own 11 KB chunk. `warmup(lang?)` preloads model, pipeline, packs and strings (only that language's with `lang`). analyze() awaits what it needs, so every scan is complete; scoreLive() and the live listener use what has loaded and start loading the rest (next keystroke has it). zod stays in a 30 KB lazy chunk.
+  - **`npm run size`** (`scripts/bundle-size.ts`) builds a scan entry (`analyze`, `scoreLive`, `warmup`) with Vite, minifies, gzips, separates eager and lazy chunks and exits 1 over budget. Total of all engine chunks: 126 KB gz.
+  - **Found: Vite 8 (Rolldown) copies the tldts trie three times.** Its default `inlineConst` inlines tldts's large exported `labelText` string at each use site: the scan entry's core goes from 59.7 to **102.8 KB gz**. Setting `build.rolldownOptions.optimization.inlineConst: false` fixes it — B's request below.
+- **Deploy prep (task 4):** `npm run smoke -- https://<project>.vercel.app` covers the API half of §16 (app shell and service worker, security headers, health with both providers, expand + SSRF refusal, domain-age, AI second opinion, ask, reports), validating each reply with the contract schemas. The phone checks stay manual.
+- **Requests to A (task 5):** none new. B's four requests in web.md are the ones answered in Phase 4 (below); C's log has none.
+- Docs: SPEC.md §6.5 `warmup(lang?)` (additive, optional); SPEC_A §3/§5.1 lexicon layout.
 
 **Phase 4 — chat, email, assistant, lookups, collect screens, P2 extras (2026-11-15), branch `feat/engine`.** `git merge origin/main` was a no-op: `main` is still the Phase 0 skeleton (C has not pushed `feat/data`).
 
@@ -22,12 +47,13 @@
 
 ## In progress
 
-- **Merge 1 (C → A → B):** still waiting — on 2026-11-15 `origin/main` was the Phase 0 skeleton, `origin/feat/data` had no commits and there were no PRs. When the human confirms C's PR is merged: merge `origin/main` (lockfile: take main's, `npm install`, retest), rerun the golden tests against C's real model and record verdict changes here, open `feat/engine → main`.
+- **Merge 1 and Merge 2 (C → A → B):** both still waiting — on 2026-11-15 `origin/main` was the Phase 0 skeleton, `origin/feat/data` had no commits and there were no PRs. When the human confirms C's PR is merged: merge `origin/main` (lockfile: take main's, `npm install`, retest), rerun all tests, the golden suite against C's real model (record verdict changes here), `npm run size` and the analyze benchmark (C's model and validation texts), push, open `feat/engine → main`.
+- **Eval-driven fixes:** waiting for C's eval report and `docs/eval-notes.md` (validation false positives/negatives). Will fix the ones in rules, lexicons and the link/UPI analysers, from validation findings only.
+- **Production deploy (§16):** waiting for the human to create the Vercel project (below) and for Merge 2. Then: confirm `main` builds, `/api/health` shows both providers, `npm run smoke -- <url>`, the phone checks, and the URL goes at the top of this log (and to B and C).
 
 ## Deferred
 
 - P6 hardening: fuzz tests (1,000 random strings, 50 KB input), security review, Playwright support.
-- Per-language lazy loading of the engine strings (hi/te/bn JSON ≈ 120 KB raw) — only if B still needs bytes after deferring the engine load.
 - Manual acceptance with real keys (`/api/ai/analyze`, `/api/ask`, `/api/ai/vision`) and a real Upstash store — needs the human's keys (steps below).
 
 ## Known issues
@@ -36,6 +62,8 @@
 - **Email false-positive risk:** banks sometimes send from domains not in the registry (for example a separate alerts domain); such genuine emails would get BRAND_MISMATCH. Add those domains to `links/registry.ts` when seen.
 - **Chat sender guess:** without "You"/"Me" names, the first speaker is assumed to be the other person. If the user exported a chat they started, senders are swapped (risk scores are unaffected; only `me`/`them` labels and escalation's choice of turns).
 - **Cloud vision sends the image**, which cannot be masked — the UI must ask before calling `ocrWithCloudVision`.
+- **Lazy packs and the first keystroke:** without `warmup(lang)`, the first `scoreLive` call on Devanagari/Telugu/Bengali text misses that script's phrases (the pack starts loading; the next call has it) and labels are English until the language's strings load. analyze() always awaits them.
+- **Benchmark is a proxy** until C's model and validation texts land (same featuriser and feature cap, random weights).
 - **AI_FLAG ids repeat** (one per red flag); UI lists must not key by `id` alone.
 - **Rate limits, caches and the in-memory limiter are per function instance**; reports use Redis and are global.
 - **esbuild code splitting** hoists the contracts schemas module into a shared up-front chunk; Rollup/Vite drop the unused re-export under `sideEffects: false`, so B's real build should keep zod lazy — B please confirm in the bundle report.
@@ -43,10 +71,24 @@
 
 ## Requests
 
+**New in Phase 5:**
+
+- **To B — Vite 8 duplicates the tldts trie (−43 KB gz on the scan page):** add to `apps/web/vite.config.ts`:
+  ```ts
+  build: { rolldownOptions: { optimization: { inlineConst: false } } }
+  ```
+  Rolldown's default constant inlining copies tldts's ~120 KB `labelText` string to each of its 3 use sites. Measured on the scan entry: engine core 102.8 → 59.7 KB gz. Check with your bundle report (search the output for `orgmilcomschnetedugovdrrforms`: it should appear once).
+- **To B — lazy engine chunks:** the engine now has lazy chunks (analyze pipeline, hi/te/bn lexicon packs and strings, zod schemas). Please make sure the service worker precaches **all** engine chunks so the airplane-mode scan works in every language after one visit (vite-plugin-pwa's default `globPatterns` covers `**/*.js`; check the hashed `analyze-*`, `hi-*`, `te-*`, `bn-*`, `schemas-*` files are in the precache manifest). Call `warmup(userLang)` when the scan page opens (and `warmup(newLang)` on a language switch). Before warmup, `scoreLive` may miss Indic-script phrases on the first keystroke and show English labels; analyze() is always complete.
+- **To C:** when your eval runs, please list the validation false positives and false negatives that come from rules, lexicons or the link/UPI checks in `docs/eval-notes.md` (text, expected, got, which signal) — A fixes those. Also, the parity fixtures path `packages/model/test/parity-fixtures.json` is what A's analyze benchmark reads (array of `{ text, lang }`, or `{ cases: [...] }`).
+- **To the human — Vercel (§16 step 1):** vercel.com → Add New → Project → import `Vidur-2007/AkshiRakshak` (Hobby), framework **Other**, root = repo root (the repo's `vercel.json` sets install, build and output). Production branch `main`. Environment variables for **Production and Preview**: `GROQ_API_KEY`, `GROQ_MODEL`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_VISION_MODEL`; then Storage/Marketplace → Upstash Redis → connect to the project (adds `KV_REST_API_URL`/`KV_REST_API_TOKEN`). Tell A the production URL; A runs `npm run smoke` and records the results here. The project only becomes useful after Merge 2 (main has no web app yet).
+
+**Earlier:**
+
+
 Answers to Laptop B's requests (docs/progress/web.md on `feat/web`):
 
 1. **Root typecheck covers apps/web:** done without a tsconfig reference (that would break `tsc -b` on `main` until `apps/web` lands). Please add `"typecheck": "tsc -b"` to `apps/web/package.json`; the root `npm run typecheck` now runs every workspace `typecheck` script. A will also add the `apps/web` reference at Merge 1 if you prefer.
-2. **Engine bundle:** fixtures are out of the engine, `sideEffects: false` is set on contracts and engine, and zod is lazy. Core ≈ 112 KB gzipped — together with the 189 KB shell that is over `/scan`'s 200 KB, so **please load the engine after first paint** (dynamic `import('@/lib/engine')` on the scan page, `warmup()` when the page opens). If that is not enough, tell A and A will split the hi/te/bn strings per language.
+2. **Engine bundle** *(superseded in Phase 5: core is now 54 KB gz without lexicons, with B's `inlineConst` fix)*: fixtures are out of the engine, `sideEffects: false` is set on contracts and engine, and zod is lazy. Core ≈ 112 KB gzipped — together with the 189 KB shell that is over `/scan`'s 200 KB, so **please load the engine after first paint** (dynamic `import('@/lib/engine')` on the scan page, `warmup()` when the page opens). If that is not enough, tell A and A will split the hi/te/bn strings per language.
 3. **Fake KYC sample verdict:** fixed since Phase 2 — `sample-fake-kyc` scores **80 (scam)** on `feat/engine`; you will see it after Merge 1.
 4. **typescript-eslint advisory:** no fixed release yet (8.72.2 is still the latest); A will bump it when one ships.
 
