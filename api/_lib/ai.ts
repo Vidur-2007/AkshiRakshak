@@ -169,12 +169,13 @@ export function cleanOutput(
     explanationWords.length > 60
       ? `${explanationWords.slice(0, 60).join(' ')}…`
       : o.explanation.trim();
-  // §1.3: an explanation that calls the message safe is unusable (next provider, or none)
-  if (!explanation || claimsSafe(explanation)) return null;
+  if (!explanation) return null;
+  // §1.3: never show model text that calls the message safe. The score still counts; the engine
+  // falls back to its own explanation when this one is empty.
   return {
     category,
     likelihood: Math.round(Math.max(0, Math.min(100, o.likelihood))),
-    explanation,
+    explanation: claimsSafe(explanation) ? '' : explanation,
     redFlags,
     advice: claimsSafe(o.advice) ? '' : o.advice.trim().slice(0, 300),
   };

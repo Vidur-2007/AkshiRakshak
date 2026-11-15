@@ -85,13 +85,13 @@ describe('truth guard (§1.3) on model text', () => {
       expect(claimsSafe(t), t).toBe(false);
   });
 
-  it('drops an AI explanation that calls the message safe, and such red-flag reasons', () => {
-    expect(
-      cleanOutput({ ...GOOD, explanation: 'This message looks safe.' }, AI_BODY.maskedText),
-    ).toBeNull();
+  it('blanks an AI explanation or advice that calls the message safe; keeps the score', () => {
     const out = cleanOutput(
       {
         ...GOOD,
+        likelihood: 12,
+        explanation: 'This looks like a genuine bank alert and is safe.',
+        advice: 'The link is safe.',
         redFlags: [
           { quote: 'share the OTP', reason: 'Banks never ask for an OTP.' },
           { quote: 'account will be blocked', reason: 'This part is safe.' },
@@ -99,20 +99,20 @@ describe('truth guard (§1.3) on model text', () => {
       },
       AI_BODY.maskedText,
     )!;
+    expect(out.likelihood).toBe(12);
+    expect(out.explanation).toBe('');
+    expect(out.advice).toBe('');
     expect(out.redFlags.map((f) => f.quote)).toEqual(['share the OTP']);
-    expect(cleanOutput({ ...GOOD, advice: 'The link is safe.' }, AI_BODY.maskedText)!.advice).toBe(
-      '',
-    );
+    expect(cleanOutput(GOOD, AI_BODY.maskedText)!.explanation).toBe(GOOD.explanation);
   });
 
-  it('/api/ai/analyze falls through to the next provider, then 503', async () => {
-    const unsafe = { ...GOOD, explanation: 'This is not a scam, it is safe.' };
-    setAiProviders([provider('groq', unsafe), provider('gemini', GOOD)]);
+  it('/api/ai/analyze never returns a "safe" explanation', async () => {
+    setAiProviders([provider('groq', { ...GOOD, explanation: 'This is not a scam, it is safe.' })]);
     const res = await aiAnalyze(req('/api/ai/analyze', AI_BODY));
     expect(res.status).toBe(200);
-    expect(((await res.json()) as { provider: string }).provider).toBe('gemini');
-    setAiProviders([provider('groq', unsafe), provider('gemini', unsafe)]);
-    expect((await aiAnalyze(req('/api/ai/analyze', AI_BODY))).status).toBe(503);
+    const body = (await res.json()) as { explanation: string; likelihood: number };
+    expect(body.explanation).toBe('');
+    expect(body.likelihood).toBe(92);
   });
 
   it('/api/ask never returns an answer that calls something safe', async () => {

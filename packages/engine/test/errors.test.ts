@@ -173,3 +173,36 @@ describe('cancelled scan', () => {
     ).rejects.toMatchObject({ name: 'AbortError' });
   });
 });
+
+describe('AI reply with a blanked explanation (server truth guard, §1.3)', () => {
+  it('still counts the AI score and shows the local explanation', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) =>
+        String(url).includes('/api/ai/analyze')
+          ? new Response(
+              JSON.stringify({
+                provider: 'groq',
+                model: 'm',
+                category: 'fake_kyc',
+                likelihood: 95,
+                explanation: '',
+                redFlags: [],
+                advice: '',
+              }),
+            )
+          : Promise.reject(new TypeError('offline')),
+      ),
+    );
+    const r = await analyze({
+      kind: 'message',
+      text: MSG,
+      lang: 'en',
+      options: { cloudAI: true, expandLinks: false, domainAge: false },
+    });
+    expect(r.aiUsed).toBe(true);
+    expect(r.layers.find((l) => l.layer === 'ai')?.available).toBe(true);
+    expect(r.explanation).toBe(base.explanation);
+    expect(r.explanation.length).toBeGreaterThan(0);
+  });
+});
