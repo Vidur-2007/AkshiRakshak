@@ -54,14 +54,19 @@ export type ModelOutput = z.infer<typeof ModelOutputSchema>;
 export interface AiProvider {
   name: 'groq' | 'gemini';
   model: string;
-  generate(input: { system: string; prompt: string; signal: AbortSignal }): Promise<unknown>;
+  /** `schema` defaults to ModelOutputSchema (the analyze reply); /api/ask passes its own. */
+  generate(input: {
+    system: string;
+    prompt: string;
+    signal: AbortSignal;
+    schema?: z.ZodType;
+  }): Promise<unknown>;
 }
 
 /** Providers with both a key and a model name configured, in fallback order. */
 export function providersFromEnv(env: NodeJS.ProcessEnv = process.env): AiProvider[] {
   const out: AiProvider[] = [];
   const common = {
-    schema: ModelOutputSchema,
     temperature: 0.2,
     maxOutputTokens: 500,
     maxRetries: 0,
@@ -72,13 +77,14 @@ export function providersFromEnv(env: NodeJS.ProcessEnv = process.env): AiProvid
     out.push({
       name: 'groq',
       model,
-      async generate({ system, prompt, signal }) {
+      async generate({ system, prompt, signal, schema }) {
         const [{ generateObject }, { createGroq }] = await Promise.all([
           import('ai'),
           import('@ai-sdk/groq'),
         ]);
         const r = await generateObject({
           ...common,
+          schema: schema ?? ModelOutputSchema,
           model: createGroq({ apiKey })(model),
           system,
           prompt,
@@ -94,13 +100,14 @@ export function providersFromEnv(env: NodeJS.ProcessEnv = process.env): AiProvid
     out.push({
       name: 'gemini',
       model,
-      async generate({ system, prompt, signal }) {
+      async generate({ system, prompt, signal, schema }) {
         const [{ generateObject }, { createGoogleGenerativeAI }] = await Promise.all([
           import('ai'),
           import('@ai-sdk/google'),
         ]);
         const r = await generateObject({
           ...common,
+          schema: schema ?? ModelOutputSchema,
           model: createGoogleGenerativeAI({ apiKey })(model),
           system,
           prompt,
@@ -171,9 +178,9 @@ export function cleanOutput(
   };
 }
 
-type Outcome = 'ok' | 'timeout' | 'rate_limited' | 'invalid' | 'error';
+export type Outcome = 'ok' | 'timeout' | 'rate_limited' | 'invalid' | 'error';
 
-function classify(err: unknown, signal: AbortSignal): Outcome {
+export function classify(err: unknown, signal: AbortSignal): Outcome {
   if (signal.aborted) return 'timeout';
   const e = err as { statusCode?: number; name?: string };
   if (e?.statusCode === 429) return 'rate_limited';

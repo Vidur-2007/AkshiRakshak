@@ -18,7 +18,7 @@
     "dev:api": "tsx scripts/dev-api.ts",
     "build": "npm run build --workspaces --if-present",
     "test": "vitest run",
-    "typecheck": "tsc -b",
+    "typecheck": "tsc -b && npm run typecheck --workspaces --if-present",
     "lint": "eslint .",
     "format": "prettier --write .",
     "eval": "npm run eval --workspaces --if-present",
