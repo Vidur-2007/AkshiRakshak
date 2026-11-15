@@ -49,6 +49,11 @@
 
 ### Not exercised with the stub engine (check after Merge 1)
 
+- **EVAL_REPORT** is the Phase 0 placeholder (its notes say PLACEHOLDER). The Proof page and the landing proof numbers show a "Sample data · Placeholder numbers" banner until C's real report replaces it. **Do not record the demo with placeholder numbers.**
+- **Assistant**: the stub `askAssistant` matches FAQ items by word overlap, so "what should I do if I shared my OTP" returned the digital-arrest answer. The online path (`/api/ask`) was never called.
+- **Drills**: only 2 stub drills (en/hi/te and en/hi). Bengali and the 6-drill P0 count come from C.
+- **No model JSON** exists yet (`loadModel()` returns null), so the precache "model JSON" rule is untested in practice. It's a `*.js` chunk once C's model lands.
+
 - **Statements**: the stub parser accepts only the canonical CSV and returns a single error with no row number ("Only the canonical CSV format is supported by the stub"). Row-number display (`parseErrorRow`) is tested with a synthetic message only. `analyzeStatement` returns fixture-like anomalies and an English narrative whatever `lang` is.
 - **Graph**: `buildEntityGraph` returns the bundled sample graph (11 nodes, 3 clusters) and ignores history. The dashboard's network preview doesn't yet reflect the user's own checks.
 
@@ -89,6 +94,89 @@
   - **Dashboard**: the feed updates live on a scan; Lookup hit with "Sample data", and the miss wording; landscape note and labels.
   - The `/sos` route test now checks the takeover: no navigation, and a `tel:1930` link.
 
+### Phase 4 — landing, story, network, Dojo, Ask, Proof, share cards, PWA (15 Nov 2026)
+
+- **Merge step**: `git fetch` found `origin/main` still at the Phase 0 skeleton (`c81f239`). A's work is on `feat/engine` (up to their Phase 6); C's `feat/data` has not moved. Nothing to merge, so this phase is built on the stubs again. I didn't merge another laptop's branch directly.
+- **Dependencies** (all lazy, none in the first load): `react-force-graph-2d` (68 KB gzipped, in the ForceGraphView chunk), `lenis` (5 KB), `html-to-image` (about 5 KB, loaded on share), plus `vite-plugin-pwa` (build-time). **No three.js**: the human chose a Canvas 2D ShieldCore over three.js + R3F (about 249 KB gzipped).
+- **Landing (`/`)**: localised hero headline (`text-hero` clamp), subhead, and a glass input with `layoutId="scan-card"`. **LiveRiskMeter** runs `scoreLive` at most every 150 ms on an animation frame, showing a bar in the verdict colour, the number in mono, the verdict word with icon, and up to three signal chips (`signalText`). "Scan now" runs the **real scan** through `useScan` and morphs into `/scan/:id`; the core settles into the live verdict's colour as it goes.
+- **ShieldCore** (`components/landing/ShieldCore.tsx`, Canvas 2D, 2.2 KB lazy chunk):
+  - A rotating point sphere on a Fibonacci lattice (high tier 6,000 points, mid 2,500), depth-bucketed alpha and size, and a soft glow in the core colour.
+  - Each typed character spawns a particle that drifts into the core.
+  - An amber or red ring pulse fires when the live score crosses 40 or 70 (`crossedThreshold`).
+  - It settles into the verdict colour over 700 ms with slower rotation, and has pointer parallax (fine pointers only).
+  - It pauses offscreen (IntersectionObserver) and on a hidden tab, and caps DPR by tier (1.5 / 1.25).
+  - **Static poster** on low tier, reduced motion or Elder mode, and as the first paint: the canvas mounts at idle, so LCP is the poster.
+- **Scroll story** (`components/landing/Story.tsx`), seven sections. Each animates once in view; only ShieldCore loops.
+  1. **Anatomy**: the fake KYC sample (labelled "Sample data") pinned with `position: sticky` while its four strongest red-flag phrases, taken from a real `analyze()` of the sample, lift off with signal labels as `useScroll` progresses.
+  2. **PIN rule**: the caption plus the PinPadExplainer, playing once in view.
+  3. **Modules**: six cards (Messages, Screenshots, Collect, QR & links, Transactions, Emergency) that tilt toward the cursor on high tier with a mouse.
+  4. **Proof**: precision, recall and false alarms on genuine bank SMS count up from `EVAL_REPORT`, with a "Sample data · Placeholder numbers" notice while the report is the fixture.
+  5. **Offline**: an airplane toggle switches on, then a real `scoreLive` result of the sample appears ("Checked on this device: risk N").
+  6. **Four languages**: the same warning morphs en → hi → te → bn once (all locales loaded on demand), with buttons to pick one.
+  7. **CTA** and footer: `tel:1930`, cybercrime.gov.in, Chakshu (sancharsaathi.gov.in/sfc/), the GitHub repo and "Built for Arthaton 2026".
+  - **Lenis** runs on the landing page only, on high and mid tier, and not under reduced motion or in Elder mode. It's destroyed on leaving.
+- **Network (`/network`)**: `buildEntityGraph(history, { includeBundled: true })`; a lazy **ForceGraphView**.
+  - **Nodes**: shape and colour by type (phone circle, UPI diamond, website square, campaign hexagon; brand shades and `--ai`, not risk colours), size by reports, a cyan ring on the user's own details, sample nodes at 55% opacity, and labels when zoomed in.
+  - **Interaction**: hover (or the selected node) highlights neighbours and dims the rest. Reduced motion lays the graph out up front (`warmupTicks`) with no animation.
+  - **Controls**: type filters, "Only my details" (keeps linked campaigns), a legend, and the stats line "N clusters · largest has M linked details".
+  - **EntityPanel** (slide-over): type, value in mono, reports, "Sample data" / "Your details", linked campaigns, and the user's checks that mention it (linking to `/scan/:id`).
+  - Every node is also a keyboard button in a list below the graph. If the browser has no canvas, a note shows instead of the graph.
+- **Dojo**:
+  - **`/learn/dojo`**: a card per drill with category, channel, difficulty dots and best score from Dexie.
+  - **`/learn/dojo/:id`**: WhatsApp-style header and bubbles. "Them" messages get typing dots (750 ms of game pacing, not analysis latency; none under reduced motion). Choices are reply bubbles. After a choice, feedback appears, and a red-flag chip (`signalText`) flashes once, green if caught and red if missed.
+  - **Ending screen**: "You stayed out of the trap" / "This time the scam worked" (never "safe"), a ScoreRing with count-up against the best possible score (`maxScore`, cycle-safe), caught and missed flags (`tallyFlags`), Play again and a share card. The best score is saved to Dexie `dojo`. A drill missing in the UI language shows "This drill is shown in English".
+- **Ask (`/learn/ask`** and a slide-over from a new top-bar button, lazy on first open): FAQ suggestions, then `askAssistant(q, lang, { online: aiOptIn && online })`. Each answer is labelled "Answered offline from Akshi's guide" or "AI-assisted answer" (`--ai`), and its FAQ sources expand inline. Failures say "Could not answer that. For urgent help, call 1930."
+- **Proof (`/proof`)**, everything from `EVAL_REPORT`:
+  - A **placeholder banner** while the report's notes say PLACEHOLDER (`isPlaceholderReport`); it goes away by itself when C's real report lands.
+  - Metric cards (precision, recall, F1, false alarms on genuine bank SMS, each with a one-line meaning) and synthetic vs team-written metrics in a table ("Not measured yet" if handwritten is null).
+  - Ablation (rules only → + model → full → full + AI sample, with the AI sample size noted), per-language F1, per-category recall, and a confusion-matrix heatmap (brand intensity by row share, diagonal outlined).
+  - Latency p50/p95, statement detection (planted / caught / false flags per 100), a methodology accordion (dataset, template-family splits, team-written set, what "synthetic" means, known limits; it states that real-world accuracy may be lower), datasets with sizes, notes, and report / engine / model versions.
+- **Share cards** (`components/share/ShareCards.tsx`, `lib/share.ts`):
+  - The card is a 1080×1350 px image in the UI language, sized in px so Elder mode doesn't change it. It's rendered off-screen only when sharing, turned into a PNG by `html-to-image`, and sent through `navigator.share({ files })`, or downloaded with a toast.
+  - **Analysis card**: verdict word in the risk colour, category, top two red flags, the scam's UPI IDs and links masked (`kyc.upd…@ybl`, `sbi-kyc….xyz`, never a path), the advice line, and "Checked with Akshi Rakshak" with the site host.
+  - The Warn family button now shares this card, with the Phase 1 text share as the fallback.
+  - **Dojo card**: drill title, score, flags caught, "Practised with Akshi Rakshak".
+- **PWA** (`vite-plugin-pwa`, `registerType: 'autoUpdate'`, registered from `main.tsx` in production only):
+  - Manifest: name, short name, theme and background `#05070B`, standalone, icons 192 / 512 / maskable 512, and the share target `GET /share-target` with title/text/url.
+  - Icons are generated by `apps/web/scripts/make-icons.mjs` (no image tools: rasterised in Node, PNG via zlib). Also an apple-touch-icon.
+  - Workbox precaches the app shell, JS (lexicons ship inside the engine JS; the model JSON chunk is matched by the `*.js` glob once it exists), CSS, woff2 fonts, SVG and PNG: 123 entries, 2.3 MB.
+  - `/engine-assets/tessdata/*` is runtime CacheFirst (`akshi-tessdata`) and excluded from precache. `/api/*` is NetworkOnly and excluded from the navigation fallback.
+  - **`/share-target`** now redirects straight to Quick Scan with the shared text pre-filled and auto-scanning.
+- **Bundle fix**: a `manualChunks` rule for react-force-graph also caught a helper shared by every page, so the 69 KB force-graph chunk loaded on **every route** (first load 263 KB). I removed the rule; the graph is now isolated behind its lazy import, and the config has a comment so it isn't re-added.
+- **Robustness**: `scrollIntoView` calls are optional, so a missing scroll helper never takes a route down.
+- **Strings**: every new string in en, hi, te and bn (`story`, `network`, `dojo`, `ask`, `proof`, `share`).
+- **Tests** (184 in `apps/web`, 251 in the repo):
+  - **Logic**: ShieldCore maths (unit sphere, rotation, projection depth, threshold crossings, colour mix), share masking, Dojo best score (cycle-safe) and caught/missed tally, network filter / "only mine" / neighbours / mentions, and proof helpers.
+  - **Landing**: live meter, then the hero Scan opens `/scan/:id`; all seven sections, the placeholder label and the three help links.
+  - **Network**: every node listed, type filter, entity panel with reports and "Sample data", "only mine".
+  - **Dojo**: list → play the best path → red-flag chip → "You stayed out of the trap" → caught list → share button → Play again; a missing drill.
+  - **Ask**: online only with opt-in and a connection; a suggested question → offline badge and source.
+  - **Proof**: every block, all ablation labels, the methodology "synthetic" item.
+  - **Share card**: masks the scam's UPI ID and link path.
+  - **Share target**: joins the fields and auto-scans to `/scan/:id`.
+
+#### Bundle sizes vs SPEC_B_WEB §7 (gzipped JS, measured from `dist` by following each page's static imports)
+
+| Route | Total | Budget | Notes |
+|---|---|---|---|
+| First load (shell, any route) | **196.3 KB** | — | React, router, i18n (en only), Motion core, Radix menus, Zustand |
+| `/scan` | **309.0 KB** | **≤ 200 KB** | **Over.** On top of the shell: engine stub 32.3 KB + contracts/zod schemas 26.0 KB (Laptop A's packages), Dexie 31.3 KB (web), page code about 25 KB |
+| `/scan/:id` | 331.7 KB | — | |
+| `/` landing | 309.1 KB | LCP < 2.5 s | Poster paints first; ShieldCore 2.2 KB loads at idle; Lenis 5.2 KB lazy |
+| `/modules/qr-link` | 324.7 KB | — | QR worker (jsQR) 45.9 KB loads only without BarcodeDetector |
+| `/modules/collect` | 323.5 KB | — | |
+| `/modules/messages` | 323.0 KB | — | |
+| `/modules/transactions` | 318.4 KB | — | |
+| `/learn/dojo/:id` | 307.4 KB | — | |
+| `/dashboard` | 298.4 KB | — | |
+| `/sos` | 296.4 KB | — | |
+| `/network` | 291.7 KB | — | + ForceGraphView 67.8 KB lazy |
+| `/learn/ask` | 257.6 KB | — | |
+| `/proof` | 258.9 KB | — | |
+| `/settings` | 259.2 KB | — | |
+
+Lazy chunks: Motion features 31.3 KB (after first paint), command palette 5.9 KB, Ask slide-over 0.3 KB, ShieldCore 2.2 KB, Lenis 5.2 KB, ForceGraphView 67.8 KB, QR worker 45.9 KB. Lighthouse was not run (no browser in this session).
+
 ## In progress
 
 - **Merge 1 is waiting.** `origin/main` still has only the Phase 0 skeleton (`c81f239`). I haven't merged anything: the prompt says to wait until the human confirms A's PR (after C's) is on `main`. Then: `git fetch`, merge `origin/main` into `feat/web` (take main's `package-lock.json`, `npm install`), re-check every screen with the real engine, open the PR.
@@ -106,7 +194,8 @@
 - `playwright.config.ts` and e2e specs: Phase 5. CI's e2e job skips until the config exists.
 - `lib/share.ts` (image share cards) and `styles/print.css`: P4 share cards, P3 complaint draft.
 - **Charts**: the human chose hand-made SVG over Recharts (about 125 KB gzipped) in Phase 3. RiskLine, StatementChart, the dashboard bars and DayArea are all custom; there's no tooltip or zoom.
-- `/network` (full graph) and the Dojo, Ask and Proof pages are Phase 4.
+- `/tour` (60-second judge tour) is Phase 6.
+- The ShieldCore point sphere uses a Fibonacci lattice rather than icosphere vertices (an even spread with the same look; Canvas 2D, no three.js). M9.2 (3D network toggle) isn't built: it needs three.js, which was declined for size.
 - **Two-tab live dashboard not checked in a browser**: BroadcastChannel between two real tabs, the print dialog, `navigator.vibrate`, speech and the `tel:` links are covered by unit and flow tests only. Open `/dashboard` in one tab, scan in another, and check the feed.
 - **Real-phone test (prompt item 6) not done**: camera QR scan, screenshot upload and the PIN explainer still need a run on an Android phone through the Vercel preview URL. The session had no browser or phone, and the GitHub CLI isn't installed, so I couldn't read the preview URL either.
 - Elder mode's simplified Quick Scan and full-screen verdict: Phase 3 (M10.1). Today Elder mode only turns the reveal choreography off and enlarges text.
@@ -116,7 +205,7 @@
 
 - On feat/engine the fake KYC sample scores 47 (**Suspicious**). The demo opening (SPEC.md §13.1) and Playwright test 2 (SPEC_B_WEB §8) expect **Scam**. See Request 3.
 
-- `/scan` loads about 249 KB gzipped (189 KB shell + 5.5 KB page + 54 KB engine stub), which is over the 200 KB budget. Most of the stub's weight is `@akshi/contracts/fixtures`, which parses every fixture with zod when the module loads. See Request 2.
+- **`/scan` is 309 KB gzipped against a 200 KB budget** (see the Phase 4 table). Plan for the Phase 5 performance pass, after the real engine merges: load Dexie (31 KB) and the engine with its zod schemas (58 KB with the stub) after the scan page paints, behind `warmup()`, keeping only `detectInputKind` and the sample list eager. Then re-measure with the real engine and run Lighthouse on a phone. Earlier note: /scan was about 249 KB in Phase 1 Most of the stub's weight is `@akshi/contracts/fixtures`, which parses every fixture with zod when the module loads. See Request 2.
 - The root `npm run typecheck` does not cover `apps/web` yet (see Request 1). `npm run build -w @akshi/web` runs `tsc -b` on the web project, so type errors still fail the build and CI's build step.
 - Not checked in a real browser: this session had no browser, so the reveal timings, the shared-element morph, the popovers and the mobile dock are covered by jsdom tests and code review only. Check on a phone and a laptop before the demo recording.
 - The shared-element morph runs after the Quick Scan page finishes its 250 ms exit (`AnimatePresence mode="wait"`), so the card moves from where it was during the exit. If it looks off in the browser, switch that pair to `mode="popLayout"`.
