@@ -1,4 +1,5 @@
-import { ChevronDown, Search } from 'lucide-react';
+import { ChevronDown, MessageCircleQuestion, Search } from 'lucide-react';
+import { lazy, Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, NavLink, useLocation } from 'react-router';
 import {
@@ -23,6 +24,9 @@ import {
 } from './nav';
 import { isMac, usePalette } from './paletteStore';
 import { SosPill } from './SosButton';
+
+// Ask slide-over loads on first open (§5.13)
+const AskSlideOver = lazy(() => import('@/components/learn/AskSlideOver'));
 
 const linkBase =
   'inline-flex min-h-10 items-center gap-1.5 rounded-chip px-3 text-sm font-medium transition-colors duration-150 outline-none focus-visible:outline-2 focus-visible:outline-brand';
@@ -80,6 +84,8 @@ export function TopBar() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const openPalette = usePalette((s) => s.setOpen);
+  const [askOpen, setAskOpen] = useState(false);
+  const [askLoaded, setAskLoaded] = useState(false);
   return (
     <header className="glass sticky top-0 z-40 hidden border-x-0 border-t-0 lg:block">
       <div className="mx-auto flex h-topbar max-w-7xl items-center gap-3 px-6">
@@ -101,11 +107,27 @@ export function TopBar() {
             <Search className="size-4" aria-hidden />
             <kbd className="hidden font-mono text-xs xl:inline">{isMac() ? '⌘K' : 'Ctrl K'}</kbd>
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              setAskLoaded(true);
+              setAskOpen(true);
+            }}
+            aria-label={t('ask.openPanel')}
+            className="inline-flex size-10 items-center justify-center rounded-chip border border-glass-border text-text-2 transition-colors hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
+          >
+            <MessageCircleQuestion className="size-4" aria-hidden />
+          </button>
           <LanguageSwitcher />
           <ElderToggle showLabel={false} className="px-1" />
           <SosPill />
         </div>
       </div>
+      {askLoaded && (
+        <Suspense fallback={null}>
+          <AskSlideOver open={askOpen} onOpenChange={setAskOpen} />
+        </Suspense>
+      )}
     </header>
   );
 }
