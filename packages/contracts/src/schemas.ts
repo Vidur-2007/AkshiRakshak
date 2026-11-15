@@ -4,10 +4,29 @@
  * Spans are UTF-16 code-unit offsets into `AnalysisResult.text`.
  */
 import { z } from 'zod';
+import {
+  LANGS,
+  VERDICTS,
+  SEVERITIES,
+  INPUT_KINDS,
+  CHANNELS,
+  SCAM_CATEGORIES,
+  SIGNAL_IDS,
+  ACTION_IDS,
+  SIGNAL_SOURCES,
+  BRAND_KINDS,
+  LAYERS,
+  STAGES,
+  SPEND_CATEGORIES,
+  TXN_CHANNELS,
+  ANOMALY_TYPES,
+  EMERGENCY_QUESTION_IDS,
+  EVAL_CONFIGS,
+  API_ERROR_CODES,
+} from './enums';
 
 // ───────────────────────────── 6.1 Core enums ─────────────────────────────
 
-export const LANGS = ['en', 'hi', 'te', 'bn'] as const;
 export const LangSchema = z.enum(LANGS);
 export type Lang = z.infer<typeof LangSchema>;
 
@@ -20,138 +39,24 @@ export const L10nSchema = z.object({
 });
 export type L10n = z.infer<typeof L10nSchema>;
 
-export const VERDICTS = ['scam', 'suspicious', 'no_signs'] as const;
 export const VerdictSchema = z.enum(VERDICTS);
 export type Verdict = z.infer<typeof VerdictSchema>;
 
-export const SEVERITIES = ['critical', 'high', 'medium', 'low', 'none'] as const;
 export const SeveritySchema = z.enum(SEVERITIES);
 export type Severity = z.infer<typeof SeveritySchema>;
 
-export const INPUT_KINDS = [
-  'message',
-  'chat',
-  'email',
-  'url',
-  'upi_id',
-  'phone',
-  'qr',
-  'image',
-  'collect_request',
-] as const;
 export const InputKindSchema = z.enum(INPUT_KINDS);
 export type InputKind = z.infer<typeof InputKindSchema>;
 
-export const CHANNELS = [
-  'sms',
-  'whatsapp',
-  'telegram',
-  'email',
-  'call',
-  'other',
-  'unknown',
-] as const;
 export const ChannelSchema = z.enum(CHANNELS);
 export type Channel = z.infer<typeof ChannelSchema>;
 
-export const SCAM_CATEGORIES = [
-  'upi_collect',
-  'qr_receive',
-  'fake_kyc',
-  'bill_disconnection',
-  'digital_arrest',
-  'courier_customs',
-  'job_task',
-  'investment_crypto',
-  'loan_app',
-  'lottery_prize',
-  'fake_customer_care',
-  'refund_cashback',
-  'wrong_transfer',
-  'malicious_apk',
-  'remote_access',
-  'otp_theft',
-  'romance',
-  'impersonation_govt',
-  'phishing_link',
-  'other',
-] as const;
 export const ScamCategorySchema = z.enum(SCAM_CATEGORIES);
 export type ScamCategory = z.infer<typeof ScamCategorySchema>;
 
-export const SIGNAL_IDS = [
-  // language and pressure
-  'URGENCY',
-  'THREAT_BLOCK',
-  'THREAT_LEGAL',
-  'AUTHORITY_CLAIM',
-  'SECRECY',
-  'STAY_ON_CALL',
-  // credential and payment asks
-  'ASKS_OTP',
-  'ASKS_PIN',
-  'ASKS_CVV_PASSWORD',
-  'ASKS_REMOTE_APP',
-  'APK_LINK',
-  'RECEIVE_WITH_PIN',
-  'COLLECT_REQUEST',
-  'QR_TO_RECEIVE',
-  'ADVANCE_FEE',
-  // lures
-  'PRIZE_LOTTERY',
-  'TOO_GOOD_RETURNS',
-  'TASK_JOB_PAYMENT',
-  'WRONG_TRANSFER_RETURN',
-  'CUSTOMER_CARE_NUMBER',
-  // identity
-  'BANK_IMPERSONATION',
-  'BRAND_MISMATCH',
-  'UPI_NAME_MISMATCH',
-  'PERSONAL_UPI_HANDLE',
-  'REPLY_TO_MISMATCH',
-  // links and files
-  'SUSPICIOUS_LINK',
-  'LOOKALIKE_DOMAIN',
-  'SHORTENED_URL',
-  'IP_URL',
-  'RISKY_TLD',
-  'PUNYCODE',
-  'NEW_DOMAIN',
-  'REDIRECT_CHAIN',
-  'RISKY_ATTACHMENT',
-  'PREFILLED_AMOUNT',
-  'OBFUSCATION',
-  // context
-  'ESCALATION',
-  'KNOWN_INDICATOR',
-  'BLOCKLISTED',
-  // layers
-  'MODEL_PATTERN',
-  'AI_FLAG',
-  // risk-reducing (negative weight)
-  'SAFETY_ADVICE',
-  'OFFICIAL_DOMAIN',
-] as const;
 export const SignalIdSchema = z.enum(SIGNAL_IDS);
 export type SignalId = z.infer<typeof SignalIdSchema>;
 
-export const ACTION_IDS = [
-  'decline_request',
-  'block_sender',
-  'do_not_click',
-  'do_not_pay',
-  'do_not_share_otp',
-  'do_not_install',
-  'end_call',
-  'verify_official',
-  'report_chakshu',
-  'report_1930',
-  'report_cybercrime_portal',
-  'call_bank',
-  'warn_family',
-  'emergency',
-  'no_action_needed',
-] as const;
 export const ActionIdSchema = z.enum(ACTION_IDS);
 export type ActionId = z.infer<typeof ActionIdSchema>;
 
@@ -168,15 +73,6 @@ export const SpanSchema = z
   .refine((s) => s.end >= s.start, { message: 'span end must be >= start' });
 export type Span = z.infer<typeof SpanSchema>;
 
-export const SIGNAL_SOURCES = [
-  'rule',
-  'model',
-  'url',
-  'upi',
-  'indicator',
-  'ai',
-  'context',
-] as const;
 export const SignalSchema = z.object({
   id: SignalIdSchema,
   /** contribution, -1..1 (negative reduces risk) */
@@ -274,16 +170,6 @@ export const AmountFindingSchema = z.object({
 });
 export type AmountFinding = z.infer<typeof AmountFindingSchema>;
 
-export const BRAND_KINDS = [
-  'bank',
-  'govt',
-  'payment_app',
-  'courier',
-  'utility',
-  'telecom',
-  'ecommerce',
-  'other',
-] as const;
 export const BrandClaimSchema = z.object({
   brand: z.string(),
   kind: z.enum(BRAND_KINDS),
@@ -364,7 +250,6 @@ export const ClaimCheckSchema = z.object({
 });
 export type ClaimCheck = z.infer<typeof ClaimCheckSchema>;
 
-export const LAYERS = ['rules', 'model', 'links', 'upi', 'indicators', 'ai'] as const;
 export const LayerContributionSchema = z.object({
   layer: z.enum(LAYERS),
   /** 0-100, this layer alone */
@@ -375,7 +260,6 @@ export const LayerContributionSchema = z.object({
 });
 export type LayerContribution = z.infer<typeof LayerContributionSchema>;
 
-export const STAGES = ['read', 'ocr', 'links', 'patterns', 'model', 'ai'] as const;
 export const StageTimingSchema = z.object({
   stage: z.enum(STAGES),
   ms: z.number().nonnegative(),
@@ -531,27 +415,9 @@ export type Calibration = z.infer<typeof CalibrationSchema>;
 
 // ───────────────────────────── 6.4 Statement, graph and content types ─────────────────────────────
 
-export const SPEND_CATEGORIES = [
-  'food',
-  'groceries',
-  'shopping',
-  'transport',
-  'bills',
-  'rent',
-  'education',
-  'health',
-  'entertainment',
-  'transfers',
-  'salary',
-  'cash',
-  'investment',
-  'emi',
-  'other',
-] as const;
 export const SpendCategorySchema = z.enum(SPEND_CATEGORIES);
 export type SpendCategory = z.infer<typeof SpendCategorySchema>;
 
-export const TXN_CHANNELS = ['UPI', 'IMPS', 'NEFT', 'RTGS', 'CARD', 'ATM', 'OTHER'] as const;
 export const TxnSchema = z.object({
   id: z.string(),
   /** ISO datetime; time 00:00 if unknown */
@@ -575,16 +441,6 @@ export const ParsedStatementSchema = z.object({
 });
 export type ParsedStatement = z.infer<typeof ParsedStatementSchema>;
 
-export const ANOMALY_TYPES = [
-  'large_new_payee',
-  'burst_small_debits',
-  'odd_hour',
-  'duplicate',
-  'credit_then_return',
-  'round_amount_new_payee',
-  'velocity',
-  'isolation_outlier',
-] as const;
 export const AnomalySchema = z.object({
   id: z.string(),
   txnIds: z.array(z.string()),
@@ -688,14 +544,6 @@ export const FaqItemSchema = z.object({
 });
 export type FaqItem = z.infer<typeof FaqItemSchema>;
 
-export const EMERGENCY_QUESTION_IDS = [
-  'sent_money',
-  'entered_pin',
-  'shared_otp',
-  'installed_app',
-  'gave_remote_access',
-  'shared_card',
-] as const;
 export const EmergencyQuestionSchema = z.object({
   id: z.enum(EMERGENCY_QUESTION_IDS),
   text: L10nSchema,
@@ -777,7 +625,6 @@ export const MetricsSchema = z.object({
 });
 export type Metrics = z.infer<typeof MetricsSchema>;
 
-export const EVAL_CONFIGS = ['rules_only', 'rules_model', 'full_no_ai', 'full_ai_sample'] as const;
 export const EvalReportSchema = z.object({
   generatedAt: z.string(),
   engineVersion: z.string(),
@@ -805,13 +652,6 @@ export type EvalReport = z.infer<typeof EvalReportSchema>;
 
 // ───────────────────────────── 6.6 HTTP API ─────────────────────────────
 
-export const API_ERROR_CODES = [
-  'bad_request',
-  'rate_limited',
-  'upstream_unavailable',
-  'timeout',
-  'internal',
-] as const;
 export const ApiErrorCodeSchema = z.enum(API_ERROR_CODES);
 export type ApiErrorCode = z.infer<typeof ApiErrorCodeSchema>;
 
