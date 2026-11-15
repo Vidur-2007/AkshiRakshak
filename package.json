@@ -24,7 +24,8 @@
     "eval": "npm run eval --workspaces --if-present",
     "fixtures": "tsx scripts/build-fixtures.ts",
     "ocr-assets": "tsx scripts/ocr-assets.ts",
-    "size": "tsx scripts/bundle-size.ts"
+    "size": "tsx scripts/bundle-size.ts",
+    "smoke": "tsx scripts/smoke.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.121",
