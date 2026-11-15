@@ -13,6 +13,7 @@ describe('stageText', () => {
         expect(name.trim()).not.toBe('');
       }
     }
-    expect(stageText('links', 'en')).toBe('Checking links');
+    // the engine's wording when it has one ("Checking links and UPI IDs"), else ours
+    expect(stageText('links', 'en')).toMatch(/^Checking links/);
   });
 });

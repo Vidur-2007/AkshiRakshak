@@ -1,11 +1,29 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import en from '@/locales/en.json';
+import type * as EngineModule from '@/lib/engine';
+import type { Lang } from '@/lib/engine';
 import { initI18n } from '@/lib/i18n';
 import { DEFAULT_PREFS, useAppStore } from '@/lib/store';
 import { routes } from '@/routes';
 import { requestFor } from './QrLinkPage';
+
+// Tesseract cannot run in jsdom: OCR returns a clear reading of a synthetic scam
+// screenshot. Everything after OCR (analysis, overlay) is the real engine.
+const SHOT_TEXT =
+  'Dear Customer, your SBI account will be BLOCKED today due to pending KYC. Update KYC at http://sbi-kyc-update.xyz/verify';
+vi.mock('@/lib/engine', async (importOriginal) => ({
+  ...(await importOriginal<typeof EngineModule>()),
+  ocrImage: async (_image: Blob, langs: Lang[]) => ({
+    text: SHOT_TEXT,
+    boxes: [{ text: SHOT_TEXT, x: 20, y: 40, w: 680, h: 120, start: 0, end: SHOT_TEXT.length }],
+    width: 720,
+    height: 1280,
+    confidence: 92,
+    langs,
+  }),
+}));
 import { resolveMode } from './MessagesPage';
 
 function open(path: string) {
@@ -132,7 +150,7 @@ describe('Screenshot flow from Quick Scan', () => {
     fireEvent.change(input, {
       target: { files: [new File(['png'], 'shot.png', { type: 'image/png' })] },
     });
-    // stub OCR returns a clear Telugu screenshot → straight to the analysis
+    // clear OCR → straight to the analysis
     await screen.findByText(en.overlay.title, {}, T);
     expect(router.state.location.pathname).toMatch(/^\/scan\/.+/);
     expect(await screen.findByRole('img', { name: en.overlay.title })).toBeTruthy();
