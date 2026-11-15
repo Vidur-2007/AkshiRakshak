@@ -6,6 +6,16 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 /**
+ * Absolute path with an uppercase Windows drive letter. The entry in index.html is
+ * resolved through realpath ("C:\"), but a shell may start Vite in "c:\"; then "@/"
+ * imports and the entry reached React under two spellings, Rolldown bundled React
+ * twice, and every page crashed with a null hook dispatcher.
+ */
+function here(rel: string): string {
+  return fileURLToPath(new URL(rel, import.meta.url)).replace(/^[a-z]:/, (d) => d.toUpperCase());
+}
+
+/**
  * Named chunks for the heaviest lazy libraries (SPEC_B_WEB.md §7). Only libraries that
  * nothing in the first load imports belong here: a manual chunk that also catches a
  * shared helper drags the whole chunk into every page. That happened with a 'graph'
@@ -14,6 +24,9 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
  * Matched against module ids with forward slashes (Windows ids are normalised below).
  */
 const CHUNKS: [RegExp, string][] = [
+  // React in one shared chunk, cached across deploys. (A second React copy once
+  // appeared here; the cause was drive-letter casing, fixed by here() above.)
+  [/node_modules\/(react|react-dom|scheduler)\//, 'react'],
   [/node_modules\/tesseract\.js[^/]*\//, 'ocr'],
   [/packages\/model\/model\/.+\.json$/, 'model'],
 ];
@@ -69,6 +82,9 @@ export default defineConfig({
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api\//],
         cleanupOutdatedCaches: true,
+        // take control of the first visit, so going offline right after it still works
+        clientsClaim: true,
+        skipWaiting: true,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/engine-assets/tessdata/'),
@@ -84,8 +100,9 @@ export default defineConfig({
       devOptions: { enabled: false },
     }),
   ],
+  root: here('.'),
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: { '@': here('./src') },
   },
   server: {
     port: 5173,
@@ -94,7 +111,10 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: false,
-    rollupOptions: {
+    rolldownOptions: {
+      // A's request (engine Phase 5): Rolldown's default constant inlining copies the
+      // tldts public-suffix string (~120 KB) to each use site; once is enough.
+      optimization: { inlineConst: false },
       output: {
         manualChunks(id: string) {
           const path = id.replaceAll('\\', '/');
