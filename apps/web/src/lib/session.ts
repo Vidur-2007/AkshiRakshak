@@ -7,9 +7,12 @@ import { create } from 'zustand';
 interface SessionState {
   aiCalls: number;
   countAiCall(): void;
+  /** `?demo=1` was opened in this tab: recording mode (sample order only) */
+  demo: boolean;
 }
 
 export const useSession = create<SessionState>()((set) => ({
   aiCalls: 0,
   countAiCall: () => set((s) => ({ aiCalls: s.aiCalls + 1 })),
+  demo: false,
 }));

@@ -8,6 +8,7 @@ import { detectDeviceTier, type DeviceTier } from './deviceTier';
 import type { Lang } from './engine';
 import { UI_LANGS as LANGS } from './langs';
 import { safeLocalStorage } from './safeStorage';
+import { useSession } from './session';
 
 export interface TrustedContact {
   name: string;
@@ -139,13 +140,24 @@ export function sanitizePrefs(raw: unknown): Partial<PersistedPrefs> {
   return out;
 }
 
+let demoApplied = false;
+
 /**
  * URL flags that work on any route: `?simple=1` turns Elder mode on and keeps it
- * on (§5.10); `?lang=hi` switches the interface language.
+ * on (§5.10); `?lang=hi` switches the interface language; `?demo=1` (recording)
+ * clears history once per page load, turns Elder mode off and puts the demo samples
+ * first. It never changes a verdict or a score.
  */
 export function applyUrlFlags(search: string): void {
   const params = new URLSearchParams(search);
   const { setElderMode, setLang } = useAppStore.getState();
+  const demo = params.get('demo');
+  if ((demo === '1' || demo === 'true') && !demoApplied) {
+    demoApplied = true;
+    useSession.setState({ demo: true });
+    setElderMode(false);
+    void import('./db').then((m) => m.clearHistory()).catch(() => undefined);
+  }
   const simple = params.get('simple');
   if (simple === '1' || simple === 'true') setElderMode(true);
   const lang = params.get('lang');

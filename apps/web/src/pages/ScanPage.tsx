@@ -1,4 +1,4 @@
-import { ClipboardPaste, ImageUp, QrCode, ShieldCheck, X } from 'lucide-react';
+import { ClipboardPaste, ImageUp, Mic, QrCode, ShieldCheck, X } from 'lucide-react';
 import { AnimatePresence, m } from 'motion/react';
 import {
   lazy,
@@ -24,10 +24,13 @@ import { TypeDetectChip } from '@/components/scan/TypeDetectChip';
 import { useScan } from '@/components/scan/useScan';
 import type { ScanPrefillState } from '@/components/shell/paletteStore';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { orderSamples } from '@/lib/demo';
 import { useEngine } from '@/lib/engineLoader';
+import { listenSupported } from '@/lib/listen';
 import { transition } from '@/lib/motion';
 import { MAX_INPUT, toTextKind } from '@/lib/scan';
 import { TEXT_STAGES, tickerProgress } from '@/lib/scanTiming';
+import { useSession } from '@/lib/session';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +38,7 @@ import { cn } from '@/lib/utils';
 const ScreenshotFlow = lazy(() =>
   import('@/components/scan/ScreenshotFlow').then((m) => ({ default: m.ScreenshotFlow })),
 );
+const ListenSheet = lazy(() => import('@/components/scan/ListenSheet'));
 const QRScannerSheet = lazy(() =>
   import('@/components/modules/QRScannerSheet').then((m) => ({ default: m.QRScannerSheet })),
 );
@@ -59,7 +63,7 @@ function useAutoGrow(value: string, maxPx = 420) {
   return ref;
 }
 
-type Sheet = 'screenshot' | 'qr' | null;
+type Sheet = 'screenshot' | 'qr' | 'listen' | null;
 
 const toolBtn =
   'relative inline-flex min-h-10 items-center gap-2 rounded-chip px-3 text-sm text-text-2 transition-colors duration-150 hover:bg-white/6 hover:text-text disabled:opacity-50 outline-none focus-visible:outline-2 focus-visible:outline-brand';
@@ -82,6 +86,8 @@ export default function ScanPage() {
   // The engine loads after first paint (§7); then warmup(lang) loads the model and the
   // lexicons for the UI language, again on a language switch (§5.2, A's request).
   const engine = useEngine();
+  const demo = useSession((s) => s.demo);
+  const samples = useMemo(() => orderSamples(engine?.SAMPLE_MESSAGES ?? [], demo), [engine, demo]);
   const lang = useAppStore((s) => s.lang);
   useEffect(() => {
     if (engine) void engine.warmup(lang).catch(() => undefined);
@@ -144,6 +150,9 @@ export default function ScanPage() {
     } else setText(p.text.slice(0, MAX_INPUT));
   };
 
+  // Live listen (M1.15): needs browser speech recognition and the real engine's listener
+  const canListen = !!engine?.createLiveListener && listenSupported();
+
   const sheets = sheetsUsed && (
     <Suspense fallback={null}>
       <ScreenshotFlow
@@ -157,6 +166,13 @@ export default function ScanPage() {
         onOpenChange={(o) => !o && setSheet(null)}
         onDecoded={(payload) => void runCore({ kind: 'qr', qrPayload: payload, text: payload })}
       />
+      {canListen && (
+        <ListenSheet
+          open={sheet === 'listen'}
+          onOpenChange={(o) => !o && setSheet(null)}
+          onScan={(heard) => void run(heard)}
+        />
+      )}
     </Suspense>
   );
 
@@ -194,6 +210,7 @@ export default function ScanPage() {
       <form onSubmit={submit} className="mt-6">
         {/* Shared element: this card morphs into the message panel on /scan/:id (§5.3) */}
         <m.div
+          data-tour="scan-card"
           layoutId="scan-card"
           className="glass rounded-sheet p-3 shadow-2xl shadow-black/30 focus-within:border-brand/50 sm:p-4"
         >
@@ -269,6 +286,20 @@ export default function ScanPage() {
                 {t('scan.scanQr')}
               </span>
             </button>
+            {canListen && (
+              <button
+                type="button"
+                onClick={() => setSheet('listen')}
+                className={toolBtn}
+                disabled={busy}
+                aria-label={t('listen.open')}
+              >
+                <Mic className="size-4" aria-hidden />
+                <span className="hidden sm:inline" aria-hidden>
+                  {t('listen.open')}
+                </span>
+              </button>
+            )}
             {hasText && !busy && (
               <button
                 type="button"
@@ -305,7 +336,7 @@ export default function ScanPage() {
       <div className="enter-rise mt-2 flex flex-col gap-6">
         <AiToggle />
         <SampleChips
-          samples={engine?.SAMPLE_MESSAGES ?? []}
+          samples={samples}
           disabled={busy}
           onPick={(s) => {
             setText(s.text);

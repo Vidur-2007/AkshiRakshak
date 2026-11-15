@@ -132,6 +132,23 @@ export async function deleteEverything(): Promise<void> {
   window.location.reload();
 }
 
+/**
+ * Clears stored history (scans, screenshots, statements, blocklist, Dojo results) but
+ * keeps settings, language and the trusted contact. Used by `?demo=1`.
+ */
+export async function clearHistory(): Promise<void> {
+  await db.transaction('rw', [db.scans, db.images, db.statements, db.blocklist, db.dojo], () =>
+    Promise.all([
+      db.scans.clear(),
+      db.images.clear(),
+      db.statements.clear(),
+      db.blocklist.clear(),
+      db.dojo.clear(),
+    ]),
+  );
+  broadcast({ type: 'cleared' });
+}
+
 // ── Phase 3: statements, blocklist management, privacy counts ───────────────
 
 export async function saveStatement(

@@ -3,7 +3,7 @@
  * Components import from '@/lib/engine'. Before Merge 1 these packages are stubs
  * that return fixture-shaped data; after it the same names return real results.
  */
-import type { Lang, OcrResult, StageTiming } from '@akshi/contracts';
+import type { Lang, LiveScore, OcrResult, SignalId, StageTiming } from '@akshi/contracts';
 import * as engineNs from '@akshi/engine';
 import i18n from './i18n';
 
@@ -109,6 +109,31 @@ type WarmupFn = (lang?: Lang) => Promise<void>;
 export function warmup(lang?: Lang): Promise<void> {
   return (engineNs.warmup as WarmupFn)(lang);
 }
+
+// ── Live listen (M1.15, P2): `createLiveListener` is on feat/engine (A's listen.ts)
+//    and reaches main with A's PR. The shapes below mirror A's types; until the real
+//    engine is merged it is null and the Mic button stays hidden.
+export interface ListenAlert {
+  id: SignalId;
+  label: string;
+  detail: string;
+  /** the heard words that triggered it */
+  phrase: string;
+}
+export interface ListenUpdate {
+  score: LiveScore;
+  /** call-danger signals heard for the first time in this update */
+  alerts: ListenAlert[];
+  /** final transcript so far plus the current interim result */
+  transcript: string;
+}
+export interface LiveListener {
+  push(text: string, isFinal: boolean): ListenUpdate;
+  reset(): void;
+}
+type CreateLiveListener = (lang: Lang) => LiveListener;
+export const createLiveListener: CreateLiveListener | null =
+  (engineNs as unknown as { createLiveListener?: CreateLiveListener }).createLiveListener ?? null;
 
 // ── Engine browser entry (OCR) — loaded lazily so tesseract stays out of the
 //    initial bundle (SPEC_B_WEB.md §7).
