@@ -3,7 +3,7 @@
  * Same rules layer and floors as analyze(), without links, indicators, model or AI.
  */
 import { normalizeText, type Lang, type LiveScore } from '@akshi/contracts';
-import { loadCalibration } from '@akshi/model';
+import { currentCalibration } from './calibration';
 import { liveContexts } from '../claims/brands';
 import { matchRules, toSignals } from '../rules/engine';
 import { highestFloor, rulesLayerScore, verdictOf } from './fusion';
@@ -24,7 +24,7 @@ export function scoreLive(text: string, lang: Lang = 'en'): LiveScore {
   );
   return {
     riskScore,
-    verdict: verdictOf(riskScore, loadCalibration()),
+    verdict: verdictOf(riskScore, currentCalibration()),
     topSignals: signals
       .filter((s) => s.weight > 0)
       .slice(0, 3)

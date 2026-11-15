@@ -137,7 +137,7 @@ describe('§7.3 verdict and severity, §8.3 confidence', () => {
       verdictOf(40, cal),
       verdictOf(39, cal),
     ]).toEqual(['scam', 'suspicious', 'suspicious', 'no_signs']);
-    expect([85, 84, 70, 69, 40, 39, 15, 14].map(severityOf)).toEqual([
+    expect([85, 84, 70, 69, 40, 39, 15, 14].map((s) => severityOf(s))).toEqual([
       'critical',
       'high',
       'high',

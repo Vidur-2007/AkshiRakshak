@@ -62,12 +62,35 @@ export function verdictOf(score: number, cal: Calibration): Verdict {
   return 'no_signs';
 }
 
-export function severityOf(score: number): Severity {
-  if (score >= 85) return 'critical';
-  if (score >= 70) return 'high';
-  if (score >= 40) return 'medium';
-  if (score >= 15) return 'low';
-  return 'none';
+const SEVERITY_ORDER: readonly Severity[] = ['none', 'low', 'medium', 'high', 'critical'];
+
+/**
+ * §7.3 bands (≥ 85 critical, 70–84 high, 40–69 medium, 15–39 low). With a verdict, the band is
+ * kept consistent with it when C moves the thresholds: scam ⇒ at least high, suspicious ⇒
+ * medium–high, no_signs ⇒ at most low.
+ */
+export function severityOf(score: number, verdict?: Verdict): Severity {
+  const band: Severity =
+    score >= 85
+      ? 'critical'
+      : score >= 70
+        ? 'high'
+        : score >= 40
+          ? 'medium'
+          : score >= 15
+            ? 'low'
+            : 'none';
+  if (!verdict) return band;
+  const [lo, hi]: [Severity, Severity] =
+    verdict === 'scam'
+      ? ['high', 'critical']
+      : verdict === 'suspicious'
+        ? ['medium', 'high']
+        : ['none', 'low'];
+  const i = SEVERITY_ORDER.indexOf(band);
+  return SEVERITY_ORDER[
+    Math.min(Math.max(i, SEVERITY_ORDER.indexOf(lo)), SEVERITY_ORDER.indexOf(hi))
+  ]!;
 }
 
 export interface FusionInput {
