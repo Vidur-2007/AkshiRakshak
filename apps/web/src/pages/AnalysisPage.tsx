@@ -21,6 +21,7 @@ import {
 } from '@/components/analysis/reveal';
 import { ScreenshotOverlay } from '@/components/analysis/ScreenshotOverlay';
 import { VerdictHeader } from '@/components/analysis/VerdictHeader';
+import { ElderVerdict, firstSentence } from '@/components/elder/ElderViews';
 import { ChatExtras } from '@/components/modules/ChatViews';
 import { DomainAgeBadge, RedirectHops } from '@/components/modules/LinkExtras';
 import { QRXray } from '@/components/modules/QRXray';
@@ -318,6 +319,8 @@ export default function AnalysisPage() {
   const location = useLocation();
   const fresh = (location.state as AnalysisLocationState | null)?.fresh === true;
   const load = useResult(id);
+  const elderMode = useAppStore((s) => s.elderMode);
+  const [details, setDetails] = useState(false);
 
   if (load.state === 'loading') return <PageFallback />;
   if (load.state === 'missing') {
@@ -330,6 +333,16 @@ export default function AnalysisPage() {
           {t('analysis.newScan')}
         </Link>
       </section>
+    );
+  }
+  // Elder Safety Mode: full-screen STOP / CAREFUL / No warning signs found (§5.10)
+  if (elderMode && !details) {
+    const r = load.result;
+    return (
+      <RevealProvider>
+        <Announcer text={`${t(`elderVerdict.${r.verdict}`)}. ${firstSentence(r.explanation)}`} />
+        <ElderVerdict result={r} fresh={fresh} onDetails={() => setDetails(true)} />
+      </RevealProvider>
     );
   }
   return (

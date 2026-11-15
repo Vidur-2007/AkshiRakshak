@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
+import { ElderScan } from '@/components/elder/ElderViews';
 import { QRScannerSheet } from '@/components/modules/QRScannerSheet';
 import { AiToggle } from '@/components/scan/AiToggle';
 import { DropZone, type DropPayload } from '@/components/scan/DropZone';
@@ -26,6 +27,7 @@ import { detectInputKind, warmup } from '@/lib/engine';
 import { fadeUp, stagger, transition } from '@/lib/motion';
 import { MAX_INPUT, toTextKind } from '@/lib/scan';
 import { TEXT_STAGES, tickerProgress } from '@/lib/scanTiming';
+import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
 
 function readPrefill(state: unknown): ScanPrefillState | null {
@@ -64,6 +66,7 @@ export default function ScanPage() {
   const [droppedImage, setDroppedImage] = useState<File | null>(null);
   const { run, runCore, busy, failed, ticker } = useScan();
   const inputRef = useAutoGrow(text);
+  const elderMode = useAppStore((s) => s.elderMode);
   const inputId = useId();
   const autoRan = useRef(false);
 
@@ -121,6 +124,43 @@ export default function ScanPage() {
       setSheet('screenshot');
     } else setText(p.text.slice(0, MAX_INPUT));
   };
+
+  const sheets = (
+    <>
+      <ScreenshotFlow
+        open={sheet === 'screenshot'}
+        onOpenChange={(o) => !o && setSheet(null)}
+        file={droppedImage}
+        onReady={onScreenshot}
+      />
+      <QRScannerSheet
+        open={sheet === 'qr'}
+        onOpenChange={(o) => !o && setSheet(null)}
+        onDecoded={(payload) => void runCore({ kind: 'qr', qrPayload: payload, text: payload })}
+      />
+    </>
+  );
+
+  // Elder Safety Mode: one big input, one big Scan button, screenshot and QR (§5.10)
+  if (elderMode) {
+    return (
+      <>
+        <ElderScan
+          text={text}
+          setText={setText}
+          onSubmit={() => submit()}
+          busy={busy}
+          ticker={ticker}
+          onScreenshot={() => {
+            setDroppedImage(null);
+            setSheet('screenshot');
+          }}
+          onQr={() => setSheet('qr')}
+        />
+        {sheets}
+      </>
+    );
+  }
 
   return (
     <m.section
@@ -269,17 +309,7 @@ export default function ScanPage() {
 
       <DropZone onDrop={onDrop} />
 
-      <ScreenshotFlow
-        open={sheet === 'screenshot'}
-        onOpenChange={(o) => !o && setSheet(null)}
-        file={droppedImage}
-        onReady={onScreenshot}
-      />
-      <QRScannerSheet
-        open={sheet === 'qr'}
-        onOpenChange={(o) => !o && setSheet(null)}
-        onDecoded={(payload) => void runCore({ kind: 'qr', qrPayload: payload, text: payload })}
-      />
+      {sheets}
     </m.section>
   );
 }
