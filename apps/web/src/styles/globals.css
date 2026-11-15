@@ -199,3 +199,28 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Anomaly dots on the statement chart pulse three times, then stay still:
+   only the landing ShieldCore idles in a loop (§3.3). */
+@keyframes anomaly-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.anomaly-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: anomaly-pulse 1.4s cubic-bezier(0.22, 1, 0.36, 1) 3;
+  animation-fill-mode: forwards;
+}
+
+html.elder .anomaly-pulse {
+  animation: none;
+  opacity: 0;
+}
