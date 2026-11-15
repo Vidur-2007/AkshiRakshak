@@ -22,7 +22,9 @@ export function LanguageSwitcher({
       role="radiogroup"
       aria-label={t('shell.language')}
       className={cn(
-        'inline-flex max-w-full flex-wrap items-center gap-0.5 rounded-chip border border-glass-border bg-surface/60 p-0.5',
+        'inline-flex max-w-full items-center gap-0.5 rounded-chip border border-glass-border bg-surface/60 p-0.5',
+        // the full list (Settings, More sheet) wraps at 200% text; the compact top-bar one never does
+        full ? 'flex-wrap' : 'shrink-0 flex-nowrap',
         className,
       )}
     >

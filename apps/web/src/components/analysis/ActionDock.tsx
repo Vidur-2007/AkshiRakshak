@@ -292,7 +292,7 @@ export function ActionDock({ result }: { result: AnalysisResult }) {
         <h2 className="sr-only lg:not-sr-only lg:mb-3 lg:text-sm lg:font-medium lg:text-text-2">
           {t('analysis.actionsTitle')}
         </h2>
-        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-0.5 [scrollbar-width:none] lg:flex-wrap lg:overflow-visible">
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pr-8 pb-0.5 [mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible lg:pr-1 lg:[mask-image:none]">
           {primary.map((id) => {
             const Icon = ACTION_ICON[id] ?? ShieldX;
             const { label } = actionText(id, lang);

@@ -89,7 +89,7 @@ export function TopBar() {
             className="inline-flex min-h-10 items-center gap-2 rounded-chip border border-glass-border px-3 text-sm text-text-2 transition-colors hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
           >
             <Search className="size-4" aria-hidden />
-            <kbd className="hidden font-mono text-xs xl:inline">{isMac() ? '⌘K' : 'Ctrl K'}</kbd>
+            <kbd className="hidden font-mono text-xs whitespace-nowrap xl:inline">{isMac() ? '⌘K' : 'Ctrl K'}</kbd>
           </button>
           <button
             type="button"
@@ -98,7 +98,7 @@ export function TopBar() {
               setAskOpen(true);
             }}
             aria-label={t('ask.openPanel')}
-            className="inline-flex size-10 items-center justify-center rounded-chip border border-glass-border text-text-2 transition-colors hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
+            className="inline-flex size-10 elder:size-tap items-center justify-center rounded-chip border border-glass-border text-text-2 transition-colors hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
           >
             <MessageCircleQuestion className="size-4" aria-hidden />
           </button>

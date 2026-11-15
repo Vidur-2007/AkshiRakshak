@@ -52,7 +52,8 @@
   --text-size-lg: 1.25rem; /* 20 */
   --text-size-xl: 1.75rem; /* 28 */
   --text-size-2xl: 2.5rem; /* 40 */
-  --text-size-hero: clamp(3rem, 8vw, 6rem); /* 48–96 */
+  /* 48–88; capped by height too, so the hero input and live meter stay above the fold at 1280×800 */
+  --text-size-hero: clamp(3rem, min(7vw, 9vh), 5.5rem);
   --leading-latin: 1.4;
   --leading-indic: 1.6;
 

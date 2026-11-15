@@ -145,8 +145,9 @@
     color: var(--text);
   }
 
-  /* Tap targets ≥ 44px (56px in Elder mode). */
-  html.elder button,
+  /* Tap targets ≥ 44px (56px in Elder mode). Switches keep their track shape and
+     grow in proportion instead (ui/switch.tsx); their row label is clickable too. */
+  html.elder button:not([role='switch']),
   html.elder [role='button'],
   html.elder a.tap {
     min-height: var(--tap);

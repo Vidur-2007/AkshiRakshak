@@ -200,7 +200,7 @@ export function StatementChart({
         </span>
         <span className="inline-flex items-center gap-1.5">
           <span className="size-2.5 rounded-full bg-text-2/50" aria-hidden />
-          {t('tx.moneyOut')}
+          {t('tx.legendPayments')}
         </span>
         <span className="inline-flex items-center gap-1.5">
           <span className="size-2.5 rounded-full bg-risk-scam" aria-hidden />

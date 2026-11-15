@@ -123,7 +123,7 @@ export function URLAnatomy({ finding }: { finding: UrlFinding }) {
   return (
     <div className="flex flex-col gap-5">
       <div className="overflow-x-auto rounded-card border border-glass-border bg-surface p-4">
-        <p className="flex flex-wrap items-end gap-y-3 font-mono text-[0.95rem] break-all">
+        <p className="flex flex-wrap items-end gap-x-1.5 gap-y-3 font-mono text-[0.95rem] break-all">
           {segs.map((s) => (
             <span key={s.key} className="inline-flex flex-col">
               <span className={s.className}>{s.text}</span>
