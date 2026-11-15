@@ -90,9 +90,13 @@ await check('app shell', async () => {
 
 await check('security headers', async () => {
   const { res } = await call('/');
-  const missing = ['x-content-type-options', 'referrer-policy', 'permissions-policy'].filter(
-    (h) => !res.headers.get(h),
-  );
+  const missing = [
+    'x-content-type-options',
+    'x-frame-options',
+    'content-security-policy',
+    'referrer-policy',
+    'permissions-policy',
+  ].filter((h) => !res.headers.get(h));
   return missing.length ? ['fail', `missing ${missing.join(', ')}`] : ['pass', 'all present'];
 });
 
