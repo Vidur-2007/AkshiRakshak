@@ -1,27 +1,26 @@
 // GET /api/expand?url= — SPEC.md §6.6, SPEC_A_ENGINE.md §12.2.
-// PHASE 0 STUB: validates the URL and returns a one-hop chain; no network request (SSRF guard comes in P3).
-import type { ApiError, RedirectChain } from '@akshi/contracts';
-
-function error(status: number, message: string): Response {
-  const body: ApiError = { error: { code: 'bad_request', message } };
-  return Response.json(body, { status });
-}
+// Redirect chain only (never page content), SSRF-guarded on every hop, cached 10 minutes.
+import { apiError, json, logEvent } from './_lib/http.js';
+import { limited } from './_lib/ratelimit.js';
+import { checkTarget, expandUrl, SsrfError } from './_lib/ssrf.js';
 
 export async function GET(request: Request): Promise<Response> {
+  const t0 = Date.now();
+  const limit = limited('expand', request);
+  if (limit) return limit;
   const target = new URL(request.url).searchParams.get('url') ?? '';
-  if (!target || target.length > 2048) return error(400, 'url is required (max 2,048 characters)');
-  let parsed: URL;
   try {
-    parsed = new URL(target);
-  } catch {
-    return error(400, 'url is not a valid URL');
+    checkTarget(target);
+  } catch (err) {
+    const code = err instanceof SsrfError ? err.code : 'bad_url';
+    return apiError(400, 'bad_request', `url not allowed: ${code}`);
   }
-  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:')
-    return error(400, 'Only http and https URLs are allowed');
-  const body: RedirectChain = {
-    hops: [{ url: parsed.href, status: 200 }],
-    finalUrl: parsed.href,
-    truncated: false,
-  };
-  return Response.json(body);
+  const chain = await expandUrl(target);
+  logEvent('expand', {
+    status: 200,
+    hops: chain.hops.length,
+    error: chain.error,
+    ms: Date.now() - t0,
+  });
+  return json(chain, { headers: { 'cache-control': 'private, max-age=600' } });
 }

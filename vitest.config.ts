@@ -6,6 +6,14 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     passWithNoTests: true,
-    projects: ['packages/*', 'apps/*', 'eval*'],
+    projects: [
+      'packages/*',
+      'apps/*',
+      'eval*',
+      // Vercel Functions: tests live in api/_test (underscore folders are not deployed as functions)
+      {
+        test: { name: 'api', root: './api', include: ['_test/**/*.test.ts'], environment: 'node' },
+      },
+    ],
   },
 });

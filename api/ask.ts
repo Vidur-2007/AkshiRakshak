@@ -1,9 +1,12 @@
 // POST /api/ask — SPEC.md §6.6, SPEC_A_ENGINE.md §12.4.
-// PHASE 0 STUB: validates the request and answers from the first requested FAQ id; no LLM call yet.
+// Rate-limited (20/min). Still answers from the first requested FAQ id; the LLM rewrite is P4.
 import { AskRequestSchema, type ApiError, type AssistantAnswer } from '@akshi/contracts';
 import { FAQ } from '@akshi/content';
+import { limited } from './_lib/ratelimit.js';
 
 export async function POST(request: Request): Promise<Response> {
+  const limit = limited('ask', request);
+  if (limit) return limit;
   let json: unknown;
   try {
     json = await request.json();
