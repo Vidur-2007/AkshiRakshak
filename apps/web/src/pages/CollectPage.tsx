@@ -97,7 +97,7 @@ export default function CollectPage() {
         {t('page.collect.body')}
       </m.p>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
         <m.form variants={fadeUp} onSubmit={submit} className="flex flex-col gap-5">
           <div className="surface flex flex-col gap-4 p-5 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -118,7 +118,7 @@ export default function CollectPage() {
                 {prefillNote}
               </p>
             )}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label={t('collect.name')} id={ids.name}>
                 <input
                   id={ids.name}

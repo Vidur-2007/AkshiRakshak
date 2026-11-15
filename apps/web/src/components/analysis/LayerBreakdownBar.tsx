@@ -66,10 +66,7 @@ export function LayerBreakdownBar({
           return (
             <li
               key={l.layer}
-              className={cn(
-                'flex items-center gap-2 text-sm',
-                s.kind !== 'share' && 'text-text-2/70',
-              )}
+              className={cn('flex items-center gap-2 text-sm', s.kind !== 'share' && 'text-text-2')}
             >
               <span
                 className="size-2.5 shrink-0 rounded-[3px]"

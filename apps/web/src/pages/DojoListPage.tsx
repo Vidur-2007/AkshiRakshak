@@ -35,7 +35,7 @@ export default function DojoListPage() {
         {t('page.dojo.title')}
       </h1>
       <p className="mt-2 max-w-2xl text-text-2">{t('page.dojo.body')}</p>
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+      <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {DRILLS.map((d) => {
           const Icon = CATEGORY_ICON[d.category];
           const Ch = CHANNEL_ICON[d.channel];

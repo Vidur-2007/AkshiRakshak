@@ -86,7 +86,7 @@ function Shield() {
           <KpiTile label={t('dash.kMoney')} value={k.moneyAtRisk} money delayMs={160} />
           <KpiTile label={t('dash.kLinks')} value={k.linksAndQrs} delayMs={240} />
         </div>
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <Card title={t('dash.recentTitle')}>
             {scans && <RecentDetectionsFeed scans={list} />}
           </Card>
@@ -192,7 +192,7 @@ function Landscape() {
           <SampleDataBadge />
           {t('dash.landscapeNote')}
         </p>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Card
             title={t('dash.byCategoryTitle')}
             extra={<SampleDataBadge />}
@@ -222,7 +222,7 @@ function Landscape() {
           </Card>
         </div>
         <Card title={t('dash.patternsTitle')}>
-          <ul className="grid gap-3 md:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {PATTERN_CARDS.map((p) => (
               <li key={p.id} className="rounded-card border border-glass-border bg-surface-2 p-4">
                 <p className="text-xs text-text-2">{categoryText(p.category, lang).name}</p>

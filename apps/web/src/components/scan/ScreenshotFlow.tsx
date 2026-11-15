@@ -123,6 +123,7 @@ export function ScreenshotFlow({
         <input
           ref={fileRef}
           type="file"
+          aria-label={t('shot.choose')}
           accept="image/*"
           className="sr-only"
           tabIndex={-1}

@@ -272,7 +272,7 @@ export function SpendingSummary({ summary }: { summary: StatementAnalysis['summa
   const maxCat = Math.max(1, ...summary.byCategory.map((c) => c.amount));
   const maxMonth = niceMax(Math.max(1, ...summary.byMonth.flatMap((mm) => [mm.in, mm.out])));
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       <div>
         <div className="mb-3 flex gap-6 text-sm">
           <span>

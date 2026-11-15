@@ -102,7 +102,7 @@ export function PinPadExplainer({
               Array.from({ length: presses }, (_, i) => (
                 <m.span
                   key={`coin-${i}`}
-                  className="absolute top-1/2 -mt-3 grid size-6 place-items-center rounded-full bg-risk-scam text-white"
+                  className="absolute top-1/2 -mt-3 grid size-6 place-items-center rounded-full bg-risk-scam-solid text-white"
                   initial={{ left: '0%', opacity: 0, scale: 0.6 }}
                   animate={{ left: '100%', opacity: [0, 1, 1, 0], scale: 1 }}
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}

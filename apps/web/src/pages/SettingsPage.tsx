@@ -80,7 +80,7 @@ function TrustedContactForm() {
     'min-h-12 w-full rounded-card border border-glass-border bg-surface-2 px-3 text-base text-text outline-none focus-visible:border-brand';
   return (
     <form onSubmit={save} className="flex flex-col gap-3">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <label htmlFor={ids.name} className="text-sm text-text-2">
             {t('settings.contactName')}

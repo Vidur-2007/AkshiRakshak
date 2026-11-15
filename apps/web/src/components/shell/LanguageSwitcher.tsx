@@ -22,7 +22,7 @@ export function LanguageSwitcher({
       role="radiogroup"
       aria-label={t('shell.language')}
       className={cn(
-        'inline-flex items-center gap-0.5 rounded-chip border border-glass-border bg-surface/60 p-0.5',
+        'inline-flex max-w-full flex-wrap items-center gap-0.5 rounded-chip border border-glass-border bg-surface/60 p-0.5',
         className,
       )}
     >

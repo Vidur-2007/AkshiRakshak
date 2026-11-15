@@ -26,7 +26,8 @@
   /* risk — use only to mean a risk level */
   --risk-safe: #22c55e; /* "No warning signs found" */
   --risk-warn: #f5a524; /* suspicious */
-  --risk-scam: #ff3b5c; /* scam */
+  --risk-scam: #ff3b5c; /* scam: text, strokes and dots on dark surfaces (5.8:1) */
+  --risk-scam-solid: #d91f45; /* scam fill behind white text (4.96:1, WCAG AA) */
 
   /* verdict glow: risk colour at 35%, 24–48px blur */
   --glow-opacity: 0.35;

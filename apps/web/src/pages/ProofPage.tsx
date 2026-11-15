@@ -156,7 +156,8 @@ function Confusion({ c }: { c: EvalReport['confusion'] }) {
                       i === j && 'ring-1 ring-brand/50',
                     )}
                     style={{
-                      background: `color-mix(in srgb, var(--brand) ${Math.round((shares[i]?.[j] ?? 0) * 60)}%, var(--surface-2))`,
+                      // ≤ 45% brand keeps the light number at ≥ 5.4:1 contrast (WCAG AA)
+                      background: `color-mix(in srgb, var(--brand) ${Math.round((shares[i]?.[j] ?? 0) * 45)}%, var(--surface-2))`,
                     }}
                   >
                     {v}
@@ -212,7 +213,7 @@ function Proof({ r }: { r: EvalReport }) {
         </div>
       )}
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
           label={t('proof.precision')}
           value={r.overall.precision}
@@ -240,7 +241,7 @@ function Proof({ r }: { r: EvalReport }) {
         />
       </Block>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Block
           title={t('proof.ablationTitle')}
           hint={aiSample ? t('proof.aiSampleNote', { n: aiSample.n }) : undefined}
@@ -272,7 +273,7 @@ function Proof({ r }: { r: EvalReport }) {
         </Block>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Block title={t('proof.perCategoryTitle')}>
           <ul className="flex flex-col gap-2.5">
             {r.perCategory.map((c, i) => (
@@ -291,7 +292,7 @@ function Proof({ r }: { r: EvalReport }) {
         </Block>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Block title={t('proof.latencyTitle')}>
           <dl className="grid grid-cols-2 gap-4">
             <div>

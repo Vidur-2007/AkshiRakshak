@@ -158,7 +158,7 @@ export default function SosReportPage() {
 
           <section>
             <h2 className="text-lg font-semibold">{t('report.entities')}</h2>
-            <dl className="mt-2 grid gap-2 text-sm sm:grid-cols-[10rem_minmax(0,1fr)]">
+            <dl className="mt-2 grid grid-cols-1 gap-2 text-sm sm:grid-cols-[10rem_minmax(0,1fr)]">
               {entityRows.map(([label, values]) => (
                 <div key={label} className="contents">
                   <dt className="text-text-2">{label}</dt>

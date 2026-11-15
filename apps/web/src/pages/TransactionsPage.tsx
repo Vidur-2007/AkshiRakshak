@@ -116,7 +116,7 @@ export default function TransactionsPage() {
       </m.p>
 
       {!a && (
-        <m.div variants={fadeUp} className="mt-6 grid gap-6 lg:grid-cols-2">
+        <m.div variants={fadeUp} className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div
             onDragOver={(e) => {
               e.preventDefault();
@@ -131,6 +131,7 @@ export default function TransactionsPage() {
             <input
               ref={fileRef}
               type="file"
+              aria-label={t('tx.upload')}
               accept=".csv,text/csv"
               className="sr-only"
               tabIndex={-1}
@@ -260,7 +261,7 @@ export default function TransactionsPage() {
               {anomalies.length === 0 ? (
                 <p className="text-text-2">{t('tx.noAnomalies')}</p>
               ) : (
-                <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
                   <ul className="flex flex-col gap-2" aria-label={t('tx.anomaliesTitle')}>
                     {anomalies.map((x) => (
                       <li key={x.id}>

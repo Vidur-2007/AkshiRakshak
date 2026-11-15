@@ -249,7 +249,7 @@ function Player({ drill }: { drill: Drill }) {
               {t('dojo.score', { score, max })}
               {best !== null && best > score && ` · ${t('dojo.best', { score: best })}`}
             </p>
-            <div className="grid w-full max-w-lg gap-4 text-left sm:grid-cols-2">
+            <div className="grid grid-cols-1 w-full max-w-lg gap-4 text-left sm:grid-cols-2">
               <div>
                 <h3 className="text-sm font-medium text-risk-safe">{t('dojo.caught')}</h3>
                 <ul className="mt-1 text-sm">

@@ -282,9 +282,10 @@ export function ActionDock({ result }: { result: AnalysisResult }) {
         animate={{ opacity: 1, y: 0 }}
         transition={tr(REVEAL_MS.dock, 0.45)}
         className={cn(
-          // mobile: fixed above the tab bar, solid (header and tab bar already use the
+          // mobile: fixed on the tab bar with extra bottom padding behind the raised Scan
+          // button (its 1.5rem rise would cover the buttons otherwise); solid (header and tab bar already use the
           // two blurred layers §7 allows); desktop: inline card
-          'fixed inset-x-0 bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom))] z-30 border-t border-glass-border bg-surface/95 px-3 py-2.5',
+          'fixed inset-x-0 bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom))] z-30 border-t border-glass-border bg-surface/95 px-3 pt-2.5 pb-8',
           'lg:static lg:z-auto lg:rounded-card lg:border lg:bg-surface lg:p-4',
         )}
       >

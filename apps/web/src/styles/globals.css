@@ -21,6 +21,7 @@
   --color-risk-safe: var(--risk-safe);
   --color-risk-warn: var(--risk-warn);
   --color-risk-scam: var(--risk-scam);
+  --color-risk-scam-solid: var(--risk-scam-solid);
 
   /* shadcn/ui names, restyled to our tokens */
   --color-background: var(--bg);
@@ -51,9 +52,9 @@
   --radius-xl: var(--radius-sheet);
 
   --font-sans:
-    'Geist Sans', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Bengali', ui-sans-serif,
+    'Geist Variable', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Bengali', ui-sans-serif,
     system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
   --text-sm: var(--text-size-sm);
   --text-sm--line-height: inherit;
@@ -102,20 +103,22 @@
     font-family: var(--font-sans);
     font-size: var(--text-size-base);
     line-height: var(--leading-latin);
+    /* at 200% text a single long word can be wider than a phone: break it only then (§6) */
+    overflow-wrap: break-word;
   }
 
   /* Indic scripts: own font first, taller line height (§3.2). Works on <html lang>
      and on any element whose language differs (§6). */
   :lang(hi) {
-    font-family: 'Noto Sans Devanagari', 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Noto Sans Devanagari', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: var(--leading-indic);
   }
   :lang(te) {
-    font-family: 'Noto Sans Telugu', 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Noto Sans Telugu', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: var(--leading-indic);
   }
   :lang(bn) {
-    font-family: 'Noto Sans Bengali', 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Noto Sans Bengali', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: var(--leading-indic);
   }
   :lang(en) {
@@ -223,4 +226,29 @@
 html.elder .anomaly-pulse {
   animation: none;
   opacity: 0;
+}
+
+/*
+ * Visible focus ring on every interactive element (§6). Unlayered on purpose: in
+ * Tailwind v4 `outline-none` sets --tw-outline-style: none, which also blanks the
+ * `focus-visible:outline-2` utilities (they reuse that variable), and the base-layer
+ * rule above loses to utilities. Unlayered declarations beat every layer.
+ */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Page-header entrance: transform only, so the text (often the LCP element) is
+   painted on the first frame instead of waiting for the Motion features chunk. */
+.enter-rise {
+  animation: enter-rise 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes enter-rise {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: none;
+  }
 }

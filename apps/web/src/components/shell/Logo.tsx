@@ -30,11 +30,11 @@ export function Logo({ compact = false }: { compact?: boolean }) {
     <Link
       to="/"
       aria-label={t('app.logoLabel')}
-      className="flex min-h-tap shrink-0 items-center gap-2.5 rounded-chip pr-2 outline-none focus-visible:outline-2 focus-visible:outline-brand"
+      className="flex min-h-tap min-w-0 shrink items-center gap-2.5 rounded-chip pr-2 outline-none focus-visible:outline-2 focus-visible:outline-brand"
     >
       <LogoMark />
       {!compact && (
-        <span className="text-base font-semibold tracking-tight whitespace-nowrap">
+        <span className="truncate text-base font-semibold tracking-tight whitespace-nowrap">
           {t('app.name')}
         </span>
       )}

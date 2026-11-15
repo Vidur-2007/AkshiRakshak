@@ -4,13 +4,13 @@ import type * as React from 'react';
 import { cn } from '@/lib/utils';
 
 export const buttonVariants = cva(
-  'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-chip text-sm font-medium transition-[background-color,color,box-shadow,transform] duration-150 select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
+  'inline-flex min-w-0 max-w-full items-center justify-center gap-2 rounded-chip text-center text-sm font-medium transition-[background-color,color,box-shadow,transform] duration-150 select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
   {
     variants: {
       variant: {
         default: 'bg-brand text-brand-contrast hover:bg-brand/90',
         // Red only because it leads to emergency help, which is about scam risk.
-        danger: 'bg-risk-scam text-white hover:bg-risk-scam/90',
+        danger: 'bg-risk-scam-solid text-white hover:bg-risk-scam-solid/90',
         outline: 'border border-glass-border bg-transparent text-text hover:bg-white/6',
         secondary: 'bg-surface-2 text-text hover:bg-surface-2/80 border border-glass-border',
         ghost: 'text-text-2 hover:bg-white/6 hover:text-text',

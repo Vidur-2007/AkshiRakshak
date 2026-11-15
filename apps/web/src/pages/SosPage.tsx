@@ -244,8 +244,14 @@ export default function SosPage() {
 
   return (
     <div className="min-h-dvh bg-[color-mix(in_srgb,var(--risk-scam)_12%,var(--bg))]">
-      <header className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
-        <Link to="/" className={buttonVariants({ variant: 'ghost', className: '-ml-2' })}>
+      <header className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-between gap-3 px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
+        <Link
+          to="/"
+          className={buttonVariants({
+            variant: 'ghost',
+            className: '-ml-2 whitespace-normal text-left',
+          })}
+        >
           <X aria-hidden />
           {t('sos.exit')}
         </Link>

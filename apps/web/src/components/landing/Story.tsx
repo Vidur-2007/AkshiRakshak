@@ -221,7 +221,7 @@ function Modules() {
   return (
     <section aria-labelledby="story-modules" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
       <SectionTitle title={t('story.modulesTitle')} />
-      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((c) => (
           <li key={c.to + c.title}>
             <TiltCard to={c.to}>
@@ -270,7 +270,7 @@ function Proof() {
           </p>
         )}
       </div>
-      <div ref={ref} className="mt-10 grid gap-4 sm:grid-cols-3">
+      <div ref={ref} className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <RevealProvider>
           {metrics.map((mt, i) => (
             <div key={mt.label} className="surface p-6 text-center">
@@ -394,7 +394,11 @@ function Languages() {
             {text}
           </m.p>
         </AnimatePresence>
-        <div role="radiogroup" aria-label={t('shell.language')} className="flex gap-1">
+        <div
+          role="radiogroup"
+          aria-label={t('shell.language')}
+          className="flex flex-wrap justify-center gap-1"
+        >
           {UI_LANGS.map((l) => (
             <button
               key={l}

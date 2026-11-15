@@ -229,6 +229,7 @@ export function QRScannerSheet({
         <input
           ref={fileRef}
           type="file"
+          aria-label={t('qr.upload')}
           accept="image/*"
           className="sr-only"
           tabIndex={-1}
