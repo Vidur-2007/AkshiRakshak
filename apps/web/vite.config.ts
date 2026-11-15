@@ -77,7 +77,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'],
-        globIgnores: ['engine-assets/tessdata/**'],
+        // OCR files are cached on first use (runtimeCaching below), not precached: the
+        // browser loads one of three ~3.8 MB Tesseract cores, never all three.
+        globIgnores: ['engine-assets/tessdata/**', 'engine-assets/tesseract/tesseract-core-*'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api\//],
@@ -90,6 +92,11 @@ export default defineConfig({
             urlPattern: ({ url }) => url.pathname.startsWith('/engine-assets/tessdata/'),
             handler: 'CacheFirst',
             options: { cacheName: 'akshi-tessdata', expiration: { maxEntries: 16 } },
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/engine-assets/tesseract/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'akshi-tesseract', expiration: { maxEntries: 8 } },
           },
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
