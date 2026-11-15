@@ -2,9 +2,25 @@
 
 ## Production
 
-- **URL: not deployed yet.** No Vercel project is linked to the repo (no `.vercel/`, no GitHub deployments or webhooks on 2026-11-15) and `main` is still the Phase 0 skeleton. Smoke check: not run on production (see In progress). `npm run smoke -- <url>` is ready and was dry-run against `npm run dev:api`: expand (2 hops, http→https), the private-address refusal and domain-age pass; health/AI/ask fail locally only because no keys are set.
+- **URL: not deployed.** On 2026-11-15 (code-freeze day) there is still no Vercel project linked to the repo, `main` is the Phase 0 skeleton and C's and B's work is not merged, so the final production deploy and smoke check (P6 task 5) could not run. When the project exists and Merge 2 is done: `npm run smoke -- <url>` (now also checks `X-Frame-Options` and CSP), then the phone checks, then record the URL here.
 
 ## Done
+
+**Phase 6 — hardening and release prep (2026-11-15), branch `feat/engine`.** Merge was not possible (main unchanged, C and B unmerged); everything below is on `feat/engine`. 410 tests pass (engine 309, API 50, contracts 45, stubs 6); typecheck, lint, `npm run size` (core 54.2 KB gz without lexicons) pass.
+
+- **Fuzz (§15), `test/fuzz.test.ts`:** 1,000 seeded inputs over all nine input kinds — 40 × 50 KB pastes, emoji and ZWJ sequences, mixed and RTL scripts, lone surrogates, control and bidi characters, unbalanced brackets, 30 broken URLs, 20 malformed `upi://` strings, empty and whitespace-only input, absurd collect amounts, broken chat timestamps and email headers. No throws; every result passes `AnalysisResultSchema`; slowest **562 ms** (a 50 KB paste; budget 1 s); no raw error text (`Error`, `undefined`, `NaN`, `[object …]`, stack frames) in explanation, signal or claim text. scoreLive, detectInputKind, maskPII, parseUpiUri, searchFaq, the live listener and inspectUrl never throw on the same inputs. No code fixes were needed.
+- **Error states, `test/errors.test.ts`:** network error, HTTP 429, 500, 503, non-JSON, wrong-shape JSON, timeout (fake timers past every deadline) and offline (no fetch at all). Each gives exactly the fully local result (same score, verdict, category and explanation), `aiUsed: false`, `offline: true`, AI layer unavailable with share 0, links layer still available, no `expanded`/`domainAge`, no AI_FLAG, ai stage failed/skipped, no raw error in UI text. askAssistant falls back to the offline FAQ answer; communityReports/reportToCommunity → null; apiHealth → offline; inspectUrl → the local finding. A cancelled scan rejects with AbortError (the UI treats that as cancel). The API's own failure paths (provider timeout 504, no provider 503, invalid output, 429) were already covered in `api/_test`.
+- **Security review:**
+  - Git history (45 commits, all branches): only `.env.example` (empty values) was ever committed; no Groq/Google/OpenAI-style keys, `*_KEY|TOKEN|SECRET=` values, Upstash URLs or private keys. `.env` is gitignored.
+  - CORS: no `Access-Control-*` header anywhere and no OPTIONS handlers → same origin only (tested).
+  - SSRF guard: all expand tests pass; the metadata address is refused before connecting.
+  - Logs: every API log line is typed metadata (route, status, ms, provider, counts, fixed error codes); a test turns logging on and drives all seven endpoints with a marker in every text/URL/value — no line contains it or the client IP. dev-api logs path without query. The engine logs only the invalid-calibration warning.
+  - Rate limits: ai 20/min, ask 20/min, expand 60/min, domain-age 60/min (all with retry-after), reports POST 10/day — **fixed:** `/api/reports` GET had none; now 60/min/IP for GET and POST (protects the Upstash free quota).
+  - AI responses: zod-validated on the server and again in the engine; quotes must be exact substrings of the masked text (both sides). **Fixed (truth rules §1.3):** model text was only *asked* not to say "safe". New `api/_lib/truth.ts` detects "safe / not a scam / genuine / nothing to worry" in English and the "safe" stem in Hindi, Telugu and Bengali: such AI explanations and advice are blanked (the AI score still counts and the engine shows its own explanation), such red-flag reasons are dropped, and such `/api/ask` answers are rejected (next provider, then the offline FAQ answer).
+  - Masking: only `maskPII`'d text goes to `/api/ai/analyze` and `/api/ask`; vision sends the image (opt-in); reports send the reported value only.
+  - **Fixed:** `vercel.json` now sends `X-Frame-Options: DENY` and `Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'` (no script restrictions, so OCR workers and wasm are unaffected).
+  - Dependencies: `npm audit --omit=dev` → 0 vulnerabilities; dev-only minimatch advisory via typescript-eslint 8.72.2 (still the latest; lint only).
+- **README (task 4):** there is no README on any branch (C owns it) — request below.
 
 **Phase 5 — calibration, performance, deploy prep (2026-11-15), branch `feat/engine`.** `git merge origin/main`: already up to date. 381 tests pass.
 
@@ -53,10 +69,19 @@
 
 ## Deferred
 
-- P6 hardening: fuzz tests (1,000 random strings, 50 KB input), security review, Playwright support.
+- Playwright support for B's e2e tests (B's suite drives the UI; A has no browser-only engine paths left untested except `ocrImage` / `ocrWithCloudVision`, which need a DOM).
+- POST variants of `/api/expand`, `/api/domain-age` and `GET /api/reports` so values stay out of platform request logs (API change; after the freeze).
 - Manual acceptance with real keys (`/api/ai/analyze`, `/api/ask`, `/api/ai/vision`) and a real Upstash store — needs the human's keys (steps below).
 
 ## Known issues
+
+**For the demo recording (until Merge 2 and a deploy happen):**
+- **The engine on `main` is the Phase 0 stub.** A demo from `main` or a deploy of `main` shows stub results. Record from a build that includes `feat/engine` (and B's `inlineConst` setting), or after Merge 2.
+- Call `warmup(lang)` when the scan page opens; otherwise the first keystroke of Hindi/Telugu/Bengali text in the live score can miss phrases and show English labels (the full scan is always complete).
+- Avoid pasting very large chat exports on a slow phone: 50 KB takes up to ~0.6 s on a laptop, so it may pass 1 s on a mid-range phone.
+- AI second opinion and the online assistant need the keys in Vercel; without them the app silently shows local results (by design) — check `/api/health` before recording.
+- Domain age and link expansion depend on rdap.org and the target sites; a slow answer is dropped after 3 s, so a demo link may show no age. Use a link already tried once (cached 1 h / 10 min).
+- Vercel's platform request log records query strings, so `/api/expand?url=`, `/api/domain-age?domain=` and `/api/reports?value=` values appear there (our own logs never include them; Hobby log retention is short). Changing these to POST is an API change, left for after the freeze.
 
 - **Unverified domains / handles** (from P2): IndusInd `.bank.in`, Yes Bank's exact `.bank.in` name, several legacy and non-bank domains; PSP handle table not checked against NPCI (client-rendered pages).
 - **Email false-positive risk:** banks sometimes send from domains not in the registry (for example a separate alerts domain); such genuine emails would get BRAND_MISMATCH. Add those domains to `links/registry.ts` when seen.
@@ -70,6 +95,16 @@
 - Carried: deviations listed in Phase 2/3 (single-item fusion, lookalike token length, identity signals in rules, website-QR floor 40, phone mismatch needs pressure, ASKS_OTP floor 45), Vercel compiling `api/*.ts` with `.ts` workspace imports unverified, typescript-eslint minimatch advisory (still no fixed release; 8.72.2 is latest on 2026-11-15), tool escaping quirks on this laptop.
 
 ## Requests
+
+**New in Phase 6:**
+
+- **To C — README (missing on every branch):** please document the environment variables exactly as the code reads them:
+  - `GROQ_API_KEY`, `GROQ_MODEL` (a Groq model with JSON Schema structured output, e.g. `openai/gpt-oss-20b`)
+  - `GEMINI_API_KEY`, `GEMINI_MODEL` (Flash or Flash-Lite), `GEMINI_VISION_MODEL` (image input; can be the same model)
+  - `KV_REST_API_URL` + `KV_REST_API_TOKEN` **or** `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (optional; injected by the Vercel Upstash integration; without them `/api/reports` answers 503 and the app works without community counts)
+  - `PORT` (optional, local `npm run dev:api`, default 3001)
+  - Local: copy `.env.example` to `.env`; Vercel: same names for Production and Preview. `/api/health` shows which providers are set, never the values. All AI features are optional: text checks work offline without any key.
+- **To B:** model-written AI explanations can now be an empty string (truth guard); the engine already falls back, but if the UI ever shows `AiAnalyzeResponse.explanation` directly, hide it when empty.
 
 **New in Phase 5:**
 
