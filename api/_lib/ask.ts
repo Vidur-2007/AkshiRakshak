@@ -16,6 +16,7 @@ import {
   type AiProvider,
   type Outcome,
 } from './ai.js';
+import { claimsSafe } from './truth.js';
 
 export const AskOutputSchema = z.object({
   answer: z
@@ -90,7 +91,8 @@ export async function runAsk(
         ),
       ]);
       const out = AskOutputSchema.safeParse(raw);
-      if (out.success && out.data.answer.trim()) {
+      // §1.3: an answer that calls anything safe is unusable (next provider, or the offline FAQ)
+      if (out.success && out.data.answer.trim() && !claimsSafe(out.data.answer)) {
         opts.log?.({ provider: p.name, ms: Date.now() - t0, status });
         const covered = out.data.covered && items.length > 0;
         return {

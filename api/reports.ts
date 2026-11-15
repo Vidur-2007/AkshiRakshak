@@ -1,7 +1,8 @@
 // GET /api/reports?type=&value= and POST /api/reports (P2, M8.6) — SPEC.md §6.6, SPEC_A §12.5.
 // Key rep:<type>:<sha256(normalised value)> → hash { count, category }. GET shows a count only
 // from 3 reports up (otherwise 0). Max 10 reports per IP per day, tracked under a hash of the IP
-// with a 24 h TTL. Raw values and IPs are never stored or logged.
+// with a 24 h TTL, plus 60 requests/min/IP. Raw values and IPs are never stored or logged by this
+// code (note: GET puts the value in the query string, which the platform's request log records).
 import { createHash } from 'node:crypto';
 import {
   ReportsPostRequestSchema,
@@ -14,6 +15,7 @@ import {
 } from '@akshi/contracts';
 import { parse } from 'tldts';
 import { apiError, clientIp, json, logEvent, readJson } from './_lib/http.js';
+import { limited } from './_lib/ratelimit.js';
 import { redisConfig, redisPipeline, type RedisFetch } from './_lib/redis.js';
 
 export const SHOW_FROM = 3;
@@ -62,6 +64,9 @@ function shown(h: { count: number; category?: ScamCategory }): ReportsGetRespons
 }
 
 export async function GET(request: Request): Promise<Response> {
+  // per-minute limit per IP (in front of Upstash's free-tier command quota)
+  const limit = limited('reports', request);
+  if (limit) return limit;
   const cfg = redisConfig();
   if (!cfg) return apiError(503, 'upstream_unavailable', 'Community reports are not configured');
   const q = Object.fromEntries(new URL(request.url).searchParams);
@@ -83,6 +88,9 @@ export async function GET(request: Request): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  // per-minute limit per IP (in front of Upstash's free-tier command quota)
+  const limit = limited('reports', request);
+  if (limit) return limit;
   const cfg = redisConfig();
   if (!cfg) return apiError(503, 'upstream_unavailable', 'Community reports are not configured');
   let body: unknown;

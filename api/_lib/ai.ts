@@ -19,6 +19,7 @@ import {
   type ScamCategory,
 } from '@akshi/contracts';
 import { z } from 'zod';
+import { claimsSafe } from './truth.js';
 
 export const AI_TIMEOUT_MS = 8_000;
 
@@ -161,20 +162,21 @@ export function cleanOutput(
       : null;
   const redFlags = o.redFlags
     .map((f) => ({ quote: f.quote.trim(), reason: f.reason.trim().slice(0, 200) }))
-    .filter((f) => f.quote.length > 0 && maskedText.includes(f.quote))
+    .filter((f) => f.quote.length > 0 && maskedText.includes(f.quote) && !claimsSafe(f.reason))
     .slice(0, 5);
   const explanationWords = words(o.explanation);
   const explanation =
     explanationWords.length > 60
       ? `${explanationWords.slice(0, 60).join(' ')}…`
       : o.explanation.trim();
-  if (!explanation) return null;
+  // §1.3: an explanation that calls the message safe is unusable (next provider, or none)
+  if (!explanation || claimsSafe(explanation)) return null;
   return {
     category,
     likelihood: Math.round(Math.max(0, Math.min(100, o.likelihood))),
     explanation,
     redFlags,
-    advice: o.advice.trim().slice(0, 300),
+    advice: claimsSafe(o.advice) ? '' : o.advice.trim().slice(0, 300),
   };
 }
 

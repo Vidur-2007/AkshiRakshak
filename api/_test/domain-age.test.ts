@@ -99,7 +99,7 @@ describe('GET /api/health', () => {
 describe('rate limiter', () => {
   it('uses the §12.6 limits with a 60 s sliding window', () => {
     resetRateLimits();
-    expect(LIMITS).toEqual({ ai: 20, ask: 20, expand: 60, 'domain-age': 60 });
+    expect(LIMITS).toEqual({ ai: 20, ask: 20, expand: 60, 'domain-age': 60, reports: 60 });
     const t = 1_000_000;
     for (let i = 0; i < 60; i++) expect(checkRate('expand', '1.2.3.4', t + i).ok).toBe(true);
     const blocked = checkRate('expand', '1.2.3.4', t + 100);
