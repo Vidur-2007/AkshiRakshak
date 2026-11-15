@@ -49,15 +49,49 @@
 
 ### Not exercised with the stub engine (check after Merge 1)
 
+- **Statements**: the stub parser accepts only the canonical CSV and returns a single error with no row number ("Only the canonical CSV format is supported by the stub"). Row-number display (`parseErrorRow`) is tested with a synthetic message only. `analyzeStatement` returns fixture-like anomalies and an English narrative whatever `lang` is.
+- **Graph**: `buildEntityGraph` returns the bundled sample graph (11 nodes, 3 clusters) and ignores history. The dashboard's network preview doesn't yet reflect the user's own checks.
+
 - `RECEIVE_WITH_PIN` never appears in stub results, so the PIN explainer also plays whenever the user answers "Yes, they said I will receive money" (that is the trap itself; `shouldExplainPin` in `lib/collect.ts`). A test covers the signal path with a synthetic result.
 - `inspectUrl` in the stub returns no `lookalikeOf`/`lookalikeDiff`, `expanded` or `domainAge`, and its host parsing breaks on punycode (host = the whole URL). URLAnatomy splits URLs itself and only trusts the engine's registrable domain when it is a real suffix of the host. The lookalike row, RedirectHops and DomainAgeBadge are tested with synthetic findings only. `/api/expand` and `/api/domain-age` were never called (no network extras in the stub, and the dev API was not running).
 - Stub OCR ignores the image and always returns the Telugu electricity-bill fixture with confidence 87, so the weak-OCR path is tested only through `isWeakOcr`. The stub's image boxes carry no `signalIds` (Telugu text gets no keyword hits), so on the stub the overlay shows "No words in the screenshot were flagged". Flagged boxes are tested with a synthetic result.
 - The stub's `detectInputKind` reads an email with headers as a chat; the Messages page's Auto mode works around it. The stub email result's `claimVsReality` comes from the fixture (Income Tax), not from the pasted email.
 - Real camera scanning, torch and BarcodeDetector were not run: jsdom has no camera, and this session had no browser.
 
+### Phase 3 — emergency, Elder mode, settings, transactions, dashboard (15 Nov 2026)
+
+- **Emergency (`/sos`)**: a calm full-screen takeover (the shell drops its top bar, mobile header and tab bar on `/sos` and `/sos/report`) in dark red at 12% over the background, with "Leave emergency help" and a "Call 1930" (`tel:1930`) button always visible. One `EMERGENCY.questions` card at a time, with big Yes / No buttons, progress dots, "Question n of 6" and Back. Then the ordered checklist from `buildChecklist` (`lib/emergency.ts`): `always` steps first, then steps whose `when` matches a Yes, both by priority, and `no_loss` steps only when every answer is No. Each step has its action (`tel` as a red button, `url` in a new tab, `internal` as a link) and a tick-off checkbox.
+  - **Ghost taps fixed**: while a question card animates out it is still on screen, and a fast second tap used to change the previous answer and skip a question. Answers now count only for the current question. A regression test covers it.
+  - **Evidence pack** (M6.2): pick recent checks from history (warnings pre-selected), with their verdict, time, preview and phones / UPI IDs / links, plus the `evidenceChecklist`. "Open complaint draft" saves the draft in sessionStorage, so a reload before printing keeps it.
+  - **`/sos/report`**: a print-styled complaint draft with a "not an official document" notice, an editable "What happened, in your words" box (ruled lines when printed), the Yes/No answers, a timeline table of the selected checks, all phones / UPI IDs / links / amounts, and the evidence checklist. "Save as PDF" calls `window.print()`; `styles/print.css` (loaded only by this page) prints A4, black on white, with navigation, toasts and motion hidden.
+- **Elder Safety Mode** (§5.10): `html.elder` (20 px base, 56 px taps, solid surfaces, decorative motion off) and `?simple=1` from Phase 0. Quick Scan becomes one big input, one big Check button, and big Upload screenshot / Scan QR buttons. `/scan/:id` becomes a full-screen **STOP** (hand icon) / **CAREFUL** / **No warning signs found** in the risk colour, with one sentence (the first of the explanation), the single most important action as a big card (its link when it has one), "Call {{name}}" (`tel:` from Settings, or a "Set up a family contact" link) and Read aloud, which starts by itself after a fresh scan when voice is on (on by default in Elder mode). "Show details" opens the normal analysis. The reveal is instant in Elder mode.
+- **Settings (`/settings`)**: language, Elder mode, read verdicts aloud, haptics, AI second opinion (with the masked-text note, or the offline note), and a trusted family contact (name + phone, checked to 6–15 digits, stored only on this device). The privacy panel counts what is stored locally (checks, screenshots, statements, blocklist, Dojo scores) and the AI calls made with masked text this session (`lib/session.ts`). It also lists the blocklist with remove buttons. "Delete everything" asks for confirmation in a Radix AlertDialog, then clears Dexie (including screenshots) and localStorage and reloads.
+- **Transactions (`/modules/transactions`)**:
+  - CSV upload by button or drag-and-drop (`.csv` or a CSV type, 5 MB max), or the `SAMPLE_STATEMENTS` cards labelled "Sample data", run through `parseStatementCsv` and `analyzeStatement(txns, uiLang)`.
+  - Statement risk on the RiskGauge (40/70 bands) with the narrative.
+  - **StatementChart** (hand-made SVG; you chose this over Recharts at about 125 KB gzipped): debits over time on a log ₹ axis, dot size by square root of the amount, the median-to-p90 band shaded in brand colour, and anomalies as risk-coloured dots that are keyboard buttons. The dots pulse **3 times, then stop**: the spec asks for pulsing, but §3.3 lets only ShieldCore loop. No pulse under reduced motion or in Elder mode.
+  - Anomaly list sorted by severity, then score, plus an **AnomalyCard** with explanation, feature table (What / This payment / Your usual) and the related transactions.
+  - **SpendingSummary**: totals in/out, bars by category (localised spend categories) and in/out by month.
+  - Parse errors are listed as "Row 12: …" when the parser gives a row number.
+  - Saved to Dexie `statements` (broadcast `statement`), with "Recent statement checks" to reopen them.
+- **Dashboard (`/dashboard`)**, Radix tabs:
+  - **My shield**: count-up KPI tiles (checks, warnings found, money at risk in flagged messages = sum of amounts in `scam` scans, links and QR codes checked); RecentDetectionsFeed (latest 20, linking to `/scan/:id`, new items slide in); warnings by scam type (bars); checks and warnings over the last 14 days (SVG area + line, with a screen-reader table); and a small network preview from `buildEntityGraph(history, { includeBundled: true })` labelled "Sample data", linking to `/network`.
+  - **Live updates**: the feed subscribes to `BroadcastChannel('akshi')` and loads the new record through the in-memory cache first. `storeResult` now broadcasts even when IndexedDB fails, so a dashboard in the same tab still updates in private windows.
+  - **Lookup**: `lookupIndicator` results show the report count, scam type, campaign and source (bundled sample data / community / your blocklist), with the "Sample data" badge. A miss says "No reports found for this in our data. That does not mean it can be trusted."
+  - **Scam landscape**: `LANDSCAPE` by category, language and channel, plus `PATTERN_CARDS` (with source links when present). Everything carries "Sample data" and the note that it shows the training-data mix, not real-world statistics.
+- **Strings**: every new string in en, hi, te and bn (`sos`, `report`, `elder`, `settings`, `tx`, `spend`, `channel`, `dash`).
+- **Bundle**: first load 193 KB gzipped. Page chunks: Sos 2.9 KB, SosReport 2.0 KB, Settings 3.0 KB, Transactions 5.0 KB, Dashboard 5.2 KB, Analysis 6.4 KB, Scan 4.5 KB. No new dependencies.
+- **Tests** (160 in `apps/web`, 227 in the repo): checklist ordering, the 1930 action, action hrefs, chart maths (linear and log scales, ticks, nice maxima, Indian rupee formatting, dot sizes, day keys), dashboard KPIs (money at risk counts only `scam`), by-category, by-day, `tel:` sanitising, and flows through the real router:
+  - **Emergency**: Yes to "sent money" → `tel:1930` and the bank step, with no no-loss step; all No → no-loss steps; tick-off; Back; the ghost-tap regression; the complaint draft with answers, print button and editable box.
+  - **Elder mode**: `?simple=1` → simplified scan → full-screen STOP → "Set up a family contact" → Show details; "Call Amma" dials `tel:+919000000000`; first-sentence extraction in English and Hindi.
+  - **Settings**: phone validation, saved contact, AI toggle, the AI-calls row, the delete confirmation.
+  - **Transactions**: sample → chart group, the top anomaly card and feature table, summary, keyboard anomaly dots; an unreadable CSV → errors section.
+  - **Dashboard**: the feed updates live on a scan; Lookup hit with "Sample data", and the miss wording; landscape note and labels.
+  - The `/sos` route test now checks the takeover: no navigation, and a `tel:1930` link.
+
 ## In progress
 
-- Nothing. Phase 3 (emergency, Elder mode, transactions, dashboard) is next.
+- **Merge 1 is waiting.** `origin/main` still has only the Phase 0 skeleton (`c81f239`). I haven't merged anything: the prompt says to wait until the human confirms A's PR (after C's) is on `main`. Then: `git fetch`, merge `origin/main` into `feat/web` (take main's `package-lock.json`, `npm install`), re-check every screen with the real engine, open the PR.
 
 ### Notes from A's Phase 1 (on feat/engine, not yet on main)
 
@@ -71,7 +105,9 @@
 - vite-plugin-pwa and the manifest/share target: Phase 4, as SPEC_B_WEB §2.1 says.
 - `playwright.config.ts` and e2e specs: Phase 5. CI's e2e job skips until the config exists.
 - `lib/share.ts` (image share cards) and `styles/print.css`: P4 share cards, P3 complaint draft.
-- RiskLine is a small hand-made SVG rather than Recharts. Recharts would be well over 100 KB gzipped, and CLAUDE.md asks the human before adding a dependency that size. Phase 3's statement chart needs a chart library anyway, so decide on Recharts then.
+- **Charts**: the human chose hand-made SVG over Recharts (about 125 KB gzipped) in Phase 3. RiskLine, StatementChart, the dashboard bars and DayArea are all custom; there's no tooltip or zoom.
+- `/network` (full graph) and the Dojo, Ask and Proof pages are Phase 4.
+- **Two-tab live dashboard not checked in a browser**: BroadcastChannel between two real tabs, the print dialog, `navigator.vibrate`, speech and the `tel:` links are covered by unit and flow tests only. Open `/dashboard` in one tab, scan in another, and check the feed.
 - **Real-phone test (prompt item 6) not done**: camera QR scan, screenshot upload and the PIN explainer still need a run on an Android phone through the Vercel preview URL. The session had no browser or phone, and the GitHub CLI isn't installed, so I couldn't read the preview URL either.
 - Elder mode's simplified Quick Scan and full-screen verdict: Phase 3 (M10.1). Today Elder mode only turns the reveal choreography off and enlarges text.
 - shadcn components beyond the five primitives are added as screens need them, using `components.json`.
