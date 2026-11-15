@@ -19,3 +19,10 @@ void initI18n().then(() => {
     </StrictMode>,
   );
 });
+
+// Offline cache (PWA, §5.16): production builds only, registered after first render.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  void import('virtual:pwa-register')
+    .then(({ registerSW }) => registerSW({ immediate: true }))
+    .catch(() => undefined);
+}
