@@ -232,6 +232,69 @@ Before the font and entrance changes: /scan 69 (LCP 5.1 s), / 68 (LCP 5.8 s). **
 
 **Real devices.** Laptop Chrome and Edge are covered by Playwright on this machine. **Not done:** a mid-range Android phone and the Vercel preview run. There's no phone here, and without the `gh` CLI I can't read the preview URL. See Deferred.
 
+### Phase 6 — judge tour, demo polish, live listen, personal tips, demo mode (15 Nov 2026)
+
+`origin/main` hadn't moved (still `c81f239`), so there was nothing to merge. `docs/demo-script.md` doesn't exist yet (C hasn't pushed), so the polish pass followed the screen order in the Phase 6 prompt and SPEC.md §13.1.
+
+**Judge tour (§5.17, M12.3).**
+
+- `/tour` shows the six steps and a Start button. `/tour?start=1`, the landing hero's "Take the 60-second tour" link, starts at once.
+- Steps run on the real screens: fake KYC on Quick Scan → analysis reveal → collect request + PIN explainer → QR x-ray → Proof numbers → Elder STOP.
+- Each step opens its route, rings the element marked `data-tour` (cyan border with the page dimmed; the page stays usable) and shows a caption card with a 6-segment progress bar, Pause, Skip tour and Next/Finish.
+- A step lasts 10 s once its target is on screen. If a target hasn't appeared after 8 s, the caption shows anyway. Escape ends the tour.
+- Bundled samples only, so it works offline. The KYC text is the engine's own `sample-fake-kyc`.
+- The Elder step turns Elder mode on; ending the tour (Finish, Skip or Escape) restores the user's Elder and voice settings.
+- The overlay is a lazy chunk; the shell only loads it while a tour runs.
+- To support it: collect has a **"Refund desk request" sample chip** and `?sample=refund` (fills the form with a synthetic request and checks it); the QR & link samples moved to `lib/qrSamples.ts`.
+
+**Polish pass (demo order).** Screenshots of every demo screen at 1280×800 and 390×844, then fixes:
+
+- Landing: the compact language switcher wrapped out of the top bar at 1280 px (a Phase 5 side effect); it no longer wraps.
+- Landing: the hero headline took five lines at 1280×800 and pushed the input and live meter below the fold. The hero size is now capped by viewport height too (`clamp(3rem, min(7vw, 9vh), 5.5rem)`).
+- The "Ctrl K" hint and the "Scan QR" button on the QR page no longer break onto two lines.
+- URL anatomy: labels ("PROTOCOL", "REAL WEBSITE") ran together; the segments are spaced now.
+- Mobile action dock: a button cut off mid-word at the edge looked broken; the strip now fades at the right edge so it reads as scrollable.
+- Statement chart legend: "Out" next to "Your usual range" read like "out of range"; it's now "Other payments" (all four languages).
+- Elder mode: switches stretched to 56 px tall pills under the tap-target rule; now they keep their track and grow in proportion. The top-bar help button is a square 56 px.
+- Offline: the "Offline — checks still work" pill covered the page title on mobile; `main` now leaves room for it while offline.
+
+The Hindi electricity sample in Elder mode and the Telugu sample show "No warning signs found" with English text **only on the stub engine**; the trial merge with A's engine gives real verdicts in the UI language.
+
+**P2 items.**
+
+- **M1.15 live listen:** a Mic button ("Listen to a call") in the Quick Scan toolbar opens a sheet. It uses the browser's SpeechRecognition with interim results (en-IN, hi-IN, te-IN, bn-IN), restarted after silence, and feeds A's `createLiveListener(lang)`. You get the live risk meter, the transcript (interim words in italics), one alert card per new call danger ("Hang up. Don't share any code…", with the heard phrase), vibration when haptics are on, and "Check this transcript" for a full scan.
+  - The sheet says plainly that the browser does speech-to-text (Chrome uses Google's speech service), that the check runs on the device, and that we don't record or save the call.
+  - It's shown only when the browser supports SpeechRecognition **and** the engine has `createLiveListener`, so it's hidden on main's stub until A's PR lands. It needs the internet for speech-to-text.
+  - Not tried with a real microphone (tested with a fake recognizer).
+- **M11.6 personal tips:** a "Tips for you" card on the dashboard. It ranks up to three patterns seen in the user's own flagged checks (OTP/PIN asks, receive-with-PIN, risky links, remote apps, threats/rushing, pay-to-earn), each with "Seen in N of your flagged checks". It nudges to add a trusted contact if none is set, and invites a first check when history is empty. It counts signals only and never quotes message text.
+- **M9.2 3D network:** skipped. The human chose to skip it (react-force-graph-3d + three.js is over the 100 KB rule).
+
+**Recording mode (`?demo=1`).**
+
+- Once per page load it clears stored history (scans, screenshots, statements, blocklist, Dojo results) and turns Elder mode off. Settings, language and the trusted contact stay.
+- For the session, the sample chips put the script samples first: Fake KYC, Electricity cut-off (Hindi), Part-time job (Telugu), Refund collect request. Change the order in `lib/demo.ts` (`DEMO_SAMPLE_ORDER`) when C's script lands.
+- It only reorders: the same sample objects, the same text. A unit test checks every sample's verdict and score are identical in both orders.
+
+**Checks.** Typecheck clean; 265/265 unit tests (38 files; web added the tour, demo, tips and live-listen tests); lint clean in `apps/web`; build OK, one React copy. Playwright 62/62: the 30 smoke tests (3 projects), 22 accessibility tests, 1 performance test, and 9 new tour/demo tests (the full tour with Finish, Escape, and `?demo=1` clearing history and reordering chips, on all 3 projects).
+
+| Gzipped JS  | Phase 5  | Phase 6      | Budget      |
+| ----------- | -------- | ------------ | ----------- |
+| First load  | 169.1 KB | 172.6 KB     | —           |
+| `/scan`     | 180.7 KB | **185.2 KB** | ≤ 200 KB ✅ |
+| `/` landing | 253.6 KB | 257.8 KB     | —           |
+| `/tour`     | —        | 174.5 KB     | —           |
+
+Precache 2.38 MB (141 entries).
+
+**Recording checklist** (for the human; record with A's engine merged so verdicts are real):
+
+1. Desktop Chrome, window at **1280×800** (or 1920×1080 full screen); browser zoom **100%** (Ctrl+0); **notifications off** (Windows: Do not disturb on), other tabs closed, no extension pop-ups.
+2. Open the deployed app once online with **`/?demo=1`** to clear history and put the script samples first, then wait a few seconds so the offline cache installs (needed for the airplane-mode shot).
+3. Language starts in English; switch to Telugu/Hindi only at the shots that need it (header switcher).
+4. **Airplane-mode step (3:45):** turn Wi-Fi off (or Chrome DevTools → Network → Offline), show the "Offline — checks still work" pill, tap **Fake KYC SMS**, show the verdict; turn Wi-Fi back on before Proof.
+5. Elder shot: header **Aa** switch on (or `?simple=1`), language Hindi, voice on; check system volume.
+6. For a fallback or a judge, the 60-second tour runs everything offline: `/tour?start=1`.
+
 ## In progress
 
 - **Merge 2 is waiting** (order C, A, then B). On 15 Nov `origin/main` still had only the Phase 0 skeleton (`c81f239`). Once A's PR is on `main`: `git fetch`, merge `origin/main` into `feat/web` (take main's `package-lock.json`, then `npm install`), run typecheck, unit tests, build and `npx playwright test`, push, then open the PR `feat/web → main`. The trial merge (Phase 5 above) suggests this goes cleanly apart from the lockfile.
@@ -249,17 +312,19 @@ Before the font and entrance changes: /scan 69 (LCP 5.1 s), / 68 (LCP 5.8 s). **
 - vite-plugin-pwa and the manifest/share target: Phase 4, as SPEC_B_WEB §2.1 says.
 - `lib/share.ts` (image share cards) and `styles/print.css`: P4 share cards, P3 complaint draft.
 - **Charts**: the human chose hand-made SVG over Recharts (about 125 KB gzipped) in Phase 3. RiskLine, StatementChart, the dashboard bars and DayArea are all custom; there's no tooltip or zoom.
-- `/tour` (60-second judge tour) is Phase 6.
-- The ShieldCore point sphere uses a Fibonacci lattice rather than icosphere vertices (an even spread with the same look; Canvas 2D, no three.js). M9.2 (3D network toggle) isn't built: it needs three.js, which was declined for size.
+- The ShieldCore point sphere uses a Fibonacci lattice rather than icosphere vertices (an even spread with the same look; Canvas 2D, no three.js).
+- **M9.2 (3D network toggle) not built:** it needs react-force-graph-3d + three.js (about 150–200 KB gzipped); the human chose to skip it in Phase 6.
+- **Live listen (M1.15) not tried with a real microphone**, and hidden until A's engine (with `createLiveListener`) is on main. Try it on a phone call on speaker after Merge 2.
+- **`docs/demo-script.md` (C) not written yet:** the polish pass and `DEMO_SAMPLE_ORDER` follow SPEC.md §13.1. Revisit when the script lands.
+- **Tour, tips and listen strings in hi/te/bn** are my own translations; please include them in the i18n review.
 - **Two-tab live dashboard not checked in a browser**: BroadcastChannel between two real tabs, the print dialog, `navigator.vibrate`, speech and the `tel:` links are covered by unit and flow tests only. Open `/dashboard` in one tab, scan in another, and check the feed.
 - **Real-phone test (Phase 2 item 6 and Phase 5 item 5) not done**: camera QR scan, screenshot upload, the PIN explainer, the morph and the mobile dock still need a run on a mid-range Android phone in Chrome through the Vercel preview URL. There's no phone here, and the GitHub CLI isn't installed, so I couldn't read the preview URL either. Then run `BASE_URL=<preview URL> npx playwright test` in `apps/web` against the preview.
 - **LCP under 2.5 s** (§7) would need prerendered HTML for / and /scan. Lighthouse mobile is about 70–75; see the Phase 5 table.
-- Elder mode's simplified Quick Scan and full-screen verdict: Phase 3 (M10.1). Today Elder mode only turns the reveal choreography off and enlarges text.
 - shadcn components beyond the five primitives are added as screens need them, using `components.json`.
 
 ## Known issues
 
-- On the stub engine (main) the fake KYC sample is only **Suspicious**; Playwright test 4 accepts that only when `data-engine-version` contains "stub". On A's Phase 6 branch it's a clear **Scam**.
+- On the stub engine (main) the collect request in Playwright test 4 is only **Suspicious** (and the collect/tour screens show 45); the test accepts that only when `data-engine-version` contains "stub". A's engine floors it at Scam. Likewise the Hindi and Telugu samples show "No warning signs found" in English on the stub only.
 - Bengali emergency questions fall back to English: C's content stub only has en and hi.
 - **Windows builds:** if a shell's cwd sits inside `apps/web/dist`, Vite can't empty `dist` (EPERM) and you get a stale build without an obvious error. Build from outside `dist`.
 
