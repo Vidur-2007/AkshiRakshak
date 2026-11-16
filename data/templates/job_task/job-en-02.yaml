@@ -1,0 +1,18 @@
+family: job-en-02
+label: scam
+category: job_task
+lang: en
+script: latn
+channel: telegram
+hard_negative: false
+max_rows: 15
+pools:
+  link: scam_domains.job
+  upi: upi_ids.job
+templates:
+- 'Welcome to the VIP task group. Today''s merchant order: recharge {amount} and receive {amount} plus 40 percent profit. Limited seats, send payment to {upi} and post the screenshot.'
+- 'Mentor: You made a mistake in the last order so your funds are frozen. To repair the order and withdraw everything you must recharge {amount} {deadline}.'
+- New members bonus! Follow 5 Instagram pages and get {amount} instantly. After that join the paid tasks to earn more. Register here {link}
+- 'Receptionist {name}: Your daily salary is ready. To withdraw you need to finish the combo task. Send {amount} to {upi}. All members have already received their payout.'
+- Part time job, only 20 minutes a day on your phone. Rate movies and products, earn {amount} daily, payment guaranteed. Message the manager on {phone} to get your work code.
+notes: 'Telegram task group: merchant orders, recharge to withdraw'

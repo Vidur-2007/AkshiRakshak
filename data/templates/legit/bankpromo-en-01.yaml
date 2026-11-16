@@ -1,0 +1,18 @@
+family: bankpromo-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+amount: loan_app
+max_rows: 20
+pools:
+  link: official.bank
+templates:
+- '{bank}: You may be eligible for a personal loan of up to {amount}. Check your offer in the {bank} app or at {link} T&C apply.'
+- Festive offer from {bank}! Get 10 percent cashback up to Rs 1,500 on your Credit Card at select stores till {date}. Details at {link}
+- Open a {bank} fixed deposit at attractive interest rates from the comfort of your home. Know more at {link} or visit a branch.
+- '{bank} Home Loans now start at attractive rates. Visit your nearest branch or {link} to apply. To stop these messages, SMS STOP to your bank.'
+- Upgrade to a {bank} Platinum Debit Card with higher limits. Apply through the {bank} app. No charges for the first year. T&C apply.
+notes: Genuine bank offers that point to official sites

@@ -1,0 +1,15 @@
+family: wrong-hid-01
+label: scam
+category: wrong_transfer
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.personal
+templates:
+- भाई साहब, गलती से {amount} आपके नंबर पर चले गए हैं, मुझे अपने भाई को भेजने थे। कृपया {upi} पर वापस कर दीजिए, अस्पताल का पैसा है।
+- मेरा पैसा गलती से आपके खाते में आ गया है, स्क्रीनशॉट भेज रहा हूं। {amount} हैं, कृपया {deadline} वापस भेज दीजिए।
+- एक अंक गलत टाइप हो गया और {amount} आपको चले गए। मैंने रिक्वेस्ट भेजी है, उसे स्वीकार करके पिन डाल दीजिए। भगवान आपका भला करे।
+notes: Devanagari wrong transfer

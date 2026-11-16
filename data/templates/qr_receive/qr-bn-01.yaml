@@ -1,0 +1,15 @@
+family: qr-bn-01
+label: scam
+category: qr_receive
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.buyer
+templates:
+- আমি আপনাকে কিউআর কোড পাঠাচ্ছি। আপনার ইউপিআই অ্যাপ দিয়ে স্ক্যান করে পিন দিন, {amount} সরাসরি আপনার অ্যাকাউন্টে চলে আসবে।
+- আমি সেনাবাহিনীতে আছি, আমাদের পেমেন্ট কিউআর দিয়েই হয়। আগে পাঁচ টাকার কোড স্ক্যান করে দেখুন, তারপর {amount} এর কোড স্ক্যান করুন। টাকা আপনিই পাবেন।
+- আপনার জিনিসটা আমার পছন্দ হয়েছে, {amount} দিয়ে নেব। এখনই কিউআর পাঠাচ্ছি, স্ক্যান করে পিন দিলে টাকা আপনার অ্যাকাউন্টে ঢুকে যাবে।
+notes: Bengali QR-to-receive

@@ -1,0 +1,19 @@
+family: bill-en-02
+label: scam
+category: bill_disconnection
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 15
+pools:
+  link: scam_domains.electricity
+  upi: upi_ids.bill
+  brand: brands.utility
+templates:
+- '{brand} final notice: Bill of {amount} is overdue. Your connection will be disconnected {deadline}. Pay now using this link to avoid disconnection: {link}'
+- Sir your bill is paid but not updated in the server. To update, install the app I am sending and pay only Rs 10. Otherwise the lineman will cut the power {deadline}.
+- Dear consumer, pay the pending amount of {amount} to the department UPI {upi} and send the screenshot. Your meter is scheduled for disconnection {deadline}.
+- Your gas connection will be suspended {deadline} because KYC of your consumer number is not done. Update here {link} or call {phone}.
+- 'Electricity department: Your payment was rejected by the bank. Repay {amount} immediately at {link} or your supply will be cut {deadline}. Reconnection charges will apply.'
+notes: WhatsApp disconnection notice with pay link or app install

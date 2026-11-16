@@ -1,0 +1,17 @@
+family: telecom-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+pools:
+  brand: brands.telecom
+templates:
+- '{brand}: {amount} का रिचार्ज सफल रहा। वैधता 28 दिन। धन्यवाद।'
+- आपने आज का 90 प्रतिशत डेटा इस्तेमाल कर लिया है। नए पैक {brand} ऐप में देखें।
+- आपका {brand} प्लान {date} को समाप्त हो रहा है। बिना रुकावट सेवा के लिए समय पर रिचार्ज करें।
+- आपका {brand} पोस्टपेड बिल {amount} बन गया है। अंतिम तिथि {date}। भुगतान {brand} ऐप से करें।
+notes: Genuine Hindi telecom messages

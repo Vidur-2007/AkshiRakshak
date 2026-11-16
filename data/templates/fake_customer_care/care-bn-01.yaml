@@ -1,0 +1,16 @@
+family: care-bn-01
+label: scam
+category: fake_customer_care
+lang: bn
+script: beng
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+  brand: brands.payment_app
+templates:
+- নমস্কার, আমি {brand} কাস্টমার কেয়ার থেকে বলছি। আপনার {amount} রিফান্ড আটকে আছে। আপনার ফোনে যে ওটিপি এসেছে সেটা বলুন, এখনই রিফান্ড করে দিচ্ছি।
+- আপনার অভিযোগ নথিভুক্ত হয়েছে। রিফান্ডের জন্য আপনার ডেবিট কার্ড নম্বর, মেয়াদ আর সিভিভি বলুন। এটা শুধু যাচাইয়ের জন্য।
+- প্রযুক্তিগত সমস্যার কারণে টাকা ফেরত আসছে না। আপনি {app} ডাউনলোড করুন আর যে কোড দেখাবে সেটা আমাকে বলুন, আমি এখান থেকে ঠিক করে দেব।
+notes: Bengali fake helpline

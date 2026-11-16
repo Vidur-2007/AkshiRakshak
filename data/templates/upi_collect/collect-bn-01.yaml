@@ -1,0 +1,15 @@
+family: collect-bn-01
+label: scam
+category: upi_collect
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.refund
+templates:
+- আপনার {amount} রিফান্ড মঞ্জুর হয়েছে। আমরা {upi} থেকে রিকোয়েস্ট পাঠিয়েছি। সেটি গ্রহণ করে আপনার ইউপিআই পিন দিন, টাকা আপনার অ্যাকাউন্টে চলে আসবে।
+- আমি {amount} পেমেন্ট পাঠিয়ে দিয়েছি, আপনার ফোনে রিকোয়েস্ট এসেছে। সেটা অ্যাপ্রুভ করে পিন দিন, তবেই টাকা আপনার অ্যাকাউন্টে জমা হবে।
+- আপনার {amount} ক্যাশব্যাক আটকে আছে। ইউপিআই অ্যাপ খুলে {upi} এর রিকোয়েস্ট গ্রহণ করুন এবং পিন দিয়ে টাকা নিন। এই অফার {deadline} পর্যন্ত।
+notes: Bengali refund collect request

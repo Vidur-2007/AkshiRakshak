@@ -1,0 +1,15 @@
+family: remote-hir-01
+label: scam
+category: remote_access
+lang: hi
+script: latn
+channel: call
+hard_negative: false
+max_rows: 9
+pools:
+  app: apps.remote
+templates:
+- Sir is problem ko theek karne ke liye Play Store se {app} install kijiye aur screen par jo 9 number ka code aa raha hai wo mujhe bataiye.
+- Aapke phone me virus hai isliye UPI kaam nahi kar raha. {app} download karo, Allow par click karo, aur jab tak main na kahu app band mat karna.
+- Refund {amount} manually nahi ho sakta. {app} kholiye, code bataiye, aur apna bank app khol kar MPIN daliye. Main step by step bataunga.
+notes: Hinglish remote-access script

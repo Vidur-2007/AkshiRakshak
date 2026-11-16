@@ -1,0 +1,18 @@
+family: order-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- '{brand}: आपका {amount} का ऑर्डर बुक हो गया है। यह {date} तक पहुंचेगा। ऑर्डर की स्थिति ऐप में देखें।'
+- आपका {brand} ऑर्डर आज डिलीवर कर दिया गया है। खरीदारी के लिए धन्यवाद।
+- लौटाए गए {brand} ऑर्डर का {amount} का रिफंड शुरू कर दिया गया है। यह 5 से 7 कार्य दिवसों में आपके भुगतान के मूल माध्यम में आ जाएगा। आपको कुछ करने की जरूरत नहीं है।
+- '{brand}: आपका पैकेज भेज दिया गया है और {date} तक पहुंचेगा। जानकारी के लिए देखें {link}'
+notes: Genuine Hindi order messages

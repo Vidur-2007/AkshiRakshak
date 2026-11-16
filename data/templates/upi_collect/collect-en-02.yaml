@@ -1,0 +1,18 @@
+family: collect-en-02
+label: scam
+category: upi_collect
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+amount: qr_receive
+max_rows: 15
+pools:
+  upi: upi_ids.buyer
+templates:
+- Hi, I saw your ad for the sofa. I am ready to buy at {amount}. I am sending the payment now, you will get a request on Google Pay, just approve it and enter your PIN to receive.
+- I am an army officer posted out of station so I cannot come to see the item. I will pay advance {amount} by UPI. Accept the request from {upi} and the money will be added to your bank.
+- Payment sent sir. It is showing pending from your side. Please open your UPI app, accept the request of {amount} and type your PIN so the transfer completes.
+- Brother I paid {amount} for the bike, check your UPI. You have to approve the collect request from {upi} first, that is how our company account works.
+- Is the item still available? I will take it for {amount}. My cousin will pick it up tomorrow. Sending the money now, please accept the request and enter UPI PIN for receiving.
+notes: Marketplace buyer sends a collect request instead of paying

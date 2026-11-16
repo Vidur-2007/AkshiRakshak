@@ -1,0 +1,15 @@
+family: refund-te-01
+label: scam
+category: refund_cashback
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.refund
+templates:
+- 'ఆదాయపు పన్ను రీఫండ్: మీ {amount} రీఫండ్ మంజూరైంది. {deadline} మీ బ్యాంక్ వివరాలు ఇక్కడ ఇవ్వండి: {link}'
+- మీ కరెంట్ బిల్లు రెండుసార్లు కట్ అయింది. {amount} తిరిగి పొందడానికి {phone} కు కాల్ చేసి ఓటీపీ చెప్పండి.
+- 'మీ గత ఆర్డర్‌పై {amount} క్యాష్‌బ్యాక్ మిగిలి ఉంది. పొందడానికి కార్డ్ వివరాలు ఈ లింక్‌లో నమోదు చేయండి: {link}'
+notes: Telugu refund claim

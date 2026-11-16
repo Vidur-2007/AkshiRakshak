@@ -1,0 +1,16 @@
+family: school-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- Dear Parent, the parent teacher meeting for class 7 is on {date} at {time}. Your presence is requested.
+- School will remain closed on {date} due to heavy rain. Classes will resume the next working day.
+- Dear Parent, term fee of {amount} is due by {date}. You may pay at the school office or through the school portal.
+- Exam timetable for the half yearly exams has been shared in the student diary. Exams begin on {date}.
+- Your ward was absent today. Kindly send a leave note with the student tomorrow.
+notes: Genuine school and college notices

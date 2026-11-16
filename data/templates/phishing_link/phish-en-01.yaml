@@ -1,0 +1,17 @@
+family: phish-en-01
+label: scam
+category: phishing_link
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 15
+pools:
+  link: scam_domains.bank_login
+templates:
+- '{bank}: Your reward points worth {amount} will expire {deadline}. Redeem now by logging in at {link}'
+- 'Dear customer, your {bank} credit card reward points ({amount}) are expiring {deadline}. Convert to cash: {link}'
+- '{bank} NetBanking: Unusual login detected from a new device. If this was not you, secure your account {deadline} at {link}'
+- Your {bank} debit card has been temporarily locked for security reasons. Unlock it {deadline} by verifying card number, expiry and CVV at {link}
+- 'Dear {bank} customer, your account statement for this month is ready. A pending amount of {amount} needs confirmation. View and confirm: {link}'
+notes: Bank reward points / login phishing

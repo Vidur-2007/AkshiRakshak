@@ -1,0 +1,16 @@
+family: job-hir-01
+label: scam
+category: job_task
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.job
+  link: scam_domains.job
+templates:
+- Hello ji, ghar baithe part time kaam kare. YouTube video like karo aur roz {amount} kamao. Koi experience nahi chahiye. Join karne ke liye YES likh kar bheje.
+- Aapke 3 free task complete ho gaye hai. Agle task ke liye {amount} {upi} par bhejo, 10 minute me 30 percent commission ke sath paisa wapas milega.
+- Aapka withdrawal ruk gaya hai kyunki last order adhura hai. {deadline} tak {amount} recharge karo tabhi poora paisa nikal sakte ho. Baaki sab members ko payment mil gaya hai.
+notes: Hinglish task job

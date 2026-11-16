@@ -1,0 +1,17 @@
+family: loan-hid-01
+label: scam
+category: loan_app
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.loan
+  app: apps.loan
+  link: scam_domains.loan
+templates:
+- बधाई हो! आपका {amount} का लोन बिना कागजात के मंजूर हो गया है। प्रोसेसिंग शुल्क {upi} पर भेजें और दस मिनट में पैसा पाएं।
+- 'तुरंत लोन चाहिए? सिर्फ आधार और पैन से {amount} तक का लोन पांच मिनट में। अभी आवेदन करें: {link}'
+- आपका लोन बकाया है। {deadline} {amount} नहीं भरा तो आपकी तस्वीरें आपके सभी संपर्कों को भेज दी जाएंगी।
+notes: Devanagari instant loan

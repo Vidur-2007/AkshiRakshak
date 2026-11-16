@@ -1,0 +1,15 @@
+family: debit-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- మీ {bank} ఖాతా XX[#4] నుండి {date} న {amount} డెబిట్ అయింది. అందుబాటులో ఉన్న నిల్వ రూ.[#5]. ఇది మీరు చేయకపోతే వెంటనే మీ శాఖను సంప్రదించండి.
+- '{bank}: ఖాతా XX[#4] లో {amount} జమ అయింది. యూపీఐ రిఫరెన్స్ [ref].'
+- ప్రియమైన కస్టమర్, {date} న {time} కు ఏటీఎం నుండి {amount} తీసుకున్నారు. ఖాతా XX[#4]. నిల్వ రూ.[#5]. -{bank}
+- మీ జీతం {amount} మీ {bank} ఖాతా XX[#4] లో {date} న జమ అయింది.
+notes: Genuine Telugu debit and credit alerts

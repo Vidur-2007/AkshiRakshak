@@ -1,0 +1,15 @@
+family: debit-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- আপনার {bank} অ্যাকাউন্ট XX[#4] থেকে {date} তারিখে {amount} ডেবিট হয়েছে। বর্তমান ব্যালেন্স [#5] টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।
+- '{bank}: অ্যাকাউন্ট XX[#4] এ {amount} জমা হয়েছে। ইউপিআই রেফারেন্স [ref]।'
+- প্রিয় গ্রাহক, {date} তারিখে {time} সময়ে এটিএম থেকে {amount} তোলা হয়েছে। অ্যাকাউন্ট XX[#4]। ব্যালেন্স [#5] টাকা। -{bank}
+- আপনার বেতন {amount} আপনার {bank} অ্যাকাউন্ট XX[#4] এ {date} তারিখে জমা হয়েছে।
+notes: Genuine Bengali debit and credit alerts

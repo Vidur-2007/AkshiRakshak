@@ -4,6 +4,7 @@ category: digital_arrest
 lang: hi
 script: latn
 channel: whatsapp
+max_rows: 10
 hard_negative: false
 pools:
   name: officials

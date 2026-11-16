@@ -1,0 +1,14 @@
+family: appt-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 20
+templates:
+- 'గుర్తు చేస్తున్నాము: డాక్టర్‌తో మీ అపాయింట్‌మెంట్ {date} న {time} కు ఉంది. దయచేసి పది నిమిషాలు ముందుగా రండి.'
+- మీ వాహన సర్వీస్ {date} కు బుక్ అయింది. మా సిబ్బంది {time} కు వాహనం తీసుకెళ్తారు.
+- మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. {date} తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.
+- ప్రియమైన తల్లిదండ్రులకు, తల్లిదండ్రుల సమావేశం {date} న {time} కు జరుగుతుంది. దయచేసి హాజరు కాగలరు.
+notes: Genuine Telugu appointment reminders

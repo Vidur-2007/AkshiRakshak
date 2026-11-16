@@ -4,6 +4,7 @@ category: null
 lang: en
 script: latn
 channel: sms
+max_rows: 20
 hard_negative: true
 amount: legit_debit
 templates:

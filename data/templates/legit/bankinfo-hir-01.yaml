@@ -1,0 +1,17 @@
+family: bankinfo-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: true
+max_rows: 20
+templates:
+- Papa dhyan rakhna, bank kabhi phone par OTP ya PIN nahi mangta. Koi mange to call kaat dena aur mujhe batana.
+- Yaad rakho, paisa lene ke liye kabhi PIN nahi dalna padta. PIN sirf paisa bhejne ke liye hota hai.
+- Mummy agar koi KYC ke naam par link bheje to mat kholna. KYC ke liye seedha bank ki branch me jana hai.
+- Bhai aaj bank gaya tha, KYC update ho gayi. Unhone bola koi OTP ya link nahi lagta, bas Aadhaar ki copy chahiye thi.
+- Koi bhi police wala video call par arrest nahi karta. Aisa call aaye to 1930 par complaint karo, ghabrana mat.
+- Dadi ko bata dena ki QR scan karke paisa nahi aata, ulta chala jata hai. {name} ke saath aisa hi hua tha.
+- Aaj bank se message aaya ki chequebook {date} ko bhej di hai. Ghar par koi rahe to le lena.
+notes: Hinglish awareness forwards and family advice

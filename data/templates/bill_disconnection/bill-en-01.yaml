@@ -1,0 +1,17 @@
+family: bill-en-01
+label: scam
+category: bill_disconnection
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 15
+pools:
+  brand: brands.utility
+templates:
+- Dear consumer, your electricity power will be disconnected tonight at 9.30 pm from electricity office because your previous month bill was not updated. Please immediately contact our electricity officer {phone}. Thank you.
+- Dear customer your electricity connection will be disconnected {deadline} because your last bill was not updated in our system. Call {phone} immediately.
+- '{brand}: Your power supply will be cut {deadline} due to unpaid bill of {amount}. Contact the electricity officer on {phone} to avoid disconnection.'
+- 'Notice: Your light bill payment is not updated. Meter will be removed {deadline}. To continue the supply call officer {name} on {phone}.'
+- Electricity Bill Alert. Consumer number pending verification. Supply will be stopped tonight. Call helpline {phone} and update your bill at once.
+notes: Electricity will be cut tonight, call the officer

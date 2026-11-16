@@ -1,0 +1,19 @@
+family: care-en-01
+label: scam
+category: fake_customer_care
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.care
+  app: apps.remote
+  brand: brands.payment_app
+templates:
+- 'Thank you for contacting {brand} customer care. For your failed transaction refund of {amount}, please fill your card number, expiry and CVV in this form: {link}'
+- Sir this is the {brand} helpline. To reverse your payment I need to verify your account. Please tell me the OTP sent to your phone and your UPI PIN.
+- Your complaint is registered. Our senior executive will call you from {phone}. Keep your debit card and the OTP ready for refund processing.
+- '{brand} support: Your refund is stuck due to a technical error. Download {app} so that our engineer can check your phone and release {amount}.'
+- Hello, you searched our customer care number. I can help with the refund of {amount}. First send Rs 1 to verify your account, then share the code that comes on your screen.
+notes: 'Fake helpline found online: refund via app or form'

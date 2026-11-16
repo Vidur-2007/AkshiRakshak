@@ -1,0 +1,14 @@
+family: romance-bn-01
+label: scam
+category: romance
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 10
+templates:
+- তোমার জন্য উপহারের পার্সেল পাঠিয়েছি, তাতে সোনার চেন আর আইফোন আছে। কুরিয়ার থেকে কল করবে, শুধু {amount} কাস্টমস ফি দিতে হবে।
+- আমি দিল্লি বিমানবন্দরে আটকে গেছি, কাস্টমস ছাড়ছে না। দয়া করে {amount} পাঠাও, দেখা হলেই ফেরত দেব।
+- আমার মেয়ে হাসপাতালে আর আমার কার্ড এখানে কাজ করছে না। আজ {amount} সাহায্য করতে পারবে? সামনের সপ্তাহে ভারতে এসে সব ফেরত দেব।
+notes: Bengali romance

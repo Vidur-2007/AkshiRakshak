@@ -1,0 +1,15 @@
+family: refund-hid-01
+label: scam
+category: refund_cashback
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  link: scam_domains.refund
+templates:
+- 'आयकर रिफंड: आपका {amount} का रिफंड मंजूर हो गया है। {deadline} अपनी बैंक जानकारी यहां भरें: {link}'
+- आपका बिजली बिल दो बार कट गया था। {amount} वापस पाने के लिए {phone} पर कॉल करें और ओटीपी बताएं।
+- 'आपके पिछले ऑर्डर पर {amount} का कैशबैक बाकी है। अभी पाने के लिए कार्ड की जानकारी इस लिंक पर भरें: {link}'
+notes: Devanagari refund claim

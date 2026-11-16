@@ -1,0 +1,15 @@
+family: phish-hid-01
+label: scam
+category: phishing_link
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.lookalike
+templates:
+- '{bank}: आपके कार्ड के रिवॉर्ड पॉइंट {deadline} समाप्त हो रहे हैं। {amount} नकद पाने के लिए अभी लॉगिन करें: {link}'
+- 'आपके {bank} खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: {link}'
+- प्रिय ग्राहक, आपका डेबिट कार्ड सुरक्षा कारणों से बंद कर दिया गया है। दोबारा चालू करने के लिए कार्ड नंबर और सीवीवी इस लिंक पर भरें {link}
+notes: Devanagari phishing links

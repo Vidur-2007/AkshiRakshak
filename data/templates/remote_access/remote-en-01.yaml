@@ -1,0 +1,18 @@
+family: remote-en-01
+label: scam
+category: remote_access
+lang: en
+script: latn
+channel: call
+hard_negative: false
+max_rows: 14
+pools:
+  app: apps.remote
+  link: scam_domains.remote
+templates:
+- Sir to solve this issue please install {app} from Play Store and tell me the 9 digit code shown on your screen. I will fix it from my side.
+- Our technical team needs to check your phone. Download {app} from {link} and tap Allow when it asks for screen sharing. Then open your bank app.
+- Your refund of {amount} cannot be processed manually. Install {app}, share the access code with me, and keep your net banking open while I complete it.
+- Madam your phone has a virus that is blocking UPI. Install {app} so our engineer can clean it. Do not close the app until I tell you.
+- To update your KYC online, install {app} and read out the code. Now open your banking app and enter your MPIN, I will guide you step by step.
+notes: Install a screen-sharing app so support can fix it

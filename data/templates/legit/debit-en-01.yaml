@@ -1,0 +1,16 @@
+family: debit-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- Your A/c XX[#4] is debited by {amount} on {date} at {time}. Avl Bal Rs [#5].[#2]. If not done by you, report immediately through the official {bank} app. -{bank}
+- '{bank}: {amount} debited from a/c XX[#4] on {date}. UPI Ref [ref]. Not you? Block your UPI from the {bank} app or visit your branch.'
+- 'Dear Customer, {amount} has been debited from your account XXXX[#4] towards ATM cash withdrawal on {date} {time}. Available balance: Rs [#5]. -{bank}'
+- 'Txn Alert: {amount} spent on your {bank} Debit Card XX[#4] at BIG BAZAAR on {date}. Avl bal Rs [#5].[#2]. Not you? Block the card in the {bank} app.'
+- Your {bank} a/c no. XX[#4] is debited for {amount} on {date} (NEFT Ref N[#9]). Balance after this transaction is Rs [#6].[#2].
+notes: Genuine debit alerts

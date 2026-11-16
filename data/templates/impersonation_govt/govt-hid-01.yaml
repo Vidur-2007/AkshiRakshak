@@ -1,0 +1,15 @@
+family: govt-hid-01
+label: scam
+category: impersonation_govt
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  link: scam_domains.govt
+templates:
+- 'ई-चालान: आपकी गाड़ी पर यातायात नियम तोड़ने का चालान हुआ है। {amount} का जुर्माना {deadline} यहां भरें: {link}'
+- 'आपका पैन कार्ड आधार से लिंक नहीं है और {deadline} बंद हो जाएगा। अभी लिंक करें: {link}'
+- सरकारी योजना के तहत आपके राशन कार्ड पर {amount} की सब्सिडी मंजूर हुई है। पैसा पाने के लिए अधिकारी {name} को {phone} पर कॉल करें।
+notes: Devanagari fake government notices

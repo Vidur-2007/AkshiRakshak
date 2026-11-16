@@ -1,0 +1,16 @@
+family: upipay-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- Bhai {amount} bhej diye hai GPay se, check kar lena. Kal ka khana mast tha.
+- Paisa mil gaya, thank you. Maine bhi {name} ko uska hissa bhej diya hai.
+- '{name} ne {amount} transfer kar diye hai aapke khate me, ek baar balance dekh lijiye.'
+- Kiraya {amount} aaj subah bhej diya hai uncle ji. Receipt kal de dijiyega.
+- Maine bijli ka bill {amount} app se bhar diya hai, tension mat lo. Tum apna hissa baad me de dena.
+notes: Friends confirming UPI payments in Hinglish

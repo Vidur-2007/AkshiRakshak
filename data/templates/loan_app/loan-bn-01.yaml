@@ -1,0 +1,17 @@
+family: loan-bn-01
+label: scam
+category: loan_app
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.loan
+  app: apps.loan
+  link: scam_domains.loan
+templates:
+- অভিনন্দন! কোনো কাগজপত্র ছাড়াই আপনার {amount} লোন মঞ্জুর হয়েছে। প্রসেসিং ফি {upi} এ পাঠান, দশ মিনিটে টাকা পেয়ে যাবেন।
+- 'এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে {amount} পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: {link}'
+- আপনার লোন বকেয়া আছে। {deadline} {amount} না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।
+notes: Bengali instant loan

@@ -1,0 +1,16 @@
+family: job-hid-01
+label: scam
+category: job_task
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.job
+  link: scam_domains.job
+templates:
+- घर बैठे पार्ट टाइम काम करें। यूट्यूब वीडियो लाइक करके रोज {amount} कमाएं। कोई अनुभव नहीं चाहिए। शुरू करने के लिए हां लिखकर भेजें।
+- आपके तीन मुफ्त टास्क पूरे हो गए हैं। अगले टास्क के लिए {amount} {upi} पर भेजें, दस मिनट में कमीशन के साथ पैसा वापस मिलेगा।
+- 'आपकी कमाई {amount} हो गई है लेकिन निकासी बंद है। {deadline} एक और प्रीपेड टास्क पूरा करें, तभी पूरा पैसा निकाल पाएंगे। यहां रजिस्टर करें: {link}'
+notes: Devanagari task job

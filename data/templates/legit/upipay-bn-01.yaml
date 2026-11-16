@@ -1,0 +1,15 @@
+family: upipay-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- আপনি {date} তারিখে {name} কে ইউপিআই দিয়ে {amount} পাঠিয়েছেন। রেফারেন্স নম্বর [ref]। -{bank}
+- '{name} এর কাছ থেকে {amount} আপনার {bank} অ্যাকাউন্ট XX[#4] এ এসেছে। ইউপিআই রেফারেন্স [ref]। টাকা পেতে পিন দেওয়ার দরকার হয় না।'
+- '{amount} পেমেন্ট সফল হয়েছে। প্রাপক: {name}। লেনদেন নম্বর [ref]।'
+- আপনার {bank} অ্যাকাউন্ট XX[#4] থেকে {name} কে {amount} পাঠানো হয়েছে। এটি আপনি না করে থাকলে ইউপিআই অ্যাপে অভিযোগ জানান।
+notes: Genuine Bengali UPI confirmations

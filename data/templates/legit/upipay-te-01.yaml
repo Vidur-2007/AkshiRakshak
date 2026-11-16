@@ -1,0 +1,15 @@
+family: upipay-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- మీరు {date} న {name} కు యూపీఐ ద్వారా {amount} పంపారు. రిఫరెన్స్ నంబర్ [ref]. -{bank}
+- '{name} నుండి {amount} మీ {bank} ఖాతా XX[#4] లోకి వచ్చాయి. యూపీఐ రిఫరెన్స్ [ref]. డబ్బు అందుకోవడానికి పిన్ అవసరం లేదు.'
+- '{amount} చెల్లింపు విజయవంతమైంది. గ్రహీత: {name}. లావాదేవీ సంఖ్య [ref].'
+- మీ {bank} ఖాతా XX[#4] నుండి {name} కు {amount} పంపబడింది. ఇది మీరు చేయకపోతే మీ యూపీఐ యాప్‌లో ఫిర్యాదు చేయండి.
+notes: Genuine Telugu UPI confirmations

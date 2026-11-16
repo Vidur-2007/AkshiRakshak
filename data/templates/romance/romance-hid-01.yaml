@@ -1,0 +1,14 @@
+family: romance-hid-01
+label: scam
+category: romance
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 9
+templates:
+- मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस {amount} कस्टम शुल्क भरना है।
+- मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया {amount} भेज दो, मिलते ही वापस कर दूंगा।
+- मेरी बेटी अस्पताल में है और मेरा कार्ड यहां काम नहीं कर रहा। क्या तुम आज {amount} की मदद कर सकती हो? अगले हफ्ते भारत आकर सब लौटा दूंगा।
+notes: Devanagari romance

@@ -1,0 +1,17 @@
+family: deliv-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.courier
+  link: official.brand
+templates:
+- '{brand}: మీ పార్సెల్ ఈరోజు డెలివరీకి బయలుదేరింది. స్థితి చూడండి: {link}'
+- మీ {brand} పార్సెల్ {date} న డెలివరీ అయింది. ధన్యవాదాలు.
+- '{brand}: ఇల్లు మూసి ఉండటం వల్ల ఈరోజు డెలివరీ కాలేదు. తదుపరి పని దినం మళ్లీ ప్రయత్నిస్తాము. ఎలాంటి రుసుము చెల్లించాల్సిన అవసరం లేదు.'
+- మీ కన్సైన్‌మెంట్ నంబర్ [#9] {brand} లో బుక్ అయింది, {date} నాటికి చేరుతుంది.
+notes: Genuine Telugu courier updates

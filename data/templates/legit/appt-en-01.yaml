@@ -1,0 +1,15 @@
+family: appt-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 20
+templates:
+- 'Reminder: Your appointment with Dr. Mehta is on {date} at {time}. Please arrive 10 minutes early. Reply C to cancel.'
+- Your car service is booked for {date}. Our driver will pick up the vehicle at {time}. Thank you for choosing us.
+- Hi {name}, your eye check-up is due this month. Call the clinic reception during working hours to book a slot.
+- Your lab reports are ready. Please collect them from the diagnostic centre between 9 AM and 6 PM or download from the patient portal.
+- Your salon appointment is confirmed for {date}, {time}. See you soon!
+notes: Genuine appointment and service reminders

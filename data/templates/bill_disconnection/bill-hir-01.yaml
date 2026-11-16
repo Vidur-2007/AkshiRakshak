@@ -1,0 +1,15 @@
+family: bill-hir-01
+label: scam
+category: bill_disconnection
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.bill
+templates:
+- Priya upbhokta, aapka bijli connection aaj raat 9:30 baje kaat diya jayega kyunki pichle mahine ka bill update nahi hai. Turant bijli adhikari se {phone} par sampark kare.
+- Aapka bijli bill {amount} bakaya hai. {deadline} tak jama nahi kiya to meter kaat diya jayega. Abhi {upi} par payment kare aur screenshot bheje.
+- 'Bijli vibhag: aapka payment system me update nahi hua hai. Line {deadline} kat jayegi. Officer {name} ko {phone} par call kare aur bill update karwaye.'
+notes: Hinglish electricity disconnection

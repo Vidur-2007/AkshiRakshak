@@ -1,0 +1,16 @@
+family: scheme-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+amount: legit_credit
+max_rows: 20
+templates:
+- 'పీఎం కిసాన్: {date} న మీ బ్యాంక్ ఖాతాలో వాయిదా జమ అయింది. స్థితిని pmkisan.gov.in లో చూడండి.'
+- మీ ఆధార్ {date} న ధృవీకరణ కోసం ఉపయోగించబడింది. ఇది మీరు చేయకపోతే యూఐడీఏఐ అధికారిక వెబ్‌సైట్‌లో బయోమెట్రిక్ లాక్ చేయండి.
+- సైబర్ మోసాల పట్ల జాగ్రత్త. ఏ ప్రభుత్వ సంస్థా వీడియో కాల్‌లో అరెస్ట్ చేయదు, డబ్బు అడగదు. ఫిర్యాదు కోసం 1930 డయల్ చేయండి.
+- ఈ నెల రేషన్ {date} నుండి మీ చౌక ధరల దుకాణంలో అందుబాటులో ఉంటుంది.
+- మీ గ్యాస్ సబ్సిడీ {amount} {date} న మీ బ్యాంక్ ఖాతాకు పంపబడింది.
+notes: Genuine Telugu government notifications

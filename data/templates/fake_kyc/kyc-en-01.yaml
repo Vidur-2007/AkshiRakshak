@@ -4,6 +4,7 @@ category: fake_kyc
 lang: en
 script: latn
 channel: sms
+max_rows: 15
 hard_negative: false
 pools:
   link: scam_domains.kyc

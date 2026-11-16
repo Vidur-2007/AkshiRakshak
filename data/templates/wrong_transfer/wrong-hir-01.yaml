@@ -1,0 +1,15 @@
+family: wrong-hir-01
+label: scam
+category: wrong_transfer
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.personal
+templates:
+- Bhai galti se {amount} aapke number par chala gaya hai, mujhe apne bhai ko bhejna tha. Please wapas kar do {upi} par, hospital ka paisa hai.
+- Sir mera paisa galti se aapke khate me aa gaya hai, screenshot bhej raha hoon. {amount} hai, please {deadline} wapas bhej dijiye warna mujhe police me complaint karni padegi.
+- Bhaiya ek digit galat type ho gaya aur {amount} aapko chala gaya. Maine request bheji hai, usko accept karke PIN daal do bas. Bhagwan aapka bhala kare.
+notes: Hinglish wrong-transfer plea

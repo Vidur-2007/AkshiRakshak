@@ -1,0 +1,15 @@
+family: debit-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- आपके {bank} खाते XX[#4] से {date} को {amount} निकाले गए। उपलब्ध शेष रु. [#5]। अगर यह लेनदेन आपने नहीं किया तो तुरंत अपनी शाखा से संपर्क करें।
+- '{bank}: खाता XX[#4] से {amount} डेबिट हुए। यूपीआई संदर्भ [ref]। यह आपने नहीं किया? बैंक के आधिकारिक ऐप से शिकायत करें।'
+- प्रिय ग्राहक, {date} को {time} बजे एटीएम से {amount} की निकासी हुई। खाता XX[#4]। शेष राशि रु. [#5]। -{bank}
+- आपके {bank} डेबिट कार्ड XX[#4] से {date} को {amount} की खरीदारी हुई। उपलब्ध शेष रु. [#5]।
+notes: Genuine Hindi debit alerts

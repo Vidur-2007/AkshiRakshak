@@ -1,0 +1,18 @@
+family: chat-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 20
+templates:
+- Ghar pahunch gaya hoon, khana kha ke call karta hoon.
+- Aate time doodh aur bread le aana, aur agar dukan khuli ho to dahi bhi.
+- Happy birthday {name} bhai! Party kab de raha hai?
+- Kal {time} baje milte hai station par. Train time par hai kya?
+- Mummy puch rahi hai Diwali par kab aa rahe ho. Ticket jaldi book kar lo.
+- '{name} ka phone aaya tha, {date} ko shaadi me chalna hai. Tum aa rahe ho na?'
+- Aaj office me bahut kaam tha yaar, abhi nikla hoon. {time} tak ghar aa jaunga.
+- Kal match dekha kya? Kya khela hai apni team ne, maza aa gaya.
+notes: Everyday Hinglish chat

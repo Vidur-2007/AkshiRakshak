@@ -1,0 +1,18 @@
+family: ebill-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+pools:
+  link: official.govt
+templates:
+- Your electricity bill for consumer no. [#9] is {amount}, due on {date}. Pay through the official electricity board app, website or any bill collection centre.
+- Payment of {amount} received for electricity consumer no. [#9] on {date}. Receipt no. [#8]. Thank you.
+- Your LPG cylinder booking is confirmed. Booking no. [#6]. The cylinder will be delivered in 2 to 3 days. Pay {amount} to the delivery person or online.
+- Water bill for the month is {amount}. Due date {date}. You can pay at the municipal office or through the official portal.
+- Scheduled power outage in your area on {date} from 10 AM to 1 PM for maintenance work. We regret the inconvenience.
+notes: Genuine utility bills

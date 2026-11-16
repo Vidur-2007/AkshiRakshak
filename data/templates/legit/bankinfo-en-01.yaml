@@ -1,0 +1,15 @@
+family: bankinfo-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+max_rows: 20
+templates:
+- '{bank} never asks for your OTP, PIN, CVV or password over call, SMS or email. Do not share them with anyone. Report fraud at cybercrime.gov.in or call 1930.'
+- Dear Customer, periodic KYC update is due for your {bank} account. Please visit your nearest branch with your original ID and address proof. No link or OTP is required for this.
+- Your cheque book request for {bank} a/c XX[#4] is processed. It will be delivered to your registered address within 7 working days.
+- '{bank}: Your registered email ID was updated on {date}. If you did not make this change, visit your branch or use the official {bank} app.'
+- 'Safe banking tip from {bank}: You never need to scan a QR code or enter your UPI PIN to receive money. Stay alert and stay safe.'
+notes: Genuine bank advisories and service messages

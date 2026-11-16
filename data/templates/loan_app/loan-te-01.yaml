@@ -1,0 +1,17 @@
+family: loan-te-01
+label: scam
+category: loan_app
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.loan
+  app: apps.loan
+  link: scam_domains.loan
+templates:
+- అభినందనలు! మీ {amount} లోన్ ఎలాంటి పత్రాలు లేకుండా మంజూరైంది. ప్రాసెసింగ్ ఫీజు {upi} కు పంపండి, పది నిమిషాల్లో డబ్బు పొందండి.
+- 'వెంటనే లోన్ కావాలా? కేవలం ఆధార్, పాన్‌తో {amount} వరకు లోన్ ఐదు నిమిషాల్లో. ఇప్పుడే దరఖాస్తు చేయండి: {link}'
+- మీ లోన్ బకాయి ఉంది. {deadline} {amount} చెల్లించకపోతే మీ ఫోటోలు మీ కాంటాక్ట్స్ అందరికీ పంపిస్తాము.
+notes: Telugu instant loan

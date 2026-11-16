@@ -1,0 +1,15 @@
+family: remote-hid-01
+label: scam
+category: remote_access
+lang: hi
+script: deva
+channel: call
+hard_negative: false
+max_rows: 9
+pools:
+  app: apps.remote
+templates:
+- इस समस्या को ठीक करने के लिए प्ले स्टोर से {app} इंस्टॉल कीजिए और स्क्रीन पर जो नौ अंकों का कोड आ रहा है वह मुझे बताइए।
+- आपके फोन में वायरस है इसलिए यूपीआई काम नहीं कर रहा। {app} डाउनलोड करें, अनुमति दें, और जब तक मैं न कहूं ऐप बंद मत करना।
+- '{amount} का रिफंड हाथ से नहीं हो सकता। {app} खोलिए, कोड बताइए, और अपना बैंक ऐप खोलकर एमपिन डालिए। मैं एक एक कदम बताऊंगा।'
+notes: Devanagari remote access

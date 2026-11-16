@@ -1,0 +1,15 @@
+family: prize-hid-01
+label: scam
+category: lottery_prize
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.prize
+templates:
+- बधाई हो! आपके मोबाइल नंबर ने केबीसी लकी ड्रा में {amount} जीते हैं। इनाम पाने के लिए लॉटरी मैनेजर को {phone} पर कॉल करें।
+- आपका नंबर लकी ड्रा में चुना गया है। {amount} का इनाम पाने के लिए पहले सरकारी टैक्स {upi} पर जमा करें।
+- मुबारक हो, आपकी {amount} की लॉटरी लगी है। अपना नाम, बैंक खाता और प्रोसेसिंग शुल्क भेजें। किसी को मत बताना, नहीं तो इनाम रद्द हो जाएगा।
+notes: Devanagari lottery

@@ -1,0 +1,17 @@
+family: loan-hir-01
+label: scam
+category: loan_app
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.loan
+  app: apps.loan
+  link: scam_domains.loan
+templates:
+- Badhai ho! Aapka {amount} ka loan bina document ke pass ho gaya hai. Processing fee {upi} par bheje aur 10 minute me paisa khate me paye.
+- 'Turant loan chahiye? Sirf Aadhaar aur PAN se {amount} tak ka loan 5 minute me. {app} install kare: {link}'
+- Aapka loan overdue hai. {deadline} tak {amount} nahi bhara to aapki photo aapke sabhi contacts ko bhej di jayegi. Abhi {upi} par pay karo.
+notes: Hinglish instant loan

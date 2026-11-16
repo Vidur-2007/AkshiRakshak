@@ -1,0 +1,14 @@
+family: romance-hir-01
+label: scam
+category: romance
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 9
+templates:
+- Jaan maine tumhare liye gift parcel bheja hai, usme gold ki chain aur iPhone hai. Courier wale call karenge, bas {amount} customs fee bharna hai.
+- Main Delhi airport par phas gaya hoon, customs wale chhod nahi rahe kyunki mere paas zyada foreign currency hai. Please {amount} bhej do, milte hi wapas kar dunga.
+- Meri beti hospital me hai aur mera card yahan kaam nahi kar raha. Kya tum aaj {amount} ki madad kar sakti ho? Agle hafte India aa kar sab wapas kar dunga.
+notes: Hinglish romance / gift parcel
