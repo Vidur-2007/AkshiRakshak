@@ -1,0 +1,110 @@
+[
+  {
+    "id": "sample-fake-kyc",
+    "label": {"en": "Fake KYC SMS", "hi": "नकली KYC SMS", "te": "నకిలీ KYC SMS", "bn": "ভুয়ো KYC SMS"},
+    "kind": "message",
+    "lang": "en",
+    "text": "Dear Customer, your SBI account will be BLOCKED today due to pending KYC. Update KYC immediately at http://sbi-kyc-update.xyz/verify or call our helpline 98765 00001. -SBI Team",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-collect-refund",
+    "label": {"en": "Refund collect request", "hi": "रिफंड कलेक्ट रिक्वेस्ट", "te": "రీఫండ్ కలెక్ట్ రిక్వెస్ట్", "bn": "রিফান্ড কালেক্ট রিকোয়েস্ট"},
+    "kind": "message",
+    "lang": "en",
+    "text": "Your refund of Rs 5,000 is ready. Accept the collect request from sbi.refund.desk@ybl and enter your UPI PIN to receive the amount.",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-electricity-hi",
+    "label": {"en": "Electricity cut-off (Hindi)", "hi": "बिजली कटौती (हिंदी)", "te": "కరెంట్ కట్ (హిందీ)", "bn": "বিদ্যুৎ কাটা (হিন্দি)"},
+    "kind": "message",
+    "lang": "hi",
+    "text": "प्रिय उपभोक्ता, आपका पिछले महीने का बिजली बिल बकाया है। आज रात 9:30 बजे आपकी बिजली काट दी जाएगी। तुरंत बिजली अधिकारी से 98765 00004 पर संपर्क करें।",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-digital-arrest-hinglish",
+    "label": {"en": "Digital arrest call script (Hinglish)", "hi": "डिजिटल अरेस्ट कॉल (हिंग्लिश)", "te": "డిజిటల్ అరెస్ట్ కాల్ (హింగ్లిష్)", "bn": "ডিজিটাল অ্যারেস্ট কল (হিংলিশ)"},
+    "kind": "message",
+    "lang": "hi",
+    "text": "Main Mumbai Cyber Crime se Inspector Sharma bol raha hoon. Aapke Aadhaar se ek parcel mein drugs mile hain. Aap digital arrest mein hain, call disconnect mat kijiye aur kisi ko mat batana. Case band karne ke liye turant verification amount bhejo.",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-job-te",
+    "label": {"en": "Part-time job (Telugu)", "hi": "पार्ट-टाइम नौकरी (तेलुगु)", "te": "పార్ట్ టైమ్ ఉద్యోగం", "bn": "পার্ট টাইম কাজ (তেলুগু)"},
+    "kind": "message",
+    "lang": "te",
+    "text": "హలో! ఇంటి నుండే పార్ట్ టైమ్ ఉద్యోగం. యూట్యూబ్ వీడియోలకు లైక్ చేస్తే రోజుకు ₹2,000 సంపాదించండి. మొదటి టాస్క్ కోసం ₹500 రిజిస్ట్రేషన్ ఫీజు చెల్లించండి.",
+    "expected": "suspicious",
+    "genuine": false
+  },
+  {
+    "id": "sample-courier-bn",
+    "label": {"en": "Courier customs fee (Bengali)", "hi": "कूरियर कस्टम शुल्क (बांग्ला)", "te": "కొరియర్ కస్టమ్స్ ఫీజు (బెంగాలీ)", "bn": "কুরিয়ার কাস্টমস ফি"},
+    "kind": "message",
+    "lang": "bn",
+    "text": "ইন্ডিয়া পোস্ট: আপনার পার্সেল কাস্টমসে আটকে আছে। আজ রাতের মধ্যে 49 টাকা ফি না দিলে পার্সেল ফেরত চলে যাবে। এখনই ফি জমা দিন: http://indiapost-redelivery.info/pay",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-lookalike-link",
+    "label": {"en": "Lookalike bank link", "hi": "बैंक जैसा दिखने वाला नकली लिंक", "te": "బ్యాంక్ లాగా కనిపించే నకిలీ లింక్", "bn": "ব্যাংকের মতো দেখতে ভুয়ো লিঙ্ক"},
+    "kind": "message",
+    "lang": "en",
+    "text": "HDFC Bank: Your NetBanking access has been suspended after a failed security check. Restore it within 24 hours by logging in at https://hdfcbenk.top/login",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-wedding-apk-bn",
+    "label": {"en": "Wedding invitation APK (Bengali)", "hi": "शादी के कार्ड वाला APK (बांग्ला)", "te": "పెళ్లి పత్రిక APK (బెంగాలీ)", "bn": "বিয়ের কার্ডের APK"},
+    "kind": "message",
+    "lang": "bn",
+    "text": "নমস্কার, আগামী রবিবার আমার মেয়ের বিয়ে। আপনাদের সবাইকে আসতে হবে। বিয়ের কার্ড পাঠালাম, Wedding_Invitation.apk ফাইলটা ইনস্টল করে খুলে দেখুন।",
+    "expected": "scam",
+    "genuine": false
+  },
+  {
+    "id": "sample-wrong-transfer-te",
+    "label": {"en": "\"Sent by mistake\" (Telugu)", "hi": "\"गलती से भेज दिया\" (तेलुगु)", "te": "\"పొరపాటున పంపాను\"", "bn": "\"ভুল করে পাঠিয়েছি\" (তেলুগু)"},
+    "kind": "message",
+    "lang": "te",
+    "text": "అన్నా, నేను పొరపాటున మీ నంబర్కు ₹8,000 పంపాను. అవి మా అమ్మ ఆసుపత్రి డబ్బులు. దయచేసి వెంటనే anita.k2209@ibl కు తిరిగి పంపండి, లేకపోతే పోలీసులకు ఫిర్యాదు చేయాల్సి వస్తుంది.",
+    "expected": "suspicious",
+    "genuine": false
+  },
+  {
+    "id": "sample-genuine-otp",
+    "label": {"en": "Genuine bank OTP", "hi": "असली बैंक OTP", "te": "నిజమైన బ్యాంక్ OTP", "bn": "আসল ব্যাংক OTP"},
+    "kind": "message",
+    "lang": "en",
+    "text": "482913 is your OTP for a transaction of Rs 2,499.00 at AMAZON on your HDFC Bank card ending XX0000. Valid for 10 minutes. Do not share your OTP with anyone. If this was not you, report it in the official HDFC Bank app.",
+    "expected": "no_signs",
+    "genuine": true
+  },
+  {
+    "id": "sample-genuine-debit-hi",
+    "label": {"en": "Genuine debit alert (Hindi)", "hi": "असली डेबिट अलर्ट", "te": "నిజమైన డెబిట్ అలర్ట్ (హిందీ)", "bn": "আসল ডেবিট অ্যালার্ট (হিন্দি)"},
+    "kind": "message",
+    "lang": "hi",
+    "text": "आपके एसबीआई खाते XX0000 से 12-11-2026 को ₹1,250 निकाले गए। उपलब्ध शेष रु. 18,432। अगर यह लेनदेन आपने नहीं किया तो तुरंत अपनी शाखा से संपर्क करें।",
+    "expected": "no_signs",
+    "genuine": true
+  },
+  {
+    "id": "sample-genuine-delivery",
+    "label": {"en": "Genuine delivery update", "hi": "असली डिलीवरी अपडेट", "te": "నిజమైన డెలివరీ అప్‌డేట్", "bn": "আসল ডেলিভারি আপডেট"},
+    "kind": "message",
+    "lang": "en",
+    "text": "Blue Dart: Your shipment 123456789 is out for delivery today and will arrive by 7 PM. No payment is due. Track it at https://www.bluedart.com/track",
+    "expected": "no_signs",
+    "genuine": true
+  }
+]

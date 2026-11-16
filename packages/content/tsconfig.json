@@ -6,6 +6,6 @@
     "lib": ["ES2023"],
     "types": []
   },
-  "include": ["src", "test"],
+  "include": ["src", "src/**/*.json", "test"],
   "references": [{ "path": "../contracts" }]
 }
