@@ -1,0 +1,37 @@
+# Invented UPI IDs for scam rows, grouped by theme. They look like what scammers use: brand or institutional words on
+# a personal handle, or a random personal ID. Synthetic; any match with a real ID is a coincidence.
+upi_ids:
+  refund:
+    - refund.desk2026@ybl
+    - sbi.refund.desk@ybl
+    - cashback.support01@okaxis
+    - gst.refund.help@paytm
+    - amazon.refund.cell@axl
+  kyc:
+    - kyc.update.helpdesk@ybl
+    - hdfc.kyc.verify@okhdfcbank
+    - bank.kyc.team@ibl
+  prize:
+    - lucky.draw.winner@ybl
+    - kbc.prize.office@paytm
+    - reward.claim2026@okicici
+  job:
+    - task.payout.hr@ybl
+    - hr.joining.fee@okaxis
+    - daily.task.reward@ibl
+  investment:
+    - vip.trading.desk@ybl
+    - profit.club.fund@okaxis
+  govt:
+    - cyber.cell.verify@ybl
+    - court.fine.payment@paytm
+    - echallan.penalty@okaxis
+  personal:
+    - rahul.k1987@ybl
+    - priya.sharma.91@okaxis
+    - meena.devi2024@paytm
+    - suresh.kumar.76@ibl
+    - anil.traders01@okicici
+    - fakir.mohd55@ybl
+# UPI handles (PSP suffixes) that exist; used only on invented local parts
+handles: ["@ybl", "@okaxis", "@okicici", "@okhdfcbank", "@paytm", "@ibl", "@axl", "@upi"]

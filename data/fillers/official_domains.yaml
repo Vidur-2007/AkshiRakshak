@@ -1,0 +1,17 @@
+# Official domains a legit row may link to, besides the bank and brand domains in banks.yaml / brands.yaml.
+# Every domain in a legit row must come from these three files (validate.py).
+official_domains:
+  govt:
+    - cybercrime.gov.in
+    - sancharsaathi.gov.in
+    - india.gov.in
+    - mygov.in
+    - pmkisan.gov.in
+    - npci.org.in
+  # e-commerce and delivery tracking links sit on the brand domain; these extra paths keep links varied
+  paths:
+    - /track
+    - /orders
+    - /myaccount
+    - /support
+    - /offers

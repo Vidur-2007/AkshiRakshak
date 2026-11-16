@@ -1,0 +1,4 @@
+text,lang,channel,label,category,author
+"Dear customer your SBI a/c will be blocked today, update KYC at sbi-kyc-check.xyz",en,sms,scam,fake_kyc,Example
+"Aapka refund 2,000 rupaye approve ho gaya hai, UPI app me request accept karke PIN daalo",hi,whatsapp,scam,upi_collect,Example
+"482913 is your OTP for login to HDFC Bank NetBanking. Do not share it with anyone.",en,sms,legit,,Example

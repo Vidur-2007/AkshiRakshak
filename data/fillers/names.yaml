@@ -1,0 +1,13 @@
+# Common Indian first names and generic surnames for {name}, per script. Invented combinations; no real private people.
+names:
+  latn: [Ravi Kumar, Priya Sharma, Anil Verma, Sunita Devi, Rahul Singh, Meena Iyer, Suresh Reddy, Kavita Joshi,
+         Arjun Nair, Pooja Gupta, Imran Khan, Farah Ali, Lakshmi Rao, Vikram Patil, Neha Das, Sanjay Mishra]
+  deva: [रवि कुमार, प्रिया शर्मा, अनिल वर्मा, सुनीता देवी, राहुल सिंह, कविता जोशी, संजय मिश्रा, पूजा गुप्ता]
+  telu: [రవి కుమార్, లక్ష్మి, సురేష్ రెడ్డి, శ్రీనివాస్, కావ్య, వెంకటేష్, అనూష, ప్రసాద్]
+  beng: [রবি দাস, প্রিয়া সেন, অনিল বসু, সুমিতা রায়, রাহুল ঘোষ, নেহা দত্ত, অমিত পাল, মৌমিতা সাহা]
+# Officer names scammers use in impersonation scripts
+officials:
+  latn: [Inspector Rajesh Sharma, Officer Vinod Kumar, ACP Mehta, Inspector Khan, CBI Officer Arvind Rao]
+  deva: [इंस्पेक्टर राजेश शर्मा, अधिकारी विनोद कुमार, एसीपी मेहता, सीबीआई अधिकारी अरविंद राव]
+  telu: [ఇన్‌స్పెక్టర్ రాజేష్, అధికారి వినోద్, సీబీఐ అధికారి అరవింద్]
+  beng: [ইন্সপেক্টর রাজেশ শর্মা, অফিসার বিনোদ কুমার, সিবিআই অফিসার অরবিন্দ রাও]

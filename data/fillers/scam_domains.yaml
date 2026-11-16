@@ -1,0 +1,81 @@
+# Invented scam domains, grouped by theme. Strings only: NEVER open, fetch or resolve them. Some may exist on the
+# internet by coincidence; they are used here only as text. Every domain in a scam row must come from this file.
+# A family picks a theme with `pools: { link: scam_domains.<theme> }`.
+scam_domains:
+  kyc:
+    - sbi-kyc-update.xyz
+    - hdfc-netbanking-verify.top
+    - icici-kyc-online.click
+    - axis-ekyc-verify.live
+    - kyc-update-portal.cyou
+    - bank-kyc-renew.icu
+  bank_login:
+    - onlinesbi-login.help
+    - netbanking-secure-auth.top
+    - pnb-reward-points.click
+    - bob-account-unlock.site
+    - yonosbi-verify.online
+  courier:
+    - indiapost-redelivery.info
+    - bluedart-reschedule.cyou
+    - parcel-customs-fee.top
+    - delivery-address-update.click
+    - dtdc-pending-parcel.live
+  electricity:
+    - power-bill-update.xyz
+    - electricity-due-pay.top
+    - bijli-bill-online.click
+    - discom-connection-renew.live
+  job:
+    - daily-task-earn.top
+    - work-from-home-jobs.icu
+    - youtube-like-earn.click
+    - part-time-hr-desk.site
+  investment:
+    - nifty-profit-club.top
+    - crypto-double-return.xyz
+    - ipo-allotment-vip.click
+    - stock-tips-premium.live
+  loan:
+    - instant-loan-approve.xyz
+    - quick-cash-loan.top
+    - kyc-loan-disburse.click
+  prize:
+    - kbc-lucky-draw.top
+    - jio-anniversary-gift.click
+    - amazon-spin-reward.xyz
+    - flipkart-lucky-winner.live
+  refund:
+    - incometax-refund-status.top
+    - gst-refund-claim.click
+    - refund-process-desk.xyz
+  govt:
+    - echallan-pay-online.top
+    - pmkisan-ekyc-update.click
+    - aadhaar-link-verify.xyz
+    - epfo-claim-status.live
+  apk:
+    - wedding-invite-card.top
+    - pm-yojana-apk.xyz
+    - bank-security-update.click
+  generic:
+    - secure-verify-now.top
+    - account-alert-check.xyz
+    - reward-claim-link.click
+# Shortener-style hosts used in scam rows (invented, not real shortener services)
+shorteners:
+  - bit-ly.top
+  - tinyurl-link.xyz
+  - shrt-go.click
+# Paths appended to scam domains
+paths:
+  - /kyc
+  - /update
+  - /verify
+  - /login
+  - /claim
+  - /pay
+  - /track
+  - /?ref=sms
+  - /form.php
+  - /apply

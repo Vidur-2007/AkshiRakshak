@@ -1,0 +1,15 @@
+# Invented phone numbers for scam rows. `#` is replaced with a random digit. All patterns use the obviously
+# placeholder prefixes 98765 0 / 98765 1 / 90000 0, as SPEC_C_DATA.md §3.3 asks. validate.py rejects any other
+# 10-digit mobile number. Legit rows never contain a phone number except the national helpline 1930.
+phones:
+  patterns:
+    - "98765 0####"
+    - "98765 1####"
+    - "90000 0####"
+    - "+91 98765 0####"
+    - "+91-98765-1####"
+    - "+91 90000 0####"
+    - "987650####"
+    - "900000####"
+  # regex the validator uses for "an invented number"
+  fake_regex: "(?:\\+91[\\s-]?)?(?:98765[\\s-]?[01]\\d{4}|90000[\\s-]?0\\d{4})"
