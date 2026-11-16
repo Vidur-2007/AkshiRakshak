@@ -2,6 +2,18 @@
 
 ## Done
 
+### Phase 2 — train, export, TypeScript inference, parity (2026-11-16)
+
+Rerun from `ml/`: `.venv/bin/python -m akshi_ml.train --version <YYYY.MM.DD-letter>` (about 4 minutes), then `.venv/bin/python -m akshi_ml.parity`, then `.venv/bin/pytest` (95 tests) and `npm test` (107). Details and tables: `docs/eval-notes.md`.
+
+- **Model `2026.11.16-a`**, validation only: scam vs genuine **F1 0.955** (precision 0.925, recall 0.986, false-alarm rate 7.7%; 13.8% on hard negatives). Category macro-F1 **0.535** (weak; see Known issues). Chosen C: scam 4, category 16.
+- **Export** `packages/model/model/scam-model.json`: 18,312 features, 565 KB raw, 122 KB gzipped. `model/version.json` (version, metrics, sizes) and `model/calibration.json` (spec defaults).
+- **`featurize.py`** and **`packages/model/src/featurize.ts`**: the same analyzer (word 1–2 grams, `char_wb` 2–5 grams); the Python one is checked against scikit-learn's own `char_wb`, the TypeScript one against feature lists written by Python.
+- **`train.py`**: selection on validation, pruning (300 per category class + top 18,000 scam weights, cap 20,000), vectorizer refit on the kept vocabulary, retrain, export with 5-decimal rounding and sparse category weights, `ml/out/train-report.json`. Never reads the test or handwritten splits.
+- **`packages/model`** (stub replaced, signatures kept): `loadModel()` (dynamic JSON import, memoised, `null` on a missing or unknown model), `predict` (sublinear tf-idf, L2 norm, sigmoid, sparse softmax, category only when pScam ≥ 0.4, top-5 category probabilities, top-25 positive contributions with merged UTF-16 spans), `MODEL_VERSION`, `loadCalibration()` (falls back to the defaults as a whole when the file is invalid). No runtime dependency on zod; `"sideEffects": false`.
+- **Parity**: 200 validation texts in all four languages, 32 with emoji, 24 romanised Hindi — identical normalisation, |ΔpScam| < 1e-3 and the same category argmax for all 200.
+- **Speed**: `predict` on 2,000 characters: median 0.72 ms (budget 10 ms).
+
 ### Phase 1 — the message dataset (2026-11-16)
 
 Rebuild everything from `ml/`: `.venv/bin/python -m akshi_ml.build_dataset && .venv/bin/python -m akshi_ml.export_content`, then `.venv/bin/pytest` (84 tests) and `npm test` (77).
@@ -49,7 +61,7 @@ Rebuild everything from `ml/`: `.venv/bin/python -m akshi_ml.build_dataset && .v
 
 ## In progress
 
-Nothing. Next: Phase 2 (featuriser, training, export, TypeScript inference, parity).
+Nothing. Next: Phase 3 (statements, Isolation Forest, eval harness, EMERGENCY / FAQ / drills) and Merge 1.
 
 ## Deferred
 
@@ -59,6 +71,10 @@ Nothing. Next: Phase 2 (featuriser, training, export, TypeScript inference, pari
 
 ## Known issues
 
+- **The model's category is unreliable outside English** (validation accuracy: en 67%, hi 52%, te 44%, bn 33%). There is one family per category per language, so a held-out family is a category the model never saw in that language. Fix planned for Phase 4: a second family per category per language, then retrain. Until then the engine should prefer its own rules for the category.
+- **False alarms on genuine bank advisories**: 11 of 80 validation hard negatives score above 0.5, mostly "the bank never asks for your OTP" and "visit your branch for KYC" messages in Telugu and English. The model cannot see the negation; the engine's SAFETY_ADVICE and OFFICIAL_DOMAIN signals have to pull these down, and calibration in Phase 4 has to hold the 3% limit.
+- The category model stops at the 4,000-iteration limit before converging at the chosen C.
+- `loadModel()` uses a plain `import('../model/scam-model.json')`. Vite, Vitest and tsx accept it; plain Node ESM without a bundler would need an import attribute.
 - **Telugu, Bengali and Hindi templates are unreviewed.** They were drafted by Claude and need a native reader (the i18n checklist comes in Phase 4). Wrong or stiff wording here goes straight into the model.
 - Scam links are picked from a themed pool without matching the bank named in the message (an "SBI" message may carry an `icici-…` invented domain). Real scams are often this careless, but it is not deliberate modelling.
 - Date and time slots use Latin formats in every language ("14-Nov-26", "07:49 PM" inside Telugu or Bengali text).
@@ -68,4 +84,4 @@ Nothing. Next: Phase 2 (featuriser, training, export, TypeScript inference, pari
 
 ## Requests
 
-None yet. Noted from A's log (docs/progress/engine.md on feat/engine): `sideEffects: false` and no fixtures import in content; README env vars; parity fixtures at `packages/model/test/parity-fixtures.json`; list rule/lexicon/link false positives and negatives in `docs/eval-notes.md` for A.
+None yet. For A, information only: the model's `category` is a weak signal for now (see Known issues); `pScam` is the dependable output. Noted from A's log (docs/progress/engine.md on feat/engine): `sideEffects: false` and no fixtures import in content; README env vars; parity fixtures at `packages/model/test/parity-fixtures.json`; list rule/lexicon/link false positives and negatives in `docs/eval-notes.md` for A.
