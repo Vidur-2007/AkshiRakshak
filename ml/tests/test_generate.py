@@ -1,21 +1,17 @@
+import random
 import re
 from pathlib import Path
 
 import pytest
 import yaml
 
-from akshi_ml.generate import (FamilyError, generate_all, generate_family, indian_group, load_families,
+from akshi_ml.generate import (Family, FamilyError, apply_variants, char_ngrams, dedupe_key, expand_macros,
+                               is_near_duplicate, jaccard, generate_all, generate_family, indian_group, load_families,
                                load_family, load_fillers, write_jsonl)
-from akshi_ml.validate import load_jsonl, validate_rows
+from akshi_ml.validate import build_context, load_jsonl, validate_rows
 
 FILLERS = load_fillers()
 FAMILIES = load_families()
-
-
-def domains(text):
-    # a domain ends in a letters-only TLD of 2+ characters, so amounts like "Rs.4,75,000" are not domains
-    # and nothing after a "/" (a path such as /form.php) counts as a host
-    return re.findall(r"(?<![/\w.-])(?:https?://)?(?:www\.)?((?:[a-z0-9-]+\.)+[a-z]{2,})\b", text.lower())
 
 
 def test_example_families_load():
@@ -39,16 +35,9 @@ def test_generation_is_deterministic():
     assert generate_all(FAMILIES, FILLERS) == generate_all(FAMILIES, FILLERS)
 
 
-def test_scam_links_come_from_the_scam_list_and_legit_links_are_official():
-    scam = {d for ds in FILLERS["scam_domains"].values() for d in ds} | set(FILLERS["shorteners"])
-    official = {d for b in FILLERS["banks"] for d in b["domains"]}
-    official |= {d for g in FILLERS["brands"].values() for b in g for d in b["domains"]}
-    official |= set(FILLERS["official_domains"]["govt"])
-    for r in generate_all(FAMILIES, FILLERS):
-        for d in domains(r["text"]):
-            if "@" in d or re.fullmatch(r"[\d.]+", d):
-                continue
-            assert d in (scam if r["label"] == "scam" else official), (r["id"], d)
+def test_every_generated_row_passes_the_quality_checks():
+    # script/language agreement, no real-looking identifiers, scam domains from the fillers, official legit links
+    assert validate_rows(generate_all(FAMILIES, FILLERS), ctx=build_context(FILLERS)) == []
 
 
 def test_phones_are_invented():
@@ -103,3 +92,84 @@ def test_legit_bank_link_matches_the_named_bank(tmp_path):
     for r in generate_family(load_family(p), FILLERS):
         bank = r["text"].split(" alert.")[0]
         assert any(d in r["text"] for d in by_name[bank])
+
+
+# ---------- Phase 1: macros, variants, dedupe ----------
+
+def fam(**kw) -> Family:
+    base = dict(family="t-en-01", label="scam", category="fake_kyc", lang="en", script="latn", channel="whatsapp",
+                hard_negative=False, templates=["x"])
+    return Family(**{**base, **kw})
+
+
+def test_macros():
+    rng = random.Random(1)
+    assert re.fullmatch(r"XX\d{4}", expand_macros("XX[#4]", rng))
+    for _ in range(50):
+        ref = expand_macros("[ref]", rng)
+        assert re.fullmatch(r"[01]\d{11}", ref)  # never a valid Aadhaar (those start 2-9)
+
+
+def test_variants_never_touch_links_upi_ids_or_phones():
+    text = "Update your KYC and OTP at https://sbi-kyc-update.xyz/kyc or pay kyc.update.helpdesk@ybl, call +91 98765 01234 please"
+    seen = set()
+    for seed in range(400):
+        out = apply_variants(text, fam(), random.Random(seed))
+        seen.add(out)
+        assert "https://sbi-kyc-update.xyz/kyc" in out
+        assert "kyc.update.helpdesk@ybl" in out
+        assert "+91 98765 01234" in out
+    joined = "\n".join(seen)
+    assert len(seen) > 5
+    assert "UPDATE YOUR" in joined                       # casing
+    assert "O T P" in joined or "O.T.P" in joined or "K Y C" in joined or "K.Y.C" in joined   # spaced-out evasion
+    assert "pls" in joined or "ur " in joined            # short forms
+    assert any(e in joined for e in ("⚠️", "🚨", "✅"))    # emoji
+
+
+def test_legit_sms_rows_get_no_scam_style_variants():
+    text = "Your OTP is 123456. Do not share your PIN with anyone."
+    f = fam(label="legit", category=None, channel="sms", hard_negative=True)
+    for seed in range(300):
+        out = apply_variants(text, f, random.Random(seed))
+        assert out.replace("\n", " ") == text
+
+
+def test_hinglish_spelling_variants():
+    f = fam(lang="hi", category="fake_kyc")
+    outs = {apply_variants("Aapka khata band ho jayega, turant KYC kare", f, random.Random(s)).lower() for s in range(300)}
+    joined = " ".join(outs)
+    assert "apka" in joined and "khaata" in joined and ("karein" in joined or "karen" in joined)
+
+
+def test_dedupe_key_ignores_case_spacing_punctuation_and_emoji():
+    assert dedupe_key("Reached  home safely.") == dedupe_key("reached home\nsafely 🙂")
+    assert dedupe_key("खाता बंद") != dedupe_key("खाता चालू")
+    assert dedupe_key("की") != dedupe_key("का")            # vowel signs are kept
+
+
+def test_near_duplicates():
+    a = char_ngrams("Dear Customer, your SBI account will be blocked today due to pending KYC. Update now")
+    b = char_ngrams("Dear Customer, your SBI account will be blocked today due to pending KYC. Update now!")
+    c = char_ngrams("Your parcel is held at customs. Pay the clearance fee to release it today")
+    assert jaccard(a, b) > 0.9 and is_near_duplicate(b, [c, a])
+    assert jaccard(a, c) < 0.3 and not is_near_duplicate(c, [a])
+
+
+def test_no_two_rows_share_a_dedupe_key_and_no_near_duplicates_inside_a_family():
+    rows = generate_all(FAMILIES, FILLERS)
+    keys = [dedupe_key(r["text"]) for r in rows]
+    assert len(keys) == len(set(keys))
+    by_family: dict[str, list] = {}
+    for r in rows:
+        by_family.setdefault(r["family"], []).append(char_ngrams(r["text"]))
+    for family, grams in by_family.items():
+        for i, g in enumerate(grams):
+            assert not is_near_duplicate(g, grams[:i]), family
+
+
+def test_every_family_reaches_its_row_count_from_several_templates():
+    rows = generate_all(FAMILIES, FILLERS)
+    for f in FAMILIES:
+        assert sum(r["family"] == f.family for r in rows) == f.max_rows, f.family
+        assert len(f.templates) >= 3, f.family

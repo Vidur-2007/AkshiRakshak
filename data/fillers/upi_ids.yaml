@@ -26,7 +26,33 @@ upi_ids:
     - cyber.cell.verify@ybl
     - court.fine.payment@paytm
     - echallan.penalty@okaxis
+  courier:
+    - customs.clearance.fee@ybl
+    - parcel.release.desk@okaxis
+    - indiapost.delivery.fee@paytm
+  bill:
+    - electricity.bill.officer@ybl
+    - bijli.vibhag.pay@paytm
+    - power.dept.recharge@okaxis
+  loan:
+    - loan.processing.fee@ybl
+    - instant.loan.desk@okicici
+    - loan.insurance.charge@ibl
+  care:
+    - customer.care.support@ybl
+    - helpdesk.refund24@paytm
+    - quickhelp.services77@ybl
+  buyer:
+    - olx.buyer.payment@ybl
+    - army.transfer.desk@okaxis
+    - furniture.buyer22@paytm
   personal:
+    - rakesh.yadav4410@ybl
+    - sonu.enterprises9@paytm
+    - deepak.mobile.shop@okaxis
+    - anita.k2209@ibl
+    - mk.traders.online@axl
+    - vijay.s8834@okhdfcbank
     - rahul.k1987@ybl
     - priya.sharma.91@okaxis
     - meena.devi2024@paytm

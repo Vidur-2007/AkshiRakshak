@@ -8,10 +8,7 @@ official_domains:
     - mygov.in
     - pmkisan.gov.in
     - npci.org.in
-  # e-commerce and delivery tracking links sit on the brand domain; these extra paths keep links varied
+  # paths by brand kind; bank and government links stay bare
   paths:
-    - /track
-    - /orders
-    - /myaccount
-    - /support
-    - /offers
+    courier: [/track]
+    ecommerce: [/orders, /offers, /myaccount]

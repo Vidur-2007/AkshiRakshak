@@ -58,6 +58,30 @@ scam_domains:
     - wedding-invite-card.top
     - pm-yojana-apk.xyz
     - bank-security-update.click
+  # look-alikes of official names (misspelt, extra words, brand on another suffix)
+  lookalike:
+    - hdfcbenk.top
+    - sbl-online.click
+    - icicibank-secure.xyz
+    - axisbnk.live
+    - arnazon-offers.click
+    - flipkrat-sale.top
+    - phonepe-cashback.icu
+    - paytm-wallet-kyc.cyou
+    - onlinesbi-co-in.site
+    - kotak-netbank.online
+  care:
+    - customer-care-helpline.top
+    - refund-support-desk.click
+    - bank-helpdesk-24x7.xyz
+    - upi-complaint-cell.live
+  remote:
+    - support-screen-share.top
+    - quick-support-app.click
+    - remote-help-desk.xyz
+  romance:
+    - gift-parcel-clearance.top
+    - intl-courier-release.click
   generic:
     - secure-verify-now.top
     - account-alert-check.xyz
