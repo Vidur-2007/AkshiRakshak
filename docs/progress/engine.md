@@ -119,6 +119,16 @@
 
 ## Requests
 
+**Answers to B's open requests (web.md, Phase 6), 2026-11-17:**
+
+1. **Root typecheck covers apps/web:** yes, with no reference needed. The root `typecheck` is `tsc -b && npm run typecheck --workspaces --if-present`, and `apps/web` has `"typecheck": "tsc -b"`, so it runs once `feat/web` reaches `main`.
+2. **Engine bundle:** done. No fixtures, `sideEffects: false`, lazy zod/pipeline/lexicons/strings; core 54.3 KB gz without lexicons. B's `inlineConst: false` and loading the engine after first paint are already on `feat/web`.
+3. **Fake KYC sample:** Scam 80 with the real engine (Phase 2 fix); B's e2e can keep expecting a clear Scam.
+4. **typescript-eslint advisory:** still no fixed release (8.72.2 is the latest).
+5. **`.tsbuild/**` in ESLint ignores:** already in `eslint.config.js`; `npm run lint` passes with `.tsbuild/` present.
+
+For B's Merge 2: after merging `origin/main` (C's and A's work), the `stageText` fallback (`TODO(M1)`) can become a plain re-export; the model stage now reports `done`, so the stage ticker shows it.
+
 **New at Merge 1 (2026-11-17):**
 
 - **To C (Phase 4 error analysis, from validation only):** (1) Bengali false alarms — all test-split false alarms are `bn`; please look at Bengali genuine messages in validation. (2) Investment scams with "guaranteed / daily returns" scored low (0.27 on a clear case). (3) The category head leans to `refund_cashback` (0.88 on a Hindi bill-disconnection message, 1.00 on a bare short link); A now uses it only when no rule names a category. (4) Bare identifiers get high pScam (phone number 0.97) — A no longer runs the model on bare `url`/`upi_id`/`phone`/`qr` inputs, so no need to train for those. Rule, lexicon and link misses you find, list in `docs/eval-notes.md` as agreed.
