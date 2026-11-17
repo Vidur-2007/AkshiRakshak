@@ -1,0 +1,21 @@
+family: order-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- '{brand}: Your order of {amount} has been placed. It will be delivered by {date}. Track your order in the app or at {link}'
+- 'Shipped: Your {brand} package with 2 items will arrive by {date}. Manage your order at {link}'
+- '{brand}: Your order was delivered today. Not received? Report it within 48 hours from Your Orders in the app.'
+- Refund of {amount} for your returned {brand} order has been initiated. It will reach your original payment method in 5 to 7 working days. Nothing more is needed from you.
+- Your {brand} order is arriving today between 2 PM and 6 PM. Our delivery partner may call you before arriving.
+- '{brand}: Payment of {amount} received for your order. You will get a message when it ships.'
+- Your {brand} return request is approved. Pickup is scheduled for {date}. Keep the item packed and ready.
+notes: Genuine e-commerce order messages

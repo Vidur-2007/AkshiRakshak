@@ -1,0 +1,18 @@
+family: chat-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- বাড়ি পৌঁছে গেছি। খেয়ে ফোন করছি।
+- আসার সময় দুধ আর সবজি নিয়ে এসো। {amount} টেবিলে রেখে দিয়েছি।
+- শুভ জন্মদিন {name}! খুব ভালো থেকো।
+- কাল {time} সময়ে স্টেশনে দেখা হচ্ছে। ট্রেন ঠিক সময়েই আছে।
+- মা জিজ্ঞেস করছে পুজোয় কবে আসছ। টিকিট তাড়াতাড়ি কেটে নাও।
+- '{name} ফোন করেছিল, {date} তারিখে বিয়েতে যেতে হবে। তৈরি থেকো।'
+- আজ খুব বৃষ্টি হচ্ছে, ছাতা নিয়ে বেরিও। সন্ধ্যা {time} এর মধ্যে চলে এসো।
+notes: Everyday Bengali chat

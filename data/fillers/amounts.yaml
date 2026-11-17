@@ -1,0 +1,32 @@
+# Amount ranges (₹) by category for {amount}: [min, max, step]. Realistic for how each scam or message type reads.
+amounts:
+  upi_collect: [499, 9999, 1]
+  qr_receive: [1500, 25000, 500]
+  fake_kyc: [0, 0, 1]            # KYC scams rarely name an amount
+  bill_disconnection: [480, 6800, 1]
+  digital_arrest: [50000, 1500000, 5000]
+  courier_customs: [99, 2999, 1]
+  job_task: [200, 15000, 100]
+  investment_crypto: [5000, 500000, 1000]
+  loan_app: [5000, 200000, 500]
+  lottery_prize: [25000, 2500000, 5000]
+  fake_customer_care: [10, 5000, 1]
+  refund_cashback: [299, 49999, 1]
+  wrong_transfer: [2000, 25000, 500]
+  malicious_apk: [0, 0, 1]
+  remote_access: [1000, 99000, 1]
+  otp_theft: [500, 75000, 1]
+  romance: [10000, 500000, 1000]
+  impersonation_govt: [500, 25000, 100]
+  phishing_link: [0, 0, 1]
+  legit_debit: [20, 45000, 1]
+  legit_credit: [100, 95000, 1]
+  legit_bill: [150, 6500, 1]
+  legit_order: [99, 24999, 1]
+  default: [100, 10000, 1]
+# How an amount is written, by script (picked at random): {n} is the Indian-grouped number (1,25,000)
+formats:
+  latn: ["₹{n}", "Rs.{n}", "Rs {n}", "INR {n}", "₹ {n}"]
+  deva: ["₹{n}", "{n} रुपये", "रु. {n}", "₹ {n}"]
+  telu: ["₹{n}", "రూ.{n}", "{n} రూపాయలు"]
+  beng: ["₹{n}", "{n} টাকা", "টাকা {n}"]

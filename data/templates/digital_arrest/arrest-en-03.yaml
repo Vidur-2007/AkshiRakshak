@@ -1,0 +1,18 @@
+family: arrest-en-03
+label: scam
+category: digital_arrest
+lang: en
+script: latn
+channel: call
+hard_negative: false
+max_rows: 15
+pools:
+  name: officials
+  brand: brands.courier
+templates:
+- This call is from {brand} customer care. A parcel sent in your name to Taiwan has been stopped by customs, it contains 5 passports and banned drugs. I am transferring your call to the Mumbai police cyber cell.
+- Your parcel from {brand} was returned with illegal items. If you did not send it, you must file an online complaint now. {name} will take your statement on Skype. Do not leave the call.
+- 'TRAI notice: Your number will be blocked in 2 hours because of illegal messages sent from it. Press 9 to speak to the police officer handling your case.'
+- As per the narcotics department your identity was misused. For your safety we must verify all your bank balances. Tell me the amount in each account and transfer {amount} to the secure audit account {deadline}.
+- I am {name}. You are a suspect in a human trafficking case. This is a recorded line. You are not allowed to speak to anyone until the inquiry ends. Arrange {amount} for bail verification immediately.
+notes: Courier-to-police handoff script

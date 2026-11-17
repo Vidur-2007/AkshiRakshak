@@ -1,0 +1,15 @@
+family: ebill-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- আপনার বিদ্যুৎ বিল {amount}। গ্রাহক নম্বর [#9]। শেষ তারিখ {date}। বিদ্যুৎ সংস্থার অফিসিয়াল অ্যাপ বা কাউন্টারে বিল মেটান।
+- গ্রাহক নম্বর [#9] এর জন্য {amount} পেমেন্ট {date} তারিখে পাওয়া গেছে। ধন্যবাদ।
+- আপনার গ্যাস বুকিং হয়েছে। বুকিং নম্বর [#6]। সিলিন্ডার দুই তিন দিনের মধ্যে পৌঁছাবে। মোট {amount}।
+- 'বিজ্ঞপ্তি: মেরামতের কাজের জন্য {date} তারিখে সকাল ১০টা থেকে দুপুর ১টা পর্যন্ত আপনার এলাকায় বিদ্যুৎ থাকবে না।'
+notes: Genuine Bengali utility bills

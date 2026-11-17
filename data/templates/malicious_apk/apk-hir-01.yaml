@@ -1,0 +1,16 @@
+family: apk-hir-01
+label: scam
+category: malicious_apk
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  app: apps.apk
+  link: scam_domains.apk
+templates:
+- Aapko shaadi me aana hai. Shaadi ka card bhej raha hoon, {app} file kholiye aur date aur jagah dekh lijiye. Parivar ke sath zaroor aana.
+- 'Aapki gaadi ka challan kata hai, jurmana {amount}. Challan dekhne aur bharne ke liye ye app install kare: {link} {app}'
+- PM Kisan ki nayi list aa gayi hai. Apna naam dekhne aur {amount} ki kist paane ke liye {app} download kare.
+notes: Hinglish APK lures

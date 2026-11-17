@@ -1,0 +1,16 @@
+family: care-hid-01
+label: scam
+category: fake_customer_care
+lang: hi
+script: deva
+channel: call
+hard_negative: false
+max_rows: 9
+pools:
+  app: apps.remote
+  brand: brands.payment_app
+templates:
+- नमस्कार, मैं {brand} कस्टमर केयर से बोल रहा हूं। आपका {amount} का रिफंड अटका हुआ है। आपके फोन पर जो ओटीपी आया है वह बता दीजिए, अभी रिफंड कर देता हूं।
+- आपकी शिकायत दर्ज हो गई है। रिफंड के लिए अपना डेबिट कार्ड नंबर, एक्सपायरी और सीवीवी बताइए। यह सिर्फ जांच के लिए है।
+- तकनीकी समस्या के कारण पैसा वापस नहीं आ रहा। आप {app} डाउनलोड कीजिए और जो कोड दिखे वह मुझे बताइए, मैं यहां से ठीक कर दूंगा।
+notes: Devanagari fake helpline

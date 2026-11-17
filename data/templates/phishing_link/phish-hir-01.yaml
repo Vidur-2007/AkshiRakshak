@@ -1,0 +1,15 @@
+family: phish-hir-01
+label: scam
+category: phishing_link
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.bank_login
+templates:
+- 'Aapke {bank} card ke reward points {deadline} khatam ho rahe hai. {amount} cash me badalne ke liye abhi login kare: {link}'
+- '{bank}: aapke account me naye device se login hua hai. Agar ye aap nahi the to turant yahan verify kare {link} warna account lock ho jayega.'
+- 'Dear customer aapka {bank} debit card band kar diya gaya hai. Dobara chalu karne ke liye card number aur CVV is link par bhare: {link}'
+notes: Hinglish reward-points and login links

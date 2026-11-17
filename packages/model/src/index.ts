@@ -1,22 +1,32 @@
-// STUB — owned by Laptop C; replaced on feat/data
 import type { Calibration, TextModel } from '@akshi/contracts';
+import calibrationJson from '../model/calibration.json';
+import versionJson from '../model/version.json';
+import { parseCalibration } from './calibration';
+import { createModel } from './model';
 
-export const MODEL_VERSION: string = 'stub';
+/** Version of the trained model in model/scam-model.json (read from the small version.json, so it is sync). */
+export const MODEL_VERSION: string = versionJson.version;
 
-const DEFAULT_CALIBRATION: Calibration = {
-  version: 'default',
-  thresholds: { scam: 70, suspicious: 40 },
-  fusion: { rules: 0.45, model: 0.35, links: 0.2 },
-  aiBlend: 0.2,
-};
+let loading: Promise<TextModel | null> | undefined;
 
-/** Lazy; resolves null when no trained model is available (always, in the stub). */
-export async function loadModel(): Promise<TextModel | null> {
-  return null;
+/**
+ * Loads the classifier once. The JSON is imported dynamically so bundlers put it in its own chunk.
+ * Resolves null when the file is missing or is not a model this code understands; the engine then runs without
+ * the model layer.
+ */
+export function loadModel(): Promise<TextModel | null> {
+  loading ??= (async () => {
+    try {
+      const mod: { default?: unknown } = await import('../model/scam-model.json');
+      return createModel(mod.default ?? mod);
+    } catch {
+      return null;
+    }
+  })();
+  return loading;
 }
 
-/** Sync; returns defaults when calibration.json is missing (always, in the stub). */
+/** Sync. Thresholds and fusion weights from model/calibration.json, or the spec defaults if that file is invalid. */
 export function loadCalibration(): Calibration {
-  const d = DEFAULT_CALIBRATION;
-  return { ...d, thresholds: { ...d.thresholds }, fusion: { ...d.fusion } };
+  return parseCalibration(calibrationJson);
 }

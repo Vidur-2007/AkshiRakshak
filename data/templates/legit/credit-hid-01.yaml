@@ -1,0 +1,15 @@
+family: credit-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_credit
+max_rows: 20
+templates:
+- आपके {bank} खाते XX[#4] में {date} को {amount} जमा हुए। उपलब्ध शेष रु. [#6]।
+- '{bank}: खाता XX[#4] में {amount} क्रेडिट हुए। यूपीआई संदर्भ [ref]।'
+- प्रिय ग्राहक, आपका वेतन {amount} आपके खाते XX[#4] में {date} को जमा कर दिया गया है। -{bank}
+- आपके बचत खाते XX[#4] में तिमाही ब्याज {amount} जमा किया गया है। -{bank}
+notes: Genuine Hindi credit alerts

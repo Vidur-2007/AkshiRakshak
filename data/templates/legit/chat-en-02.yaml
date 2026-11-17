@@ -1,0 +1,19 @@
+family: chat-en-02
+label: legit
+category: null
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- Dinner was {amount} in total, so it comes to around 450 each. Pay me whenever you get time, no hurry.
+- I transferred the rent to the landlord this morning. Can you send me your half by the weekend?
+- Thanks for the money, I got it. Will return it on salary day as promised.
+- Papa, college fees of {amount} are due on {date}. I will pay at the college office counter, can you transfer it to my account?
+- Did you get the {amount} I sent for the gift? Check once and tell me.
+- Electricity bill came, {amount} this month. I will pay it from the app tonight, split it later.
+- I paid {amount} for the cab, we can settle it with the trip expenses later.
+- '{name} has collected {amount} from everyone for the farewell gift. Give yours at the office tomorrow.'
+notes: Friends and family talking about money

@@ -1,0 +1,15 @@
+family: bill-hid-01
+label: scam
+category: bill_disconnection
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.bill
+templates:
+- प्रिय उपभोक्ता, आपका बिजली कनेक्शन आज रात 9:30 बजे काट दिया जाएगा क्योंकि पिछले महीने का बिल अपडेट नहीं है। तुरंत बिजली अधिकारी से {phone} पर संपर्क करें।
+- 'बिजली विभाग: आपका {amount} का बिल बकाया है। {deadline} भुगतान नहीं हुआ तो मीटर काट दिया जाएगा। अभी {upi} पर भुगतान करें और स्क्रीनशॉट भेजें।'
+- आपका भुगतान सिस्टम में दर्ज नहीं हुआ है। बिजली {deadline} काट दी जाएगी। बिल अपडेट कराने के लिए अधिकारी {name} को {phone} पर कॉल करें।
+notes: Devanagari electricity disconnection

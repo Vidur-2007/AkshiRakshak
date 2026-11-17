@@ -1,0 +1,15 @@
+family: kyc-hir-01
+label: scam
+category: fake_kyc
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.kyc
+templates:
+- 'Priya grahak, aapka {bank} khata {deadline} band ho jayega kyunki KYC update nahi hai. Abhi is link par KYC kare: {link}'
+- '{bank} alert: aapki KYC expire ho gayi hai. Account chalu rakhne ke liye turant {phone} par call kare ya {link} par details bhare.'
+- Sir aapka {bank} account hold par hai, KYC pending hai. PAN aur Aadhaar ki photo bhejiye aur jo OTP aayega wo bata dijiye, {deadline} tak nahi kiya to khata freeze ho jayega.
+notes: Hinglish KYC block SMS

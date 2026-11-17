@@ -1,0 +1,17 @@
+family: job-en-03
+label: scam
+category: job_task
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 15
+pools:
+  link: scam_domains.job
+templates:
+- You are selected for a part time job. Daily income {amount}. Work 1 hour from mobile. Contact HR on WhatsApp {phone}
+- 'Hiring now! Amazon product review job, earn {amount} per day from home. Apply {deadline}: {link}'
+- 'Your resume is shortlisted. Salary {amount} per week. No interview. Pay small registration fee and start today. Details: {link}'
+- Urgent requirement for online typing work. Earn {amount} daily, payment every evening. WhatsApp {phone} to join.
+- Dear applicant, your job ID is approved. To activate it pay the training kit charge {deadline}. Know more at {link} or call {phone}.
+notes: Short SMS job offers

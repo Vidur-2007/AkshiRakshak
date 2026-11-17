@@ -1,0 +1,15 @@
+family: phish-bn-01
+label: scam
+category: phishing_link
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.lookalike
+templates:
+- '{bank}: আপনার কার্ডের রিওয়ার্ড পয়েন্ট {deadline} শেষ হয়ে যাবে। {amount} নগদ পেতে এখনই লগইন করুন: {link}'
+- 'আপনার {bank} অ্যাকাউন্টে নতুন ডিভাইস থেকে লগইন হয়েছে। এটি আপনি না হলে এখনই এখানে যাচাই করুন: {link}'
+- প্রিয় গ্রাহক, নিরাপত্তার কারণে আপনার ডেবিট কার্ড বন্ধ করা হয়েছে। আবার চালু করতে কার্ড নম্বর ও সিভিভি এই লিঙ্কে দিন {link}
+notes: Bengali phishing links

@@ -1,0 +1,121 @@
+{
+  "byCategory": [
+    {
+      "category": "upi_collect",
+      "count": 89
+    },
+    {
+      "category": "fake_kyc",
+      "count": 89
+    },
+    {
+      "category": "bill_disconnection",
+      "count": 89
+    },
+    {
+      "category": "digital_arrest",
+      "count": 89
+    },
+    {
+      "category": "job_task",
+      "count": 89
+    },
+    {
+      "category": "phishing_link",
+      "count": 89
+    },
+    {
+      "category": "qr_receive",
+      "count": 52
+    },
+    {
+      "category": "courier_customs",
+      "count": 52
+    },
+    {
+      "category": "investment_crypto",
+      "count": 52
+    },
+    {
+      "category": "loan_app",
+      "count": 52
+    },
+    {
+      "category": "lottery_prize",
+      "count": 52
+    },
+    {
+      "category": "fake_customer_care",
+      "count": 52
+    },
+    {
+      "category": "refund_cashback",
+      "count": 52
+    },
+    {
+      "category": "wrong_transfer",
+      "count": 52
+    },
+    {
+      "category": "malicious_apk",
+      "count": 52
+    },
+    {
+      "category": "remote_access",
+      "count": 52
+    },
+    {
+      "category": "otp_theft",
+      "count": 52
+    },
+    {
+      "category": "romance",
+      "count": 52
+    },
+    {
+      "category": "impersonation_govt",
+      "count": 52
+    }
+  ],
+  "byLang": [
+    {
+      "lang": "en",
+      "count": 452
+    },
+    {
+      "lang": "hi",
+      "count": 354
+    },
+    {
+      "lang": "te",
+      "count": 202
+    },
+    {
+      "lang": "bn",
+      "count": 202
+    }
+  ],
+  "byChannel": [
+    {
+      "channel": "whatsapp",
+      "count": 566
+    },
+    {
+      "channel": "sms",
+      "count": 460
+    },
+    {
+      "channel": "call",
+      "count": 154
+    },
+    {
+      "channel": "telegram",
+      "count": 15
+    },
+    {
+      "channel": "email",
+      "count": 15
+    }
+  ],
+  "sampleData": true
+}

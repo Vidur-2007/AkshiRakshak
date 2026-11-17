@@ -1,0 +1,16 @@
+family: courier-te-01
+label: scam
+category: courier_customs
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: చిరునామా అసంపూర్ణంగా ఉండటం వల్ల మీ పార్సెల్ ఆగిపోయింది. {deadline} ఇక్కడ చిరునామా అప్‌డేట్ చేయండి, లేకపోతే పార్సెల్ తిరిగి వెళ్తుంది: {link}'
+- 'మీ పార్సెల్ కస్టమ్స్‌లో నిలిపివేయబడింది. విడుదల కోసం {amount} రుసుము ఇప్పుడే చెల్లించండి: {link}'
+- డెలివరీ విఫలమైంది. మళ్లీ డెలివరీ కోసం {amount} చార్జీ చెల్లించాలి. డెలివరీ ఏజెంట్‌కు {phone} లో కాల్ చేయండి.
+notes: Telugu parcel hold

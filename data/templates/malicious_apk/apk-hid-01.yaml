@@ -1,0 +1,16 @@
+family: apk-hid-01
+label: scam
+category: malicious_apk
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  app: apps.apk
+  link: scam_domains.apk
+templates:
+- आपको शादी में सादर आमंत्रित किया जाता है। शादी का कार्ड भेज रहे हैं, {app} फाइल खोलकर तारीख और जगह देख लीजिए।
+- 'आपकी गाड़ी का चालान कटा है, जुर्माना {amount}। चालान देखने और भरने के लिए यह ऐप इंस्टॉल करें: {link}'
+- पीएम किसान की नई सूची आ गई है। अपना नाम देखने और {amount} की किस्त पाने के लिए {app} डाउनलोड करें।
+notes: Devanagari APK lures

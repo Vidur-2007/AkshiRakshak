@@ -1,0 +1,18 @@
+family: upipay-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+pools:
+  brand: brands.payment_app
+templates:
+- You have paid {amount} to {name} via UPI on {date}. UPI Ref No [ref]. -{bank}
+- '{brand}: Payment of {amount} to {name} was successful. Transaction ID T[#9]. You can view it in your payment history.'
+- Sent {amount} from {bank} A/c XX[#4] to {name} on {date}. UPI Ref [ref]. If this was not you, raise a dispute in your UPI app.
+- '{amount} received from {name} in your {bank} a/c XX[#4]. UPI Ref [ref]. You do not need to enter a PIN to receive money.'
+- Your UPI AutoPay mandate of {amount} for NETFLIX was executed on {date}. Ref [ref]. Manage mandates in your {brand} app.
+notes: Genuine UPI payment confirmations

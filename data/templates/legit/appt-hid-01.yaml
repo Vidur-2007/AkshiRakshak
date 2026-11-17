@@ -1,0 +1,14 @@
+family: appt-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 20
+templates:
+- 'याद दिलाना: डॉक्टर से आपका अपॉइंटमेंट {date} को {time} बजे है। कृपया दस मिनट पहले पहुंचें।'
+- आपकी गाड़ी की सर्विस {date} के लिए बुक है। हमारा कर्मचारी {time} बजे गाड़ी लेने आएगा।
+- आपकी जांच रिपोर्ट तैयार है। कृपया {date} के बाद सुबह 9 से शाम 6 बजे के बीच केंद्र से ले लें।
+- प्रिय अभिभावक, अभिभावक शिक्षक बैठक {date} को {time} बजे होगी। आपकी उपस्थिति अपेक्षित है।
+notes: Genuine Hindi appointment reminders

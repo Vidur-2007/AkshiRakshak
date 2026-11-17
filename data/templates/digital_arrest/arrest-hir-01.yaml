@@ -1,0 +1,17 @@
+family: arrest-hir-01
+label: scam
+category: digital_arrest
+lang: hi
+script: latn
+channel: whatsapp
+max_rows: 10
+hard_negative: false
+pools:
+  name: officials
+templates:
+  - "Namaste, main {name} Mumbai Cyber Crime Branch se bol raha hoon. Aapke Aadhaar se ek parcel book hua hai jisme drugs mile hain. Aapke naam par FIR darj hai. Turant video call par judiye warna {deadline} aapko digital arrest kiya jayega. Kisi ko mat batana, ye confidential case hai."
+  - "Sir aapka mobile number money laundering case me link hai. {name} se baat kariye. Case clear karne ke liye {amount} verification amount RBI account me transfer karna hoga, paisa 24 ghante me wapas aa jayega. Call cut mat karna."
+  - "Ye notice court ki taraf se hai. Aapke khilaf arrest warrant jaari hua hai. Settlement ke liye {phone} par WhatsApp video call kare {deadline}. Ghar walo ko mat batana warna case aur bada hoga."
+  - "Aapka SIM illegal activity me use hua hai, TRAI aapka number {deadline} band kar dega. Police verification ke liye {name} aapko video call karenge, camera on rakhna aur room se bahar mat jana."
+  - "CBI case no. MH/2026/4471. Aapke bank account se hawala ka paisa gaya hai. Apni safety ke liye saari savings {amount} hamare secure account me bhejo, jaanch ke baad wapas milega. Ye baat kisi ko batayi to turant giraftaar honge."
+notes: "Digital arrest script in Hinglish: fake officer, crime linked to your ID, video call, secrecy, money moved to a 'safe' account."

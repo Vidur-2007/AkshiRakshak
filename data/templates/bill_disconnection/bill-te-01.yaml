@@ -1,0 +1,15 @@
+family: bill-te-01
+label: scam
+category: bill_disconnection
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.bill
+templates:
+- ప్రియమైన వినియోగదారుడా, గత నెల బిల్లు అప్‌డేట్ కాలేదు కాబట్టి ఈ రాత్రి 9:30కి మీ కరెంట్ కనెక్షన్ కట్ చేయబడుతుంది. వెంటనే విద్యుత్ అధికారిని {phone} లో సంప్రదించండి.
+- 'విద్యుత్ శాఖ: మీ {amount} బిల్లు బకాయి ఉంది. {deadline} చెల్లించకపోతే మీటర్ తొలగిస్తాము. ఇప్పుడే {upi} కు చెల్లించి స్క్రీన్‌షాట్ పంపండి.'
+- మీ చెల్లింపు సిస్టమ్‌లో నమోదు కాలేదు. కరెంట్ {deadline} నిలిపివేయబడుతుంది. బిల్లు అప్‌డేట్ కోసం అధికారి {name} కు {phone} లో కాల్ చేయండి.
+notes: Telugu electricity disconnection

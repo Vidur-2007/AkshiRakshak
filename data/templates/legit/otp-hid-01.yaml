@@ -1,0 +1,15 @@
+family: otp-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- '{otp} आपका {bank} ओटीपी है। यह 10 मिनट तक मान्य है। इसे किसी के साथ साझा न करें। बैंक कभी ओटीपी नहीं मांगता।'
+- प्रिय ग्राहक, {amount} के लेनदेन के लिए आपका ओटीपी {otp} है। कृपया यह ओटीपी किसी को न बताएं। -{bank}
+- '{bank} नेट बैंकिंग में लॉगिन के लिए ओटीपी {otp} है। अगर आपने लॉगिन नहीं किया है तो इस संदेश को अनदेखा करें।'
+- यूपीआई पंजीकरण के लिए आपका ओटीपी {otp} है। इसे बैंक कर्मचारी सहित किसी को भी न बताएं। -{bank}
+notes: Genuine Hindi OTP SMS

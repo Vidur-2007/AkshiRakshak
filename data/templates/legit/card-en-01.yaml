@@ -1,0 +1,16 @@
+family: card-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- Your {bank} Credit Card statement is generated. Total due {amount}, minimum due Rs [#4]. Due date {date}. Pay via the {bank} app or {link}
+- 'Reminder: Payment of {amount} for your {bank} Credit Card XX[#4] is due on {date}. Please ignore if already paid.'
+- Thank you. Payment of {amount} received towards your {bank} Credit Card XX[#4] on {date}. Available limit Rs [#6].
+- '{amount} spent on {bank} Card XX[#4] at SWIGGY on {date} {time}. Available limit Rs [#5]. To dispute, use the {bank} app.'
+- Your {bank} Debit Card XX[#4] has been dispatched via speed post. It will reach your registered address in 5 to 7 working days.
+notes: Genuine card statements and due reminders

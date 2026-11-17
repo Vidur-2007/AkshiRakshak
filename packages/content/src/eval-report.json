@@ -1,0 +1,246 @@
+{
+  "generatedAt": "2026-11-17T13:21:34.270Z",
+  "engineVersion": "0.0.0-stub",
+  "modelVersion": "2026.11.16-a",
+  "datasets": [
+    {
+      "name": "synthetic-train",
+      "size": 1683,
+      "description": "Synthetic messages used to train the classifier"
+    },
+    {
+      "name": "synthetic-val",
+      "size": 434,
+      "description": "Synthetic messages used to choose settings"
+    },
+    {
+      "name": "synthetic-test",
+      "size": 433,
+      "description": "Held-out synthetic messages (whole template families), four languages"
+    },
+    {
+      "name": "handwritten",
+      "size": 0,
+      "description": "Messages written by the team, never used for training or tuning"
+    }
+  ],
+  "overall": {
+    "precision": 0.7946,
+    "recall": 0.4178,
+    "f1": 0.5476,
+    "accuracy": 0.6605,
+    "fpr": 0.1045,
+    "support": 433
+  },
+  "handwritten": null,
+  "configs": [
+    {
+      "name": "rules_only",
+      "metrics": {
+        "precision": 0.7946,
+        "recall": 0.4178,
+        "f1": 0.5476,
+        "accuracy": 0.6605,
+        "fpr": 0.1045,
+        "support": 433
+      },
+      "n": 433
+    },
+    {
+      "name": "rules_model",
+      "metrics": {
+        "precision": 0.7946,
+        "recall": 0.4178,
+        "f1": 0.5476,
+        "accuracy": 0.6605,
+        "fpr": 0.1045,
+        "support": 433
+      },
+      "n": 433
+    },
+    {
+      "name": "full_no_ai",
+      "metrics": {
+        "precision": 0.7946,
+        "recall": 0.4178,
+        "f1": 0.5476,
+        "accuracy": 0.6605,
+        "fpr": 0.1045,
+        "support": 433
+      },
+      "n": 433
+    }
+  ],
+  "perCategory": [
+    {
+      "category": "bill_disconnection",
+      "recall": 0,
+      "support": 10
+    },
+    {
+      "category": "courier_customs",
+      "recall": 0.5,
+      "support": 10
+    },
+    {
+      "category": "digital_arrest",
+      "recall": 0.6,
+      "support": 15
+    },
+    {
+      "category": "fake_customer_care",
+      "recall": 0,
+      "support": 10
+    },
+    {
+      "category": "fake_kyc",
+      "recall": 0.6,
+      "support": 10
+    },
+    {
+      "category": "impersonation_govt",
+      "recall": 0.4444,
+      "support": 9
+    },
+    {
+      "category": "investment_crypto",
+      "recall": 0.1429,
+      "support": 14
+    },
+    {
+      "category": "job_task",
+      "recall": 0.2,
+      "support": 15
+    },
+    {
+      "category": "loan_app",
+      "recall": 0.1,
+      "support": 10
+    },
+    {
+      "category": "lottery_prize",
+      "recall": 0,
+      "support": 10
+    },
+    {
+      "category": "malicious_apk",
+      "recall": 1,
+      "support": 9
+    },
+    {
+      "category": "otp_theft",
+      "recall": 0.6667,
+      "support": 9
+    },
+    {
+      "category": "phishing_link",
+      "recall": 1,
+      "support": 15
+    },
+    {
+      "category": "qr_receive",
+      "recall": 0,
+      "support": 10
+    },
+    {
+      "category": "refund_cashback",
+      "recall": 0.7,
+      "support": 10
+    },
+    {
+      "category": "remote_access",
+      "recall": 0.7143,
+      "support": 14
+    },
+    {
+      "category": "romance",
+      "recall": 0,
+      "support": 9
+    },
+    {
+      "category": "upi_collect",
+      "recall": 0.8,
+      "support": 15
+    },
+    {
+      "category": "wrong_transfer",
+      "recall": 0,
+      "support": 9
+    }
+  ],
+  "perLang": [
+    {
+      "lang": "en",
+      "precision": 0.7286,
+      "recall": 0.5795,
+      "f1": 0.6456,
+      "support": 168
+    },
+    {
+      "lang": "hi",
+      "precision": 0.8621,
+      "recall": 0.3846,
+      "f1": 0.5319,
+      "support": 125
+    },
+    {
+      "lang": "te",
+      "precision": 1,
+      "recall": 0.2667,
+      "f1": 0.4211,
+      "support": 70
+    },
+    {
+      "lang": "bn",
+      "precision": 1,
+      "recall": 0.1667,
+      "f1": 0.2858,
+      "support": 70
+    }
+  ],
+  "fprGenuineBank": 0.1,
+  "confusion": {
+    "labels": [
+      "scam",
+      "suspicious",
+      "no_signs"
+    ],
+    "matrix": [
+      [
+        0,
+        89,
+        124
+      ],
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        23,
+        197
+      ]
+    ]
+  },
+  "latency": {
+    "p50Ms": 0.01,
+    "p95Ms": 0.06
+  },
+  "statements": {
+    "injected": 6,
+    "caught": 6,
+    "falseFlagsPer100": 0
+  },
+  "notes": [
+    "NOT A MEASUREMENT: this run used the placeholder engine (0.0.0-stub), which does not analyse the text. The message numbers below only show that the harness works. Real numbers come after the engine is merged.",
+    "Message numbers are for the held-out test split of the synthetic dataset (433 messages). A message counts as flagged when the verdict is \"scam\" or \"suspicious\".",
+    "Counting only the \"scam\" verdict as flagged: precision 0.0%, recall 0.0%, false-alarm rate 0.0%.",
+    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 10.0% of 80.",
+    "The training data is synthetic: every message was generated from templates written for this project. Expect lower numbers on real messages.",
+    "Scam category named correctly for 66.3% of the scams that were flagged.",
+    "The handwritten test set has not been added yet, so there is no result for it.",
+    "Statements: 6 of 6 planted scenarios flagged (5 with the expected anomaly type). The sample statements were written alongside the rules, so this is a check that they work, not an independent measure.",
+    "The AI second opinion was not part of this run."
+  ]
+}

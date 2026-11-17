@@ -1,0 +1,19 @@
+family: phish-en-02
+label: scam
+category: phishing_link
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 15
+pools:
+  link: scam_domains.lookalike
+  brand: brands.ecommerce
+templates:
+- '{brand}: Your order of {amount} could not be processed because payment failed. Update your card details {deadline} at {link} to avoid cancellation.'
+- 'Congratulations! As a loyal {brand} customer you get a free voucher. Login with your account to collect it: {link}'
+- 'Your {brand} account password will expire {deadline}. Keep the same password by confirming it here: {link}'
+- '{bank} Secure: A payee was added to your account. If not done by you, cancel the request now at {link}'
+- 'We noticed a problem with your {brand} Prime membership payment. Your membership ends {deadline}. Re-enter payment details: {link}'
+notes: Lookalike domains for shopping and bank brands

@@ -1,0 +1,16 @@
+family: otps-bn-01
+label: scam
+category: otp_theft
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  brand: brands.ecommerce
+templates:
+- ভুল করে আমি আপনার নম্বর দিয়ে ফেলেছি, আপনার ফোনে ছয় সংখ্যার কোড এসেছে, দয়া করে তাড়াতাড়ি পাঠান।
+- আমি {brand} এর ডেলিভারি বয় বলছি। আপনার অর্ডার ভুল করে বাতিল হয়ে গেছে। যে ওটিপি এসেছে সেটা বললে আবার বুক করে দেব।
+- '{bank} থেকে বলছি। আপনার কার্ড থেকে {amount} লেনদেন হচ্ছে। আটকাতে এখন যে ওটিপি এসেছে সেটা এখনই বলুন।'
+- আমার ফোন হারিয়ে গেছে, এটা আমার নতুন নম্বর। আমার হোয়াটসঅ্যাপের কোড আপনার ফোনে পাঠিয়েছি, {deadline} আমাকে পাঠিয়ে দিন।
+notes: Bengali OTP requests

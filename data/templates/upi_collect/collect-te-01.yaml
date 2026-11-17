@@ -1,0 +1,15 @@
+family: collect-te-01
+label: scam
+category: upi_collect
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.refund
+templates:
+- మీ {amount} రీఫండ్ మంజూరైంది. మేము {upi} నుండి రిక్వెస్ట్ పంపాము. దాన్ని అంగీకరించి మీ యూపీఐ పిన్ ఎంటర్ చేయండి, డబ్బు మీ ఖాతాలోకి వస్తుంది.
+- నేను {amount} పేమెంట్ పంపాను, మీ ఫోన్‌కు రిక్వెస్ట్ వచ్చి ఉంటుంది. దాన్ని ఆమోదించి పిన్ కొట్టండి, అప్పుడే డబ్బు మీ ఖాతాలో జమ అవుతుంది.
+- మీ {amount} క్యాష్‌బ్యాక్ పెండింగ్‌లో ఉంది. యూపీఐ యాప్ తెరిచి {upi} రిక్వెస్ట్ అంగీకరించి పిన్ ఎంటర్ చేస్తే డబ్బు వస్తుంది. ఈ ఆఫర్ {deadline} వరకే.
+notes: Telugu refund collect request

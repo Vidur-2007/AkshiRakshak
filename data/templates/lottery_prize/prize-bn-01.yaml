@@ -1,0 +1,15 @@
+family: prize-bn-01
+label: scam
+category: lottery_prize
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.prize
+templates:
+- অভিনন্দন! আপনার মোবাইল নম্বর কেবিসি লাকি ড্রতে {amount} জিতেছে। পুরস্কার পেতে লটারি ম্যানেজারকে {phone} নম্বরে কল করুন।
+- লাকি ড্রতে আপনার নম্বর নির্বাচিত হয়েছে। {amount} পুরস্কার পেতে আগে সরকারি কর {upi} এ জমা দিন।
+- শুভেচ্ছা, আপনি {amount} লটারি জিতেছেন। আপনার নাম, ব্যাংক অ্যাকাউন্ট আর প্রসেসিং ফি পাঠান। কাউকে বলবেন না, না হলে পুরস্কার বাতিল হয়ে যাবে।
+notes: Bengali lottery

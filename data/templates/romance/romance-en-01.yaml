@@ -1,0 +1,18 @@
+family: romance-en-01
+label: scam
+category: romance
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 14
+pools:
+  link: scam_domains.romance
+templates:
+- My dear, I have sent you a gift parcel with a gold necklace, an iPhone and some pounds. The courier company will call you. You only need to pay the customs clearance of {amount}.
+- Darling I am stuck at Delhi airport, the customs officers are holding me because I carried too much foreign currency. Please send {amount} so they release me. I will return it when we meet.
+- I trust you more than anyone. I want to invest my savings in India with your help. Just pay the bank transfer charge of {amount} and I will send you my money.
+- This is the customs agent for the parcel from your friend in the UK. The parcel contains valuables. Pay the anti money laundering certificate fee of {amount} {deadline} at {link}
+- Sweetheart my daughter is in hospital and my card is not working here. Can you help me with {amount} today? I promise I will pay you back next week when I come to India.
+notes: 'Online friend abroad: gift parcel, customs, emergencies'

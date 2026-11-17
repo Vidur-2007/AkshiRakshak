@@ -1,0 +1,22 @@
+family: promo-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- '{brand} Big Sale starts on {date}! Up to 60 percent off on electronics and fashion. Shop in the app or at {link}'
+- Flat 20 percent off on your next grocery order above Rs 499. Use code FRESH20 in the app. Valid till {date}. T&C apply.
+- New arrivals are here! Visit our store this weekend and get a free gift on purchases above Rs 2,000.
+- '{brand}: Items in your wishlist are now at a lower price. Check them out in the app.'
+- Thank you for shopping with us! Rate your experience in the app and help us serve you better.
+- 'Weekend offer at {brand}: buy 2 get 1 free on select fashion till {date}. Open the app to see the range.'
+- Season sale ends on {date}. Last chance to get up to 40 percent off on footwear at our stores.
+- '{brand} members get free delivery on all orders till {date}. No code needed.'
+- Your loyalty points balance is [#3]. Redeem them at checkout on your next purchase before {date}.
+notes: Genuine retail promotions

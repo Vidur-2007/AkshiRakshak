@@ -1,0 +1,17 @@
+family: kyc-en-02
+label: scam
+category: fake_kyc
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 15
+pools:
+  link: scam_domains.kyc
+templates:
+- 'Dear valued customer, as per RBI guidelines your {bank} KYC must be re-verified. Failure to update {deadline} will lead to permanent account closure. Complete the form: {link}'
+- '{bank} Notification: We could not verify your PAN and Aadhaar linking. Net banking and UPI services will stop {deadline}. Verify now at {link} or contact KYC officer on {phone}.'
+- Hello sir, I am calling from {bank} head office KYC department. Your account is on hold. Please send photo of your debit card front and back and the OTP you receive so we can activate it {deadline}.
+- 'Your {bank} savings account has been flagged for incomplete KYC documents. To avoid a penalty of {amount} and account freeze, update your details {deadline} here: {link}'
+- Last reminder from {bank}. KYC verification pending since 30 days. Your ATM card and UPI will be deactivated {deadline}. Click {link} and login with your user ID and password to continue services.
+notes: WhatsApp KYC notice with a fake support number and a form link

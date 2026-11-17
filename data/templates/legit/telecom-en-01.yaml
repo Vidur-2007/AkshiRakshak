@@ -1,0 +1,19 @@
+family: telecom-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+pools:
+  brand: brands.telecom
+  link: official.brand
+templates:
+- '{brand}: Recharge of {amount} is successful. Validity 28 days, 1.5 GB per day. Thank you.'
+- You have used 90 percent of your daily data. Speed will reduce after the limit. Recharge or check packs in the {brand} app.
+- Your {brand} postpaid bill of {amount} is generated. Due date {date}. Pay in the {brand} app or at {link}
+- '{brand}: Your plan expires on {date}. Recharge in time to enjoy uninterrupted services. View plans at {link}'
+- Welcome to {brand}! Your new SIM is active. Dial 198 for complaints. Download the {brand} app to manage your account.
+notes: Genuine telecom messages

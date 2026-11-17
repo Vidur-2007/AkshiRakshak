@@ -1,0 +1,22 @@
+family: chat-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 20
+templates:
+- Reached home safely. Will call you after dinner.
+- Can you pick up milk and bread on your way back? Also get some curd if the shop is open.
+- Happy birthday {name}! Have a great year ahead. Party is pending!
+- Meeting got postponed to {time}. Let us have lunch together then?
+- Mom is asking when you are coming home for Diwali. Book your tickets soon, they sell out fast.
+- Good morning! Did you watch the match yesterday? What a finish.
+- I will be late today, the train is delayed by 40 minutes. Start dinner without me.
+- '{name} called, the wedding is on {date}. We should book the tickets this week.'
+- Can you send me the notes from today's class? I missed the last hour.
+- It is raining heavily here, carry an umbrella. Come back by {time} if you can.
+- Thanks for the lift today! Same time tomorrow, around {time}?
+- Grandma's check-up went well. The doctor said to come again on {date}.
+notes: Everyday personal chat

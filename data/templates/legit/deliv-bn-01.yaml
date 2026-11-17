@@ -1,0 +1,17 @@
+family: deliv-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.courier
+  link: official.brand
+templates:
+- '{brand}: আপনার পার্সেল আজ ডেলিভারির জন্য বেরিয়েছে। অবস্থা দেখুন: {link}'
+- আপনার {brand} পার্সেল {date} তারিখে পৌঁছে দেওয়া হয়েছে। ধন্যবাদ।
+- '{brand}: বাড়ি বন্ধ থাকায় আজ ডেলিভারি করা যায়নি। পরের কর্মদিবসে আবার চেষ্টা করা হবে। কোনো টাকা দিতে হবে না।'
+- আপনার কনসাইনমেন্ট নম্বর [#9] {brand} এ বুক হয়েছে, {date} তারিখের মধ্যে পৌঁছাবে।
+notes: Genuine Bengali courier updates

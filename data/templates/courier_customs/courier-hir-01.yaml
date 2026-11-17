@@ -1,0 +1,16 @@
+family: courier-hir-01
+label: scam
+category: courier_customs
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: aapka parcel address adhura hone ke karan ruk gaya hai. {deadline} tak yahan address update kare warna parcel wapas chala jayega: {link}'
+- 'Aapka parcel customs me roka gaya hai. Chhudane ke liye {amount} clearance fee abhi bhare: {link}'
+- Delivery fail ho gayi hai. Dobara delivery ke liye {amount} charge dena hoga. Delivery boy ko {phone} par call kare ya link kholiye {link}
+notes: Hinglish parcel hold

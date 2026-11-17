@@ -1,0 +1,18 @@
+family: apk-en-01
+label: scam
+category: malicious_apk
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.apk
+  app: apps.apk
+templates:
+- You are invited! Please find our wedding invitation card attached. Open the file {app} to see the venue and date. Do come with family.
+- 'Traffic challan issued against your vehicle for over speeding. Fine {amount}. Download the challan copy and pay: {link} {app}'
+- Dear customer, install the new {bank} security app to keep your account active. Download {app} from {link} {deadline}.
+- PM Kisan beneficiary list is updated. Install {app} to check your name and receive the next instalment of {amount}.
+- Your electricity bill is ready. Open the attached {app} to view and pay. Allow all permissions for the app to work.
+notes: 'APK files: wedding card, challan, bank app'

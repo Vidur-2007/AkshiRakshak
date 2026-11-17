@@ -1,0 +1,15 @@
+family: qr-hir-01
+label: scam
+category: qr_receive
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.buyer
+templates:
+- Bhai main QR code bhej raha hoon, usko scan karo aur PIN dalo, {amount} seedha aapke account me aa jayega.
+- Sir main army me hoon, hamara payment QR se hi hota hai. Aap pehle 5 rupaye ka QR scan karke dekho, phir {amount} wala scan kar lena. Paisa aapko hi milega.
+- Aapka saman mujhe pasand hai, {amount} me le lunga. Abhi QR bhejta hoon, scan karke PIN daal dena to payment aapke khate me receive ho jayega.
+notes: Hinglish QR-to-receive

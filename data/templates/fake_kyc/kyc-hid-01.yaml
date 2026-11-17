@@ -1,0 +1,15 @@
+family: kyc-hid-01
+label: scam
+category: fake_kyc
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.kyc
+templates:
+- 'प्रिय ग्राहक, आपका {bank} खाता {deadline} बंद कर दिया जाएगा क्योंकि आपकी केवाईसी अपडेट नहीं है। अभी इस लिंक पर केवाईसी पूरी करें: {link}'
+- '{bank} सूचना: आपकी केवाईसी की अवधि समाप्त हो गई है। खाता चालू रखने के लिए तुरंत {phone} पर कॉल करें।'
+- 'आपके {bank} खाते की नेट बैंकिंग रोक दी गई है। पैन और आधार की जानकारी {deadline} यहां भरें, नहीं तो खाता फ्रीज हो जाएगा: {link}'
+notes: Devanagari KYC block SMS

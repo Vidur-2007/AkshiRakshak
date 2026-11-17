@@ -1,0 +1,15 @@
+family: qr-hid-01
+label: scam
+category: qr_receive
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.buyer
+templates:
+- मैं आपको क्यूआर कोड भेज रहा हूं। इसे अपने यूपीआई ऐप से स्कैन करें और पिन डालें, {amount} सीधे आपके खाते में आ जाएंगे।
+- मैं सेना में हूं, हमारा भुगतान क्यूआर कोड से ही होता है। पहले पांच रुपये वाला कोड स्कैन करके देखिए, फिर {amount} वाला स्कैन कर लीजिए। पैसा आपको ही मिलेगा।
+- आपका सामान मुझे पसंद है, {amount} में ले लूंगा। अभी क्यूआर भेजता हूं, स्कैन करके पिन डाल दीजिए तो पैसा आपके खाते में आ जाएगा।
+notes: Devanagari QR-to-receive

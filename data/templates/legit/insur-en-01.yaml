@@ -1,0 +1,16 @@
+family: insur-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- Premium of {amount} for your policy no. [#8] is due on {date}. Pay through the insurer's official app or your agent. Ignore if paid.
+- Your SIP of {amount} in the equity fund has been processed on {date}. Units will reflect in your statement in 2 working days.
+- We have received your premium of {amount} for policy [#8]. Thank you.
+- Your health insurance policy is due for renewal on {date}. Renew on time to continue your benefits.
+- Your mutual fund account statement for the month has been sent to your registered email ID.
+notes: Genuine insurance and investment confirmations

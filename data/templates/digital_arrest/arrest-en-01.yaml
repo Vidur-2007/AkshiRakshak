@@ -1,0 +1,17 @@
+family: arrest-en-01
+label: scam
+category: digital_arrest
+lang: en
+script: latn
+channel: call
+hard_negative: false
+max_rows: 15
+pools:
+  name: officials
+templates:
+- This is {name} from the Cyber Crime Branch. A parcel booked with your Aadhaar was seized at Mumbai airport with illegal passports and drugs. You are under digital arrest. Stay on this video call and do not inform anyone.
+- Your mobile number is linked to a money laundering case. An arrest warrant has been issued in your name. To avoid arrest {deadline} you must cooperate with the investigation on video call and not disconnect.
+- I am {name}, speaking from CBI headquarters. Your bank account was used for illegal transactions of {amount}. Transfer your savings to the RBI verification account for checking. The money will be returned after clearance.
+- Madam, this is a confidential matter of national security. You must not tell your family or your bank. Keep your camera on. Any attempt to cut the call will be treated as non cooperation and local police will arrest you.
+- The court has ordered that all your accounts be frozen {deadline}. To prove your innocence deposit {amount} as a security bond. This is refundable. I am sending you the account details on WhatsApp.
+notes: Phone script of a fake police or CBI officer

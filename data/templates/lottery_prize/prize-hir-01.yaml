@@ -1,0 +1,15 @@
+family: prize-hir-01
+label: scam
+category: lottery_prize
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.prize
+templates:
+- Badhai ho! Aapke mobile number ne KBC lucky draw me {amount} jeete hai. Inaam lene ke liye lottery manager ko WhatsApp par {phone} par call kare.
+- Aapka number lucky draw me select hua hai. {amount} ka inaam paane ke liye pehle government tax {upi} par jama kare, cheque {deadline} mil jayega.
+- Mubarak ho aapki {amount} ki lottery lagi hai. Apna naam, bank account aur processing fee bheje. Kisi ko mat batana warna inaam cancel ho jayega.
+notes: Hinglish KBC lottery

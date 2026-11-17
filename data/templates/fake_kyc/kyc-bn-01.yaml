@@ -1,0 +1,15 @@
+family: kyc-bn-01
+label: scam
+category: fake_kyc
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.kyc
+templates:
+- 'প্রিয় গ্রাহক, আপনার {bank} অ্যাকাউন্টের কেওয়াইসি আপডেট করা নেই। {deadline} অ্যাকাউন্ট বন্ধ হয়ে যাবে। এখনই এই লিঙ্কে কেওয়াইসি সম্পূর্ণ করুন: {link}'
+- '{bank} সতর্কবার্তা: আপনার কেওয়াইসির মেয়াদ শেষ হয়েছে। অ্যাকাউন্ট চালু রাখতে এখনই {phone} নম্বরে কল করুন।'
+- 'আপনার {bank} নেট ব্যাংকিং বন্ধ রাখা হয়েছে। প্যান ও আধারের তথ্য {deadline} এখানে জমা দিন, না হলে অ্যাকাউন্ট ফ্রিজ হয়ে যাবে: {link}'
+notes: Bengali KYC block

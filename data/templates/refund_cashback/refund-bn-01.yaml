@@ -1,0 +1,15 @@
+family: refund-bn-01
+label: scam
+category: refund_cashback
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.refund
+templates:
+- 'আয়কর রিফান্ড: আপনার {amount} রিফান্ড মঞ্জুর হয়েছে। {deadline} আপনার ব্যাংকের তথ্য এখানে দিন: {link}'
+- আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। {amount} ফেরত পেতে {phone} নম্বরে কল করে ওটিপি বলুন।
+- 'আপনার আগের অর্ডারে {amount} ক্যাশব্যাক বাকি আছে। পেতে হলে কার্ডের তথ্য এই লিঙ্কে দিন: {link}'
+notes: Bengali refund claim

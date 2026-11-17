@@ -1,0 +1,15 @@
+family: collect-hid-01
+label: scam
+category: upi_collect
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.refund
+templates:
+- आपका {amount} का रिफंड मंजूर हो गया है। हमने {upi} से रिक्वेस्ट भेजी है। उसे स्वीकार करें और अपना यूपीआई पिन डालें, पैसा आपके खाते में आ जाएगा।
+- मैंने {amount} का भुगतान भेज दिया है, आपके फोन पर रिक्वेस्ट आई होगी। उसे मंजूर करके पिन डालिए, तभी पैसा आपके खाते में जमा होगा।
+- आपका {amount} का कैशबैक रुका हुआ है। अपना यूपीआई ऐप खोलें, {upi} की रिक्वेस्ट स्वीकार करें और पिन डालकर पैसा प्राप्त करें। यह ऑफर {deadline} तक ही है।
+notes: Devanagari refund collect request

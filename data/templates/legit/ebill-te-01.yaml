@@ -1,0 +1,15 @@
+family: ebill-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- మీ కరెంట్ బిల్లు {amount}. సర్వీస్ నంబర్ [#9]. చివరి తేదీ {date}. విద్యుత్ సంస్థ అధికారిక యాప్ లేదా కౌంటర్‌లో చెల్లించండి.
+- సర్వీస్ నంబర్ [#9] కు {amount} చెల్లింపు {date} న అందింది. ధన్యవాదాలు.
+- మీ గ్యాస్ బుకింగ్ నమోదైంది. బుకింగ్ నంబర్ [#6]. సిలిండర్ రెండు మూడు రోజుల్లో వస్తుంది. మొత్తం {amount}.
+- 'గమనిక: మరమ్మతుల కారణంగా {date} న ఉదయం 10 నుండి మధ్యాహ్నం 1 వరకు మీ ప్రాంతంలో కరెంట్ ఉండదు.'
+notes: Genuine Telugu utility bills

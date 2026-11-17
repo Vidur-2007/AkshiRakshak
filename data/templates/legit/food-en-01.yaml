@@ -1,0 +1,16 @@
+family: food-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- Your order from Paradise Biryani is on the way. Share OTP {otp} with the delivery partner only at the time of delivery.
+- Order confirmed! Your food will arrive in about 35 minutes. Total paid {amount}.
+- Your delivery partner {name} has picked up your order and will reach in 12 minutes.
+- Your grocery order is packed and out for delivery. Delivery code is {otp}. Tell it to the rider when you receive the items.
+- Your ride has ended. Total fare {amount} paid by UPI. Thanks for riding with us.
+notes: Genuine food-delivery and ride OTPs

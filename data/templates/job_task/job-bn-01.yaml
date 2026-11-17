@@ -1,0 +1,16 @@
+family: job-bn-01
+label: scam
+category: job_task
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.job
+  link: scam_domains.job
+templates:
+- ঘরে বসে পার্ট টাইম কাজ করুন। ইউটিউব ভিডিওতে লাইক দিয়ে প্রতিদিন {amount} আয় করুন। কোনো অভিজ্ঞতা লাগবে না। শুরু করতে হ্যাঁ লিখে পাঠান।
+- আপনার তিনটি ফ্রি টাস্ক শেষ হয়েছে। পরের টাস্কের জন্য {amount} {upi} এ পাঠান, দশ মিনিটে কমিশন সহ টাকা ফেরত পাবেন।
+- 'আপনার আয় {amount} হয়েছে কিন্তু টাকা তোলা বন্ধ আছে। {deadline} আরও একটি প্রিপেইড টাস্ক শেষ করলে তবেই পুরো টাকা তুলতে পারবেন। এখানে নাম লেখান: {link}'
+notes: Bengali task job
