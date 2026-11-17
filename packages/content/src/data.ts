@@ -1,13 +1,5 @@
-// INDICATORS, SAMPLE_MESSAGES and LANDSCAPE are real (Phase 1). PATTERN_CARDS and EVAL_REPORT are still the
-// Phase 0 stubs and are replaced in Phases 3-4.
-import type {
-  EvalReport,
-  Indicator,
-  Landscape,
-  PatternCard,
-  SampleMessage,
-} from '@akshi/contracts';
-import { EVAL_REPORT_FIXTURE } from '@akshi/contracts/fixtures';
+import type { EvalReport, Indicator, Landscape, SampleMessage } from '@akshi/contracts';
+import evalReport from './eval-report.json';
 import indicators from './indicators.json';
 import landscape from './landscape.json';
 import samples from './samples.json';
@@ -25,28 +17,11 @@ export const INDICATORS: Indicator[] = indicators as Indicator[];
  */
 export const SAMPLE_MESSAGES: SampleMessage[] = samples as SampleMessage[];
 
-export const PATTERN_CARDS: PatternCard[] = [
-  {
-    id: 'pattern-collect-refund',
-    category: 'upi_collect',
-    title: { en: 'The "refund" collect request', hi: '"रिफंड" वाली कलेक्ट रिक्वेस्ट' },
-    body: {
-      en: 'Someone says you are owed a refund or prize and sends a UPI collect request. The app shows "Pay". Entering your PIN sends them money. Real refunds never need your PIN.',
-      hi: 'कोई कहता है कि आपको रिफंड या इनाम मिलना है और UPI कलेक्ट रिक्वेस्ट भेजता है। ऐप में "Pay" दिखता है। PIN डालने से पैसे उन्हें चले जाते हैं। असली रिफंड के लिए कभी PIN नहीं चाहिए।',
-    },
-  },
-  {
-    id: 'pattern-digital-arrest',
-    category: 'digital_arrest',
-    title: { en: '"Digital arrest" video calls', hi: '"डिजिटल अरेस्ट" वीडियो कॉल' },
-    body: {
-      en: 'A caller posing as police, CBI or customs says your ID was used in a crime, keeps you on a video call, tells you not to tell anyone, and asks for money to "clear" your name. No agency works this way.',
-      hi: 'पुलिस, CBI या कस्टम्स बनकर कोई कहता है कि आपकी ID किसी अपराध में इस्तेमाल हुई, आपको वीडियो कॉल पर रोके रखता है, किसी को न बताने को कहता है और नाम "साफ़" करने के लिए पैसे मांगता है। कोई भी एजेंसी ऐसे काम नहीं करती।',
-    },
-  },
-];
-
 /** Counts of scam rows in the synthetic dataset by category, language and channel. Sample data. */
 export const LANDSCAPE: Landscape = landscape as Landscape;
 
-export const EVAL_REPORT: EvalReport = EVAL_REPORT_FIXTURE;
+/**
+ * Results of running the shipped engine over the held-out data, written by the eval harness (npm run eval).
+ * Its `notes` say plainly when a run used the placeholder engine. Validated against EvalReportSchema in tests.
+ */
+export const EVAL_REPORT: EvalReport = evalReport as EvalReport;
