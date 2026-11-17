@@ -281,7 +281,8 @@ export async function analyzeRequest(
     const payeeUpi = qr?.payeeUpi ?? req.collect?.requesterUpi;
     const identity = analyzeIdentity({
       text,
-      entities,
+      // links layer off (eval rules_only): no brand-vs-link or brand-vs-UPI judgements either
+      entities: layerOn('links') ? entities : { ...entities, urls: [], upiIds: [] },
       ruleSignals,
       lang: req.lang,
       ...(payeeName ? { payeeName } : {}),
@@ -348,7 +349,11 @@ export async function analyzeRequest(
   // ── model ──
   let prediction: ModelPrediction | null = null;
   let modelSig: Signal | null = null;
-  const model = layerOn('model') ? await getModel() : null;
+  // The classifier reads messages. A bare URL, UPI ID, phone number or QR payload is not one
+  // (it scores a lone phone number as a likely scam), so those inputs skip the model layer.
+  const messageLike =
+    req.kind !== 'url' && req.kind !== 'upi_id' && req.kind !== 'phone' && req.kind !== 'qr';
+  const model = layerOn('model') && messageLike ? await getModel() : null;
   if (model && text) {
     onStage?.({ stage: 'model', ms: 0, status: 'running' });
     const m0 = now();

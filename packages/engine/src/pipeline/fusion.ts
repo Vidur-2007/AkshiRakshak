@@ -168,13 +168,13 @@ export function fuse(input: FusionInput): FusionResult {
     },
     {
       layer: 'links',
-      score: urlMax,
+      score: input.useLinks ? urlMax : 0,
       share: urlMax >= upiMax ? linkShare : 0,
       available: input.useLinks && input.entities.urls.length > 0,
     },
     {
       layer: 'upi',
-      score: upiMax,
+      score: input.useLinks ? upiMax : 0,
       share: upiMax > urlMax ? linkShare : 0,
       available: input.useLinks && input.entities.upiIds.length > 0,
     },
@@ -237,20 +237,26 @@ export function chooseCategory(
   model: ModelPrediction | null,
 ): { category: ScamCategory | null; confidence: number } {
   if (verdict === 'no_signs') return { category: null, confidence: 0 };
-  if (model?.category) {
-    const p = model.categoryProbs[model.category] ?? 0;
-    if (p >= 0.5) return { category: model.category, confidence: Math.round(p * 100) / 100 };
-  }
   const ids = new Set<SignalId>(signals.map((s) => s.id));
   const ranked = signals
     .filter((s) => s.weight > 0 && s.id !== 'MODEL_PATTERN' && s.id !== 'AI_FLAG')
     .sort((a, b) => b.weight - a.weight || (ORDER.get(a.id) ?? 0) - (ORDER.get(b.id) ?? 0));
-  for (const rulesOnly of [true, false]) {
+  const fromSignals = (rulesOnly: boolean) => {
     for (const s of ranked) {
       if (rulesOnly && CATALOG[s.id].layer !== 'rules') continue;
       const c = categoryHint(s.id, ids, text);
       if (c) return { category: c, confidence: Math.round(clamp(s.weight, 0, 1) * 100) / 100 };
     }
+    return null;
+  };
+  // §8.4 (revised at Merge 1): the rules' category first — C's model category is a weak signal
+  // for now (Hindi bill-disconnection → refund_cashback 0.88); the model fills in only when no
+  // rule names a category.
+  const byRules = fromSignals(true);
+  if (byRules) return byRules;
+  if (model?.category) {
+    const p = model.categoryProbs[model.category] ?? 0;
+    if (p >= 0.5) return { category: model.category, confidence: Math.round(p * 100) / 100 };
   }
-  return { category: 'other', confidence: 0.3 };
+  return fromSignals(false) ?? { category: 'other', confidence: 0.3 };
 }

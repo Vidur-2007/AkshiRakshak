@@ -179,17 +179,20 @@ describe('§8.4 category', () => {
     expect(chooseCategory('no_signs', [sig('URGENCY')], '', null).category).toBeNull();
   });
 
-  it('prefers a confident model category', () => {
+  it('prefers the rules category; a confident model category fills in when no rule names one', () => {
     const model = {
       pScam: 0.9,
       category: 'job_task' as const,
       categoryProbs: { job_task: 0.8 },
       contributions: [],
     };
-    expect(chooseCategory('scam', [sig('ASKS_OTP')], '', model)).toEqual({
+    expect(chooseCategory('scam', [sig('ASKS_OTP')], '', model).category).toBe('otp_theft');
+    expect(chooseCategory('scam', [sig('URGENCY')], '', model)).toEqual({
       category: 'job_task',
       confidence: 0.8,
     });
+    const unsure = { ...model, categoryProbs: { job_task: 0.4 } };
+    expect(chooseCategory('scam', [sig('URGENCY')], '', unsure).category).toBe('other');
   });
 });
 

@@ -37,6 +37,21 @@ export interface CatalogEntry {
   lexical: boolean;
 }
 
+/** Pressure or payment cues that make "guaranteed returns" an investment-scam pattern. */
+const INVESTMENT_PRESSURE: readonly SignalId[] = [
+  'URGENCY',
+  'ADVANCE_FEE',
+  'SECRECY',
+  'TASK_JOB_PAYMENT',
+  'PERSONAL_UPI_HANDLE',
+  'SUSPICIOUS_LINK',
+  'SHORTENED_URL',
+  'RISKY_TLD',
+  'APK_LINK',
+  'ASKS_REMOTE_APP',
+  'ASKS_OTP',
+  'ASKS_PIN',
+];
 const RECEIVE_WORDING: readonly SignalId[] = [
   'RECEIVE_WITH_PIN',
   'QR_TO_RECEIVE',
@@ -75,7 +90,12 @@ export const CATALOG: Readonly<Record<SignalId, CatalogEntry>> = {
   ADVANCE_FEE: rule(0.35, 'job_task'), // also loan_app; see CATEGORY_CONTEXT
   // lures
   PRIZE_LOTTERY: rule(0.35, 'lottery_prize'),
-  TOO_GOOD_RETURNS: rule(0.35, 'investment_crypto'),
+  // Guaranteed or daily returns plus pressure, a fee, secrecy, a link or an app is the investment
+  // scam pattern; on its own the phrase also appears in genuine deposit adverts (no floor then).
+  TOO_GOOD_RETURNS: rule(0.35, 'investment_crypto', {
+    score: 45,
+    requiresAny: INVESTMENT_PRESSURE,
+  }),
   TASK_JOB_PAYMENT: rule(0.35, 'job_task'),
   WRONG_TRANSFER_RETURN: rule(0.4, 'wrong_transfer'),
   CUSTOMER_CARE_NUMBER: rule(0.25, 'fake_customer_care'),

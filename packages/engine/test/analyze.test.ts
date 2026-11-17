@@ -8,6 +8,7 @@ import {
 import { describe, expect, it } from 'vitest';
 import { buildOcrResult } from '../src/browser';
 import { analyze as analyzeOnline, maskPII, parseUpiUri, scoreLive, warmup } from '../src/index';
+import { getModel } from '../src/model';
 
 /** Tests here never touch the network: network extras are switched off unless a test sets them. */
 const analyze: typeof analyzeOnline = (req, onStage) =>
@@ -101,13 +102,16 @@ describe('analyze()', () => {
       'model',
       'ai',
     ]);
+    // C's real model runs the model stage; the Phase 0 stub has none and skips it
+    const hasModel = (await getModel()) !== null;
     expect(seen.filter((s) => s.status === 'running').map((s) => s.stage)).toEqual([
       'read',
       'links',
       'patterns',
+      ...(hasModel ? ['model'] : []),
     ]);
     expect(r.stages.find((s) => s.stage === 'patterns')?.status).toBe('done');
-    expect(r.stages.find((s) => s.stage === 'model')?.status).toBe('skipped'); // @akshi/model stub has no model
+    expect(r.stages.find((s) => s.stage === 'model')?.status).toBe(hasModel ? 'done' : 'skipped');
     expect(r.latencyMs).toBeGreaterThan(0);
   });
 
@@ -224,7 +228,8 @@ describe('scoreLive()', () => {
       kind: 'message',
       text: plain,
       lang: 'en',
-      options: { layers: { indicators: false } },
+      // scoreLive is rules-only: compare with the model layer off
+      options: { layers: { indicators: false, model: false } },
     });
     expect(live.riskScore).toBe(full.riskScore);
     expect(live.verdict).toBe(full.verdict);

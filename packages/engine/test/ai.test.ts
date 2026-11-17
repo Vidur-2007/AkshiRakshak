@@ -118,14 +118,17 @@ describe('analyze() with cloudAI', () => {
   });
 
   it('cannot lift a weak local score by more than 15 points', async () => {
+    const text = 'See you at the station at 5';
+    const local = await analyze({ kind: 'message', text, lang: 'en', options: OFFLINE_EXTRAS });
     mockAi({ likelihood: 100, category: 'other' });
     const r = await analyze({
       kind: 'message',
-      text: 'See you at the station at 5',
+      text,
       lang: 'en',
       options: { ...OFFLINE_EXTRAS, cloudAI: true },
     });
-    expect(r.riskScore).toBeLessThanOrEqual(15);
+    expect(r.riskScore).toBeLessThanOrEqual(local.riskScore + 15);
+    expect(r.verdict).not.toBe('scam');
   });
 
   it('ignores an AI category that agrees with neither rules nor model', async () => {

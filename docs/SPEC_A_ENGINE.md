@@ -351,9 +351,11 @@ riskScore = round(clamp(final, 0, 100))
 ### 8.4 Category
 
 1. AI used and its category is in the list and agrees with either rules or model → AI category.
-2. Model available with category probability ≥ 0.5 → model category.
-3. Otherwise the category hint of the highest-weighted rule signal.
-4. `no_signs` → `null`.
+2. The category hint of the highest-weighted rule signal.
+3. No rule names a category: model available with category probability ≥ 0.5 → model category.
+4. Otherwise a link/UPI signal's hint, else `other`. `no_signs` → `null`.
+
+Revised at Merge 1: with C's first model the rules' category is more reliable than the model's (for example a Hindi bill-disconnection message → `refund_cashback` at 0.88). The model layer also skips bare `url`, `upi_id`, `phone` and `qr` inputs: it was trained on messages and scores a lone phone number as a likely scam.
 
 `categoryConfidence` is the probability or weight that chose it.
 

@@ -156,15 +156,46 @@ describe('analyze() with a model', () => {
     expect(r.riskScore).toBe(Math.round((0.45 * rules + 0.35 * 95) / 0.8));
   });
 
-  it('uses a confident model category (§8.4)', async () => {
+  it('keeps the rules category over the model, and uses the model when no rule names one (§8.4)', async () => {
     loadModel.mockResolvedValue(fakeModel(0.9, 'job_task', 0.7));
-    const r = await analyze({
+    const kyc = await analyze({
       kind: 'message',
       text: 'Update KYC or your account is blocked',
       lang: 'en',
       options: OFF,
     });
-    expect(r.category).toBe('job_task');
+    expect(kyc.category).toBe('fake_kyc');
+    const vague = await analyze({
+      kind: 'message',
+      text: 'Reply urgently today, it is very important',
+      lang: 'en',
+      options: OFF,
+    });
+    expect(vague.verdict).not.toBe('no_signs');
+    expect(vague.category).toBe('job_task');
+  });
+
+  it('does not run the model on a bare URL, UPI ID, phone number or QR payload', async () => {
+    const predict = vi.fn(() => ({
+      pScam: 0.99,
+      category: null,
+      categoryProbs: {},
+      contributions: [],
+    }));
+    loadModel.mockResolvedValue({ version: 'spy', predict });
+    for (const req of [
+      { kind: 'url' as const, url: 'https://example.org' },
+      { kind: 'upi_id' as const, upiId: 'someone@okaxis' },
+      { kind: 'phone' as const, phone: '+91 98765 00001' },
+      { kind: 'qr' as const, qrPayload: 'upi://pay?pa=shop@okaxis&pn=Shop' },
+    ]) {
+      const r = await analyze({ ...req, lang: 'en', options: OFF });
+      expect(r.layers.find((l) => l.layer === 'model')?.available, req.kind).toBe(false);
+      expect(r.stages.find((s) => s.stage === 'model')?.status).toBe('skipped');
+    }
+    expect(predict).not.toHaveBeenCalled();
+    await analyze({ kind: 'message', text: 'hello there', lang: 'en', options: OFF });
+    expect(predict).toHaveBeenCalledTimes(1);
   });
 
   it('lowers the score when the model disagrees with weak rules', async () => {
