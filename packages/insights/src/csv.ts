@@ -171,7 +171,7 @@ export function parseStatementCsv(csv: string): ParsedStatement {
     const c = cells.map((x) => x.trim());
     let dateRaw: string | undefined;
     let timeRaw: string | undefined;
-    let description = '';
+    let description: string;
     let debit: number | null = null;
     let credit: number | null = null;
     let balanceRaw: string | undefined;
