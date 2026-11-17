@@ -6,6 +6,28 @@
 
 ## Done
 
+**Merge 1 rehearsal (2026-11-17), branch `feat/engine`.** C opened PR #1 (`feat/data` → `main`: 276 files, all in C's area plus `package-lock.json`; CI `check` and `e2e` pass). Before anything reaches `main`, A merged `origin/feat/data` into a throwaway copy of `feat/engine` (lockfile: took C's, `npm install` re-added `tldts-icann`) and ran everything against C's real model `2026.11.16-a`.
+
+- **First run: 12 of 518 tests failed, no crashes.** Causes and fixes (all in A's code, now on `feat/engine`):
+  - The model's **category** overrode the rules (C's category output is weak for now: Hindi bill-disconnection → `refund_cashback` 0.88, guaranteed-returns → `job_task` 0.99). §8.4 is now rules first; the model fills in only when no rule names a category (SPEC_A §8.4 updated).
+  - The model ran on **bare lookups** and scored a lone phone number 0.97 and `https://example.org` 0.68 (`suspicious`). The model layer now skips `url`, `upi_id`, `phone` and `qr` inputs.
+  - One golden scam ("VIP trading group … guaranteed returns of 5% daily. Double your money") fell to `no_signs` 37: the model gave it 0.27. `TOO_GOOD_RETURNS` now has a floor of 45 when paired with urgency, a fee, secrecy, a link or an app; three genuine FD/SIP adverts with the same phrases stay `no_signs` (25–31).
+  - FAQ search with C's 34 items: "where" matched "…and where?" in the privacy item. Question words are now stopwords, 5+ letter words match their longer forms (complain ~ complaint), plus a small synonym map. Every FAQ item still finds itself from its own question in every language.
+  - Tests that assumed the stub model (stage list, scoreLive = analyze, the AI +15 baseline, first-scan model load in the fuzz run) now work with either.
+- **C's request 2 checked and a bug fixed:** a new `test/layers.test.ts` turns each of `model`, `links`, `indicators`, `ai` off and checks the layer is unavailable, contributes 0 and never runs, and that `expandLinks: false` + `domainAge: false` never touch the network. It found that `links: false` still allowed brand-vs-link `BRAND_MISMATCH` (source `url`), so C's `rules_only` was not purely rules; fixed.
+- **C's request 1:** `eval` has its own `typecheck` script, which the root `typecheck` already runs (`tsc -b && npm run typecheck --workspaces --if-present`) — covered once `feat/engine` reaches `main`; no reference needed.
+- **After the fixes, merged tree:** typecheck 0 errors, lint clean, **526 tests pass** (C's JS tests included); `feat/engine` alone (stub model) 418 pass. Benchmark on C's 200 validation texts with the real model: analyze **p95 4.2 ms** (p50 0.7, max 16.4); scoreLive 0.8 ms per 1,000 chars; engine core 54.3 KB gz without lexicons.
+- **First real eval (C's harness, held-out test split, 433 messages; A tuned nothing on it):**
+
+  | Configuration | Precision | Recall | F1 | False-alarm rate |
+  |---|---|---|---|---|
+  | rules_only | 95.8% | 54.0% | 69.1% | 2.3% |
+  | rules_model | 97.1% | 79.3% | 87.3% | 2.3% |
+  | full_no_ai | 97.4% | 88.7% | 92.9% | 2.3% |
+
+  By language (full_no_ai): en F1 94.6%, hi 92.6%, te 100%, **bn 81.4% (precision 82.8%: every false alarm is Bengali)**. Statements: 6 of 6 planted scams caught, 0 false flags per 100.
+- The Vercel preview of PR #1 fails because `vercel.json` builds `@akshi/web`, which arrives only with B's merge; expected, not a fault in C's PR.
+
 **Phase 6 — hardening and release prep (2026-11-15), branch `feat/engine`.** Merge was not possible (main unchanged, C and B unmerged); everything below is on `feat/engine`. 410 tests pass (engine 309, API 50, contracts 45, stubs 6); typecheck, lint, `npm run size` (core 54.2 KB gz without lexicons) pass.
 
 - **Fuzz (§15), `test/fuzz.test.ts`:** 1,000 seeded inputs over all nine input kinds — 40 × 50 KB pastes, emoji and ZWJ sequences, mixed and RTL scripts, lone surrogates, control and bidi characters, unbalanced brackets, 30 broken URLs, 20 malformed `upi://` strings, empty and whitespace-only input, absurd collect amounts, broken chat timestamps and email headers. No throws; every result passes `AnalysisResultSchema`; slowest **562 ms** (a 50 KB paste; budget 1 s); no raw error text (`Error`, `undefined`, `NaN`, `[object …]`, stack frames) in explanation, signal or claim text. scoreLive, detectInputKind, maskPII, parseUpiUri, searchFaq, the live listener and inspectUrl never throw on the same inputs. No code fixes were needed.
@@ -63,7 +85,8 @@
 
 ## In progress
 
-- **Merge 1 and Merge 2 (C → A → B):** both still waiting — on 2026-11-15 `origin/main` was the Phase 0 skeleton, `origin/feat/data` had no commits and there were no PRs. When the human confirms C's PR is merged: merge `origin/main` (lockfile: take main's, `npm install`, retest), rerun all tests, the golden suite against C's real model (record verdict changes here), `npm run size` and the analyze benchmark (C's model and validation texts), push, open `feat/engine → main`.
+- **Merge 1 (C's PR #1):** rehearsed and green (above); waiting for the human to merge PR #1. Then A merges `origin/main` into `feat/engine` for real, reruns everything and opens `feat/engine → main`.
+- **Merge 1 and Merge 2 (C → A → B), earlier note:** both were waiting — on 2026-11-15 `origin/main` was the Phase 0 skeleton, `origin/feat/data` had no commits and there were no PRs. When the human confirms C's PR is merged: merge `origin/main` (lockfile: take main's, `npm install`, retest), rerun all tests, the golden suite against C's real model (record verdict changes here), `npm run size` and the analyze benchmark (C's model and validation texts), push, open `feat/engine → main`.
 - **Eval-driven fixes:** waiting for C's eval report and `docs/eval-notes.md` (validation false positives/negatives). Will fix the ones in rules, lexicons and the link/UPI analysers, from validation findings only.
 - **Production deploy (§16):** waiting for the human to create the Vercel project (below) and for Merge 2. Then: confirm `main` builds, `/api/health` shows both providers, `npm run smoke -- <url>`, the phone checks, and the URL goes at the top of this log (and to B and C).
 
@@ -95,6 +118,11 @@
 - Carried: deviations listed in Phase 2/3 (single-item fusion, lookalike token length, identity signals in rules, website-QR floor 40, phone mismatch needs pressure, ASKS_OTP floor 45), Vercel compiling `api/*.ts` with `.ts` workspace imports unverified, typescript-eslint minimatch advisory (still no fixed release; 8.72.2 is latest on 2026-11-15), tool escaping quirks on this laptop.
 
 ## Requests
+
+**New at Merge 1 (2026-11-17):**
+
+- **To C (Phase 4 error analysis, from validation only):** (1) Bengali false alarms — all test-split false alarms are `bn`; please look at Bengali genuine messages in validation. (2) Investment scams with "guaranteed / daily returns" scored low (0.27 on a clear case). (3) The category head leans to `refund_cashback` (0.88 on a Hindi bill-disconnection message, 1.00 on a bare short link); A now uses it only when no rule names a category. (4) Bare identifiers get high pScam (phone number 0.97) — A no longer runs the model on bare `url`/`upi_id`/`phone`/`qr` inputs, so no need to train for those. Rule, lexicon and link misses you find, list in `docs/eval-notes.md` as agreed.
+- **To C:** rerun `npm run eval` after Merge 2 (engine on `main`): the numbers above came from A's rehearsal, the committed report on `main` is still the stub's.
 
 **New in Phase 6:**
 
