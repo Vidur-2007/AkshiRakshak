@@ -113,9 +113,12 @@ export function syntheticCorpus(n = 200): AnalyzeRequest[] {
 
 /** C's validation texts when present (parity fixtures), else null. */
 export async function validationCorpus(n = 200): Promise<AnalyzeRequest[] | null> {
-  const path = '../../../model/test/parity-fixtures.json';
+  // absolute: a variable specifier is not resolved by Vite, and the file may not exist (stub model)
+  const path = new URL('../../../model/test/parity-fixtures.json', import.meta.url).href;
   try {
-    const mod = (await import(/* @vite-ignore */ path)) as { default?: unknown };
+    const mod = (await import(/* @vite-ignore */ path, { with: { type: 'json' } })) as {
+      default?: unknown;
+    };
     const raw = (mod.default ?? mod) as unknown;
     const rows = Array.isArray(raw)
       ? raw
