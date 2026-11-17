@@ -1,0 +1,16 @@
+family: job-te-01
+label: scam
+category: job_task
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.job
+  link: scam_domains.job
+templates:
+- ఇంటి నుండే పార్ట్ టైమ్ ఉద్యోగం. యూట్యూబ్ వీడియోలకు లైక్ చేసి రోజుకు {amount} సంపాదించండి. అనుభవం అవసరం లేదు. చేరడానికి అవును అని పంపండి.
+- మీ మూడు ఉచిత టాస్క్‌లు పూర్తయ్యాయి. తదుపరి టాస్క్ కోసం {amount} {upi} కు పంపండి, పది నిమిషాల్లో కమీషన్‌తో డబ్బు తిరిగి వస్తుంది.
+- 'మీ సంపాదన {amount} అయింది కానీ విత్‌డ్రా ఆగిపోయింది. {deadline} మరో ప్రీపెయిడ్ టాస్క్ పూర్తి చేస్తేనే మొత్తం డబ్బు తీసుకోగలరు. ఇక్కడ నమోదు చేయండి: {link}'
+notes: Telugu task job

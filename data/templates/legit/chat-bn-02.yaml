@@ -1,0 +1,17 @@
+family: chat-bn-02
+label: legit
+category: null
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- খাওয়ার বিল মোট {amount} হয়েছে, সবাই সমান ভাগ করে নিই। সময় পেলে পাঠিয়ে দিও, তাড়া নেই।
+- বাবা, কলেজের ফি {amount} {date} তারিখের মধ্যে দিতে হবে। আমি অফিসের কাউন্টারে জমা দেব, আমার অ্যাকাউন্টে পাঠিয়ে দিও।
+- ভাড়া আমি দিয়ে দিয়েছি, তোর অর্ধেকটা সপ্তাহের শেষে পাঠিয়ে দিস।
+- ধন্যবাদ রে, টাকা পেয়ে গেছি। মাইনে পেলেই ফেরত দিয়ে দেব।
+- '{name} এর উপহারের জন্য সবাই {amount} দিচ্ছে। তুমিও সময় পেলে পাঠিয়ে দিও।'
+- বিদ্যুৎ বিল {amount} আমি অ্যাপ থেকে দিয়ে দিয়েছি, চিন্তা কোরো না।
+notes: Bengali money talk between friends and family

@@ -1,0 +1,15 @@
+family: govt-te-01
+label: scam
+category: impersonation_govt
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.govt
+templates:
+- 'ఈ-చలాన్: మీ వాహనం ట్రాఫిక్ నిబంధన ఉల్లంఘించింది. {amount} జరిమానా {deadline} ఇక్కడ చెల్లించండి: {link}'
+- 'మీ పాన్ కార్డ్ ఆధార్‌తో లింక్ కాలేదు, {deadline} రద్దవుతుంది. ఇప్పుడే లింక్ చేయండి: {link}'
+- ప్రభుత్వ పథకం కింద మీ రేషన్ కార్డుకు {amount} సబ్సిడీ మంజూరైంది. డబ్బు పొందడానికి అధికారి {name} కు {phone} లో కాల్ చేయండి.
+notes: Telugu fake government notices

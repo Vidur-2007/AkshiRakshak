@@ -1,0 +1,18 @@
+family: job-en-01
+label: scam
+category: job_task
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 15
+pools:
+  link: scam_domains.job
+  upi: upi_ids.job
+templates:
+- Hello! I am {name} from HR department. We are hiring part time staff. Like YouTube videos and earn {amount} daily. No experience needed. Reply YES to start your first task.
+- Congratulations, you completed 3 free tasks. For the next premium task you need to pay {amount} to {upi} and you will get it back with 30 percent commission within 10 minutes.
+- Work from home offer! Give Google Maps reviews for hotels and earn up to {amount} per day. Salary paid daily on UPI. Join our Telegram group through {link}
+- Dear candidate, your profile is selected for online data entry job. Earn {amount} weekly. Registration fee is refundable. Pay to {upi} and send the screenshot to get your login.
+- Your task account has a balance of {amount} but withdrawal is locked. Complete one more prepaid task {deadline} to unlock. Pay to {upi} and share the payment screenshot with your mentor.
+notes: Like-and-earn task job with prepaid tasks

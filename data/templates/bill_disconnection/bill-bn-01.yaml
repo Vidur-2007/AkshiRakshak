@@ -1,0 +1,15 @@
+family: bill-bn-01
+label: scam
+category: bill_disconnection
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.bill
+templates:
+- প্রিয় গ্রাহক, গত মাসের বিল আপডেট না হওয়ায় আজ রাত ৯:৩০-এ আপনার বিদ্যুৎ সংযোগ কেটে দেওয়া হবে। এখনই বিদ্যুৎ আধিকারিকের সঙ্গে {phone} নম্বরে যোগাযোগ করুন।
+- 'বিদ্যুৎ দপ্তর: আপনার {amount} বিল বকেয়া আছে। {deadline} না মেটালে মিটার খুলে নেওয়া হবে। এখনই {upi} এ টাকা পাঠিয়ে স্ক্রিনশট দিন।'
+- আপনার পেমেন্ট সিস্টেমে ওঠেনি। বিদ্যুৎ {deadline} বন্ধ করে দেওয়া হবে। বিল আপডেট করতে আধিকারিক {name} কে {phone} নম্বরে কল করুন।
+notes: Bengali electricity disconnection

@@ -1,0 +1,15 @@
+family: otp-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- '{otp} আপনার {bank} ওটিপি। এটি ১০ মিনিট পর্যন্ত বৈধ। কারও সঙ্গে শেয়ার করবেন না। ব্যাংক কখনও ওটিপি চায় না।'
+- প্রিয় গ্রাহক, {amount} লেনদেনের জন্য আপনার ওটিপি {otp}। দয়া করে এই ওটিপি কাউকে জানাবেন না। -{bank}
+- '{bank} নেট ব্যাংকিং লগইনের ওটিপি {otp}। আপনি লগইন না করে থাকলে এই বার্তা উপেক্ষা করুন।'
+- ইউপিআই নথিভুক্তির জন্য আপনার ওটিপি {otp}। ব্যাংকের কর্মী সহ কাউকেই এটি বলবেন না। -{bank}
+notes: Genuine Bengali OTP SMS

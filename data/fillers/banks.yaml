@@ -1,0 +1,65 @@
+# Banks for the {bank} slot. `domains` are the official domains (same list as packages/engine/src/links/registry.ts);
+# legit rows link only to these. `sender` is the DLT-style SMS header suffix genuine messages come from
+# (e.g. VM-HDFCBK). Names in other scripts are how the bank is commonly written in that language.
+# indusind.bank.in and yes.bank.in are left out until someone confirms they load (A's request).
+banks:
+  - id: sbi
+    name: { latn: SBI, deva: एसबीआई, telu: ఎస్‌బీఐ, beng: এসবিআই }
+    long: State Bank of India
+    sender: SBIINB
+    domains: [sbi.co.in, onlinesbi.sbi, sbi.bank.in]
+  - id: hdfc
+    name: { latn: HDFC Bank, deva: एचडीएफसी बैंक, telu: హెచ్‌డీఎఫ్‌సీ బ్యాంక్, beng: এইচডিএফসি ব্যাংক }
+    long: HDFC Bank
+    sender: HDFCBK
+    domains: [hdfcbank.com, hdfc.bank.in]
+  - id: icici
+    name: { latn: ICICI Bank, deva: आईसीआईसीआई बैंक, telu: ఐసీఐసీఐ బ్యాంక్, beng: আইসিআইসিআই ব্যাংক }
+    long: ICICI Bank
+    sender: ICICIT
+    domains: [icicibank.com, icici.bank.in]
+  - id: axis
+    name: { latn: Axis Bank, deva: एक्सिस बैंक, telu: యాక్సిస్ బ్యాంక్, beng: অ্যাক্সিস ব্যাংক }
+    long: Axis Bank
+    sender: AXISBK
+    domains: [axisbank.com, axis.bank.in]
+  - id: kotak
+    name: { latn: Kotak Bank, deva: कोटक बैंक, telu: కోటక్ బ్యాంక్, beng: কোটাক ব্যাংক }
+    long: Kotak Mahindra Bank
+    sender: KOTAKB
+    domains: [kotak.com, kotak.bank.in]
+  - id: pnb
+    name: { latn: PNB, deva: पंजाब नेशनल बैंक, telu: పీఎన్‌బీ, beng: পিএনবি }
+    long: Punjab National Bank
+    sender: PNBSMS
+    domains: [pnbindia.in, pnb.bank.in]
+  - id: bob
+    name: { latn: Bank of Baroda, deva: बैंक ऑफ बड़ौदा, telu: బ్యాంక్ ఆఫ్ బరోడా, beng: ব্যাংক অফ বরোদা }
+    long: Bank of Baroda
+    sender: BOBTXN
+    domains: [bankofbaroda.in, bankofbaroda.bank.in]
+  - id: canara
+    name: { latn: Canara Bank, deva: केनरा बैंक, telu: కెనరా బ్యాంక్, beng: কানাড়া ব্যাংক }
+    long: Canara Bank
+    sender: CANBNK
+    domains: [canarabank.com, canarabank.bank.in]
+  - id: union
+    name: { latn: Union Bank, deva: यूनियन बैंक, telu: యూనియన్ బ్యాంక్, beng: ইউনিয়ন ব্যাংক }
+    long: Union Bank of India
+    sender: UBOIIN
+    domains: [unionbankofindia.co.in, unionbankofindia.bank.in]
+  - id: idfc
+    name: { latn: IDFC FIRST Bank, deva: आईडीएफसी फर्स्ट बैंक, telu: ఐడీఎఫ్‌సీ ఫస్ట్ బ్యాంక్, beng: আইডিএফসি ফার্স্ট ব্যাংক }
+    long: IDFC FIRST Bank
+    sender: IDFCFB
+    domains: [idfcfirstbank.com, idfcfirst.bank.in]
+  - id: yes
+    name: { latn: Yes Bank, deva: यस बैंक, telu: యెస్ బ్యాంక్, beng: ইয়েস ব্যাংক }
+    long: Yes Bank
+    sender: YESBNK
+    domains: [yesbank.in]
+  - id: indusind
+    name: { latn: IndusInd Bank, deva: इंडसइंड बैंक, telu: ఇండస్ఇండ్ బ్యాంక్, beng: ইন্ডাসইন্ড ব্যাংক }
+    long: IndusInd Bank
+    sender: INDUSB
+    domains: [indusind.com]

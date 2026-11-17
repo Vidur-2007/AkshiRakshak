@@ -1,0 +1,33 @@
+# Non-bank brands for the {brand} slot, grouped by kind. A family picks a group with `pools: { brand: brands.<kind> }`.
+# `domains` are official (same as the engine registry); legit rows link only to these. Utilities have no
+# single official domain, so legit utility rows name the official app/portal in words instead of linking.
+brands:
+  courier:
+    - { id: indiapost, name: { latn: India Post, deva: इंडिया पोस्ट, telu: ఇండియా పోస్ట్, beng: ইন্ডিয়া পোস্ট }, domains: [indiapost.gov.in] }
+    - { id: bluedart, name: { latn: Blue Dart, deva: ब्लू डार्ट, telu: బ్లూ డార్ట్, beng: ব্লু ডার্ট }, domains: [bluedart.com] }
+    - { id: dtdc, name: { latn: DTDC, deva: डीटीडीसी, telu: డీటీడీసీ, beng: ডিটিডিসি }, domains: [dtdc.com] }
+    - { id: delhivery, name: { latn: Delhivery, deva: डेल्हीवरी, telu: డెల్హివరీ, beng: দিল্লিভারি }, domains: [delhivery.com] }
+    - { id: fedex, name: { latn: FedEx, deva: फेडेक्स, telu: ఫెడెక్స్, beng: ফেডেক্স }, domains: [fedex.com] }
+  ecommerce:
+    - { id: amazon, name: { latn: Amazon, deva: अमेज़न, telu: అమెజాన్, beng: অ্যামাজন }, domains: [amazon.in] }
+    - { id: flipkart, name: { latn: Flipkart, deva: फ्लिपकार्ट, telu: ఫ్లిప్‌కార్ట్, beng: ফ্লিপকার্ট }, domains: [flipkart.com] }
+  payment_app:
+    - { id: paytm, name: { latn: Paytm, deva: पेटीएम, telu: పేటీఎం, beng: পেটিএম }, domains: [paytm.com] }
+    - { id: phonepe, name: { latn: PhonePe, deva: फोनपे, telu: ఫోన్‌పే, beng: ফোনপে }, domains: [phonepe.com] }
+    - { id: gpay, name: { latn: Google Pay, deva: गूगल पे, telu: గూగుల్ పే, beng: গুগল পে }, domains: [google.com] }
+    - { id: bhim, name: { latn: BHIM, deva: भीम, telu: భీమ్, beng: ভীম }, domains: [bhimupi.org.in] }
+  telecom:
+    - { id: jio, name: { latn: Jio, deva: जियो, telu: జియో, beng: জিও }, domains: [jio.com] }
+    - { id: airtel, name: { latn: Airtel, deva: एयरटेल, telu: ఎయిర్‌టెల్, beng: এয়ারটেল }, domains: [airtel.in] }
+    - { id: vi, name: { latn: Vi, deva: वीआई, telu: వీఐ, beng: ভিআই }, domains: [myvi.in] }
+  govt:
+    - { id: incometax, name: { latn: Income Tax Department, deva: आयकर विभाग, telu: ఆదాయపు పన్ను శాఖ, beng: আয়কর বিভাগ }, domains: [incometax.gov.in] }
+    - { id: uidai, name: { latn: UIDAI, deva: यूआईडीएआई, telu: యూఐడీఏఐ, beng: ইউআইডিএআই }, domains: [uidai.gov.in] }
+    - { id: epfo, name: { latn: EPFO, deva: ईपीएफओ, telu: ఈపీఎఫ్ఓ, beng: ইপিএফও }, domains: [epfindia.gov.in] }
+    - { id: parivahan, name: { latn: Parivahan, deva: परिवहन, telu: పరివాహన్, beng: পরিবহন }, domains: [parivahan.gov.in] }
+    - { id: rbi, name: { latn: RBI, deva: आरबीआई, telu: ఆర్‌బీఐ, beng: আরবিআই }, domains: [rbi.org.in] }
+    - { id: trai, name: { latn: TRAI, deva: ट्राई, telu: ట్రాయ్, beng: ট্রাই }, domains: [trai.gov.in] }
+  utility:
+    - { id: power, name: { latn: Electricity Department, deva: बिजली विभाग, telu: విద్యుత్ శాఖ, beng: বিদ্যুৎ দপ্তর }, domains: [] }
+    - { id: discom, name: { latn: Power Distribution Office, deva: बिजली वितरण कार्यालय, telu: విద్యుత్ పంపిణీ కార్యాలయం, beng: বিদ্যুৎ বণ্টন অফিস }, domains: [] }
+    - { id: gas, name: { latn: Gas Agency, deva: गैस एजेंसी, telu: గ్యాస్ ఏజెన్సీ, beng: গ্যাস এজেন্সি }, domains: [] }

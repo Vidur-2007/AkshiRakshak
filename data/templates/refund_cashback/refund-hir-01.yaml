@@ -1,0 +1,15 @@
+family: refund-hir-01
+label: scam
+category: refund_cashback
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  link: scam_domains.refund
+templates:
+- 'Income tax refund: aapka {amount} ka refund manzoor ho gaya hai. {deadline} tak apni bank details yahan bhare: {link}'
+- Aapka bijli bill do baar kat gaya tha. {amount} wapas paane ke liye {phone} par call kare aur OTP bataye.
+- 'Aapke last order par {amount} cashback pending hai. Abhi claim kare, card details is link par bhare: {link}'
+notes: Hinglish refund claim

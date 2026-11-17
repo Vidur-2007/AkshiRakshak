@@ -1,0 +1,16 @@
+family: travel-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 20
+templates:
+- 'PNR [#9]: Your train ticket is confirmed. Coach S4, berth 23. Journey date {date}. Happy journey.'
+- Your flight on {date} departs at {time}. Web check-in is open. Please reach the airport 2 hours before departure.
+- Cab booked. Your driver {name} will arrive in 6 minutes. Share the ride PIN {otp} only with the driver when you board.
+- 'Your bus ticket for {date} is confirmed. Boarding point: Main Bus Stand, {time}. Fare paid {amount}.'
+- Hotel booking confirmed for {date}. Check-in after 12 noon. Amount paid {amount}. Carry a valid photo ID.
+notes: Genuine travel messages

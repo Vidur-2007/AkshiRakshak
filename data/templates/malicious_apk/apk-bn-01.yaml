@@ -1,0 +1,16 @@
+family: apk-bn-01
+label: scam
+category: malicious_apk
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.apk
+  link: scam_domains.apk
+templates:
+- আমাদের বিয়েতে আপনাকে সাদর আমন্ত্রণ। বিয়ের কার্ড পাঠাচ্ছি, {app} ফাইলটা খুলে তারিখ আর জায়গা দেখে নিন।
+- 'আপনার গাড়ির চালান কাটা হয়েছে, জরিমানা {amount}। চালান দেখতে ও মেটাতে এই অ্যাপ ইনস্টল করুন: {link}'
+- পিএম কিষানের নতুন তালিকা এসেছে। নিজের নাম দেখতে আর {amount} কিস্তি পেতে {app} ডাউনলোড করুন।
+notes: Bengali APK lures

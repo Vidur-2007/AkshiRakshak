@@ -1,0 +1,17 @@
+family: service-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.telecom
+templates:
+- Your complaint no. [#8] has been registered. Our team will resolve it within 48 hours. We will never ask for your OTP or PIN.
+- '{brand}: Your service request [#7] is resolved. If you are still facing the issue, reply in the {brand} app.'
+- Our technician will visit on {date} between 10 AM and 1 PM for your broadband installation. Please be available.
+- Thank you for contacting support. Your ticket [#7] is in progress. You can check the status in the app under Help.
+- Your feedback matters. Please rate your recent service visit in the app.
+notes: Genuine support-ticket updates

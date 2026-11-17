@@ -1,0 +1,17 @@
+family: chat-te-02
+label: legit
+category: null
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- భోజనం బిల్లు మొత్తం {amount} అయింది, అందరం సమానంగా పంచుకుందాం. వీలున్నప్పుడు పంపు, తొందర లేదు.
+- నాన్నా, కాలేజీ ఫీజు {amount} {date} లోపు కట్టాలి. నేను ఆఫీస్ కౌంటర్‌లో కడతాను, నా ఖాతాలో వేయండి.
+- అద్దె నేను ఇచ్చేశాను, నీ సగం వారాంతంలోపు పంపు.
+- థాంక్స్ రా, డబ్బులు అందాయి. జీతం రాగానే తిరిగి ఇచ్చేస్తాను.
+- '{name} బహుమతి కోసం అందరూ {amount} ఇస్తున్నారు. నీకు వీలున్నప్పుడు నువ్వూ పంపు.'
+- కరెంట్ బిల్లు {amount} నేను యాప్‌లో కట్టేశాను, నువ్వు కంగారు పడకు.
+notes: Telugu money talk between friends and family

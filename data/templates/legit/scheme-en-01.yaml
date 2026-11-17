@@ -1,0 +1,23 @@
+family: scheme-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_credit
+max_rows: 20
+pools:
+  brand: brands.govt
+  link: official.brand
+templates:
+- 'Income Tax Department: Your return for the assessment year filed on {date} has been processed. You can view the intimation after logging in at incometax.gov.in'
+- Your Aadhaar was used for authentication on {date}. If this was not you, lock your biometrics on the official UIDAI website or app.
+- 'PM Kisan: Instalment of Rs 2,000 has been credited to your registered bank account. Check your status at pmkisan.gov.in'
+- 'EPFO: Your claim has been settled and {amount} is sent to your bank account by NEFT on {date}. Track status at epfindia.gov.in'
+- '{brand}: A new notice dated {date} is available in your account. Log in at {link} to read it. We never ask for OTP or payment by SMS.'
+- Beware of cyber fraud. No government agency arrests anyone on a video call or asks for money. Report at cybercrime.gov.in or dial 1930.
+- Your passport application is under review. You will be informed about the police verification date. Track your file on the official Passport Seva portal.
+- Your driving licence renewal is approved on {date}. The smart card will be sent by post to your address.
+- 'Income Tax Department: Annual information statement is now available. Last date to file your return is {date}. Log in at incometax.gov.in'
+notes: Genuine government notifications

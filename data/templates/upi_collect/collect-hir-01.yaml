@@ -1,0 +1,15 @@
+family: collect-hir-01
+label: scam
+category: upi_collect
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.refund
+templates:
+- Sir aapka {amount} ka refund aa gaya hai. Maine request bheji hai {upi} se, aap bas Pay par click karke apna UPI PIN daal dijiye, paisa aapke account me aa jayega.
+- Bhai maine payment bhej diya hai {amount} ka, aapke phone me request aayi hogi. Usko accept karo aur PIN dalo tabhi paisa aapke khate me credit hoga.
+- Madam cashback {amount} pending hai aapka. PhonePe kholiye, {upi} ki request dikhegi, usko approve kijiye aur PIN daliye. {deadline} tak nahi kiya to cancel ho jayega.
+notes: Hinglish refund collect request

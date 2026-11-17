@@ -1,0 +1,19 @@
+family: order-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- '{brand}: మీ {amount} ఆర్డర్ నమోదైంది. ఇది {date} నాటికి చేరుతుంది. ఆర్డర్ స్థితిని యాప్‌లో చూడండి.'
+- మీ {brand} ఆర్డర్ ఈరోజు డెలివరీ అయింది. కొనుగోలు చేసినందుకు ధన్యవాదాలు.
+- తిరిగి ఇచ్చిన {brand} ఆర్డర్‌కు {amount} రీఫండ్ ప్రారంభమైంది. 5 నుండి 7 పని దినాల్లో మీరు చెల్లించిన మార్గంలోనే జమ అవుతుంది. మీరు ఏమీ చేయాల్సిన అవసరం లేదు.
+- '{amount} రీఛార్జ్ విజయవంతమైంది. వ్యాలిడిటీ 28 రోజులు. ధన్యవాదాలు.'
+- '{brand}: మీ ప్యాకేజీ పంపబడింది, {date} నాటికి చేరుతుంది. వివరాలకు చూడండి {link}'
+notes: Genuine Telugu order and recharge messages

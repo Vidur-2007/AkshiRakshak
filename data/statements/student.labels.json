@@ -1,0 +1,19 @@
+[
+ {
+  "txnIds": [
+   "txn-073",
+   "txn-074",
+   "txn-075",
+   "txn-076"
+  ],
+  "type": "burst_small_debits",
+  "note": "4 × ₹499 task payments to a new payee"
+ },
+ {
+  "txnIds": [
+   "txn-123"
+  ],
+  "type": "large_new_payee",
+  "note": "₹1 credit then ₹9,999 to a new payee at 23:40"
+ }
+]

@@ -1,0 +1,15 @@
+family: otps-hir-01
+label: scam
+category: otp_theft
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  brand: brands.ecommerce
+templates:
+- Bhai galti se maine aapka number daal diya, aapke phone par 6 digit ka code aaya hoga, jaldi se bhej do please.
+- Sir main {brand} se delivery boy bol raha hoon. Aapka order galti se cancel ho gaya hai. Jo OTP aaya hai wo bata dijiye to dobara book kar deta hoon.
+- '{bank} se bol raha hoon. Aapke card se {amount} ka transaction ho raha hai. Rokne ke liye abhi jo OTP aaya hai wo turant bataiye.'
+notes: Hinglish OTP requests

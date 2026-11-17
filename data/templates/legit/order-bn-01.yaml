@@ -1,0 +1,19 @@
+family: order-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- '{brand}: আপনার {amount} অর্ডার নেওয়া হয়েছে। এটি {date} তারিখের মধ্যে পৌঁছাবে। অর্ডারের অবস্থা অ্যাপে দেখুন।'
+- আপনার {brand} অর্ডার আজ ডেলিভারি হয়েছে। কেনাকাটার জন্য ধন্যবাদ।
+- ফেরত দেওয়া {brand} অর্ডারের {amount} রিফান্ড শুরু হয়েছে। ৫ থেকে ৭ কর্মদিবসের মধ্যে যে মাধ্যমে টাকা দিয়েছিলেন সেখানেই জমা হবে। আপনাকে কিছু করতে হবে না।
+- '{amount} রিচার্জ সফল হয়েছে। মেয়াদ ২৮ দিন। ধন্যবাদ।'
+- '{brand}: আপনার প্যাকেজ পাঠানো হয়েছে, {date} তারিখের মধ্যে পৌঁছাবে। বিস্তারিত দেখুন {link}'
+notes: Genuine Bengali order and recharge messages

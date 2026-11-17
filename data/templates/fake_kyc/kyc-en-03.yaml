@@ -1,0 +1,19 @@
+family: kyc-en-03
+label: scam
+category: fake_kyc
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: fake_customer_care
+max_rows: 15
+pools:
+  brand: brands.payment_app
+  link: scam_domains.lookalike
+templates:
+- Your {brand} wallet KYC has expired. Wallet will be blocked {deadline}. Call customer care {phone} to complete KYC and keep your balance safe.
+- 'Dear {brand} user, your KYC is incomplete and your wallet balance will be frozen {deadline}. Complete full KYC in 2 minutes: {link}'
+- '{brand} Alert: Full KYC not done. You cannot send or receive money after {deadline}. Our executive will help you, call {phone} now.'
+- 'Important: {brand} account suspended due to KYC failure. Download the KYC app from {link} and pay {amount} verification charge to reactivate.'
+- Dear user your {brand} KYC verification is pending. Share the OTP sent to your number with our agent on {phone} to finish verification {deadline}.
+notes: Wallet / payment-app KYC expiry

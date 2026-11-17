@@ -1,0 +1,18 @@
+family: arrest-en-02
+label: scam
+category: digital_arrest
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 15
+pools:
+  name: officials
+  upi: upi_ids.govt
+templates:
+- 'NOTICE from Cyber Crime Cell: Case registered against your Aadhaar for sharing illegal content. Join the video call for your statement {deadline}. Do not discuss this with anyone or you will be charged for obstruction.'
+- '{name}: I have sent you the arrest warrant and the Supreme Court order. You are under digital arrest for 48 hours. Keep the video on and stay in one room. Pay the verification amount of {amount} to close the file.'
+- This is your final warning. Your number will be disconnected and police will reach your home {deadline}. For settlement pay {amount} to {upi} and send the receipt here.
+- 'Enforcement Directorate: Your PAN is linked to a hawala account. To clear your name, move your fixed deposits into the government safe account. {name} will guide you on call. Keep this secret from your family.'
+- Sir we are from Delhi Police. A SIM taken on your ID was used to threaten people. You must appear online for interrogation now. Contact {phone} on WhatsApp video call. Do not switch off your phone.
+notes: 'WhatsApp notices: fake warrants and settlement payments'

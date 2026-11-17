@@ -1,0 +1,16 @@
+family: invest-te-01
+label: scam
+category: investment_crypto
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- 'మా వీఐపీ గ్రూప్‌లో రోజూ మూడు ఖచ్చితమైన స్టాక్ టిప్స్ ఇస్తాము. ఇరవై శాతం లాభం గ్యారంటీ. ఈరోజే ఉచితంగా చేరండి: {link}'
+- కేవలం {amount} పెట్టుబడి పెట్టండి, పదిహేను రోజుల్లో రెట్టింపు పొందండి. ఎలాంటి రిస్క్ లేదు. డబ్బు {upi} కు పంపండి, నేను మీ ఖాతా తెరుస్తాను.
+- మీ ట్రేడింగ్ ఖాతాలో {amount} లాభం వచ్చింది. తీసుకోవడానికి ముందు పద్దెనిమిది శాతం పన్ను చెల్లించాలి, ఆ తర్వాత మొత్తం డబ్బు మీ ఖాతాలోకి వస్తుంది.
+notes: Telugu guaranteed returns

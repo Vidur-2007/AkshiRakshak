@@ -1,0 +1,16 @@
+family: courier-bn-01
+label: scam
+category: courier_customs
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: ঠিকানা অসম্পূর্ণ থাকায় আপনার পার্সেল আটকে আছে। {deadline} এখানে ঠিকানা আপডেট করুন, না হলে পার্সেল ফেরত চলে যাবে: {link}'
+- 'আপনার পার্সেল কাস্টমসে আটকে আছে। ছাড়াতে {amount} ফি এখনই জমা দিন: {link}'
+- ডেলিভারি করা যায়নি। আবার ডেলিভারির জন্য {amount} চার্জ দিতে হবে। ডেলিভারি এজেন্টকে {phone} নম্বরে কল করুন।
+notes: Bengali parcel hold

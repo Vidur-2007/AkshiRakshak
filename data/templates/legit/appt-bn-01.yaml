@@ -1,0 +1,14 @@
+family: appt-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 20
+templates:
+- 'মনে করিয়ে দিচ্ছি: ডাক্তারের সঙ্গে আপনার অ্যাপয়েন্টমেন্ট {date} তারিখে {time} সময়ে। দয়া করে দশ মিনিট আগে আসুন।'
+- আপনার গাড়ির সার্ভিস {date} তারিখে বুক করা আছে। আমাদের কর্মী {time} সময়ে গাড়ি নিতে আসবেন।
+- আপনার পরীক্ষার রিপোর্ট তৈরি। {date} তারিখের পর সকাল ৯টা থেকে সন্ধ্যা ৬টার মধ্যে কেন্দ্র থেকে নিয়ে যান।
+- প্রিয় অভিভাবক, অভিভাবক সভা {date} তারিখে {time} সময়ে হবে। আপনার উপস্থিতি কাম্য।
+notes: Genuine Bengali appointment reminders

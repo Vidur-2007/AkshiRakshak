@@ -1,0 +1,18 @@
+family: promo-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- '{brand} ki badi sale {date} se shuru ho rahi hai! Electronics aur kapdo par 60 percent tak ki chhoot. App me dekhe ya {link}'
+- Is weekend hamare store par aaiye aur 2,000 se zyada ki kharidari par free gift paiye.
+- Aapki wishlist ka saman ab kam daam me mil raha hai. {brand} app kholiye aur dekhiye.
+- 'Diwali offer: mithai aur dry fruits par 20 percent ki chhoot, sirf {date} tak. Aapka swagat hai.'
+- Naya stock aa gaya hai! {date} tak sabhi sarees par seedhi 15 percent ki chhoot. Dukan par zaroor aaiye.
+notes: Hinglish retail promotions

@@ -1,0 +1,17 @@
+# Remaining slots: {app}, {deadline}, {date}, {time}, {otp}.
+apps:
+  remote: [AnyDesk, TeamViewer QuickSupport, RustDesk, AirDroid]
+  apk: [SBI_KYC_Update.apk, Wedding_Invitation.apk, PM_Kisan_Yojana.apk, Bank_Security.apk, Electricity_Bill.apk,
+        Traffic_Challan.apk, Customer_Support.apk]
+  loan: [CashNow Plus, RupeeFast Loan, InstaKash Pro, QuickRupee]      # invented loan-app names
+  investment: [ProfitPro Trade, NiftyGain VIP, CoinDouble]             # invented trading-app names
+  official: [YONO SBI, iMobile Pay, HDFC Bank MobileBanking, BHIM]     # genuine bank apps, for legit rows
+deadlines:
+  latn: [today, within 24 hours, tonight 9:30 PM, in 2 hours, before 6 PM today, immediately]
+  deva: [आज, 24 घंटे के अंदर, आज रात 9:30 बजे, 2 घंटे में, आज शाम 6 बजे से पहले, तुरंत]
+  hinglish: [aaj, 24 ghante ke andar, aaj raat 9:30 baje, 2 ghante me, turant, aaj shaam 6 baje tak]
+  telu: [ఈరోజు, 24 గంటల్లో, ఈ రాత్రి 9:30కి, 2 గంటల్లో, వెంటనే]
+  beng: [আজ, ২৪ ঘণ্টার মধ্যে, আজ রাত ৯:৩০-এ, ২ ঘণ্টার মধ্যে, এখনই]
+# {date} and {time} are generated (formats below); {otp} is 6 random digits
+date_formats: ["%d-%m-%Y", "%d/%m/%Y", "%d %b", "%d-%b-%y"]
+time_formats: ["%I:%M %p", "%H:%M"]

@@ -1,0 +1,18 @@
+family: pay-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+pools:
+  brand: brands.payment_app
+templates:
+- '{brand}: Your DTH recharge of {amount} is successful. Order ID [#9].'
+- Bill payment of {amount} for your broadband was successful on {date}. Reference [#9]. -{brand}
+- Your FASTag was recharged with {amount}. Current balance Rs [#4]. Drive safe.
+- Metro card recharged with {amount} on {date}. Happy commuting.
+- '{brand}: Gas bill payment of {amount} is successful. It may take up to 2 working days to reflect with the biller.'
+notes: Genuine bill-payment and recharge receipts

@@ -1,0 +1,17 @@
+[
+ {
+  "txnIds": [
+   "txn-164",
+   "txn-166"
+  ],
+  "type": "credit_then_return",
+  "note": "₹5,000 credit from an unknown sender, ₹5,000 debit within 3 hours"
+ },
+ {
+  "txnIds": [
+   "txn-267"
+  ],
+  "type": "round_amount_new_payee",
+  "note": "round ₹20,000 to a new payee"
+ }
+]

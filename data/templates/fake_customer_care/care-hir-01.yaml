@@ -1,0 +1,16 @@
+family: care-hir-01
+label: scam
+category: fake_customer_care
+lang: hi
+script: latn
+channel: call
+hard_negative: false
+max_rows: 9
+pools:
+  app: apps.remote
+  brand: brands.payment_app
+templates:
+- Namaskar, main {brand} customer care se bol raha hoon. Aapka {amount} ka refund atka hua hai. Aapke phone par ek OTP aaya hoga wo bata dijiye, abhi refund kar deta hoon.
+- Sir aapki complaint mil gayi hai. Refund ke liye apna debit card number, expiry aur CVV bataiye. Ye sirf verification ke liye hai.
+- Madam technical problem hai isliye paisa wapas nahi aa raha. Aap {app} download kijiye aur jo code dikhe wo mujhe bataiye, main yahan se theek kar dunga.
+notes: Hinglish fake helpline

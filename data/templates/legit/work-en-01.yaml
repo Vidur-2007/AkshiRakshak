@@ -1,0 +1,15 @@
+family: work-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: email
+hard_negative: false
+max_rows: 20
+templates:
+- Hi {name}, your interview is scheduled for {date} at {time} at our office. Please carry a copy of your resume and a photo ID. There is no fee at any stage of our hiring process.
+- Team, the weekly review meeting is moved to {time} tomorrow. Please update your tasks in the tracker before that.
+- Your leave request for {date} has been approved by your manager.
+- Reminder to submit your investment proofs to the payroll team by {date} so that tax is calculated correctly.
+- Hi all, the office will remain closed on {date} on account of the festival. Wishing you and your family a happy holiday.
+notes: Genuine workplace and interview messages

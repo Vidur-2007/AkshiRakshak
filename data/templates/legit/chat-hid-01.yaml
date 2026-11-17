@@ -1,0 +1,18 @@
+family: chat-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- घर पहुंच गया हूं। खाना खाकर फोन करता हूं।
+- आते समय दूध और सब्जी ले आना। {amount} मैंने मेज पर रख दिए हैं।
+- जन्मदिन की बहुत बहुत बधाई {name}! भगवान आपको खुश रखे।
+- कल {time} बजे स्टेशन पर मिलते हैं। ट्रेन समय पर है।
+- मां पूछ रही हैं कि दिवाली पर कब आ रहे हो। टिकट जल्दी बुक कर लो।
+- '{name} का फोन आया था, {date} को शादी में चलना है। तैयार रहना।'
+- आज बारिश बहुत है, छाता लेकर निकलना। शाम को {time} बजे तक आ जाना।
+notes: Everyday Devanagari chat

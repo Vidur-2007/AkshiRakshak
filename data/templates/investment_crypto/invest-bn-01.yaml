@@ -1,0 +1,16 @@
+family: invest-bn-01
+label: scam
+category: investment_crypto
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- 'আমাদের ভিআইপি গ্রুপে রোজ তিনটি নিশ্চিত শেয়ার টিপস দেওয়া হয়। কুড়ি শতাংশ লাভের গ্যারান্টি। আজই বিনামূল্যে যোগ দিন: {link}'
+- মাত্র {amount} বিনিয়োগ করুন আর পনেরো দিনে দ্বিগুণ পান। কোনো ঝুঁকি নেই। টাকা {upi} এ পাঠান, আমি আপনার অ্যাকাউন্ট খুলে দেব।
+- আপনার ট্রেডিং অ্যাকাউন্টে {amount} লাভ হয়েছে। তুলতে হলে আগে আঠারো শতাংশ কর জমা দিতে হবে, তারপর পুরো টাকা আপনার অ্যাকাউন্টে চলে আসবে।
+notes: Bengali guaranteed returns

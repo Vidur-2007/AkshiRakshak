@@ -1,0 +1,17 @@
+family: refund-en-01
+label: scam
+category: refund_cashback
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.refund
+templates:
+- 'Income Tax Refund: You are eligible for a refund of {amount}. Submit your bank details {deadline} at {link} to receive it.'
+- 'Dear taxpayer, your refund of {amount} has been approved but the account number is incorrect. Update your account here: {link}'
+- GST refund of {amount} is pending for your PAN. Verify your net banking login at {link} to get the credit within 24 hours.
+- Your electricity bill was paid twice. Refund of {amount} will be credited after verification. Call {phone} and share the OTP to confirm.
+- '{brand} Cashback: {amount} cashback is pending on your last order. Claim {deadline} by entering your card details at {link}'
+notes: Tax / GST / bill refund with a claim link

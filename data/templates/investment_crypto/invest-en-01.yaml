@@ -1,0 +1,19 @@
+family: invest-en-01
+label: scam
+category: investment_crypto
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.investment
+  app: apps.investment
+  upi: upi_ids.investment
+templates:
+- 'Welcome to the VIP stock tips group. Our analyst gives 3 sure shot calls every day with guaranteed 20 percent profit. Join free for 7 days: {link}'
+- Invest {amount} today in our IPO allotment scheme and get double within 15 days. 100 percent guaranteed, no risk. Download {app} and add funds.
+- Sir your trading account shows a profit of {amount}. To withdraw you must first pay 18 percent tax to {upi}. After that the full amount will be released {deadline}.
+- I am {name}, senior advisor. Our members made {amount} last week from crypto arbitrage. Minimum deposit is small. Send the amount to {upi} and I will open your account.
+- Institutional account offer! Buy shares at a discount through {app}. Returns of 300 percent in one month. Only today, seats are limited. Register at {link}
+notes: Stock tips group and trading app with guaranteed returns

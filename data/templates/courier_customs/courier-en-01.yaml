@@ -1,0 +1,18 @@
+family: courier-en-01
+label: scam
+category: courier_customs
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 14
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: Your package could not be delivered due to incomplete address. Update your address {deadline} at {link} or it will be returned.'
+- Your {brand} parcel is held at customs. Pay the clearance fee of {amount} at {link} to release it {deadline}.
+- 'Dear customer, delivery attempt failed. To reschedule your {brand} shipment pay the redelivery charge of {amount} here: {link}'
+- '{brand} Alert: Your consignment is waiting at the warehouse. Confirm your details within 12 hours or the parcel will be sent back. {link}'
+- We tried to deliver your parcel today. No one was available. Call our delivery agent on {phone} and pay {amount} handling fee to get it {deadline}.
+notes: 'Parcel on hold: address update or small fee'

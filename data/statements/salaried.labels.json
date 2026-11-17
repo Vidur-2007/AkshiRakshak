@@ -1,0 +1,17 @@
+[
+ {
+  "txnIds": [
+   "txn-096"
+  ],
+  "type": "large_new_payee",
+  "note": "₹48,000 to a new payee at 02:47"
+ },
+ {
+  "txnIds": [
+   "txn-143",
+   "txn-144"
+  ],
+  "type": "duplicate",
+  "note": "₹1,299 charged twice within a minute"
+ }
+]

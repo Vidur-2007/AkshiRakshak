@@ -1,0 +1,15 @@
+family: upipay-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- आपने {date} को {name} को यूपीआई से {amount} भेजे। संदर्भ संख्या [ref]। -{bank}
+- '{name} से {amount} आपके {bank} खाते XX[#4] में प्राप्त हुए। यूपीआई संदर्भ [ref]। पैसे पाने के लिए पिन डालने की जरूरत नहीं होती।'
+- '{amount} का भुगतान सफल रहा। प्राप्तकर्ता: {name}। लेनदेन संख्या [ref]।'
+- आपके {bank} खाते XX[#4] से {name} को {amount} भेजे गए। अगर यह आपने नहीं किया तो अपने यूपीआई ऐप में शिकायत दर्ज करें।
+notes: Genuine Hindi UPI confirmations

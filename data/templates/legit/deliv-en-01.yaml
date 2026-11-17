@@ -1,0 +1,18 @@
+family: deliv-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.courier
+  link: official.brand
+templates:
+- '{brand}: Your shipment EK[#9]IN is out for delivery today. Track it at {link}'
+- Your {brand} parcel was delivered on {date} at {time}. Thank you for choosing us.
+- '{brand}: Delivery attempted today but the premises were closed. We will try again on the next working day. No payment is needed. Track: {link}'
+- Your consignment [#9] has been booked with {brand} and is expected by {date}. Track your shipment at {link}
+- '{brand} update: Your package has reached the local delivery centre and will be delivered in 1 to 2 days.'
+notes: Genuine courier updates

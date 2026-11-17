@@ -1,0 +1,16 @@
+family: care-te-01
+label: scam
+category: fake_customer_care
+lang: te
+script: telu
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+  brand: brands.payment_app
+templates:
+- నమస్కారం, నేను {brand} కస్టమర్ కేర్ నుండి మాట్లాడుతున్నాను. మీ {amount} రీఫండ్ ఆగిపోయింది. మీ ఫోన్‌కు వచ్చిన ఓటీపీ చెప్పండి, ఇప్పుడే రీఫండ్ చేస్తాను.
+- మీ ఫిర్యాదు నమోదైంది. రీఫండ్ కోసం మీ డెబిట్ కార్డ్ నంబర్, గడువు తేదీ, సీవీవీ చెప్పండి. ఇది కేవలం ధృవీకరణ కోసమే.
+- సాంకేతిక సమస్య వల్ల డబ్బు తిరిగి రావడం లేదు. మీరు {app} డౌన్‌లోడ్ చేసి కనిపించే కోడ్ నాకు చెప్పండి, నేను ఇక్కడి నుండి సరిచేస్తాను.
+notes: Telugu fake helpline

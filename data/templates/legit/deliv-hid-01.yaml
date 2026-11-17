@@ -1,0 +1,17 @@
+family: deliv-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 20
+pools:
+  brand: brands.courier
+  link: official.brand
+templates:
+- '{brand}: आपका पार्सल आज डिलीवरी के लिए निकल चुका है। स्थिति देखें: {link}'
+- आपका {brand} पार्सल {date} को पहुंचा दिया गया है। सेवा का अवसर देने के लिए धन्यवाद।
+- '{brand}: आज डिलीवरी नहीं हो सकी क्योंकि घर बंद था। हम अगले कार्य दिवस पर फिर प्रयास करेंगे। कोई शुल्क नहीं देना है।'
+- आपकी खेप संख्या [#9] {brand} में बुक हो गई है और {date} तक पहुंचेगी।
+notes: Genuine Hindi courier updates

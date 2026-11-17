@@ -1,0 +1,15 @@
+family: prize-te-01
+label: scam
+category: lottery_prize
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.prize
+templates:
+- అభినందనలు! మీ మొబైల్ నంబర్ కేబీసీ లక్కీ డ్రాలో {amount} గెలుచుకుంది. బహుమతి కోసం లాటరీ మేనేజర్‌కు {phone} లో కాల్ చేయండి.
+- లక్కీ డ్రాలో మీ నంబర్ ఎంపికైంది. {amount} బహుమతి పొందడానికి ముందుగా ప్రభుత్వ పన్ను {upi} కు చెల్లించండి.
+- శుభాకాంక్షలు, మీకు {amount} లాటరీ తగిలింది. మీ పేరు, బ్యాంక్ ఖాతా, ప్రాసెసింగ్ ఫీజు పంపండి. ఎవరికీ చెప్పకండి, లేకపోతే బహుమతి రద్దవుతుంది.
+notes: Telugu lottery

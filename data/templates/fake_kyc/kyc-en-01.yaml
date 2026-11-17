@@ -1,0 +1,17 @@
+family: kyc-en-01
+label: scam
+category: fake_kyc
+lang: en
+script: latn
+channel: sms
+max_rows: 15
+hard_negative: false
+pools:
+  link: scam_domains.kyc
+templates:
+  - "Dear Customer, your {bank} account will be blocked {deadline} due to pending KYC. Update your PAN/KYC now: {link}"
+  - "{bank}: Your KYC has expired. Your a/c will be suspended {deadline}. Click {link} to complete e-KYC and avoid blocking."
+  - "Dear {bank} user ur net banking is temporarily blocked. Update KYC immediately at {link} or call {phone}"
+  - "ALERT! {bank} KYC pending. Your account will be frozen {deadline}. Verify your details here {link} -Team {bank}"
+  - "Dear Costumer, {bank} has suspended your account due to incomplete KYC. Reactivate within {deadline}: {link}"
+notes: "Classic KYC-expiry SMS from a 10-digit number: urgency, account-block threat, non-official link."

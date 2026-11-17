@@ -1,0 +1,16 @@
+family: otps-hid-01
+label: scam
+category: otp_theft
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  brand: brands.ecommerce
+templates:
+- गलती से मैंने आपका नंबर डाल दिया, आपके फोन पर छह अंकों का कोड आया होगा, जल्दी से भेज दीजिए।
+- मैं {brand} से डिलीवरी बॉय बोल रहा हूं। आपका ऑर्डर गलती से रद्द हो गया है। जो ओटीपी आया है वह बता दीजिए तो दोबारा बुक कर देता हूं।
+- '{bank} से बोल रहा हूं। आपके कार्ड से {amount} का लेनदेन हो रहा है। रोकने के लिए अभी जो ओटीपी आया है वह तुरंत बताइए।'
+- मेरा फोन खो गया है, यह मेरा नया नंबर है। मैंने अपने व्हाट्सऐप का कोड आपके फोन पर भेजा है, {deadline} मुझे भेज दीजिए।
+notes: Devanagari OTP requests

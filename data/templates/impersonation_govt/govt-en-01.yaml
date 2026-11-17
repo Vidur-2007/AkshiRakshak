@@ -1,0 +1,18 @@
+family: govt-en-01
+label: scam
+category: impersonation_govt
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.govt
+  brand: brands.govt
+templates:
+- 'e-Challan: A traffic violation is recorded against your vehicle. Pay the fine of {amount} {deadline} at {link} to avoid court proceedings.'
+- '{brand}: Your PAN card will be deactivated {deadline} because it is not linked with Aadhaar. Link it now: {link}'
+- Dear beneficiary, your PM Kisan e-KYC is pending. The instalment of {amount} will be stopped. Complete it at {link}
+- '{brand} notice: Your PF claim of {amount} is on hold. Verify your UAN and bank details here {link} {deadline}.'
+- Government subsidy of {amount} has been approved for your ration card. To receive it call officer {name} on {phone} and confirm your account.
+notes: 'Fake government notices: challan, PAN, subsidy'

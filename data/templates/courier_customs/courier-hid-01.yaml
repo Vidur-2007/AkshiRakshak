@@ -1,0 +1,16 @@
+family: courier-hid-01
+label: scam
+category: courier_customs
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: आपका पार्सल अधूरे पते के कारण रुका हुआ है। {deadline} यहां पता अपडेट करें, नहीं तो पार्सल वापस चला जाएगा: {link}'
+- 'आपका पार्सल कस्टम में रोका गया है। छुड़ाने के लिए {amount} शुल्क अभी जमा करें: {link}'
+- डिलीवरी नहीं हो सकी। दोबारा डिलीवरी के लिए {amount} शुल्क देना होगा। डिलीवरी एजेंट को {phone} पर कॉल करें।
+notes: Devanagari parcel hold

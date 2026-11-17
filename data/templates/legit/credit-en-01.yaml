@@ -1,0 +1,16 @@
+family: credit-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_credit
+max_rows: 20
+templates:
+- Your A/c XX[#4] is credited with {amount} on {date} by NEFT. Avl Bal Rs [#6].[#2] -{bank}
+- '{bank}: {amount} credited to a/c XX[#4] on {date} at {time}. UPI Ref [ref]. Check your balance in the {bank} app.'
+- Dear Customer, your salary of {amount} has been credited to your {bank} account XX[#4] on {date}. Available balance Rs [#6].
+- Interest of {amount} has been credited to your {bank} savings account XX[#4] for the quarter. -{bank}
+- Your fixed deposit with {bank} has matured. {amount} has been credited to a/c XX[#4] on {date}. To reinvest, visit {link} or your branch.
+notes: Genuine credit and salary alerts

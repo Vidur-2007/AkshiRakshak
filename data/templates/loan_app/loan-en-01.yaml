@@ -1,0 +1,19 @@
+family: loan-en-01
+label: scam
+category: loan_app
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.loan
+  app: apps.loan
+  upi: upi_ids.loan
+templates:
+- 'Congratulations! Your personal loan of {amount} is pre-approved without documents. Low interest, no CIBIL check. Apply {deadline}: {link}'
+- Your loan of {amount} is sanctioned. Pay the processing fee to {upi} and the amount will be credited to your account in 10 minutes.
+- Dear customer, loan approved from {app}. To release the amount pay insurance and GST charges {deadline}. Call {phone} for help.
+- Get instant loan up to {amount} in 5 minutes. Only Aadhaar and PAN needed. Install {app} from {link} and allow all permissions.
+- Your loan is overdue. Pay {amount} {deadline} or we will send your photos to all your contacts and inform your relatives. Pay to {upi} now.
+notes: Instant loan with advance fees; loan-app harassment

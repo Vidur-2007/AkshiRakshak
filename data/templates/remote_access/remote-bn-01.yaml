@@ -1,0 +1,15 @@
+family: remote-bn-01
+label: scam
+category: remote_access
+lang: bn
+script: beng
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+templates:
+- এই সমস্যা ঠিক করতে প্লে স্টোর থেকে {app} ইনস্টল করুন আর স্ক্রিনে যে নয় সংখ্যার কোড দেখাচ্ছে সেটা আমাকে বলুন।
+- আপনার ফোনে ভাইরাস আছে, তাই ইউপিআই কাজ করছে না। {app} ডাউনলোড করে অনুমতি দিন, আমি না বলা পর্যন্ত অ্যাপ বন্ধ করবেন না।
+- '{amount} রিফান্ড হাতে করা সম্ভব নয়। {app} খুলে কোড বলুন, তারপর আপনার ব্যাংক অ্যাপ খুলে এমপিন দিন। আমি ধাপে ধাপে বলে দেব।'
+notes: Bengali remote access

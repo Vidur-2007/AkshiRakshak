@@ -1,0 +1,15 @@
+family: govt-hir-01
+label: scam
+category: impersonation_govt
+lang: hi
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 9
+pools:
+  link: scam_domains.govt
+templates:
+- 'e-Challan: aapki gaadi par traffic niyam todne ka challan hua hai. {amount} ka jurmana {deadline} tak yahan bhare: {link}'
+- 'Aapka PAN card Aadhaar se link nahi hai, {deadline} band ho jayega. Abhi link kare: {link}'
+- Sarkari yojana ke tahat aapke ration card par {amount} ki subsidy manzoor hui hai. Paisa paane ke liye adhikari {name} ko {phone} par call kare.
+notes: Hinglish fake government notices

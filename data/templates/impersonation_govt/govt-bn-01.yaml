@@ -1,0 +1,15 @@
+family: govt-bn-01
+label: scam
+category: impersonation_govt
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.govt
+templates:
+- 'ই-চালান: আপনার গাড়ি ট্রাফিক আইন ভেঙেছে। {amount} জরিমানা {deadline} এখানে জমা দিন: {link}'
+- 'আপনার প্যান কার্ড আধারের সঙ্গে লিঙ্ক করা নেই, {deadline} বাতিল হয়ে যাবে। এখনই লিঙ্ক করুন: {link}'
+- সরকারি প্রকল্পে আপনার রেশন কার্ডে {amount} ভর্তুকি মঞ্জুর হয়েছে। টাকা পেতে আধিকারিক {name} কে {phone} নম্বরে কল করুন।
+notes: Bengali fake government notices

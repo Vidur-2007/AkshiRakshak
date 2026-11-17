@@ -1,0 +1,15 @@
+family: work-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 20
+templates:
+- Sir kal ki meeting {time} baje rakhi hai, aap aa payenge kya?
+- Aaj main half day par hoon, doctor ke paas jana hai. Kaam {name} ko samjha diya hai.
+- Aapka interview {date} ko {time} baje hai hamare office me. Resume ki copy aur ID saath laiye. Hamari hiring me koi fees nahi lagti.
+- Team, report aaj shaam tak bhej dena. Kal subah client ko dikhani hai.
+- '{date} ko office band rahega tyohar ki wajah se. Aap sabko shubhkamnaye.'
+notes: Hinglish workplace messages

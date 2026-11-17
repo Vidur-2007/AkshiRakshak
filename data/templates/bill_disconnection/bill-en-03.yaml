@@ -1,0 +1,18 @@
+family: bill-en-03
+label: scam
+category: bill_disconnection
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 15
+pools:
+  brand: brands.telecom
+  link: scam_domains.generic
+templates:
+- Dear {brand} customer, your SIM card will be blocked {deadline} as your documents are not verified. Call {phone} to verify and continue services.
+- '{brand}: Your number will be deactivated {deadline} due to incomplete e-KYC. Press the link {link} and complete verification now.'
+- Your {brand} postpaid bill of {amount} is overdue. Outgoing calls will be barred {deadline}. Pay through {link} to avoid disconnection.
+- 'Attention: Your broadband connection will be terminated {deadline}. To keep the service active call our officer on {phone} immediately.'
+- '{brand} 5G upgrade pending. Your SIM will stop working {deadline} unless upgraded. Share the OTP received on your phone with our executive on {phone}.'
+notes: Telecom SIM block or recharge suspension

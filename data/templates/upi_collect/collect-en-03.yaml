@@ -1,0 +1,17 @@
+family: collect-en-03
+label: scam
+category: upi_collect
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+max_rows: 15
+pools:
+  upi: upi_ids.prize
+templates:
+- You have won {amount} cashback on your last recharge! To claim, accept the UPI request from {upi} and enter your PIN {deadline}.
+- '{brand} Lucky Customer: Reward of {amount} is ready. Approve the payment request in your UPI app to receive it. Offer valid till {deadline}.'
+- Your scratch card reward of {amount} is pending. Open your UPI app, approve the request from {upi} and enter PIN to get the reward in your account.
+- 'UPI Reward Alert: {amount} credit is on hold for your number. Complete it {deadline} by accepting the collect request and confirming with your UPI PIN.'
+- 'Final notice: unclaimed cashback {amount}. Accept the request from {upi} today. Enter your UPI PIN to receive. Ignore if already claimed.'
+notes: Prize or cashback collect request with a deadline

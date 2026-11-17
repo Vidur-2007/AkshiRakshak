@@ -1,0 +1,18 @@
+family: refundok-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: false
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+templates:
+- '{brand}: Refund of {amount} has been processed to your original payment method. It may take 5 to 7 working days to reflect. No action is needed.'
+- Your cancelled train ticket refund of {amount} has been initiated and will be credited to the account used for booking.
+- '{bank}: A reversal of {amount} for your failed transaction on {date} has been credited to a/c XX[#4].'
+- Your return is picked up. The refund of {amount} will be credited automatically within 3 to 5 working days.
+- Refund processed. {amount} has been credited back to your wallet for the cancelled order.
+notes: Genuine refund notices that ask for nothing

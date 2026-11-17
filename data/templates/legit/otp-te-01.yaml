@@ -1,0 +1,15 @@
+family: otp-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- '{otp} మీ {bank} ఓటీపీ. ఇది 10 నిమిషాలు మాత్రమే చెల్లుతుంది. దీన్ని ఎవరితోనూ పంచుకోకండి. బ్యాంక్ ఎప్పుడూ ఓటీపీ అడగదు.'
+- ప్రియమైన కస్టమర్, {amount} లావాదేవీ కోసం మీ ఓటీపీ {otp}. దయచేసి ఈ ఓటీపీ ఎవరికీ చెప్పకండి. -{bank}
+- '{bank} నెట్ బ్యాంకింగ్ లాగిన్ కోసం ఓటీపీ {otp}. మీరు లాగిన్ చేయకపోతే ఈ సందేశాన్ని పట్టించుకోకండి.'
+- యూపీఐ నమోదు కోసం మీ ఓటీపీ {otp}. బ్యాంక్ సిబ్బందితో సహా ఎవరికీ చెప్పకండి. -{bank}
+notes: Genuine Telugu OTP SMS

@@ -1,0 +1,15 @@
+family: ebill-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+templates:
+- आपका बिजली बिल {amount} है। उपभोक्ता संख्या [#9]। अंतिम तिथि {date}। भुगतान बिजली विभाग के आधिकारिक ऐप या काउंटर पर करें।
+- उपभोक्ता संख्या [#9] के लिए {amount} का भुगतान {date} को प्राप्त हुआ। धन्यवाद।
+- आपकी गैस बुकिंग हो गई है। बुकिंग संख्या [#6]। सिलेंडर दो से तीन दिन में पहुंचेगा। राशि {amount}।
+- 'सूचना: {date} को सुबह 10 बजे से दोपहर 1 बजे तक मरम्मत के कारण आपके क्षेत्र में बिजली बंद रहेगी।'
+notes: Genuine Hindi utility bills

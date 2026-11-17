@@ -1,0 +1,16 @@
+family: emi-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- Your EMI of {amount} for {bank} loan a/c XX[#4] is due on {date}. Please keep sufficient balance in your account.
+- EMI of {amount} for loan XX[#4] has been received on {date}. Thank you for banking with {bank}.
+- '{bank}: Balance in your a/c XX[#4] is below the minimum average balance. Please maintain the required balance to avoid charges.'
+- Your NACH mandate for {amount} towards mutual fund SIP was debited from {bank} a/c XX[#4] on {date}.
+- Standing instruction of {amount} to {name} from your {bank} a/c XX[#4] was executed on {date}. Ref [#9].
+notes: Genuine EMI, autopay and low-balance messages

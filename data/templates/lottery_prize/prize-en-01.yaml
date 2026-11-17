@@ -1,0 +1,18 @@
+family: prize-en-01
+label: scam
+category: lottery_prize
+lang: en
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 14
+pools:
+  link: scam_domains.prize
+  upi: upi_ids.prize
+templates:
+- Congratulations! Your mobile number has won {amount} in the KBC lucky draw. To claim your prize call the lottery manager on WhatsApp {phone}.
+- Dear winner, your number was selected in the Jio lucky draw for a prize of {amount}. Pay the government tax to {upi} to receive the cheque {deadline}.
+- You have won a car and {amount} cash in the anniversary lucky draw. Fill the claim form at {link} and pay the registration charge.
+- 'Lottery department: Your lottery number 8991 won {amount}. Send your name, bank account and a processing fee to release the amount. Contact {name} on {phone}.'
+- Spin the wheel and win an iPhone! You are today's lucky visitor. Claim your gift {deadline} at {link}. Only delivery charges apply.
+notes: KBC / lucky draw winner with a processing fee

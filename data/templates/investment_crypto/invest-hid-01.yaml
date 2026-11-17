@@ -1,0 +1,16 @@
+family: invest-hid-01
+label: scam
+category: investment_crypto
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- 'हमारे वीआईपी ग्रुप में रोज तीन पक्के शेयर टिप्स मिलते हैं। बीस प्रतिशत मुनाफे की गारंटी है। आज ही मुफ्त में जुड़ें: {link}'
+- सिर्फ {amount} लगाइए और पंद्रह दिन में दोगुना पाइए। कोई जोखिम नहीं है। पैसा {upi} पर भेजिए, मैं आपका खाता खोल दूंगा।
+- आपके ट्रेडिंग खाते में {amount} का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा।
+notes: Devanagari guaranteed returns

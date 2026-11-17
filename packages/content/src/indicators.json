@@ -1,0 +1,1185 @@
+[
+  {
+    "value": "kyc.update.helpdesk@ybl",
+    "type": "upi",
+    "category": "fake_kyc",
+    "reports": 7,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "sbi-kyc-update.xyz",
+    "type": "domain",
+    "category": "fake_kyc",
+    "reports": 6,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "+919876500001",
+    "type": "phone",
+    "category": "fake_kyc",
+    "reports": 5,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "sbi.refund.desk@ybl",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 4,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "9876500001@ybl",
+    "type": "upi",
+    "category": "qr_receive",
+    "reports": 3,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "hdfcbenk.top",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 2,
+    "sampleData": true
+  },
+  {
+    "value": "parcel-release-help.site",
+    "type": "domain",
+    "category": "courier_customs",
+    "reports": 2,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "+919876500003",
+    "type": "phone",
+    "category": "courier_customs",
+    "reports": 3,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "incometax-refund-portal.info",
+    "type": "domain",
+    "category": "impersonation_govt",
+    "reports": 4,
+    "sampleData": true
+  },
+  {
+    "value": "quickhelp.services77@ybl",
+    "type": "upi",
+    "category": "fake_customer_care",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "aadhaar-link-verify.xyz",
+    "type": "domain",
+    "category": "impersonation_govt",
+    "reports": 7,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "account-alert-check.xyz",
+    "type": "domain",
+    "category": "bill_disconnection",
+    "reports": 5,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "amazon-spin-reward.xyz",
+    "type": "domain",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "arnazon-offers.click",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 3,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "axis-ekyc-verify.live",
+    "type": "domain",
+    "category": "fake_kyc",
+    "reports": 12,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "axisbnk.live",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 5,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "bank-kyc-renew.icu",
+    "type": "domain",
+    "category": "fake_kyc",
+    "reports": 9,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "bank-security-update.click",
+    "type": "domain",
+    "category": "malicious_apk",
+    "reports": 9,
+    "campaign": "apk-invite",
+    "sampleData": true
+  },
+  {
+    "value": "bijli-bill-online.click",
+    "type": "domain",
+    "category": "bill_disconnection",
+    "reports": 4,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "bluedart-reschedule.cyou",
+    "type": "domain",
+    "category": "courier_customs",
+    "reports": 11,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "bob-account-unlock.site",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 4,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "crypto-double-return.xyz",
+    "type": "domain",
+    "category": "investment_crypto",
+    "reports": 4,
+    "campaign": "trading-tips-club",
+    "sampleData": true
+  },
+  {
+    "value": "customer-care-helpline.top",
+    "type": "domain",
+    "category": "fake_customer_care",
+    "reports": 2,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "daily-task-earn.top",
+    "type": "domain",
+    "category": "job_task",
+    "reports": 4,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "delivery-address-update.click",
+    "type": "domain",
+    "category": "courier_customs",
+    "reports": 10,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "dtdc-pending-parcel.live",
+    "type": "domain",
+    "category": "courier_customs",
+    "reports": 9,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "echallan-pay-online.top",
+    "type": "domain",
+    "category": "impersonation_govt",
+    "reports": 11,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "electricity-due-pay.top",
+    "type": "domain",
+    "category": "bill_disconnection",
+    "reports": 4,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "epfo-claim-status.live",
+    "type": "domain",
+    "category": "impersonation_govt",
+    "reports": 9,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "flipkart-lucky-winner.live",
+    "type": "domain",
+    "category": "lottery_prize",
+    "reports": 3,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "flipkrat-sale.top",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 5,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "gift-parcel-clearance.top",
+    "type": "domain",
+    "category": "romance",
+    "reports": 3,
+    "sampleData": true
+  },
+  {
+    "value": "gst-refund-claim.click",
+    "type": "domain",
+    "category": "refund_cashback",
+    "reports": 12,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "hdfc-netbanking-verify.top",
+    "type": "domain",
+    "category": "fake_kyc",
+    "reports": 8,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "icici-kyc-online.click",
+    "type": "domain",
+    "category": "fake_kyc",
+    "reports": 8,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "icicibank-secure.xyz",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 5,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "incometax-refund-status.top",
+    "type": "domain",
+    "category": "refund_cashback",
+    "reports": 15,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "indiapost-redelivery.info",
+    "type": "domain",
+    "category": "courier_customs",
+    "reports": 4,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "instant-loan-approve.xyz",
+    "type": "domain",
+    "category": "loan_app",
+    "reports": 8,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "ipo-allotment-vip.click",
+    "type": "domain",
+    "category": "investment_crypto",
+    "reports": 3,
+    "campaign": "trading-tips-club",
+    "sampleData": true
+  },
+  {
+    "value": "kbc-lucky-draw.top",
+    "type": "domain",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "kotak-netbank.online",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 6,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "kyc-loan-disburse.click",
+    "type": "domain",
+    "category": "loan_app",
+    "reports": 4,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "kyc-update-portal.cyou",
+    "type": "domain",
+    "category": "fake_kyc",
+    "reports": 13,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "netbanking-secure-auth.top",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 9,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "nifty-profit-club.top",
+    "type": "domain",
+    "category": "investment_crypto",
+    "reports": 5,
+    "campaign": "trading-tips-club",
+    "sampleData": true
+  },
+  {
+    "value": "onlinesbi-co-in.site",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 5,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "onlinesbi-login.help",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 7,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "parcel-customs-fee.top",
+    "type": "domain",
+    "category": "courier_customs",
+    "reports": 7,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "part-time-hr-desk.site",
+    "type": "domain",
+    "category": "job_task",
+    "reports": 8,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "paytm-wallet-kyc.cyou",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 3,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "phonepe-cashback.icu",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 4,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "pm-yojana-apk.xyz",
+    "type": "domain",
+    "category": "malicious_apk",
+    "reports": 5,
+    "campaign": "apk-invite",
+    "sampleData": true
+  },
+  {
+    "value": "pmkisan-ekyc-update.click",
+    "type": "domain",
+    "category": "impersonation_govt",
+    "reports": 11,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "pnb-reward-points.click",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 11,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "power-bill-update.xyz",
+    "type": "domain",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "quick-cash-loan.top",
+    "type": "domain",
+    "category": "loan_app",
+    "reports": 7,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "quick-support-app.click",
+    "type": "domain",
+    "category": "remote_access",
+    "reports": 1,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "refund-process-desk.xyz",
+    "type": "domain",
+    "category": "refund_cashback",
+    "reports": 10,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "remote-help-desk.xyz",
+    "type": "domain",
+    "category": "remote_access",
+    "reports": 2,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "sbl-online.click",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 3,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "secure-verify-now.top",
+    "type": "domain",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "stock-tips-premium.live",
+    "type": "domain",
+    "category": "investment_crypto",
+    "reports": 7,
+    "campaign": "trading-tips-club",
+    "sampleData": true
+  },
+  {
+    "value": "support-screen-share.top",
+    "type": "domain",
+    "category": "remote_access",
+    "reports": 1,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "upi-complaint-cell.live",
+    "type": "domain",
+    "category": "fake_customer_care",
+    "reports": 1,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "wedding-invite-card.top",
+    "type": "domain",
+    "category": "malicious_apk",
+    "reports": 5,
+    "campaign": "apk-invite",
+    "sampleData": true
+  },
+  {
+    "value": "work-from-home-jobs.icu",
+    "type": "domain",
+    "category": "job_task",
+    "reports": 9,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "yonosbi-verify.online",
+    "type": "domain",
+    "category": "phishing_link",
+    "reports": 6,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "youtube-like-earn.click",
+    "type": "domain",
+    "category": "job_task",
+    "reports": 5,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "amazon.refund.cell@axl",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 8,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "anita.k2209@ibl",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "army.transfer.desk@okaxis",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 3,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "bijli.vibhag.pay@paytm",
+    "type": "upi",
+    "category": "bill_disconnection",
+    "reports": 7,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "cashback.support01@okaxis",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 6,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "court.fine.payment@paytm",
+    "type": "upi",
+    "category": "digital_arrest",
+    "reports": 3,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "daily.task.reward@ibl",
+    "type": "upi",
+    "category": "job_task",
+    "reports": 7,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "deepak.mobile.shop@okaxis",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "echallan.penalty@okaxis",
+    "type": "upi",
+    "category": "digital_arrest",
+    "reports": 1,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "electricity.bill.officer@ybl",
+    "type": "upi",
+    "category": "bill_disconnection",
+    "reports": 5,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "fakir.mohd55@ybl",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "furniture.buyer22@paytm",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 2,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "gst.refund.help@paytm",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 7,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "hr.joining.fee@okaxis",
+    "type": "upi",
+    "category": "job_task",
+    "reports": 9,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "instant.loan.desk@okicici",
+    "type": "upi",
+    "category": "loan_app",
+    "reports": 3,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "kbc.prize.office@paytm",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 11,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "loan.insurance.charge@ibl",
+    "type": "upi",
+    "category": "loan_app",
+    "reports": 6,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "loan.processing.fee@ybl",
+    "type": "upi",
+    "category": "loan_app",
+    "reports": 11,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "lucky.draw.winner@ybl",
+    "type": "upi",
+    "category": "lottery_prize",
+    "reports": 3,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "mk.traders.online@axl",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "olx.buyer.payment@ybl",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 3,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "power.dept.recharge@okaxis",
+    "type": "upi",
+    "category": "bill_disconnection",
+    "reports": 6,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "priya.sharma.91@okaxis",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 2,
+    "sampleData": true
+  },
+  {
+    "value": "profit.club.fund@okaxis",
+    "type": "upi",
+    "category": "investment_crypto",
+    "reports": 4,
+    "campaign": "trading-tips-club",
+    "sampleData": true
+  },
+  {
+    "value": "rahul.k1987@ybl",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 4,
+    "sampleData": true
+  },
+  {
+    "value": "rakesh.yadav4410@ybl",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 5,
+    "sampleData": true
+  },
+  {
+    "value": "refund.desk2026@ybl",
+    "type": "upi",
+    "category": "upi_collect",
+    "reports": 7,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "reward.claim2026@okicici",
+    "type": "upi",
+    "category": "lottery_prize",
+    "reports": 11,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "sonu.enterprises9@paytm",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "suresh.kumar.76@ibl",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "task.payout.hr@ybl",
+    "type": "upi",
+    "category": "job_task",
+    "reports": 10,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "vijay.s8834@okhdfcbank",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "vip.trading.desk@ybl",
+    "type": "upi",
+    "category": "investment_crypto",
+    "reports": 11,
+    "campaign": "trading-tips-club",
+    "sampleData": true
+  },
+  {
+    "value": "+919876507513",
+    "type": "phone",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "+919876506305",
+    "type": "phone",
+    "category": "courier_customs",
+    "reports": 1,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "+919876518493",
+    "type": "phone",
+    "category": "digital_arrest",
+    "reports": 1,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "+919000008736",
+    "type": "phone",
+    "category": "fake_customer_care",
+    "reports": 1,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "+919000002972",
+    "type": "phone",
+    "category": "fake_kyc",
+    "reports": 1,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "+919876510335",
+    "type": "phone",
+    "category": "impersonation_govt",
+    "reports": 1,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "+919876502573",
+    "type": "phone",
+    "category": "job_task",
+    "reports": 1,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "+919000009265",
+    "type": "phone",
+    "category": "loan_app",
+    "reports": 1,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "+919000009075",
+    "type": "phone",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "+919876512265",
+    "type": "phone",
+    "category": "refund_cashback",
+    "reports": 1,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "+919000009033",
+    "type": "phone",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "+919000009131",
+    "type": "phone",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "+919876506614",
+    "type": "phone",
+    "category": "courier_customs",
+    "reports": 1,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "+919876508002",
+    "type": "phone",
+    "category": "digital_arrest",
+    "reports": 1,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "+919876500156",
+    "type": "phone",
+    "category": "fake_customer_care",
+    "reports": 1,
+    "campaign": "fake-helpline",
+    "sampleData": true
+  },
+  {
+    "value": "+919876507193",
+    "type": "phone",
+    "category": "fake_kyc",
+    "reports": 1,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "+919000007348",
+    "type": "phone",
+    "category": "impersonation_govt",
+    "reports": 1,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "+919876516241",
+    "type": "phone",
+    "category": "job_task",
+    "reports": 1,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "+919876506956",
+    "type": "phone",
+    "category": "loan_app",
+    "reports": 1,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "+919000005253",
+    "type": "phone",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "+919876501395",
+    "type": "phone",
+    "category": "refund_cashback",
+    "reports": 1,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "+919000009702",
+    "type": "phone",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "+919876501832",
+    "type": "phone",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "+919000008250",
+    "type": "phone",
+    "category": "courier_customs",
+    "reports": 1,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "+919000009336",
+    "type": "phone",
+    "category": "digital_arrest",
+    "reports": 1,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "+919876500999",
+    "type": "phone",
+    "category": "fake_kyc",
+    "reports": 1,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "+919000000229",
+    "type": "phone",
+    "category": "impersonation_govt",
+    "reports": 1,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "+919000009257",
+    "type": "phone",
+    "category": "job_task",
+    "reports": 1,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "+919876506607",
+    "type": "phone",
+    "category": "loan_app",
+    "reports": 1,
+    "campaign": "instant-loan-apps",
+    "sampleData": true
+  },
+  {
+    "value": "+919876518694",
+    "type": "phone",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "+919000008334",
+    "type": "phone",
+    "category": "refund_cashback",
+    "reports": 1,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "+919876515888",
+    "type": "phone",
+    "category": "wrong_transfer",
+    "reports": 1,
+    "sampleData": true
+  },
+  {
+    "value": "+919876507162",
+    "type": "phone",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "+919000001242",
+    "type": "phone",
+    "category": "courier_customs",
+    "reports": 1,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "+919876502279",
+    "type": "phone",
+    "category": "digital_arrest",
+    "reports": 1,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "+919876505553",
+    "type": "phone",
+    "category": "fake_kyc",
+    "reports": 1,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "+919876500029",
+    "type": "phone",
+    "category": "impersonation_govt",
+    "reports": 1,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "+919876508720",
+    "type": "phone",
+    "category": "job_task",
+    "reports": 1,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "+919000005657",
+    "type": "phone",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "+919876516583",
+    "type": "phone",
+    "category": "refund_cashback",
+    "reports": 1,
+    "campaign": "refund-collect",
+    "sampleData": true
+  },
+  {
+    "value": "+919876500549",
+    "type": "phone",
+    "category": "bill_disconnection",
+    "reports": 1,
+    "campaign": "power-cut-tonight",
+    "sampleData": true
+  },
+  {
+    "value": "+919000003013",
+    "type": "phone",
+    "category": "courier_customs",
+    "reports": 1,
+    "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "+919876501028",
+    "type": "phone",
+    "category": "digital_arrest",
+    "reports": 1,
+    "campaign": "digital-arrest-calls",
+    "sampleData": true
+  },
+  {
+    "value": "+919000001460",
+    "type": "phone",
+    "category": "fake_kyc",
+    "reports": 1,
+    "campaign": "kyc-block-wave",
+    "sampleData": true
+  },
+  {
+    "value": "+919876511554",
+    "type": "phone",
+    "category": "impersonation_govt",
+    "reports": 1,
+    "campaign": "fake-govt-notice",
+    "sampleData": true
+  },
+  {
+    "value": "+919876506239",
+    "type": "phone",
+    "category": "job_task",
+    "reports": 1,
+    "campaign": "task-job-ring",
+    "sampleData": true
+  },
+  {
+    "value": "+919876501420",
+    "type": "phone",
+    "category": "lottery_prize",
+    "reports": 1,
+    "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "+919000004256",
+    "type": "phone",
+    "category": "refund_cashback",
+    "reports": 1,
+    "campaign": "refund-collect",
+    "sampleData": true
+  }
+]
