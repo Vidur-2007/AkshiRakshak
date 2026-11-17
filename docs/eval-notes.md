@@ -64,6 +64,32 @@ The final category model stopped at the 4,000-iteration limit before the solver'
 
 `packages/model/model/calibration.json` holds the spec defaults (thresholds 70 / 40, fusion 0.45 / 0.35 / 0.20, AI blend 0.2). Tuning needs the real engine and happens in Phase 4.
 
-## Error analysis, Isolation Forest validation, final results
+## Isolation Forest validation (Phase 3)
 
-Not started (Phases 3–5).
+`ml/akshi_ml/iforest_check.py` computes the per-debit features independently in Python and scores them with `sklearn.ensemble.IsolationForest` (100 trees, `max_samples = min(256, n)`, `random_state=42`). The TypeScript test checks that both sides build identical feature rows, then compares the scores:
+
+| Statement | Debits | Spearman (TS vs scikit-learn) |
+|---|---:|---:|
+| salaried | 172 | 0.978 |
+| student | 142 | 0.985 |
+| shop | 71 | 0.975 |
+
+All three are above the 0.8 target. The two forests use different random streams, so the scores are not identical; the ranking is what matters for "top 5%".
+
+## Statement detection (Phase 3)
+
+| Statement | Transactions | Planted | Flagged | Expected type | Other flags |
+|---|---:|---:|---:|---:|---:|
+| salaried | 177 | 2 | 2 | 2 | 0 |
+| student | 150 | 2 | 2 | 2 | 0 |
+| shop | 390 | 2 | 2 | 1 | 0 |
+
+The shop's round ₹20,000 payment is reported as `large_new_payee` (it is also more than 5 × the median), not `round_amount_new_payee`, because one card is shown per payment and the larger rule wins. Before two filters were added (regular payees are not "new"; a forest outlier must also be unusual for its payee), the forest added 7 cards on salaried, 5 on student and 2 on shop, all ordinary payments such as EMI, SIP, rent and staff salary. These figures come from the same samples the rules were written against, so they show the rules work, not how they perform on real statements.
+
+## Message evaluation
+
+The harness (`npm run eval`) works end to end. The committed `packages/content/src/eval-report.json` came from a run on the **test split with A's Phase 0 stub engine** (`0.0.0-stub`), because the real engine is not yet on `main`. Its numbers say nothing about the product, and the report's first note says so. The stub run was only there to check the harness and output schema; no threshold, weight or data change was chosen from it.
+
+## Error analysis, final results
+
+Not started (Phases 4–5).

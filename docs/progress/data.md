@@ -2,6 +2,44 @@
 
 ## Done
 
+### Phase 3 — statements, Isolation Forest, eval harness, content (2026-11-17)
+
+Checks: `npm run typecheck`, `npm test` (175), `npm run lint`, `cd ml && .venv/bin/pytest` (100). Regenerate statements with `python -m akshi_ml.statements && python -m akshi_ml.iforest_check` from `ml/`; run the harness with `npm run eval` (options in `eval/src/run.ts`).
+
+- **`packages/insights`** (stub replaced, signatures kept):
+  - CSV parsing for the canonical, `bank_a` and `bank_b` formats: quoted cells, Indian amounts (`1,00,000.00`), several date formats, UPI narration parsing. Every bad row is reported as `Row N: reason`; it never throws.
+  - Categoriser following §6.2.
+  - Baseline: median, p90, usual hours, frequent payees.
+  - All seven rule anomalies, with titles, explanations and "why unusual" rows in en, hi, te and bn.
+  - Isolation Forest in TypeScript with the exact §6.4 parameters and the mulberry32 seed 42.
+  - Risk score and a 2–3 sentence narrative in four languages.
+  - `buildEntityGraph`: normalised values, `appears_with` and `part_of` edges, campaign nodes, cluster stats.
+- **Two choices that go beyond the spec text:**
+  - A payee who is paid again a week or more later is not treated as "new" on its first row. A statement starts mid-life, so without this rent, suppliers and the regular shop all looked new.
+  - An Isolation Forest flag is shown only when the payment is also unusual for that payee. Without that filter, regular payments such as EMI, SIP and rent were flagged on all three samples.
+- **Sample statements** (`ml/akshi_ml/statements.py`), all 90 days, written to `data/statements/*.csv`, `*.labels.json` and the bundled `SAMPLE_STATEMENTS`:
+
+  | Statement | Rows | Planted scenarios |
+  |---|---:|---|
+  | student | 150 | 4 × ₹499 burst; ₹1 credit, then ₹9,999 at 23:40 |
+  | salaried | 177 | ₹48,000 at 02:47; a ₹1,299 double charge |
+  | shop | 390 | ₹5,000 credit, then ₹5,000 back within 3 h; a round ₹20,000 |
+
+  **All 6 scenarios are flagged, with no other flags**, in every language. Risk scores: salaried 63, student 80, shop 70.
+- **Isolation Forest vs scikit-learn** (`iforest_check.py`, same feature rows): Spearman **0.978** (salaried), **0.985** (student), **0.975** (shop). The target was at least 0.8.
+- **`eval/` (`@akshi/eval`)**:
+  - Runs `rules_only`, `rules_model` and `full_no_ai`, plus `full_ai_sample` with `--ai` (at most 100 messages, one every 4 s). Network extras are off.
+  - Reports metrics counting scam+suspicious as flagged, with scam-only figures in the notes. Also per language, per category, the false-alarm rate on hard negatives, a 3 × 3 confusion table, latency p50/p95, and statement detection.
+  - Writes `packages/content/src/eval-report.json` (schema-checked) and `eval/out/report.md`.
+  - `--split val` and `--limit` write only to `eval/out/`, so tuning runs never reach the Proof page.
+  - The notes say "NOT A MEASUREMENT" whenever the engine version contains "stub".
+- **Content**:
+  - `EMERGENCY`: 6 questions and 9 steps in four languages, following §7.
+  - `FAQ`: 33 items in four languages, all §7 topics. The 5 ids the engine and web already use are kept.
+  - `DRILLS`: 6 drills in en, hi and te (collect refund, fake KYC, marketplace QR, electricity, digital arrest, task job), each with 5–7 nodes. Each has safe and scammed endings, feedback on every choice and red flags; tests check every node is reachable and there are no cycles.
+  - `PATTERN_CARDS`: 4 cards in four languages, with no statistics.
+  - `EVAL_REPORT` now comes from the harness JSON. Content no longer imports `@akshi/contracts/fixtures`, and `"sideEffects": false` is set on model, insights and content (A's request).
+
 ### Phase 2 — train, export, TypeScript inference, parity (2026-11-16)
 
 Rerun from `ml/`: `.venv/bin/python -m akshi_ml.train --version <YYYY.MM.DD-letter>` (about 4 minutes), then `.venv/bin/python -m akshi_ml.parity`, then `.venv/bin/pytest` (95 tests) and `npm test` (107). Details and tables: `docs/eval-notes.md`.
@@ -61,16 +99,20 @@ Rebuild everything from `ml/`: `.venv/bin/python -m akshi_ml.build_dataset && .v
 
 ## In progress
 
-Nothing. Next: Phase 3 (statements, Isolation Forest, eval harness, EMERGENCY / FAQ / drills) and Merge 1.
+Merge 1: `feat/data` → `main` PR (C merges first). Next after it: Phase 4.
 
 ## Deferred
 
-- `"sideEffects": false` in `packages/{model,insights,content}/package.json` and dropping the `@akshi/contracts/fixtures` import from content (A's request): the import goes when `EVAL_REPORT` gets its own JSON in Phase 3.
 - Handwritten set (150 messages from the team): converted and validated in Phase 4.
+- DRILLS 7–10 and Bengali drill text; PATTERN_CARDS 5–8: Phase 4.
+- Real evaluation numbers: the engine on this branch is A's Phase 0 stub. The committed `eval-report.json` comes from a run on the test split with the stub, and its notes say so. No setting was chosen from it.
 - `script: mixed` rows (Devanagari and Latin in one message): the schema and validator support them, no family uses them yet.
 
 ## Known issues
 
+- **`eval-report.json` is not a measurement yet.** It is the stub engine's output (the notes say so in the first line). The Proof page must not be recorded from it. Rerun `npm run eval` after Merge 1, once the real engine is in.
+- The statement rules and the sample statements were written together, so 6 of 6 caught shows that the rules work, not how they do on real statements. A real exported statement may show false flags. The two filters described under Phase 3 are tuned on these samples only.
+- Drill and FAQ text in Hindi, Telugu and Bengali was drafted by Claude and needs a native reader (i18n checklist in Phase 4).
 - **The model's category is unreliable outside English** (validation accuracy: en 67%, hi 52%, te 44%, bn 33%). There is one family per category per language, so a held-out family is a category the model never saw in that language. Fix planned for Phase 4: a second family per category per language, then retrain. Until then the engine should prefer its own rules for the category.
 - **False alarms on genuine bank advisories**: 11 of 80 validation hard negatives score above 0.5, mostly "the bank never asks for your OTP" and "visit your branch for KYC" messages in Telugu and English. The model cannot see the negation; the engine's SAFETY_ADVICE and OFFICIAL_DOMAIN signals have to pull these down, and calibration in Phase 4 has to hold the 3% limit.
 - The category model stops at the 4,000-iteration limit before converging at the chosen C.
@@ -84,4 +126,7 @@ Nothing. Next: Phase 3 (statements, Isolation Forest, eval harness, EMERGENCY / 
 
 ## Requests
 
-None yet. For A, information only: the model's `category` is a weak signal for now (see Known issues); `pScam` is the dependable output. Noted from A's log (docs/progress/engine.md on feat/engine): `sideEffects: false` and no fixtures import in content; README env vars; parity fixtures at `packages/model/test/parity-fixtures.json`; list rule/lexicon/link false positives and negatives in `docs/eval-notes.md` for A.
+- **To A (after Merge 1):** the root `tsconfig.json` does not reference `eval/`, so `npm run typecheck` on `main` skips it. Your `feat/engine` root script already runs `npm run typecheck --workspaces --if-present`, which covers `eval` through its own `typecheck` script. If that script does not reach `main`, please add `{ "path": "eval" }` to the root references.
+- **To A:** `analyze()` must honour `options.layers` (`model`, `links`, `indicators`, `ai`) and `expandLinks: false` / `domainAge: false` for the eval configurations to mean anything. The harness passes them exactly as `SPEC.md` §6.2 defines.
+
+For A, information only: the model's `category` is a weak signal for now (see Known issues); `pScam` is the dependable output. Noted from A's log (docs/progress/engine.md on feat/engine): `sideEffects: false` and no fixtures import in content; README env vars; parity fixtures at `packages/model/test/parity-fixtures.json`; list rule/lexicon/link false positives and negatives in `docs/eval-notes.md` for A.
