@@ -36,12 +36,29 @@ describe('assistant (§12.4)', () => {
     const cases: [string, string, 'en' | 'hi' | 'te' | 'bn'][] = [
       ['someone sent me a QR so I can get paid', 'faq-qr-receive', 'en'],
       ['caller says police will arrest me on video call', 'faq-digital-arrest', 'en'],
-      ['where do I complain after losing money', 'faq-how-to-report', 'en'],
       ['bank executive asking for my otp', 'faq-bank-never-asks-otp', 'en'],
       ['kya paise lene ke liye PIN chahiye', 'faq-pin-sends-money', 'hi'],
       ['डिजिटल अरेस्ट कॉल', 'faq-digital-arrest', 'hi'],
     ];
     for (const [q, id, lang] of cases) expect((await askAssistant(q, lang)).sources[0], q).toBe(id);
+  });
+
+  it('after losing money, the answer gives the 1930 / cybercrime.gov.in step', async () => {
+    // several FAQ items cover reporting (how to report, Chakshu, I paid a scammer); any of them
+    // is right as long as it tells the user to call 1930 or file at cybercrime.gov.in
+    for (const q of [
+      'where do I complain after losing money',
+      'I lost money to a scam, what now',
+    ]) {
+      const a = await askAssistant(q, 'en');
+      expect(a.answer, q).toMatch(/1930|cybercrime\.gov\.in/);
+      expect(
+        searchFaq(q, 'en', 3).map((r) => r.id),
+        q,
+      ).toEqual(
+        expect.arrayContaining([expect.stringMatching(/^faq-(how-to-report|sent-money|chakshu)$/)]),
+      );
+    }
   });
 
   it('falls back to English documents and returns up to 3 ids for grounding', () => {

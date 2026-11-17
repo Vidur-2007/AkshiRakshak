@@ -19,6 +19,21 @@ import { netSchemas } from './schemas-lazy';
 const K1 = 1.2;
 const B = 0.75;
 const STOP = new Set([
+  // question and filler words: they match FAQ wording ("…and where?") without meaning anything
+  'where',
+  'when',
+  'why',
+  'who',
+  'which',
+  'there',
+  'here',
+  'about',
+  'was',
+  'were',
+  'we',
+  'our',
+  'they',
+  'please',
   'a',
   'an',
   'the',
@@ -88,12 +103,35 @@ const STOP = new Set([
 ]);
 
 /** Lower-case word tokens; Latin words lose a plural/verb "s" so "codes" matches "code". */
+/** English words people use for the same FAQ topic (applied to questions and FAQ text alike). */
+const SAME: Readonly<Record<string, string>> = {
+  complain: 'report',
+  complaint: 'report',
+  reporting: 'report',
+  reported: 'report',
+  losing: 'lose',
+  lost: 'lose',
+  scammed: 'scam',
+  scammer: 'scam',
+  fraudster: 'fraud',
+  cheated: 'cheat',
+  cheating: 'cheat',
+  refunded: 'refund',
+  received: 'receive',
+  receiving: 'receive',
+  sent: 'send',
+  sending: 'send',
+  paid: 'pay',
+  paying: 'pay',
+};
+
 export function tokenize(text: string): string[] {
   return normalizeText(text)
     .toLowerCase()
     .split(/[^\p{L}\p{M}\p{N}]+/u)
     .filter((w) => w.length > 1 && !STOP.has(w))
-    .map((w) => (/^[a-z]{3,}s$/.test(w) && !w.endsWith('ss') ? w.slice(0, -1) : w));
+    .map((w) => (/^[a-z]{3,}s$/.test(w) && !w.endsWith('ss') ? w.slice(0, -1) : w))
+    .map((w) => SAME[w] ?? w);
 }
 
 interface Doc {
@@ -105,7 +143,12 @@ interface Index {
   docs: Doc[];
   df: Map<string, number>;
   avgLen: number;
+  vocab: string[];
 }
+
+/** Weight of a prefix match ("complain" ~ "complaint", "refunds" ~ "refund"). */
+const PREFIX_WEIGHT = 0.7;
+const PREFIX_MIN = 5;
 
 function docText(item: FaqItem, lang: Lang): string {
   const q = item.q[lang] ?? item.q.en;
@@ -123,7 +166,7 @@ function buildIndex(items: readonly FaqItem[], lang: Lang): Index {
   const df = new Map<string, number>();
   for (const d of docs) for (const t of d.tf.keys()) df.set(t, (df.get(t) ?? 0) + 1);
   const avgLen = docs.reduce((s, d) => s + d.tokens.length, 0) / Math.max(1, docs.length);
-  return { docs, df, avgLen };
+  return { docs, df, avgLen, vocab: [...df.keys()] };
 }
 
 const indexes = new Map<Lang, Index>();
@@ -133,17 +176,33 @@ function indexFor(lang: Lang): Index {
   return idx;
 }
 
+/** The query term itself (weight 1) and vocabulary words sharing a ≥ 5-letter prefix with it. */
+function variants(idx: Index, q: string): [string, number][] {
+  const out: [string, number][] = [[q, 1]];
+  if (q.length < PREFIX_MIN || !/^[a-z]+$/.test(q)) return out;
+  for (const t of idx.vocab)
+    if (t !== q && t.length >= PREFIX_MIN && (t.startsWith(q) || q.startsWith(t)))
+      out.push([t, PREFIX_WEIGHT]);
+  return out;
+}
+
 function bm25(idx: Index, query: string[]): Map<string, number> {
   const scores = new Map<string, number>();
   const n = idx.docs.length;
+  const terms = [...new Set(query)].map((q) => variants(idx, q));
   for (const d of idx.docs) {
     let s = 0;
-    for (const q of new Set(query)) {
-      const f = d.tf.get(q);
-      if (!f) continue;
-      const df = idx.df.get(q) ?? 0;
-      const idf = Math.log(1 + (n - df + 0.5) / (df + 0.5));
-      s += idf * ((f * (K1 + 1)) / (f + K1 * (1 - B + (B * d.tokens.length) / idx.avgLen)));
+    for (const vs of terms) {
+      let best = 0; // one query word counts once, by its best match
+      for (const [t, w] of vs) {
+        const f = d.tf.get(t);
+        if (!f) continue;
+        const df = idx.df.get(t) ?? 0;
+        const idf = Math.log(1 + (n - df + 0.5) / (df + 0.5));
+        const tfPart = (f * (K1 + 1)) / (f + K1 * (1 - B + (B * d.tokens.length) / idx.avgLen));
+        best = Math.max(best, w * idf * tfPart);
+      }
+      s += best;
     }
     if (s > 0) scores.set(d.id, s);
   }
