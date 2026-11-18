@@ -2,6 +2,12 @@
 
 ## Production
 
+- **URL: https://akshi-rakshak.vercel.app** (`main` at 7ce77ad, deployed 2026-11-18, after PR #6).
+- **Smoke check** (`npm run smoke -- https://akshi-rakshak.vercel.app`): 8 pass, 1 warning, 0 fail.
+  - **Pass:** app shell and service worker, security headers, health (groq true, gemini true), expand (2 hops), the SSRF refusal (`blocked_private_address`), domain age, AI analyze, ask.
+  - **Warning:** `/api/reports` is not configured, because the Upstash integration is not connected yet.
+  - **To check:** AI analyze answered from **Gemini**, the fallback. Groq is first, so Groq may have failed or timed out on that call. Look at the `ai/analyze` provider logs in Vercel.
+- Phone checks (§16 step 3): not done yet.
 - **2026-11-18: the first `main` deploy (87829c7, after Merge 2) failed in the function build.** The web app built. Vercel's Node builder then forced `module: NodeNext` and `strict: false` on `api/` (it ignores options inherited through `extends`) and crashed with "Cannot read properties of undefined (reading 'text')". After that was fixed, the functions would still have failed at runtime, because Node cannot load our workspace packages (`.ts` exports, extensionless imports). Fix: `api/tsconfig.json` is now standalone (`tsc -b` uses `api/tsconfig.build.json`), and the Vercel build command runs `npm run build:api`, which bundles each function with esbuild. Verified with `@vercel/node` 31.0.2 on a clean clone (`npm ci`, then the build command with `VERCEL=1`): all 7 functions build, load, and answer (health 200; the others return their own validation errors, or "no provider" without keys). Still to do: the production URL and smoke results.
 - **URL: not deployed.** On 2026-11-15 (code-freeze day) there is still no Vercel project linked to the repo, `main` is the Phase 0 skeleton and C's and B's work is not merged, so the final production deploy and smoke check (P6 task 5) could not run. When the project exists and Merge 2 is done: `npm run smoke -- <url>` (now also checks `X-Frame-Options` and CSP), then the phone checks, then record the URL here.
 
