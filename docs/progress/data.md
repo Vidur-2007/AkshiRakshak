@@ -2,6 +2,20 @@
 
 ## Done
 
+### Phase 4 — real-engine eval, error analysis, retrain, calibration, drills, README (2026-11-18)
+
+- **Merge:** `origin/main` (PR #1 only) fast-forwarded. A's PR #2 was still open, so `origin/feat/engine` was merged into `feat/data` to measure the real engine (engine 0.3.0). Once PR #2 is on `main`, this branch's diff shows only C's files. 526 tests passed straight after the merge.
+- **First real report** (test split, model 2026.11.16-a): identical to A's rehearsal, full_no_ai P 97.4% / R 88.7% / F1 92.9%, 2.3% false alarms. Committed as soon as it ran, so the Proof page no longer shows "NOT A MEASUREMENT".
+- **Error analysis, validation only** (`npm run errors -w @akshi/eval`): all 8 false positives are Telugu bank advisories where ASKS_PIN / ASKS_CVV_PASSWORD fire on "the bank never asks…"; 27–29 false negatives where the model is confident (60–89) but no rule fires. Details and the list for A: `docs/eval-notes.md`.
+- **Dataset:** 76 new families (3,579 rows, was 2,550); every earlier row and split unchanged. Leads (a) Bengali/Telugu genuine messages and (b) guaranteed/daily returns addressed with data; lead (d) respected (no bare URLs, UPI IDs, phones or QR payloads added).
+- **Model 2026.11.18-a:** validation F1 0.963 (was 0.955), false alarms 5.3% (was 7.7%), category macro-F1 0.650 (was 0.535; lead c). Saga now converges (12,000 iterations). Parity 200/200. INDICATORS and LANDSCAPE regenerated.
+- **Calibration** (`npm run calibrate -w @akshi/eval`, validation only): chosen rules 0.30 / model 0.35 / links 0.35, thresholds 70 / 40, AI blend 0.2. Validation F1 92.2% → 97.6%, false negatives 29 → 5. Bank false alarms 5.0% → 3.75%, so **the 3% limit is not met**: the remaining 6 are a rules negation bug that no setting with suspicious ≤ 45 can hide (a higher threshold would switch off A's 45-point OTP and returns floors). **Shipped on `feat/data`: the defaults.** The tuned file is on `feat/data-calibration` (draft PR), because two of A's tests hard-code the default weights (request below).
+- **Final test report on this branch** (model 2026.11.18-a, default calibration, 527 messages): P 91.6% / R 88.3% / F1 89.9%, false alarms 7.1%, bank 14.3%. The test split grew by six Phase 4 families; on the original 433 messages the numbers equal the rehearsal (F1 92.9%), and the new false alarms are one Telugu advisory family (`bankinfo-te-02`, 15 of 20) with the same negation bug. With the tuned calibration: F1 93.4%.
+- **Content:** drills 7–10 (OTP from a fake bank call, ₹25 parcel fee, screen-sharing helpline, guaranteed-returns group; en/hi/te), pattern cards 5–8 (en/hi/te/bn). `eval/test/samples.test.ts` runs all 12 SAMPLE_MESSAGES through the real engine offline; `sample-job-te` now expects `scam` (scores 72; it asks a registration fee).
+- **Handwritten set:** converter ready (`python -m akshi_ml.handwritten`; authors become hw-a, hw-b, …; same identifier checks; nothing is written if any row fails). **The team's CSVs have not arrived**, so there is no handwritten result yet.
+- **Docs:** README (env vars exactly as `api/` reads them), `docs/i18n-review.md`, eval notes, dataset card.
+- Checks: typecheck clean, lint clean, 542 JS tests and 104 Python tests pass.
+
 ### Phase 3 — statements, Isolation Forest, eval harness, content (2026-11-17)
 
 Checks: `npm run typecheck`, `npm test` (175), `npm run lint`, `cd ml && .venv/bin/pytest` (100). Regenerate statements with `python -m akshi_ml.statements && python -m akshi_ml.iforest_check` from `ml/`; run the harness with `npm run eval` (options in `eval/src/run.ts`).
@@ -99,34 +113,34 @@ Rebuild everything from `ml/`: `.venv/bin/python -m akshi_ml.build_dataset && .v
 
 ## In progress
 
-Merge 1: `feat/data` → `main` PR (C merges first). Next after it: Phase 4.
+Phase 4 PR (`feat/data` → `main`) and the stacked calibration PR (`feat/data-calibration`, draft until A's test change). Next: Phase 5 (handwritten results, AI sample run, final report).
 
 ## Deferred
 
-- Handwritten set (150 messages from the team): converted and validated in Phase 4.
-- DRILLS 7–10 and Bengali drill text; PATTERN_CARDS 5–8: Phase 4.
-- Real evaluation numbers: the engine on this branch is A's Phase 0 stub. The committed `eval-report.json` comes from a run on the test split with the stub, and its notes say so. No setting was chosen from it.
-- `script: mixed` rows (Devanagari and Latin in one message): the schema and validator support them, no family uses them yet.
+- **Handwritten results:** waiting for the team's CSVs in `data/handwritten/`. Then `cd ml && .venv/bin/python -m akshi_ml.handwritten`, then `npm run eval`.
+- **Tuned calibration:** on `feat/data-calibration` until A's two tests read `loadCalibration()`. Rerun `npm run calibrate -w @akshi/eval` after A's rule fixes; the 3% bank limit should then be reachable.
+- AI sample run (`npm run eval -w @akshi/eval -- --ai`, needs keys): Phase 5. `aiBlend` stays 0.2 until then.
+- Bengali drills: not planned. `script: mixed` rows: none yet.
+- README live link, demo video, screenshots and team names: before submission.
 
 ## Known issues
 
-- **`eval-report.json` is not a measurement yet.** It is the stub engine's output (the notes say so in the first line). The Proof page must not be recorded from it. Rerun `npm run eval` after Merge 1, once the real engine is in.
-- The statement rules and the sample statements were written together, so 6 of 6 caught shows that the rules work, not how they do on real statements. A real exported statement may show false flags. The two filters described under Phase 3 are tuned on these samples only.
-- Drill and FAQ text in Hindi, Telugu and Bengali was drafted by Claude and needs a native reader (i18n checklist in Phase 4).
-- **The model's category is unreliable outside English** (validation accuracy: en 67%, hi 52%, te 44%, bn 33%). There is one family per category per language, so a held-out family is a category the model never saw in that language. Fix planned for Phase 4: a second family per category per language, then retrain. Until then the engine should prefer its own rules for the category.
-- **False alarms on genuine bank advisories**: 11 of 80 validation hard negatives score above 0.5, mostly "the bank never asks for your OTP" and "visit your branch for KYC" messages in Telugu and English. The model cannot see the negation; the engine's SAFETY_ADVICE and OFFICIAL_DOMAIN signals have to pull these down, and calibration in Phase 4 has to hold the 3% limit.
-- The category model stops at the 4,000-iteration limit before converging at the chosen C.
-- `loadModel()` uses a plain `import('../model/scam-model.json')`. Vite, Vitest and tsx accept it; plain Node ESM without a bundler would need an import attribute.
-- **Telugu, Bengali and Hindi templates are unreviewed.** They were drafted by Claude and need a native reader (the i18n checklist comes in Phase 4). Wrong or stiff wording here goes straight into the model.
-- Scam links are picked from a themed pool without matching the bank named in the message (an "SBI" message may carry an `icici-…` invented domain). Real scams are often this careless, but it is not deliberate modelling.
-- Date and time slots use Latin formats in every language ("14-Nov-26", "07:49 PM" inside Telugu or Bengali text).
-- `SAMPLE_MESSAGES[].expected` has not been checked against the real engine (it is not on this branch); that test is a Phase 4 item. `sample-wedding-apk-bn` and `sample-wrong-transfer-te` are the ones most likely to need a different expected verdict.
-- Python 3.11's `unicodedata` is Unicode 14.0; Node 26's ICU is Unicode 18.0. NFKC differs on 167 code points added after Unicode 14 (e.g. U+0558, U+209D–209F, blocks U+1CC00, U+1DF00, U+1E000). None are in Latin, Devanagari, Bengali, Telugu, punctuation, currency, emoji or full-width forms, so the dataset is unaffected.
-- The handwritten CSV conversion (Phase 4) must skip rows whose author is `Example` (the template's sample rows).
+- **Bank false alarms are above 3%:** validation 5.0% (3.75% with the tuned calibration), test 14.3%. Almost all are Telugu and Bengali advisories ("the bank never asks for your PIN / OTP") where the rules miss the negation. Needs A's rule fix; calibration cannot fix it without switching off the 45-point floors.
+- **The test split changed composition** (433 → 527) because new families are assigned to all splits. Numbers are not comparable with A's rehearsal without the subset split in `docs/eval-notes.md`.
+- **UPI IDs before a full stop are not extracted by the engine** (6 of 38 validation scams with a UPI ID); reported to A.
+- The statement rules and samples were written together; 6 of 6 caught shows the rules work, not real-world performance.
+- Hindi, Telugu and Bengali text (templates, drills, FAQ, emergency steps, pattern cards, statement strings) is unreviewed; checklist in `docs/i18n-review.md`.
+- The category model is still weaker outside English (te 0.55, bn 0.61 accuracy) and its C is at the top of the grid.
+- Scam links are drawn from a themed pool without matching the bank named in the message.
+- Date and time slots use Latin formats in every language.
+- `loadModel()` uses a plain JSON `import()`; plain Node ESM without a bundler would need an import attribute.
+- Python 3.11 NFKC is Unicode 14.0, Node's ICU is newer; differs only on code points outside the scripts used here.
+- `npm run eval -- --split val` at the root drops the flag (root script runs every workspace); use `npm run eval -w @akshi/eval -- --split val`.
 
 ## Requests
 
-- **To A (after Merge 1):** the root `tsconfig.json` does not reference `eval/`, so `npm run typecheck` on `main` skips it. Your `feat/engine` root script already runs `npm run typecheck --workspaces --if-present`, which covers `eval` through its own `typecheck` script. If that script does not reach `main`, please add `{ "path": "eval" }` to the root references.
-- **To A:** `analyze()` must honour `options.layers` (`model`, `links`, `indicators`, `ai`) and `expandLinks: false` / `domainAge: false` for the eval configurations to mean anything. The harness passes them exactly as `SPEC.md` §6.2 defines.
-
-For A, information only: the model's `category` is a weak signal for now (see Known issues); `pScam` is the dependable output. Noted from A's log (docs/progress/engine.md on feat/engine): `sideEffects: false` and no fixtures import in content; README env vars; parity fixtures at `packages/model/test/parity-fixtures.json`; list rule/lexicon/link false positives and negatives in `docs/eval-notes.md` for A.
+- **To A — calibration tests (blocks the tuned calibration):** `packages/engine/test/fusion.test.ts` "renormalises over available, relevant layers" and `packages/engine/test/model.test.ts` "blends the model score per §8.2 and adds MODEL_PATTERN" compute the expected score with the hard-coded defaults (0.45 / 0.35 / 0.20) but the engine reads C's `calibration.json`. With rules 0.30 / model 0.35 / links 0.35 they fail (expected 42 got 51; expected 64 got 70). Please take the weights from `loadCalibration()` in those two tests, or mock it to the defaults as `calibration.test.ts` does. Then merge `feat/data-calibration`.
+- **To A — negation in the rules (Telugu first):** ASKS_PIN, ASKS_CVV_PASSWORD and SECRECY fire on bank advisories that say the bank will *not* ask ("… పిన్ ఎంటర్ చేయడం అవసరం లేదు", "… పాస్‌వర్డ్ అడగదు", "వాటిని ఎవరికీ చెప్పకండి"). 8 of 8 validation false positives and 15 of 20 in one test family. Also check Bengali genuine bank messages (5 of 20 in the original test families). Examples with scores: `docs/eval-notes.md`, "For A".
+- **To A — UPI extraction:** a UPI ID followed by "." or "।" ("send ₹1,700 to daily.task.reward@ibl. All members…") is not extracted; without the full stop it is, matches the indicator and scores 95.
+- **To A — lexicon gaps** (all from validation, texts in `docs/eval-notes.md`): ASKS_OTP for "reply with the OTP" / "send me the 6 digit code"; QR_TO_RECEIVE for "to receive … scan this QR"; spaced "P.I.N" as PIN; TASK_JOB_PAYMENT / ADVANCE_FEE for "recharge … to withdraw", "combo task", "funds frozen" (en, bn); Hinglish WRONG_TRANSFER_RETURN and RECEIVE_WITH_PIN ("galat … chala gaya", "accept karke PIN daal do"); Telugu SECRECY / STAY_ON_CALL / THREAT_LEGAL / ADVANCE_FEE / TOO_GOOD_RETURNS; Bengali loan-harassment threat ("ছবি … সব কন্টাক্টে"); a romance / stranded-abroad pattern in Hindi.
+- **To A (information):** the eval workspace runs fine under the root `typecheck`; request 1 from Merge 1 is closed. Request 2 (honour `options.layers`) is closed by A's `layers.test.ts`.

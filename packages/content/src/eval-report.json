@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-11-18T03:54:26.128Z",
+  "generatedAt": "2026-11-18T04:32:30.548Z",
   "engineVersion": "0.3.0",
-  "modelVersion": "2026.11.16-a",
+  "modelVersion": "2026.11.18-a",
   "datasets": [
     {
       "name": "synthetic-train",
-      "size": 1683,
+      "size": 2504,
       "description": "Synthetic messages used to train the classifier"
     },
     {
       "name": "synthetic-val",
-      "size": 434,
+      "size": 548,
       "description": "Synthetic messages used to choose settings"
     },
     {
       "name": "synthetic-test",
-      "size": 433,
+      "size": 527,
       "description": "Held-out synthetic messages (whole template families), four languages"
     },
     {
@@ -25,50 +25,50 @@
     }
   ],
   "overall": {
-    "precision": 0.9742,
-    "recall": 0.8873,
-    "f1": 0.9287,
-    "accuracy": 0.933,
-    "fpr": 0.0227,
-    "support": 433
+    "precision": 0.916,
+    "recall": 0.8826,
+    "f1": 0.899,
+    "accuracy": 0.907,
+    "fpr": 0.0714,
+    "support": 527
   },
   "handwritten": null,
   "configs": [
     {
       "name": "rules_only",
       "metrics": {
-        "precision": 0.9583,
-        "recall": 0.5399,
-        "f1": 0.6907,
-        "accuracy": 0.7621,
-        "fpr": 0.0227,
-        "support": 433
+        "precision": 0.8621,
+        "recall": 0.5061,
+        "f1": 0.6378,
+        "accuracy": 0.7306,
+        "fpr": 0.0714,
+        "support": 527
       },
-      "n": 433
+      "n": 527
     },
     {
       "name": "rules_model",
       "metrics": {
-        "precision": 0.9713,
-        "recall": 0.7934,
-        "f1": 0.8734,
-        "accuracy": 0.8868,
-        "fpr": 0.0227,
-        "support": 433
+        "precision": 0.9074,
+        "recall": 0.7935,
+        "f1": 0.8466,
+        "accuracy": 0.8653,
+        "fpr": 0.0714,
+        "support": 527
       },
-      "n": 433
+      "n": 527
     },
     {
       "name": "full_no_ai",
       "metrics": {
-        "precision": 0.9742,
-        "recall": 0.8873,
-        "f1": 0.9287,
-        "accuracy": 0.933,
-        "fpr": 0.0227,
-        "support": 433
+        "precision": 0.916,
+        "recall": 0.8826,
+        "f1": 0.899,
+        "accuracy": 0.907,
+        "fpr": 0.0714,
+        "support": 527
       },
-      "n": 433
+      "n": 527
     }
   ],
   "perCategory": [
@@ -84,8 +84,8 @@
     },
     {
       "category": "digital_arrest",
-      "recall": 1,
-      "support": 15
+      "recall": 0.963,
+      "support": 27
     },
     {
       "category": "fake_customer_care",
@@ -104,13 +104,13 @@
     },
     {
       "category": "investment_crypto",
-      "recall": 0.8571,
-      "support": 14
+      "recall": 0.8333,
+      "support": 24
     },
     {
       "category": "job_task",
-      "recall": 1,
-      "support": 15
+      "recall": 0.8889,
+      "support": 27
     },
     {
       "category": "loan_app",
@@ -129,7 +129,7 @@
     },
     {
       "category": "otp_theft",
-      "recall": 0.6667,
+      "recall": 0.7778,
       "support": 9
     },
     {
@@ -172,33 +172,33 @@
     {
       "lang": "en",
       "precision": 1,
-      "recall": 0.8977,
-      "f1": 0.9461,
+      "recall": 0.8864,
+      "f1": 0.9398,
       "support": 168
     },
     {
       "lang": "hi",
       "precision": 1,
-      "recall": 0.8615,
-      "f1": 0.9256,
-      "support": 125
+      "recall": 0.8769,
+      "f1": 0.9344,
+      "support": 145
     },
     {
       "lang": "te",
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "support": 70
+      "precision": 0.7727,
+      "recall": 0.9444,
+      "f1": 0.85,
+      "support": 114
     },
     {
       "lang": "bn",
-      "precision": 0.8276,
+      "precision": 0.8649,
       "recall": 0.8,
-      "f1": 0.8136,
-      "support": 70
+      "f1": 0.8312,
+      "support": 100
     }
   ],
-  "fprGenuineBank": 0.0625,
+  "fprGenuineBank": 0.1429,
   "confusion": {
     "labels": [
       "scam",
@@ -207,9 +207,9 @@
     ],
     "matrix": [
       [
-        100,
-        89,
-        24
+        107,
+        111,
+        29
       ],
       [
         0,
@@ -217,15 +217,15 @@
         0
       ],
       [
-        5,
-        0,
-        215
+        10,
+        10,
+        260
       ]
     ]
   },
   "latency": {
     "p50Ms": 0.15,
-    "p95Ms": 0.96
+    "p95Ms": 0.93
   },
   "statements": {
     "injected": 6,
@@ -233,11 +233,11 @@
     "falseFlagsPer100": 0
   },
   "notes": [
-    "Message numbers are for the held-out test split of the synthetic dataset (433 messages). A message counts as flagged when the verdict is \"scam\" or \"suspicious\".",
-    "Counting only the \"scam\" verdict as flagged: precision 95.2%, recall 46.9%, false-alarm rate 2.3%.",
-    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 6.3% of 80.",
+    "Message numbers are for the held-out test split of the synthetic dataset (527 messages). A message counts as flagged when the verdict is \"scam\" or \"suspicious\".",
+    "Counting only the \"scam\" verdict as flagged: precision 91.5%, recall 43.3%, false-alarm rate 3.6%.",
+    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 14.3% of 140.",
     "The training data is synthetic: every message was generated from templates written for this project. Expect lower numbers on real messages.",
-    "Scam category named correctly for 65.6% of the scams that were flagged.",
+    "Scam category named correctly for 67.0% of the scams that were flagged.",
     "The handwritten test set has not been added yet, so there is no result for it.",
     "Statements: 6 of 6 planted scenarios flagged (5 with the expected anomaly type). The sample statements were written alongside the rules, so this is a check that they work, not an independent measure.",
     "The AI second opinion was not part of this run."

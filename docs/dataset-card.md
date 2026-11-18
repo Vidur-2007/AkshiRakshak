@@ -63,7 +63,26 @@ Bank OTP SMS with "do not share", debit and credit alerts, UPI payment confirmat
 
 ## Sizes
 
-2,550 rows in 174 template families: 1,210 scam and 1,340 genuine. Every size target in SPEC_C_DATA.md §3.2 is met.
+**Current (Phase 4, 2026-11-18):** 3,579 rows in 250 template families (990 templates): 1,739 scam and 1,840 genuine. 76 families were added after error analysis on the validation split: a second scam family for every category in Telugu and Bengali, a second Hindi family for the eight weakest categories, an English "guaranteed daily returns" family, and genuine Telugu, Bengali, Hindi and English hard negatives (bank fraud-awareness notices that use the scam words, FD/SIP/loan offers, credits, card alerts, EMIs, refunds, telecom, family chats, genuine investment adverts). No earlier row or split changed; new families were assigned by the same rules.
+
+| Language | Label | Train | Val | Test | Total | Target (§3.2) |
+|---|---|---:|---:|---:|---:|---:|
+| en | scam | 292 | 86 | 88 | 466 | 450 |
+| en | legit | 360 | 100 | 80 | 540 | 500 |
+| hi | scam | 334 | 66 | 65 | 465 | 350 |
+| hi | legit | 380 | 80 | 80 | 540 | 380 |
+| te | scam | 308 | 42 | 54 | 404 | 200 |
+| te | legit | 260 | 60 | 60 | 380 | 220 |
+| bn | scam | 310 | 54 | 40 | 404 | 200 |
+| bn | legit | 260 | 60 | 60 | 380 | 220 |
+| **all** | | **2,504** | **548** | **527** | **3,579** | 2,520 |
+
+- Families per split: 177 train, 37 validation, 36 test.
+- Hard negatives: en 200, hi 300, te 200, bn 200 (900 of 1,840 genuine rows).
+- Hindi: 41% romanised. Scripts: Latin 1,420, Devanagari 591, Telugu 784, Bengali 784. Channels: SMS 2,132, WhatsApp 1,073, call 228, Telegram 111, email 35.
+- Every scam category now has 7 to 11 families and at least 72 rows.
+
+**As of Phase 1** (kept for reference): 2,550 rows in 174 template families: 1,210 scam and 1,340 genuine. Every size target in SPEC_C_DATA.md §3.2 is met.
 
 | Language | Label | Train | Val | Test | Total | Target (§3.2) |
 |---|---|---:|---:|---:|---:|---:|
@@ -129,7 +148,7 @@ Generation is seeded per family, so the same templates always give the same rows
 
 - **Synthetic phrasing.** Every row comes from a template written by an AI model, so wording is cleaner and less varied than real messages. Results on this data will be better than results on real messages; the handwritten set exists to show that gap.
 - **The test split shares the generator.** Test families are unseen patterns, but they were written by the same author with the same fillers and variants as the training families.
-- **Telugu and Bengali are thinner.** Each has one scam family per category (3 or 4 templates), against two or three English families. Telugu, Bengali and Hindi text was drafted by an AI model and has not yet been reviewed by a native reader (see `docs/i18n-review.md` when it exists).
+- **Telugu and Bengali are thinner.** Since Phase 4 each has two scam families per category (3 or 4 templates each), against two or three English families. Telugu, Bengali and Hindi text was drafted by an AI model and has not yet been reviewed by a native reader (checklist: `docs/i18n-review.md`).
 - **Parallel content across languages.** Many Hindi, Telugu and Bengali families cover the same scenario as an English family, so the model sees less variety of scenario than of language.
 - **English-heavy, limited regional variety.** No Tamil, Kannada, Malayalam, Marathi or Gujarati. No romanised Telugu or Bengali. Code-mixing is covered only as romanised Hindi.
 - **Text only.** Call scripts are written as text; nothing here represents audio, images or QR codes.
