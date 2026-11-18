@@ -2,6 +2,13 @@
 
 ## Done
 
+### Phase 6 — demo script and submission checklist (2026-11-18)
+
+- `docs/demo-script.md`: roles, truth rules for the narration, preparation (including how to make the Telugu screenshot from an invented message), a 9-shot list for the §13.1 timeline adding up to 4:30 with exact inputs and routes, full narration with one Hindi and one Telugu line, a backup plan, and the submission checklist.
+- Every demo input was run through the current engine offline: fake KYC sample Scam 95, collect sample Scam 95, refund QR Scam 85, lookalike link Scam 95, Telugu job text Scam 75, Hindi electricity sample Scam 76; the student sample statement shows the 4 × ₹499 burst and the ₹9,999 late-night payment.
+- Secrets and personal-data scan (all branches and history): no key-like strings, no `.env` beyond `.env.example`, no email addresses; every 10–16-digit number is synthetic or a test constant. One plausible mobile number in C's validator tests was replaced with 9999999999.
+- README: no screenshots or video yet (TODOs stay). Final metrics already match `eval-report.json`.
+
 ### Phase 5 — final evaluation, README (2026-11-18, partial: handwritten set and AI run pending)
 
 - **Merge:** `origin/main` (unchanged), `origin/feat/engine` at 531e580 (A's fixes for every Phase 4 request except the Hindi romance pattern) and `feat/data-calibration` merged into `feat/data`. Lockfile unchanged. typecheck 0 errors, lint clean, **559 JS tests and 104 Python tests pass**.
@@ -122,7 +129,7 @@ Rebuild everything from `ml/`: `.venv/bin/python -m akshi_ml.build_dataset && .v
 
 ## In progress
 
-Merge 2: PR #3 (`feat/data` → `main`, now including the tuned calibration and A's fixes merged from `feat/engine`). PR #4 is folded into it. C merges first; then A, then B.
+Merge 2: PR #3 (`feat/data` → `main`, now including the tuned calibration, A's fixes merged from `feat/engine` and the Phase 6 demo script). C merges first; then A, then B. Recording, deploy and submission are with the humans (checklist in `docs/demo-script.md`).
 
 ## Deferred
 
@@ -146,4 +153,5 @@ Merge 2: PR #3 (`feat/data` → `main`, now including the tuned calibration and 
 ## Requests
 
 - **To A:** thank you, every Phase 4 request is closed except the Hindi romance pattern (contract change; fine to leave for after the hackathon).
+- **To B — landing meter (shot 1):** SPEC.md §13.1 says the live meter "climbs to red" on "Your SBI account will be blocked today, update KYC". `scoreLive` gives 40 (amber) for that sentence and at most 61 for the OTP variant; red only comes from the full `analyze()`. The script now says "the meter climbs" and uses the OTP variant. If you want red on the landing page, run `analyze()` when typing pauses; otherwise no change is needed.
 - **To the human:** ask the team lead to merge PR #3 first (C → A → B). Send the handwritten CSVs and, if you want the AI row on the Proof page, create `.env` with your own keys.

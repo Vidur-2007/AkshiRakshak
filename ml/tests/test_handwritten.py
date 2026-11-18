@@ -36,7 +36,7 @@ def test_converts_rows_without_writing_author_names(tmp_path):
 
 def test_rejects_real_looking_identifiers_and_bad_values(tmp_path):
     write(tmp_path, "a.csv",
-          '"Call 9812345678 now to update KYC",en,sms,scam,fake_kyc,Asha\n'
+          '"Call 9999999999 now to update KYC",en,sms,scam,fake_kyc,Asha\n'
           '"Hello",xx,sms,legit,,Asha\n'
           '"Pay now",en,sms,scam,not_a_category,Asha\n'
           '"Your OTP is 123456",en,sms,legit,fake_kyc,Asha\n')
