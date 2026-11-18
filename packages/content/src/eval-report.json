@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T04:39:27.355Z",
+  "generatedAt": "2026-11-18T13:19:03.832Z",
   "engineVersion": "0.3.0",
   "modelVersion": "2026.11.18-a",
   "datasets": [
@@ -25,11 +25,11 @@
     }
   ],
   "overall": {
-    "precision": 0.9213,
+    "precision": 0.9669,
     "recall": 0.9474,
-    "f1": 0.9342,
-    "accuracy": 0.9374,
-    "fpr": 0.0714,
+    "f1": 0.9571,
+    "accuracy": 0.9602,
+    "fpr": 0.0286,
     "support": 527
   },
   "handwritten": null,
@@ -37,11 +37,11 @@
     {
       "name": "rules_only",
       "metrics": {
-        "precision": 0.8571,
-        "recall": 0.4858,
-        "f1": 0.6201,
-        "accuracy": 0.7211,
-        "fpr": 0.0714,
+        "precision": 0.9535,
+        "recall": 0.498,
+        "f1": 0.6543,
+        "accuracy": 0.7533,
+        "fpr": 0.0214,
         "support": 527
       },
       "n": 527
@@ -49,11 +49,11 @@
     {
       "name": "rules_model",
       "metrics": {
-        "precision": 0.9134,
+        "precision": 0.9635,
         "recall": 0.8543,
-        "f1": 0.8829,
-        "accuracy": 0.8937,
-        "fpr": 0.0714,
+        "f1": 0.9056,
+        "accuracy": 0.9165,
+        "fpr": 0.0286,
         "support": 527
       },
       "n": 527
@@ -61,11 +61,11 @@
     {
       "name": "full_no_ai",
       "metrics": {
-        "precision": 0.9213,
+        "precision": 0.9669,
         "recall": 0.9474,
-        "f1": 0.9342,
-        "accuracy": 0.9374,
-        "fpr": 0.0714,
+        "f1": 0.9571,
+        "accuracy": 0.9602,
+        "fpr": 0.0286,
         "support": 527
       },
       "n": 527
@@ -185,20 +185,20 @@
     },
     {
       "lang": "te",
-      "precision": 0.7879,
+      "precision": 0.8814,
       "recall": 0.963,
-      "f1": 0.8667,
+      "f1": 0.9204,
       "support": 114
     },
     {
       "lang": "bn",
-      "precision": 0.8889,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.9412,
+      "f1": 1,
       "support": 100
     }
   ],
-  "fprGenuineBank": 0.1286,
+  "fprGenuineBank": 0.0429,
   "confusion": {
     "labels": [
       "scam",
@@ -207,8 +207,8 @@
     ],
     "matrix": [
       [
-        119,
-        115,
+        125,
+        109,
         13
       ],
       [
@@ -217,15 +217,15 @@
         0
       ],
       [
-        10,
-        10,
-        260
+        0,
+        8,
+        272
       ]
     ]
   },
   "latency": {
-    "p50Ms": 0.16,
-    "p95Ms": 0.98
+    "p50Ms": 0.15,
+    "p95Ms": 0.94
   },
   "statements": {
     "injected": 6,
@@ -234,12 +234,13 @@
   },
   "notes": [
     "Message numbers are for the held-out test split of the synthetic dataset (527 messages). A message counts as flagged when the verdict is \"scam\" or \"suspicious\".",
-    "Counting only the \"scam\" verdict as flagged: precision 92.3%, recall 48.2%, false-alarm rate 3.6%.",
-    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 12.9% of 140.",
+    "Counting only the \"scam\" verdict as flagged: precision 100.0%, recall 50.6%, false-alarm rate 0.0%.",
+    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 4.3% of 140.",
     "The training data is synthetic: every message was generated from templates written for this project. Expect lower numbers on real messages.",
-    "Scam category named correctly for 67.5% of the scams that were flagged.",
+    "Scam category named correctly for 68.4% of the scams that were flagged.",
     "The handwritten test set has not been added yet, so there is no result for it.",
     "Statements: 6 of 6 planted scenarios flagged (5 with the expected anomaly type). The sample statements were written alongside the rules, so this is a check that they work, not an independent measure.",
-    "The AI second opinion was not part of this run."
+    "The AI second opinion was not part of this run.",
+    "Known weak spots in this run: weakest language te (F1 92%, precision 88.1%); scam types caught less than 80% of the time: romance 33.3%, phishing_link 66.7%."
   ]
 }

@@ -81,7 +81,9 @@ The final category model stopped at the 4,000-iteration limit before the solver'
 
 ## Calibration
 
-**Shipped now on `feat/data`: the spec defaults** (thresholds 70 / 40, fusion rules 0.45 / model 0.35 / links 0.20, AI blend 0.2), with `version` set to the new model. **Tuned values, waiting for A** (branch `feat/data-calibration`, draft PR): thresholds 70 / 40, fusion **rules 0.30 / model 0.35 / links 0.35**, AI blend 0.2. They pass the engine's own check (0 < 40 < 70 < 100, weights in [0, 1], rules > 0, blend in [0, 1]). They are held back only because two of A's tests hard-code the default weights (`packages/engine/test/fusion.test.ts` "renormalises over available, relevant layers" and `packages/engine/test/model.test.ts` "blends the model score per §8.2") and fail with any other calibration; request to A below.
+**Shipped: rules 0.30 / model 0.35 / links 0.35, thresholds 70 / 40, AI blend 0.2** (chosen in Phase 4, merged into `feat/data` in Phase 5 once A's two engine tests read the calibration in use instead of the defaults). The values pass the engine's own check (0 < 40 < 70 < 100, weights in [0, 1], rules > 0, blend in [0, 1]); `packages/model/test/model.test.ts` checks the same rules against the file.
+
+**Phase 5 check, nothing changed.** After A's rule fixes (which came from the validation error list), the search was rerun read-only: validation is now saturated (F1 99.6%, 0 of 160 bank false alarms with the shipped values; several other points tie). Validation can no longer tell settings apart and is optimistic for these rules, so the Phase 4 values were kept and frozen before the final test run.
 
 **Method** (`npm run calibrate -w @akshi/eval`, validation only). `analyze()` runs once per validation message with the full system and no AI. Every result reports each layer's own score, so the §8.2 fusion is recomputed offline for each grid point; the recomputation reproduces the engine's score on all 548 messages before the search starts (the rules score is recovered unrounded from its share). Grid: weights in steps of 0.05 summing to 1 (only ratios matter), suspicious 30–50, scam 60–80 in steps of 5: 1,050 points.
 
@@ -127,7 +129,7 @@ The shop's round ₹20,000 payment is reported as `large_new_payee` (it is also 
 
 Engine 0.3.0 from `feat/engine` (A's PR #2, merged into `feat/data` because it was not on `main` yet), full system without AI unless stated. Flagged = verdict scam or suspicious.
 
-**Test split, as committed in `packages/content/src/eval-report.json`** (model 2026.11.18-a, default calibration, 527 messages):
+**Test split at the end of Phase 4** (model 2026.11.18-a, default calibration, 527 messages; superseded by "Final results" below):
 
 | Configuration | Precision | Recall | F1 | False-alarm rate |
 |---|---:|---:|---:|---:|
@@ -204,6 +206,27 @@ Each line: text (validation), expected, got (default calibration), signal. Full 
 15. "ఐపీఓ ఇన్‌స్టిట్యూషనల్ కోటా సీట్లు కొన్ని మాత్రమే మిగిలాయి. ఈరోజు ₹1,48,000 పెట్టుబడి పెడితే లిస్టింగ్ రోజున మూడు రెట్లు ఖాయం. ఎవరికీ చెప్పకండి." — expected investment_crypto, got no_signs 39 — **TOO_GOOD_RETURNS** missing in Telugu ("మూడు రెట్లు ఖాయం", three times assured); SECRECY fired.
 16. "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে আজ 600 টাকা রিচার্জ করুন।" — expected job_task, got no_signs 38 — **TASK_JOB_PAYMENT / ADVANCE_FEE** missing in Bengali.
 
-## Error analysis, final results
+## Final results (Phase 5)
 
-Final test and handwritten results with commentary: Phase 5, after the handwritten set arrives and A's rule fixes land.
+Frozen before this run: model 2026.11.18-a, calibration above, engine 0.3.0 with A's Phase 4 fixes (`feat/engine` at 531e580). Nothing was tuned after it. Full system, no AI, held-out test split of the synthetic dataset (527 messages; 247 scams):
+
+| Configuration | Precision | Recall | F1 | False alarms |
+|---|---:|---:|---:|---:|
+| rules_only | 95.3% | 49.8% | 65.4% | 2.1% |
+| rules_model | 96.4% | 85.4% | 90.6% | 2.9% |
+| **full_no_ai** | **96.7%** | **94.7%** | **95.7%** | **2.9%** |
+
+| Language | Precision | Recall | F1 | n |
+|---|---:|---:|---:|---:|
+| en | 98.8% | 94.3% | 96.5% | 168 |
+| hi | 100.0% | 90.8% | 95.2% | 145 |
+| te | 88.1% | 96.3% | 92.0% | 114 |
+| bn | 100.0% | 100.0% | 100.0% | 100 |
+
+- **Genuine bank, OTP and UPI messages flagged: 4.3% (6 of 140)**, above the 3% target. All 8 test false alarms are "suspicious"; no genuine message got the "scam" verdict (scam-only precision 100%, recall 50.6%).
+- Scam category named correctly for 68.4% of flagged scams. Latency p50 0.15 ms, p95 0.94 ms. Statements: 6 of 6 planted scenarios, 0 false flags.
+- Weak spots: **romance 3 of 9** (Hindi "stranded abroad, send money" has no rule; adding a signal is a contract change during the freeze), **phishing_link 10 of 15**, and **Telugu precision 88.1%**.
+- How F1 got here on the 527-message test split: 89.9% (model 2026.11.18-a, default calibration) → 93.4% (tuned calibration) → **95.7%** (A's rule fixes). On the 433 messages of the Merge 1 rehearsal it was 92.9% at Merge 1. The rule fixes were made from validation examples only; A read no test messages.
+- **Not yet measured:** the handwritten set (the team's CSVs have not arrived) and the AI second opinion (no keys in a local `.env`). Both run with exactly these settings when available; no tuning follows.
+
+**Honest commentary.** The test split shares the generator with training: its families are unseen patterns but written by the same author with the same fillers and variants, so these numbers are an upper bound for real messages. Bengali went from the weakest language at Merge 1 (F1 81.4%) to 100%, mostly from A's negation fix; it has only 100 test messages. The handwritten set is the real check, and if its recall is lower, the Proof page will say so.

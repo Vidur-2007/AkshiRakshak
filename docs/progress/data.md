@@ -2,6 +2,15 @@
 
 ## Done
 
+### Phase 5 — final evaluation, README (2026-11-18, partial: handwritten set and AI run pending)
+
+- **Merge:** `origin/main` (unchanged), `origin/feat/engine` at 531e580 (A's fixes for every Phase 4 request except the Hindi romance pattern) and `feat/data-calibration` merged into `feat/data`. Lockfile unchanged. typecheck 0 errors, lint clean, **559 JS tests and 104 Python tests pass**.
+- **Calibration shipped:** rules 0.30 / model 0.35 / links 0.35, thresholds 70 / 40 (A's tests now read the calibration in use). A read-only rerun of the search showed validation is saturated after A's fixes (F1 99.6%, 0% bank false alarms), so nothing was changed. Frozen before the final run.
+- **Final test run** (527 messages, full system, no AI): **precision 96.7%, recall 94.7%, F1 95.7%, false alarms 2.9%**, genuine bank messages flagged 4.3% (6 of 140), no genuine message called "scam". en 96.5%, hi 95.2%, te 92.0% (precision 88.1%), bn 100%. Weak spots: romance 3 of 9, phishing_link 10 of 15. Statements 6 of 6, 0 false flags. Matches A's rehearsal exactly.
+- The report's notes now list the run's weak spots automatically (lowest-F1 language, categories under 80% recall).
+- `docs/eval-notes.md` final results and commentary; README results updated, Phase 6 placeholders marked TODO (production URL: not deployed per A's log).
+- **Not done:** the handwritten set (no CSVs in `data/handwritten/`), the AI sample run (no local `.env` with keys), reviewer corrections (no reviews in `docs/i18n-review.md` yet).
+
 ### Phase 4 — real-engine eval, error analysis, retrain, calibration, drills, README (2026-11-18)
 
 - **Merge:** `origin/main` (PR #1 only) fast-forwarded. A's PR #2 was still open, so `origin/feat/engine` was merged into `feat/data` to measure the real engine (engine 0.3.0). Once PR #2 is on `main`, this branch's diff shows only C's files. 526 tests passed straight after the merge.
@@ -113,34 +122,28 @@ Rebuild everything from `ml/`: `.venv/bin/python -m akshi_ml.build_dataset && .v
 
 ## In progress
 
-Phase 4 PR (`feat/data` → `main`) and the stacked calibration PR (`feat/data-calibration`, draft until A's test change). Next: Phase 5 (handwritten results, AI sample run, final report).
+Merge 2: PR #3 (`feat/data` → `main`, now including the tuned calibration and A's fixes merged from `feat/engine`). PR #4 is folded into it. C merges first; then A, then B.
 
 ## Deferred
 
-- **Handwritten results:** waiting for the team's CSVs in `data/handwritten/`. Then `cd ml && .venv/bin/python -m akshi_ml.handwritten`, then `npm run eval`.
-- **Tuned calibration:** on `feat/data-calibration` until A's two tests read `loadCalibration()`. Rerun `npm run calibrate -w @akshi/eval` after A's rule fixes; the 3% bank limit should then be reachable.
-- AI sample run (`npm run eval -w @akshi/eval -- --ai`, needs keys): Phase 5. `aiBlend` stays 0.2 until then.
-- Bengali drills: not planned. `script: mixed` rows: none yet.
-- README live link, demo video, screenshots and team names: before submission.
+- **Handwritten results:** put the team's CSVs in `data/handwritten/`, then `cd ml && .venv/bin/python -m akshi_ml.handwritten`, then `npm run eval`. Same model and calibration; no tuning afterwards.
+- **AI sample run:** needs your own free Groq and Gemini keys in a local `.env` and `npm run dev:api`; then `npm run eval -w @akshi/eval -- --ai` (about 7 minutes, metrics only). `aiBlend` stays 0.2.
+- Reviewer corrections from `docs/i18n-review.md` (none yet).
+- README live URL, demo video, screenshots and team names: Phase 6 (marked TODO).
+- Bengali drills: not planned.
 
 ## Known issues
 
-- **Bank false alarms are above 3%:** validation 5.0% (3.75% with the tuned calibration), test 14.3%. Almost all are Telugu and Bengali advisories ("the bank never asks for your PIN / OTP") where the rules miss the negation. Needs A's rule fix; calibration cannot fix it without switching off the 45-point floors.
-- **The test split changed composition** (433 → 527) because new families are assigned to all splits. Numbers are not comparable with A's rehearsal without the subset split in `docs/eval-notes.md`.
-- **UPI IDs before a full stop are not extracted by the engine** (6 of 38 validation scams with a UPI ID); reported to A.
-- The statement rules and samples were written together; 6 of 6 caught shows the rules work, not real-world performance.
-- Hindi, Telugu and Bengali text (templates, drills, FAQ, emergency steps, pattern cards, statement strings) is unreviewed; checklist in `docs/i18n-review.md`.
-- The category model is still weaker outside English (te 0.55, bn 0.61 accuracy) and its C is at the top of the grid.
-- Scam links are drawn from a themed pool without matching the bank named in the message.
-- Date and time slots use Latin formats in every language.
-- `loadModel()` uses a plain JSON `import()`; plain Node ESM without a bundler would need an import attribute.
-- Python 3.11 NFKC is Unicode 14.0, Node's ICU is newer; differs only on code points outside the scripts used here.
-- `npm run eval -- --split val` at the root drops the flag (root script runs every workspace); use `npm run eval -w @akshi/eval -- --split val`.
+- **Genuine bank messages flagged: 4.3% on test** (6 of 140, all "suspicious"), above the 3% target. Validation shows 0%, but A's rule fixes came from validation, so validation is optimistic now.
+- **Romance scams: 3 of 9 caught on test.** No rule covers "stranded abroad, send money"; a new signal is a contract change during the freeze. The model alone catches some.
+- **Telugu precision 88.1%** on test, the lowest of the four languages.
+- The test split shares the generator with training; numbers are an upper bound for real messages. Only the handwritten set can say more.
+- The statement rules and samples were written together; 6 of 6 shows the rules work, not real-world performance.
+- Hindi, Telugu and Bengali text is unreviewed (checklist in `docs/i18n-review.md`).
+- The category model is weaker outside English (te 0.55, bn 0.61 validation accuracy).
+- `npm run eval -- --split val` at the root drops the flag; use `npm run eval -w @akshi/eval -- --split val`.
 
 ## Requests
 
-- **To A — calibration tests (blocks the tuned calibration):** `packages/engine/test/fusion.test.ts` "renormalises over available, relevant layers" and `packages/engine/test/model.test.ts` "blends the model score per §8.2 and adds MODEL_PATTERN" compute the expected score with the hard-coded defaults (0.45 / 0.35 / 0.20) but the engine reads C's `calibration.json`. With rules 0.30 / model 0.35 / links 0.35 they fail (expected 42 got 51; expected 64 got 70). Please take the weights from `loadCalibration()` in those two tests, or mock it to the defaults as `calibration.test.ts` does. Then merge `feat/data-calibration`.
-- **To A — negation in the rules (Telugu first):** ASKS_PIN, ASKS_CVV_PASSWORD and SECRECY fire on bank advisories that say the bank will *not* ask ("… పిన్ ఎంటర్ చేయడం అవసరం లేదు", "… పాస్‌వర్డ్ అడగదు", "వాటిని ఎవరికీ చెప్పకండి"). 8 of 8 validation false positives and 15 of 20 in one test family. Also check Bengali genuine bank messages (5 of 20 in the original test families). Examples with scores: `docs/eval-notes.md`, "For A".
-- **To A — UPI extraction:** a UPI ID followed by "." or "।" ("send ₹1,700 to daily.task.reward@ibl. All members…") is not extracted; without the full stop it is, matches the indicator and scores 95.
-- **To A — lexicon gaps** (all from validation, texts in `docs/eval-notes.md`): ASKS_OTP for "reply with the OTP" / "send me the 6 digit code"; QR_TO_RECEIVE for "to receive … scan this QR"; spaced "P.I.N" as PIN; TASK_JOB_PAYMENT / ADVANCE_FEE for "recharge … to withdraw", "combo task", "funds frozen" (en, bn); Hinglish WRONG_TRANSFER_RETURN and RECEIVE_WITH_PIN ("galat … chala gaya", "accept karke PIN daal do"); Telugu SECRECY / STAY_ON_CALL / THREAT_LEGAL / ADVANCE_FEE / TOO_GOOD_RETURNS; Bengali loan-harassment threat ("ছবি … সব কন্টাক্টে"); a romance / stranded-abroad pattern in Hindi.
-- **To A (information):** the eval workspace runs fine under the root `typecheck`; request 1 from Merge 1 is closed. Request 2 (honour `options.layers`) is closed by A's `layers.test.ts`.
+- **To A:** thank you, every Phase 4 request is closed except the Hindi romance pattern (contract change; fine to leave for after the hackathon).
+- **To the human:** ask the team lead to merge PR #3 first (C → A → B). Send the handwritten CSVs and, if you want the AI row on the Proof page, create `.env` with your own keys.

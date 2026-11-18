@@ -2,8 +2,8 @@
 
 **अक्षि रक्षक, "the eye that protects": a scam and fraud checker for UPI users in India.**
 
-- Live app: *link added at deploy (Vercel)*
-- Demo video: *link added before submission*
+- Live app: *TODO (Phase 6): production URL once the Vercel project is deployed*
+- Demo video: *TODO (Phase 6)*
 
 ## What it does
 
@@ -11,7 +11,7 @@ Paste a message, chat, email or screenshot, or check a UPI collect request, QR c
 
 ## Screenshots
 
-Landing, analysis, collect-request explainer, Elder STOP screen and Proof page: *added to `docs/screenshots/` before submission.*
+*TODO (Phase 6): landing, analysis, collect-request explainer, Elder STOP screen and Proof page, in `docs/screenshots/`.*
 
 ## How it works
 
@@ -48,11 +48,11 @@ From `npm run eval` on the held-out **test split of our synthetic dataset** (527
 
 | | Precision | Recall | F1 | False alarms |
 |---|---:|---:|---:|---:|
-| Rules only | 86.2% | 50.6% | 63.8% | 7.1% |
-| Rules + model | 90.7% | 79.3% | 84.7% | 7.1% |
-| Full system, no AI | 91.6% | 88.3% | 89.9% | 7.1% |
+| Rules only | 95.3% | 49.8% | 65.4% | 2.1% |
+| Rules + model | 96.4% | 85.4% | 90.6% | 2.9% |
+| Full system, no AI | 96.7% | 94.7% | 95.7% | 2.9% |
 
-On genuine bank, OTP and UPI messages, 14.3% are wrongly flagged. Almost all of these false alarms are Telugu and Bengali bank notices that say "we never ask for your PIN"; a fix in the rules, so that they read the negation, has been requested. The training data is synthetic, so expect lower numbers on real messages. A team-written test set of real-style messages is added before submission. Every number, by language and by scam type, is on the app's **Proof** page (`/proof`), and how they were produced is in `docs/eval-notes.md`.
+By language, F1 is 96.5% for English, 95.2% for Hindi, 92.0% for Telugu and 100% for Bengali. On genuine bank, OTP and UPI messages, 4.3% (6 of 140) are wrongly marked "suspicious"; no genuine message got the "scam" verdict. Weak spots: romance scams (3 of 9 caught) and phishing links (10 of 15). The training data is synthetic, so expect lower numbers on real messages. A team-written test set and a sample run with the AI second opinion are added before submission (TODO). Every number, by language and by scam type, is on the app's **Proof** page (`/proof`), and how they were produced is in `docs/eval-notes.md`.
 
 ## Privacy and offline use
 
@@ -148,7 +148,7 @@ Built with help from AI coding assistants (Claude Code).
 
 ## Team
 
-*Names added before submission.*
+*TODO (Phase 6): team names.*
 
 ## Licence
 
