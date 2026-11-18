@@ -1,0 +1,15 @@
+family: remote-te-02
+label: scam
+category: remote_access
+lang: te
+script: telu
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+templates:
+- సార్, మీ నెట్ బ్యాంకింగ్‌లో సమస్య ఉంది. {app} ఇన్‌స్టాల్ చేసి స్క్రీన్ షేర్ ఆన్ చేయండి, నేను సరిచేస్తాను.
+- మీ క్రెడిట్ కార్డ్ వార్షిక ఛార్జీ {amount} రద్దు చేయాలంటే {app} తెరిచి కనిపించే తొమ్మిది అంకెల కోడ్ చెప్పండి.
+- యాప్‌లో అడిగే అన్ని అనుమతులు ఇవ్వండి. నేను మీ ఫోన్‌లోనే కేవైసీ పూర్తి చేస్తాను, మీరు ఏమీ చేయనవసరం లేదు.
+notes: Telugu screen share

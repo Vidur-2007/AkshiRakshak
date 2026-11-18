@@ -1,0 +1,14 @@
+family: emi-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: legit_bill
+max_rows: 20
+templates:
+- మీ లోన్ ఖాతా [#8] ఈఎంఐ {amount} {date} న మీ ఖాతా నుండి డెబిట్ అవుతుంది. తగిన నిల్వ ఉంచండి. -{bank}
+- మీ ఈఎంఐ {amount} విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా [#8]. ధన్యవాదాలు. -{bank}
+- 'గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం {amount} {date} లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.'
+notes: Genuine Telugu EMI and premium reminders

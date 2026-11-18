@@ -1,0 +1,16 @@
+family: telecom-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+pools:
+  brand: brands.telecom
+templates:
+- మీ ప్రీపెయిడ్ ప్లాన్ {date} న ముగుస్తుంది. రీఛార్జ్ చేయడానికి అధికారిక యాప్ ఉపయోగించండి. -{brand}
+- మీ నంబర్‌పై {amount} రీఛార్జ్ విజయవంతమైంది. చెల్లుబాటు 28 రోజులు. -{brand}
+- మీ పోస్ట్‌పెయిడ్ బిల్లు {amount} సిద్ధంగా ఉంది. చివరి తేదీ {date}. -{brand}
+notes: Genuine Telugu telecom messages

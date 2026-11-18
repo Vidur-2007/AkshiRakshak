@@ -1,0 +1,17 @@
+family: chat-bn-03
+label: legit
+category: null
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+amount: legit_order
+max_rows: 20
+templates:
+- মা, বাজারের জন্য {amount} পাঠালাম। পৌঁছেছে কিনা দেখে জানিও।
+- কাল স্কুলের ফি দিতে হবে, বাবাকে মনে করিয়ে দিস। বাবা অ্যাপেই সরাসরি দিয়ে দেবে।
+- তোকে {amount} পাঠালাম, সিনেমার টিকিটের টাকা। রাতে দেখা হচ্ছে।
+- ব্যাংক থেকে বলছে বলে কেউ ফোন করে ওটিপি চাইছিল, আমি বলিনি। তুইও সাবধানে থাকিস।
+- বিদ্যুতের বিল {amount} এসেছে, আমি অ্যাপে দিয়ে দিয়েছি। রসিদটা গ্রুপে দিলাম।
+- অটোওয়ালাকে {amount} দিতে হবে, আমার কাছে খুচরো নেই। তুই ইউপিআই-তে পাঠাতে পারবি?
+notes: Genuine Bengali family chats about money

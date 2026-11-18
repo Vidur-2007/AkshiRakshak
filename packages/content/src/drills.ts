@@ -4,7 +4,7 @@ import type { Drill, DrillChoice, DrillNode, L10n, SignalId } from '@akshi/contr
  * Scam Dojo drills (SPEC.md M11.1, SPEC_C_DATA.md §7): scripted chats where the player picks a reply.
  * Every drill has a path that ends "safe" (the player kept their money) and one that ends "scammed", 2–3
  * choices at each decision, feedback on every choice, and a red flag on the key moments.
- * Phase 3: 6 drills in English, Hindi and Telugu. Phase 4 brings this to 10.
+ * 10 drills in English, Hindi and Telugu, one scam category each.
  */
 
 type Three = [en: string, hi: string, te: string];
@@ -782,6 +782,547 @@ export const DRILLS: Drill[] = [
         'You lost ₹6,000 and the "balance" never paid out. In real life: call 1930 straight away with the payment details.',
         'आपने ₹6,000 गंवाए और "बैलेंस" कभी नहीं मिला। असल में: भुगतान की जानकारी के साथ तुरंत 1930 पर कॉल करें।',
         'మీరు ₹6,000 కోల్పోయారు, "బ్యాలెన్స్" ఎప్పటికీ రాలేదు. నిజ జీవితంలో: చెల్లింపు వివరాలతో వెంటనే 1930 కు కాల్ చేయండి.',
+      ]),
+    ],
+  ),
+
+  drill(
+    {
+      id: 'drill-otp-bank-call',
+      title: t(['"Read me the OTP to stop the fraud"', '"धोखाधड़ी रोकने के लिए OTP बताइए"', '"మోసం ఆపడానికి OTP చెప్పండి"']),
+      category: 'otp_theft',
+      difficulty: 2,
+      channel: 'call',
+      persona: { name: 'Bank Security Team', avatar: 'bank' },
+    },
+    [
+      say(
+        'o_start',
+        [
+          'Hello, I am calling from your bank\'s security team. Someone is trying to take ₹18,000 from your account right now. I am blocking it. You will get an OTP; read it to me so I can cancel the transaction.',
+          'नमस्ते, मैं आपके बैंक की सिक्योरिटी टीम से बोल रहा हूं। अभी कोई आपके खाते से ₹18,000 निकालने की कोशिश कर रहा है। मैं इसे रोक रहा हूं। आपको एक OTP आएगा; लेनदेन रद्द करने के लिए वह मुझे बताइए।',
+          'నమస్తే, మీ బ్యాంక్ సెక్యూరిటీ టీమ్ నుండి మాట్లాడుతున్నాను. ఇప్పుడే ఎవరో మీ ఖాతా నుండి ₹18,000 తీసుకోవడానికి ప్రయత్నిస్తున్నారు. నేను దాన్ని ఆపుతున్నాను. మీకు ఒక OTP వస్తుంది; లావాదేవీ రద్దు చేయడానికి అది నాకు చెప్పండి.',
+        ],
+        [
+          choice(
+            'o_hang',
+            'o_end_safe',
+            10,
+            ['Hang up and call the number on the back of my card.', 'फ़ोन काटकर कार्ड के पीछे लिखे नंबर पर कॉल करूं।', 'ఫోన్ కట్ చేసి నా కార్డ్ వెనుక ఉన్న నంబర్‌కు కాల్ చేస్తాను.'],
+            [
+              'Right. A bank never asks you for an OTP. Calling the official number yourself is the safe check.',
+              'सही। बैंक कभी OTP नहीं मांगता। खुद आधिकारिक नंबर पर कॉल करना ही सुरक्षित जांच है।',
+              'సరైనది. బ్యాంక్ ఎప్పుడూ OTP అడగదు. అధికారిక నంబర్‌కు మీరే కాల్ చేయడం సురక్షితమైన తనిఖీ.',
+            ],
+            'ASKS_OTP',
+          ),
+          choice(
+            'o_ask',
+            'o_push',
+            3,
+            ['How do I know you are from the bank?', 'मैं कैसे मानूं कि आप बैंक से हैं?', 'మీరు బ్యాంక్ నుండే అని నాకెలా తెలుస్తుంది?'],
+            [
+              'Good to doubt. A name, an employee ID or a caller ID proves nothing.',
+              'शक करना सही है। नाम, कर्मचारी ID या कॉलर ID से कुछ साबित नहीं होता।',
+              'అనుమానించడం మంచిదే. పేరు, ఉద్యోగి ID లేదా కాలర్ ID ఏమీ నిరూపించవు.',
+            ],
+          ),
+          choice(
+            'o_wait',
+            'o_otp',
+            0,
+            ['OK, I will wait for the OTP.', 'ठीक है, मैं OTP का इंतज़ार करता हूं।', 'సరే, OTP కోసం ఎదురుచూస్తాను.'],
+            [
+              'An OTP is a key to your account. Nobody who calls you should ever get it.',
+              'OTP आपके खाते की चाबी है। फ़ोन करने वाले किसी को भी यह नहीं मिलना चाहिए।',
+              'OTP మీ ఖాతాకు తాళంచెవి. మీకు ఫోన్ చేసిన ఎవరికీ అది ఇవ్వకూడదు.',
+            ],
+          ),
+        ],
+      ),
+      say(
+        'o_push',
+        [
+          'I am Rahul Verma, employee ID 4471. If you do not cooperate, your account will be frozen today. Just tell me the OTP.',
+          'मैं राहुल वर्मा हूं, कर्मचारी ID 4471। आपने सहयोग नहीं किया तो आज ही आपका खाता फ़्रीज़ हो जाएगा। बस OTP बता दीजिए।',
+          'నేను రాహుల్ వర్మ, ఉద్యోగి ID 4471. మీరు సహకరించకపోతే ఈరోజే మీ ఖాతా ఫ్రీజ్ అవుతుంది. OTP చెప్పండి చాలు.',
+        ],
+        [
+          choice(
+            'op_report',
+            'o_end_reported',
+            10,
+            ['Cut the call, block the number and report it.', 'कॉल काटें, नंबर ब्लॉक करें और शिकायत करें।', 'కాల్ కట్ చేసి, నంబర్ బ్లాక్ చేసి, ఫిర్యాదు చేయండి.'],
+            [
+              'Right. The threat to freeze your account is there to scare you into giving the OTP.',
+              'सही। खाता फ़्रीज़ करने की धमकी आपको डराकर OTP लेने के लिए है।',
+              'సరైనది. ఖాతా ఫ్రీజ్ చేస్తామనే బెదిరింపు మిమ్మల్ని భయపెట్టి OTP తీసుకోవడానికే.',
+            ],
+            'THREAT_BLOCK',
+          ),
+          choice(
+            'op_give',
+            'o_end_scammed',
+            0,
+            ['He has an employee ID, so I will tell him.', 'उनके पास कर्मचारी ID है, तो बता देता हूं।', 'ఆయనకు ఉద్యోగి ID ఉంది కాబట్టి చెప్పేస్తాను.'],
+            [
+              'Anyone can say an employee ID. The OTP approved a payment from your account.',
+              'कर्मचारी ID कोई भी बोल सकता है। OTP से आपके खाते से भुगतान मंज़ूर हो गया।',
+              'ఉద్యోగి ID ఎవరైనా చెప్పవచ్చు. OTP తో మీ ఖాతా నుండి చెల్లింపు ఆమోదించబడింది.',
+            ],
+          ),
+        ],
+      ),
+      say(
+        'o_otp',
+        [
+          'The OTP has come, yes? Read it to me now, quickly, the money will leave in two minutes!',
+          'OTP आ गया ना? अभी जल्दी बताइए, दो मिनट में पैसे निकल जाएंगे!',
+          'OTP వచ్చిందా? ఇప్పుడే త్వరగా చెప్పండి, రెండు నిమిషాల్లో డబ్బు వెళ్లిపోతుంది!',
+        ],
+        [
+          choice(
+            'oo_read',
+            'o_end_scammed',
+            0,
+            ['Read out the OTP.', 'OTP पढ़कर बता दें।', 'OTP చదివి చెప్పండి.'],
+            [
+              'The SMS said the OTP was for a payment of ₹18,000 and not to share it. Reading it out approved that payment.',
+              'SMS में लिखा था कि OTP ₹18,000 के भुगतान के लिए है और किसी को न बताएं। बताते ही वह भुगतान मंज़ूर हो गया।',
+              'OTP ₹18,000 చెల్లింపు కోసం అని, ఎవరికీ చెప్పవద్దని SMS లో ఉంది. చెప్పగానే ఆ చెల్లింపు ఆమోదించబడింది.',
+            ],
+          ),
+          choice(
+            'oo_sms',
+            'o_end_reported',
+            10,
+            [
+              'Read the SMS first: it says the OTP is for a payment. Cut the call and report it.',
+              'पहले SMS पढ़ें: उसमें लिखा है कि OTP भुगतान के लिए है। कॉल काटें और शिकायत करें।',
+              'ముందు SMS చదవండి: OTP చెల్లింపు కోసం అని ఉంది. కాల్ కట్ చేసి ఫిర్యాదు చేయండి.',
+            ],
+            [
+              'Right. The OTP would have approved a payment, not cancelled one. The hurry was there to stop you reading it.',
+              'सही। OTP से भुगतान मंज़ूर होता, रद्द नहीं। जल्दबाज़ी इसलिए थी कि आप उसे पढ़ न पाएं।',
+              'సరైనది. OTP చెల్లింపును ఆమోదించేది, రద్దు చేసేది కాదు. మీరు చదవకుండా ఉండటానికే తొందర.',
+            ],
+            'URGENCY',
+          ),
+        ],
+      ),
+      end('o_end_safe', 'safe', [
+        'You kept your money. If a transaction really is suspicious, your bank blocks it without asking you for an OTP.',
+        'आपके पैसे बच गए। लेनदेन सच में संदिग्ध हो तो बैंक आपसे OTP मांगे बिना उसे रोक देता है।',
+        'మీ డబ్బు సురక్షితం. లావాదేవీ నిజంగా అనుమానాస్పదమైతే బ్యాంక్ మిమ్మల్ని OTP అడగకుండానే దాన్ని ఆపుతుంది.',
+      ]),
+      end('o_end_reported', 'safe', SAFE_REPORT),
+      end('o_end_scammed', 'scammed', [
+        'The OTP approved a payment of ₹18,000 to the scammer. In real life: call 1930 and your bank straight away.',
+        'OTP से ठग को ₹18,000 का भुगतान मंज़ूर हो गया। असल में: तुरंत 1930 और अपने बैंक को कॉल करें।',
+        'OTP తో మోసగాడికి ₹18,000 చెల్లింపు ఆమోదించబడింది. నిజ జీవితంలో: వెంటనే 1930 కు, మీ బ్యాంక్‌కు కాల్ చేయండి.',
+      ]),
+    ],
+  ),
+
+  drill(
+    {
+      id: 'drill-parcel-fee',
+      title: t(['The ₹25 re-delivery fee', '₹25 की री-डिलीवरी फ़ीस', '₹25 రీ-డెలివరీ ఫీజు']),
+      category: 'courier_customs',
+      difficulty: 1,
+      channel: 'sms',
+      persona: { name: 'IN-PARCEL', avatar: 'courier' },
+    },
+    [
+      say(
+        'p_start',
+        [
+          'Your parcel could not be delivered because the address is incomplete. Pay the ₹25 re-delivery fee within 12 hours or it will be returned: https://parcel-redeliver.top/pay',
+          'पता अधूरा होने से आपका पार्सल डिलीवर नहीं हो सका। 12 घंटे में ₹25 री-डिलीवरी फ़ीस दें वरना पार्सल लौटा दिया जाएगा: https://parcel-redeliver.top/pay',
+          'చిరునామా అసంపూర్తిగా ఉన్నందున మీ పార్సెల్ డెలివరీ కాలేదు. 12 గంటల్లో ₹25 రీ-డెలివరీ ఫీజు చెల్లించండి, లేకపోతే పార్సెల్ తిరిగి పంపబడుతుంది: https://parcel-redeliver.top/pay',
+        ],
+        [
+          choice(
+            'p_tap',
+            'p_page',
+            0,
+            ['I am expecting a parcel. Tap the link.', 'मैं पार्सल का इंतज़ार कर रहा हूं। लिंक दबाऊं।', 'నేను పార్సెల్ కోసం ఎదురుచూస్తున్నాను. లింక్ నొక్కుతాను.'],
+            [
+              'A small fee makes it feel harmless. Look at the address: parcel-redeliver.top is not a courier\'s website.',
+              'छोटी फ़ीस से यह मामूली लगता है। पता देखें: parcel-redeliver.top किसी कूरियर की वेबसाइट नहीं है।',
+              'చిన్న ఫీజు వల్ల ఇది హానిలేనిదిగా అనిపిస్తుంది. చిరునామా చూడండి: parcel-redeliver.top ఏ కొరియర్ వెబ్‌సైట్ కాదు.',
+            ],
+          ),
+          choice(
+            'p_track',
+            'p_end_safe',
+            10,
+            [
+              'Check the tracking number in the courier\'s official app instead.',
+              'इसकी जगह कूरियर के आधिकारिक ऐप में ट्रैकिंग नंबर देखूं।',
+              'దానికి బదులు కొరియర్ అధికారిక యాప్‌లో ట్రాకింగ్ నంబర్ చూస్తాను.',
+            ],
+            [
+              'Right. Couriers do not collect fees through SMS links; the official app or website shows the real status.',
+              'सही। कूरियर SMS लिंक से फ़ीस नहीं लेते; असली स्थिति आधिकारिक ऐप या वेबसाइट पर दिखती है।',
+              'సరైనది. కొరియర్లు SMS లింక్‌ల ద్వారా ఫీజు తీసుకోవు; అసలు స్థితి అధికారిక యాప్ లేదా వెబ్‌సైట్‌లో కనిపిస్తుంది.',
+            ],
+            'SUSPICIOUS_LINK',
+          ),
+          choice(
+            'p_ignore',
+            'p_end_reported',
+            8,
+            [
+              'I am not expecting anything. Delete it and report the sender.',
+              'मैं कुछ नहीं मंगा रहा। मैसेज हटाकर भेजने वाले की शिकायत करूं।',
+              'నేను ఏమీ ఆర్డర్ చేయలేదు. మెసేజ్ తొలగించి పంపినవారిపై ఫిర్యాదు చేస్తాను.',
+            ],
+            [
+              'Good. These messages go to thousands of people at once, hoping some are expecting a parcel.',
+              'अच्छा। ऐसे मैसेज एक साथ हज़ारों लोगों को जाते हैं, इस उम्मीद में कि कोई पार्सल का इंतज़ार कर रहा हो।',
+              'మంచిది. పార్సెల్ కోసం ఎవరో ఎదురుచూస్తుంటారనే ఆశతో ఇలాంటి మెసేజ్‌లు ఒకేసారి వేలమందికి వెళ్తాయి.',
+            ],
+            'RISKY_TLD',
+          ),
+        ],
+      ),
+      say(
+        'p_page',
+        [
+          'The page shows a courier logo and asks for your card number, expiry date and CVV, then: "Enter the OTP sent to your phone to pay ₹25."',
+          'पेज पर कूरियर का लोगो है और वह कार्ड नंबर, एक्सपायरी तारीख और CVV मांगता है, फिर: "₹25 भरने के लिए फ़ोन पर आया OTP डालें।"',
+          'పేజీలో కొరియర్ లోగో ఉంది, అది కార్డ్ నంబర్, గడువు తేదీ, CVV అడుగుతుంది, ఆ తర్వాత: "₹25 చెల్లించడానికి మీ ఫోన్‌కు వచ్చిన OTP ఎంటర్ చేయండి."',
+        ],
+        [
+          choice(
+            'pp_pay',
+            'p_end_scammed',
+            0,
+            ['Enter the card details and the OTP to pay ₹25.', '₹25 भरने के लिए कार्ड की जानकारी और OTP डालूं।', '₹25 చెల్లించడానికి కార్డ్ వివరాలు, OTP ఎంటర్ చేస్తాను.'],
+            [
+              'The OTP SMS was for a much bigger amount than ₹25. The page was there to get your card details and OTP.',
+              'OTP वाला SMS ₹25 से कहीं बड़ी रकम का था। यह पेज आपके कार्ड की जानकारी और OTP लेने के लिए था।',
+              'OTP SMS ₹25 కంటే చాలా పెద్ద మొత్తానికి వచ్చింది. మీ కార్డ్ వివరాలు, OTP తీసుకోవడానికే ఆ పేజీ.',
+            ],
+          ),
+          choice(
+            'pp_close',
+            'p_end_reported',
+            8,
+            [
+              'Close the page. A ₹25 fee should not need my CVV and an OTP. Report it.',
+              'पेज बंद करूं। ₹25 की फ़ीस के लिए CVV और OTP की ज़रूरत नहीं होनी चाहिए। शिकायत करूं।',
+              'పేజీ మూసేస్తాను. ₹25 ఫీజుకు CVV, OTP అవసరం ఉండకూడదు. ఫిర్యాదు చేస్తాను.',
+            ],
+            [
+              'Right. You stopped before entering anything. If you had typed card details, you would block the card now.',
+              'सही। आपने कुछ भी डालने से पहले रोक दिया। अगर कार्ड की जानकारी डाली होती तो अभी कार्ड ब्लॉक करना होता।',
+              'సరైనది. ఏదీ ఎంటర్ చేయకముందే ఆపారు. కార్డ్ వివరాలు టైప్ చేసి ఉంటే ఇప్పుడు కార్డ్ బ్లాక్ చేయాలి.',
+            ],
+            'ASKS_CVV_PASSWORD',
+          ),
+        ],
+      ),
+      end('p_end_safe', 'safe', [
+        'You kept your money. Check deliveries only in the courier\'s own app or website, never through a link in an SMS.',
+        'आपके पैसे बच गए। डिलीवरी हमेशा कूरियर के अपने ऐप या वेबसाइट में देखें, SMS के लिंक से कभी नहीं।',
+        'మీ డబ్బు సురక్షితం. డెలివరీని ఎప్పుడూ కొరియర్ సొంత యాప్ లేదా వెబ్‌సైట్‌లోనే చూడండి, SMS లింక్ ద్వారా ఎప్పుడూ కాదు.',
+      ]),
+      end('p_end_reported', 'safe', SAFE_REPORT),
+      end('p_end_scammed', 'scammed', [
+        'Your card was charged far more than ₹25. In real life: block the card in your bank app and call 1930 straight away.',
+        'आपके कार्ड से ₹25 से कहीं ज़्यादा कट गया। असल में: बैंक ऐप में कार्ड ब्लॉक करें और तुरंत 1930 पर कॉल करें।',
+        'మీ కార్డ్ నుండి ₹25 కంటే చాలా ఎక్కువ కట్ అయింది. నిజ జీవితంలో: బ్యాంక్ యాప్‌లో కార్డ్ బ్లాక్ చేసి వెంటనే 1930 కు కాల్ చేయండి.',
+      ]),
+    ],
+  ),
+
+  drill(
+    {
+      id: 'drill-screen-share',
+      title: t(['The helpline from a search result', 'सर्च में मिला हेल्पलाइन नंबर', 'సెర్చ్‌లో దొరికిన హెల్ప్‌లైన్ నంబర్']),
+      category: 'remote_access',
+      difficulty: 2,
+      channel: 'call',
+      persona: { name: 'Customer Care', avatar: 'support' },
+    },
+    [
+      say(
+        's_start',
+        [
+          'Thank you for calling customer care. I can see your failed payment of ₹3,200 is stuck. Install the "Quick Help Desk" app from the Play Store and tell me the 9-digit code on the screen, and I will refund it.',
+          'कस्टमर केयर पर कॉल करने के लिए धन्यवाद। मैं देख रहा हूं कि आपका ₹3,200 का फेल हुआ भुगतान अटका है। Play Store से "Quick Help Desk" ऐप इंस्टॉल करें और स्क्रीन पर दिखा 9 अंकों का कोड बताएं, मैं रिफंड कर दूंगा।',
+          'కస్టమర్ కేర్‌కు కాల్ చేసినందుకు ధన్యవాదాలు. మీ ₹3,200 ఫెయిల్ అయిన చెల్లింపు ఆగిపోయింది. Play Store నుండి "Quick Help Desk" యాప్ ఇన్‌స్టాల్ చేసి స్క్రీన్‌పై కనిపించే 9 అంకెల కోడ్ చెప్పండి, నేను రీఫండ్ చేస్తాను.',
+        ],
+        [
+          choice(
+            's_official',
+            's_end_safe',
+            10,
+            [
+              'Hang up and raise the complaint in the Help section of the official app.',
+              'फ़ोन काटकर आधिकारिक ऐप के Help सेक्शन में शिकायत दर्ज करूं।',
+              'ఫోన్ కట్ చేసి అధికారిక యాప్‌లోని Help విభాగంలో ఫిర్యాదు చేస్తాను.',
+            ],
+            [
+              'Right. Scammers plant fake helpline numbers in search results; the help inside the official app is the real one.',
+              'सही। ठग सर्च नतीजों में नकली हेल्पलाइन नंबर डालते हैं; आधिकारिक ऐप के अंदर वाली मदद ही असली है।',
+              'సరైనది. మోసగాళ్లు సెర్చ్ ఫలితాల్లో నకిలీ హెల్ప్‌లైన్ నంబర్లు పెడతారు; అధికారిక యాప్‌లోని సహాయమే నిజమైనది.',
+            ],
+            'ASKS_REMOTE_APP',
+          ),
+          choice(
+            's_why',
+            's_push',
+            3,
+            [
+              'Why do you need to see my screen for a refund?',
+              'रिफंड के लिए आपको मेरी स्क्रीन क्यों देखनी है?',
+              'రీఫండ్ కోసం మీరు నా స్క్రీన్ ఎందుకు చూడాలి?',
+            ],
+            [
+              'Good question. Real support never needs to see or control your phone.',
+              'अच्छा सवाल। असली सपोर्ट को कभी आपका फ़ोन देखने या चलाने की ज़रूरत नहीं होती।',
+              'మంచి ప్రశ్న. నిజమైన సపోర్ట్‌కు మీ ఫోన్ చూడాల్సిన లేదా నియంత్రించాల్సిన అవసరం ఎప్పుడూ ఉండదు.',
+            ],
+          ),
+          choice(
+            's_install',
+            's_code',
+            0,
+            ['Install the app as he says.', 'जैसा वे कह रहे हैं, ऐप इंस्टॉल करूं।', 'ఆయన చెప్పినట్టు యాప్ ఇన్‌స్టాల్ చేస్తాను.'],
+            [
+              'A screen-sharing app lets the caller see everything on your phone, including OTPs and your PIN as you type it.',
+              'स्क्रीन शेयरिंग ऐप से कॉल करने वाला आपके फ़ोन पर सब कुछ देख सकता है, OTP और टाइप करते समय आपका PIN भी।',
+              'స్క్రీన్ షేరింగ్ యాప్‌తో కాల్ చేసినవారు మీ ఫోన్‌లో అన్నీ చూడగలరు, OTP లు, మీరు టైప్ చేసే పిన్ కూడా.',
+            ],
+          ),
+        ],
+      ),
+      say(
+        's_push',
+        [
+          'Sir, it is our standard process, every customer does it. Otherwise your refund will be cancelled today.',
+          'सर, यह हमारी सामान्य प्रक्रिया है, हर ग्राहक यही करता है। वरना आज आपका रिफंड रद्द हो जाएगा।',
+          'సార్, ఇది మా సాధారణ ప్రక్రియ, ప్రతి కస్టమర్ ఇలాగే చేస్తారు. లేకపోతే ఈరోజు మీ రీఫండ్ రద్దవుతుంది.',
+        ],
+        [
+          choice(
+            'sp_report',
+            's_end_reported',
+            10,
+            ['Hang up and report the number.', 'फ़ोन काटकर नंबर की शिकायत करूं।', 'ఫోన్ కట్ చేసి నంబర్‌పై ఫిర్యాదు చేస్తాను.'],
+            [
+              'Right. "Everyone does it" and a deadline are pressure, not a reason.',
+              'सही। "सब करते हैं" और समय-सीमा दबाव है, कारण नहीं।',
+              'సరైనది. "అందరూ చేస్తారు", గడువు అనేవి ఒత్తిడి మాత్రమే, కారణం కాదు.',
+            ],
+            'URGENCY',
+          ),
+          choice(
+            'sp_install',
+            's_code',
+            0,
+            ['Fine, I will install it.', 'ठीक है, इंस्टॉल कर देता हूं।', 'సరే, ఇన్‌స్టాల్ చేస్తాను.'],
+            [
+              'Once the app is open, the caller can watch everything you do.',
+              'ऐप खुलते ही कॉल करने वाला आपकी हर हरकत देख सकता है।',
+              'యాప్ తెరిచిన వెంటనే కాల్ చేసినవారు మీరు చేసే ప్రతిదీ చూడగలరు.',
+            ],
+          ),
+        ],
+      ),
+      say(
+        's_code',
+        [
+          'Good, I am connected. Now open your UPI app, enter ₹1 to "verify" and type your PIN. I am watching to guide you.',
+          'ठीक है, मैं जुड़ गया। अब अपना UPI ऐप खोलें, "वेरिफ़ाई" करने के लिए ₹1 डालें और अपना PIN टाइप करें। मैं देखकर बताता रहूंगा।',
+          'సరే, కనెక్ట్ అయ్యాను. ఇప్పుడు మీ UPI యాప్ తెరిచి "వెరిఫై" చేయడానికి ₹1 ఎంటర్ చేసి పిన్ టైప్ చేయండి. నేను చూస్తూ చెబుతాను.',
+        ],
+        [
+          choice(
+            'sc_pin',
+            's_end_scammed',
+            0,
+            ['Type the PIN while he watches.', 'उनके देखते हुए PIN टाइप करूं।', 'ఆయన చూస్తుండగా పిన్ టైప్ చేస్తాను.'],
+            [
+              'He watched your PIN being typed. With the app still open, he can now send money from your account.',
+              'उन्होंने आपको PIN टाइप करते देख लिया। ऐप खुला होने से वे अब आपके खाते से पैसे भेज सकते हैं।',
+              'మీరు పిన్ టైప్ చేయడం ఆయన చూశారు. యాప్ ఇంకా తెరిచి ఉండటంతో ఇప్పుడు మీ ఖాతా నుండి డబ్బు పంపగలరు.',
+            ],
+          ),
+          choice(
+            'sc_stop',
+            's_end_reported',
+            8,
+            [
+              'Stop. Turn on airplane mode, uninstall the app and call my bank.',
+              'रुकूं। एयरप्लेन मोड चालू करूं, ऐप अनइंस्टॉल करूं और बैंक को कॉल करूं।',
+              'ఆపేస్తాను. ఎయిర్‌ప్లేన్ మోడ్ ఆన్ చేసి, యాప్ అన్‌ఇన్‌స్టాల్ చేసి, బ్యాంక్‌కు కాల్ చేస్తాను.',
+            ],
+            [
+              'Right. Airplane mode and uninstalling cut their access. Tell the bank a remote app was installed.',
+              'सही। एयरप्लेन मोड और अनइंस्टॉल करने से उनकी पहुंच कट जाती है। बैंक को बताएं कि रिमोट ऐप इंस्टॉल हुआ था।',
+              'సరైనది. ఎయిర్‌ప్లేన్ మోడ్, అన్‌ఇన్‌స్టాల్ వారి యాక్సెస్‌ను కట్ చేస్తాయి. రిమోట్ యాప్ ఇన్‌స్టాల్ అయిందని బ్యాంక్‌కు చెప్పండి.',
+            ],
+            'ASKS_PIN',
+          ),
+        ],
+      ),
+      end('s_end_safe', 'safe', [
+        'You kept your money. Find support only inside the official app or on its official website.',
+        'आपके पैसे बच गए। मदद सिर्फ़ आधिकारिक ऐप के अंदर या उसकी आधिकारिक वेबसाइट पर खोजें।',
+        'మీ డబ్బు సురక్షితం. సహాయం కోసం అధికారిక యాప్‌లో లేదా దాని అధికారిక వెబ్‌సైట్‌లో మాత్రమే చూడండి.',
+      ]),
+      end('s_end_reported', 'safe', SAFE_REPORT),
+      end('s_end_scammed', 'scammed', [
+        'Money left your account while he watched. In real life: airplane mode, uninstall the app, then call 1930 and your bank.',
+        'उनके देखते-देखते आपके खाते से पैसे निकल गए। असल में: एयरप्लेन मोड, ऐप अनइंस्टॉल, फिर 1930 और बैंक को कॉल करें।',
+        'ఆయన చూస్తుండగానే మీ ఖాతా నుండి డబ్బు వెళ్లింది. నిజ జీవితంలో: ఎయిర్‌ప్లేన్ మోడ్, యాప్ అన్‌ఇన్‌స్టాల్, ఆ తర్వాత 1930 కు, బ్యాంక్‌కు కాల్ చేయండి.',
+      ]),
+    ],
+  ),
+
+  drill(
+    {
+      id: 'drill-investment-group',
+      title: t(['"Guaranteed 5% a day"', '"रोज़ 5% पक्का मुनाफ़ा"', '"రోజుకు 5% ఖచ్చితమైన లాభం"']),
+      category: 'investment_crypto',
+      difficulty: 3,
+      channel: 'whatsapp',
+      persona: { name: 'Stock Mentor', avatar: 'unknown' },
+    },
+    [
+      say(
+        'i_start',
+        [
+          'Welcome to the VIP Profit Club! Our members earn a guaranteed 5% return every day. See today\'s screenshots from members. Start with just ₹10,000 on our trading app.',
+          'VIP प्रॉफ़िट क्लब में स्वागत है! हमारे सदस्य रोज़ 5% पक्का मुनाफ़ा कमाते हैं। सदस्यों के आज के स्क्रीनशॉट देखिए। हमारे ट्रेडिंग ऐप पर सिर्फ़ ₹10,000 से शुरू करें।',
+          'VIP ప్రాఫిట్ క్లబ్‌కు స్వాగతం! మా సభ్యులు ప్రతిరోజూ 5% ఖచ్చితమైన లాభం పొందుతారు. సభ్యుల ఈరోజు స్క్రీన్‌షాట్‌లు చూడండి. మా ట్రేడింగ్ యాప్‌లో కేవలం ₹10,000 తో ప్రారంభించండి.',
+        ],
+        [
+          choice(
+            'i_check',
+            'i_end_safe',
+            10,
+            [
+              'Check first whether the adviser is registered with SEBI.',
+              'पहले देखूं कि सलाहकार SEBI में रजिस्टर्ड है या नहीं।',
+              'సలహాదారు SEBI లో నమోదై ఉన్నారో లేదో ముందు చూస్తాను.',
+            ],
+            [
+              'Right. No real investment guarantees a daily return, and registered advisers can be looked up on sebi.gov.in.',
+              'सही। कोई असली निवेश रोज़ का मुनाफ़ा पक्का नहीं करता, और रजिस्टर्ड सलाहकार sebi.gov.in पर देखे जा सकते हैं।',
+              'సరైనది. ఏ నిజమైన పెట్టుబడీ రోజువారీ లాభానికి హామీ ఇవ్వదు, నమోదైన సలహాదారులను sebi.gov.in లో చూడవచ్చు.',
+            ],
+            'TOO_GOOD_RETURNS',
+          ),
+          choice(
+            'i_leave',
+            'i_end_reported',
+            8,
+            ['Leave the group and report it.', 'ग्रुप छोड़कर शिकायत करूं।', 'గ్రూప్ నుండి బయటకు వచ్చి ఫిర్యాదు చేస్తాను.'],
+            [
+              'Good. Screenshots of profits are easy to fake, and "guaranteed" returns are the warning sign.',
+              'अच्छा। मुनाफ़े के स्क्रीनशॉट आसानी से नकली बनते हैं, और "पक्का" मुनाफ़ा ही चेतावनी है।',
+              'మంచిది. లాభాల స్క్రీన్‌షాట్‌లను సులభంగా నకిలీ చేయవచ్చు, "ఖచ్చితమైన" లాభమే హెచ్చరిక.',
+            ],
+            'TOO_GOOD_RETURNS',
+          ),
+          choice(
+            'i_join',
+            'i_profit',
+            0,
+            ['The screenshots look real. I will start with ₹10,000.', 'स्क्रीनशॉट असली लगते हैं। ₹10,000 से शुरू करता हूं।', 'స్క్రీన్‌షాట్‌లు నిజమైనవిగా ఉన్నాయి. ₹10,000 తో మొదలుపెడతాను.'],
+            [
+              'The "members" and their screenshots are often part of the same scam.',
+              'ये "सदस्य" और उनके स्क्रीनशॉट अक्सर उसी ठगी का हिस्सा होते हैं।',
+              'ఆ "సభ్యులు", వారి స్క్రీన్‌షాట్‌లు తరచూ అదే మోసంలో భాగం.',
+            ],
+          ),
+        ],
+      ),
+      say(
+        'i_profit',
+        [
+          'Congratulations! Your ₹10,000 is now ₹14,600 in the app. Add ₹50,000 today for an institutional IPO slot: 3 times the money on listing day.',
+          'बधाई हो! ऐप में आपके ₹10,000 अब ₹14,600 हो गए। संस्थागत IPO स्लॉट के लिए आज ₹50,000 और डालें: लिस्टिंग के दिन तीन गुना।',
+          'అభినందనలు! యాప్‌లో మీ ₹10,000 ఇప్పుడు ₹14,600 అయ్యాయి. ఇన్‌స్టిట్యూషనల్ IPO స్లాట్ కోసం ఈరోజు ₹50,000 జోడించండి: లిస్టింగ్ రోజున మూడు రెట్లు.',
+        ],
+        [
+          choice(
+            'ip_more',
+            'i_end_scammed',
+            0,
+            ['Add ₹50,000. The app shows I am winning.', '₹50,000 डालूं। ऐप दिखा रहा है कि मैं जीत रहा हूं।', '₹50,000 జోడిస్తాను. నేను గెలుస్తున్నట్టు యాప్ చూపిస్తోంది.'],
+            [
+              'The numbers in the app are typed in by the scammers. Money sent there does not come back.',
+              'ऐप के आंकड़े ठग खुद डालते हैं। वहां भेजा पैसा वापस नहीं आता।',
+              'యాప్‌లోని అంకెలను మోసగాళ్లే టైప్ చేస్తారు. అక్కడ పంపిన డబ్బు తిరిగి రాదు.',
+            ],
+          ),
+          choice(
+            'ip_withdraw',
+            'i_fee',
+            5,
+            ['First let me withdraw what I have.', 'पहले जो है वह निकालकर देखूं।', 'ముందు ఉన్నది విత్‌డ్రా చేసి చూస్తాను.'],
+            [
+              'Good test. A real platform lets you take out your own money without new conditions.',
+              'अच्छी जांच। असली प्लेटफ़ॉर्म बिना नई शर्तों के आपका पैसा निकालने देता है।',
+              'మంచి పరీక్ష. నిజమైన ప్లాట్‌ఫామ్ కొత్త షరతులు లేకుండా మీ డబ్బు తీసుకోనిస్తుంది.',
+            ],
+          ),
+        ],
+      ),
+      say(
+        'i_fee',
+        [
+          'To withdraw, you must first pay 20% tax: ₹2,920 by UPI to mentor.tax.desk@ybl within 30 minutes, or the account will be frozen.',
+          'निकालने के लिए पहले 20% टैक्स भरना होगा: 30 मिनट में ₹2,920 UPI से mentor.tax.desk@ybl पर, वरना खाता फ़्रीज़ हो जाएगा।',
+          'విత్‌డ్రా చేయడానికి ముందుగా 20% పన్ను కట్టాలి: 30 నిమిషాల్లో ₹2,920 UPI ద్వారా mentor.tax.desk@ybl కు, లేకపోతే ఖాతా ఫ్రీజ్ అవుతుంది.',
+        ],
+        [
+          choice(
+            'if_pay',
+            'i_end_scammed',
+            0,
+            ['Pay the tax so I can withdraw.', 'टैक्स भर दूं ताकि पैसे निकाल सकूं।', 'విత్‌డ్రా చేయడానికి పన్ను కట్టేస్తాను.'],
+            [
+              'Tax is never paid to a personal UPI ID before a withdrawal. After this fee there will be another.',
+              'निकासी से पहले टैक्स कभी किसी निजी UPI ID पर नहीं भरा जाता। इस फ़ीस के बाद एक और आएगी।',
+              'విత్‌డ్రాకు ముందు పన్ను ఎప్పుడూ వ్యక్తిగత UPI ID కి కట్టరు. ఈ ఫీజు తర్వాత ఇంకొకటి వస్తుంది.',
+            ],
+          ),
+          choice(
+            'if_stop',
+            'i_end_stopped',
+            8,
+            ['Stop paying and report it on 1930.', 'पैसे देना बंद करूं और 1930 पर शिकायत करूं।', 'చెల్లించడం ఆపి 1930 లో ఫిర్యాదు చేస్తాను.'],
+            [
+              'Right. A fee to release your own money is the clearest sign. Stopping now saves the rest.',
+              'सही। अपना ही पैसा निकालने के लिए फ़ीस सबसे साफ़ संकेत है। अभी रुकने से बाकी बचेगा।',
+              'సరైనది. మీ సొంత డబ్బు విడుదలకు ఫీజు అడగడమే స్పష్టమైన సంకేతం. ఇప్పుడు ఆపితే మిగతాది మిగులుతుంది.',
+            ],
+            'ADVANCE_FEE',
+          ),
+        ],
+      ),
+      end('i_end_safe', 'safe', [
+        'You kept your money. Real returns go up and down, and no registered adviser promises a fixed daily profit.',
+        'आपके पैसे बच गए। असली मुनाफ़ा घटता-बढ़ता है, और कोई रजिस्टर्ड सलाहकार रोज़ का तय मुनाफ़ा नहीं देता।',
+        'మీ డబ్బు సురక్షితం. నిజమైన లాభాలు పెరుగుతాయి, తగ్గుతాయి; నమోదైన ఏ సలహాదారూ రోజువారీ స్థిర లాభానికి హామీ ఇవ్వరు.',
+      ]),
+      end('i_end_reported', 'safe', SAFE_REPORT),
+      end('i_end_stopped', 'safe', [
+        'You stopped before losing more. The ₹10,000 is gone, so report it on 1930 or cybercrime.gov.in quickly with the payment details.',
+        'आपने और नुकसान से पहले रोक दिया। ₹10,000 जा चुके हैं, इसलिए भुगतान की जानकारी के साथ जल्दी 1930 या cybercrime.gov.in पर शिकायत करें।',
+        'మరింత నష్టపోకముందే ఆపారు. ₹10,000 పోయాయి, కాబట్టి చెల్లింపు వివరాలతో త్వరగా 1930 లేదా cybercrime.gov.in లో ఫిర్యాదు చేయండి.',
+      ]),
+      end('i_end_scammed', 'scammed', [
+        'The app balance was never real and the money is gone. In real life: call 1930 straight away with every payment ID.',
+        'ऐप का बैलेंस कभी असली नहीं था और पैसे चले गए। असल में: हर भुगतान की ID के साथ तुरंत 1930 पर कॉल करें।',
+        'యాప్ బ్యాలెన్స్ ఎప్పుడూ నిజం కాదు, డబ్బు పోయింది. నిజ జీవితంలో: ప్రతి చెల్లింపు ID తో వెంటనే 1930 కు కాల్ చేయండి.',
       ]),
     ],
   ),

@@ -1,0 +1,13 @@
+family: otps-hir-02
+label: scam
+category: otp_theft
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+templates:
+- Hello ji, galti se aapka number daal diya registration mein. Aapke phone pe 6 digit ka code aaya hoga, jaldi bhej do please.
+- '{bank} se bol raha hoon. Aapka card block na ho isliye abhi jo OTP aaya hai woh batao.'
+- Main group admin hoon. Aapke WhatsApp verification ke liye jo code aaya hai woh mujhe forward kar do.
+notes: Hinglish OTP requests

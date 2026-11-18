@@ -1,0 +1,16 @@
+family: courier-te-02
+label: scam
+category: courier_customs
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: చిరునామా సరిగా లేనందున మీ పార్సెల్ గోడౌన్‌లో ఆగిపోయింది. {deadline} చిరునామా అప్‌డేట్ చేసి రూ.25 చెల్లించండి {link}'
+- మీ అంతర్జాతీయ పార్సెల్‌కు కస్టమ్స్ డ్యూటీ {amount} బకాయి ఉంది. చెల్లించకపోతే పార్సెల్ తిరిగి పంపబడుతుంది. {link}
+- '{brand} డెలివరీ ప్రయత్నం విఫలమైంది. మళ్లీ డెలివరీ షెడ్యూల్ చేయడానికి 24 గంటల్లో ఇక్కడ క్లిక్ చేయండి {link}'
+notes: Telugu parcel fee

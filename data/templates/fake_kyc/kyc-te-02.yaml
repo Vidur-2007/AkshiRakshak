@@ -1,0 +1,15 @@
+family: kyc-te-02
+label: scam
+category: fake_kyc
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.kyc
+templates:
+- ప్రియమైన వినియోగదారు, మీ {bank} ఖాతాకు పాన్ వివరాలు లింక్ కాలేదు. {deadline} లింక్ చేయకపోతే నెట్ బ్యాంకింగ్ ఆగిపోతుంది. ఇక్కడ అప్‌డేట్ చేయండి {link}
+- మీ సిమ్ కార్డ్ కేవైసీ ధృవీకరణ పెండింగ్‌లో ఉంది. 24 గంటల్లో మీ నంబర్ బ్లాక్ అవుతుంది. కేవైసీ కోసం వెంటనే {phone} కు కాల్ చేయండి.
+- వాలెట్ కేవైసీ గడువు ముగిసింది. మీ బ్యాలెన్స్ {amount} ఫ్రీజ్ అయింది. ఆధార్ నంబర్, ఓటీపీ ఇచ్చి {link} లో తిరిగి యాక్టివేట్ చేసుకోండి.
+notes: Telugu PAN and wallet KYC block

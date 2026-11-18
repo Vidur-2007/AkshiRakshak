@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "eval": "tsx src/run.ts",
+    "errors": "tsx src/errors.ts",
+    "calibrate": "tsx src/calibrate.ts",
     "typecheck": "tsc -b"
   },
   "dependencies": {

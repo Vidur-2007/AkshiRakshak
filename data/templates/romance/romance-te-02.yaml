@@ -1,0 +1,14 @@
+family: romance-te-02
+label: scam
+category: romance
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 10
+templates:
+- డియర్, నీకోసం విదేశాల నుండి బంగారం, డాలర్లతో గిఫ్ట్ పంపాను. కస్టమ్స్ వాళ్లు {amount} ఫీజు అడుగుతున్నారు, కట్టేసెయ్.
+- మనం త్వరలో పెళ్లి చేసుకుందాం. నా ఖాతా ఫ్రీజ్ అయింది, ఇప్పుడు {amount} పంపగలవా? వచ్చే వారం తిరిగి ఇస్తాను.
+- నేను ఆర్మీ డాక్టర్‌ని, ఇప్పుడు విదేశంలో మిషన్‌లో ఉన్నాను. సెలవు కోసం {amount} కడితే నిన్ను కలవడానికి ఇండియా వస్తాను.
+notes: Telugu romance

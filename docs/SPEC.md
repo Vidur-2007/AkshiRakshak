@@ -607,7 +607,7 @@ export function askAssistant(question: string, lang: Lang, opts?: { online?: boo
 export function signalText(id: SignalId, lang: Lang): { label: string; detail: string };
 export function categoryText(c: ScamCategory, lang: Lang): { name: string; oneLiner: string };
 export function actionText(a: ActionId, lang: Lang): { label: string; body: string; href?: string };
-export function warmup(): Promise<void>;                                   // loads model + lexicons
+export function warmup(lang?: Lang): Promise<void>;                       // loads model, pipeline, lexicons, strings (lang: only that language's)
 export function apiHealth(): Promise<{ online: boolean; ai: boolean }>;
 
 // @akshi/engine/browser — owner A

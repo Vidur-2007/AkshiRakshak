@@ -1,0 +1,16 @@
+family: mf-en-01
+label: legit
+category: null
+lang: en
+script: latn
+channel: sms
+hard_negative: true
+max_rows: 20
+pools:
+  link: official.bank
+templates:
+- '{bank} Fixed Deposits: earn up to 7.25% p.a. for senior citizens on select tenures. Rates are subject to change. Details at {link}'
+- Start a SIP with {bank} from Rs 500 a month. Mutual fund investments are subject to market risks; read all scheme related documents carefully. {link}
+- Your SIP of Rs 2,000 in the {bank} flexi cap fund was processed on {date}. Units will be allotted at the applicable NAV.
+- Past returns do not guarantee future returns. Review your portfolio in the {bank} app or speak to your relationship manager at the branch.
+notes: Genuine English investment adverts with return language

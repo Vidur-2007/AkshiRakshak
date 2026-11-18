@@ -56,7 +56,9 @@ def validate_row(row: dict, require_split: bool = False) -> list[str]:
                        ("source", SOURCES)):
         if row[k] not in allowed:
             errs.append(f"{rid}: {k}={row[k]!r} not in {list(allowed)}")
-    if row["label"] == "scam" and row["category"] not in SCAM_CATEGORIES:
+    # handwritten scams may have no category (the team's "other"); synthetic scams always have one
+    other_ok = row["source"] == "handwritten" and row["category"] is None
+    if row["label"] == "scam" and row["category"] not in SCAM_CATEGORIES and not other_ok:
         errs.append(f"{rid}: scam rows need a ScamCategory, got {row['category']!r}")
     if row["label"] == "legit" and row["category"] is not None:
         errs.append(f"{rid}: legit rows have category null")

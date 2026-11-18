@@ -1,0 +1,15 @@
+family: job-bn-02
+label: scam
+category: job_task
+lang: bn
+script: beng
+channel: telegram
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.job
+templates:
+- 'মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে {deadline} {amount} রিচার্জ করুন।'
+- অভিনন্দন! আপনার কমিশন {amount} তৈরি। তোলার আগে কম্বো টাস্ক শেষ করতে হবে। {upi} তে ডিপোজিট পাঠান।
+- 'এইচআর থেকে বলছি: হোটেল রেটিংয়ের কাজের জন্য আপনি নির্বাচিত। দিনে তিন হাজার টাকা পর্যন্ত আয়। রেজিস্ট্রেশন ফি মাত্র {amount}।'
+notes: Bengali task withdrawal lock

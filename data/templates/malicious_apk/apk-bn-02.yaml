@@ -1,0 +1,16 @@
+family: apk-bn-02
+label: scam
+category: malicious_apk
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.apk
+  link: scam_domains.apk
+templates:
+- 'পিএম কিষাণের নতুন তালিকা বেরিয়েছে। আপনার নাম দেখতে এই অ্যাপটা ইনস্টল করুন: {app}'
+- আপনার ট্রাফিক চালান {amount} বাকি আছে। বিস্তারিত দেখতে {app} নামিয়ে খুলুন। {link}
+- বিয়ের নিমন্ত্রণপত্র পাঠালাম, এই ফাইলটা খুলে দেখুন {app}
+notes: Bengali APK lures

@@ -1,0 +1,15 @@
+family: job-hir-02
+label: scam
+category: job_task
+lang: hi
+script: latn
+channel: telegram
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.job
+templates:
+- 'Mentor: aapse last order mein galti hui hai isliye funds freeze ho gaye hain. Pura paisa nikalne ke liye {deadline} {amount} recharge karo.'
+- Congratulations! Aapka commission {amount} ready hai. Withdraw se pehle combo task complete karna hoga. {upi} pe deposit bhejo.
+- 'HR team se: hotel rating job ke liye aap select hue ho. Roz 3000 tak kamao. Registration fees sirf {amount} hai.'
+notes: Hinglish task withdrawal lock

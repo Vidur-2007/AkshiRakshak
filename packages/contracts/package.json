@@ -6,9 +6,11 @@
   "exports": {
     ".": "./src/index.ts",
     "./fixtures": "./src/fixtures.ts",
-    "./fixtures/*.json": "./fixtures/*.json"
+    "./fixtures/*.json": "./fixtures/*.json",
+    "./schemas": "./src/schemas.ts"
   },
   "dependencies": {
     "zod": "^4.6.7"
-  }
+  },
+  "sideEffects": false
 }

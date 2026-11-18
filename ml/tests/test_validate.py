@@ -90,7 +90,7 @@ def test_clean_rows_pass():
     ("Card 4321 8765 2109 6543 blocked", {}, "card"),
     ("Card 4321876521096543 blocked", {}, "card or account"),
     ("Account 30211234567 blocked", {}, "account number"),
-    ("Call 9812345678 now", {}, "invented prefix"),
+    ("Call 9999999999 now", {}, "invented prefix"),
     ("Visit http://real-bank.com/login now", {}, "not in the invented scam-domain list"),
     ("Visit https://www.hdfcbank.com now", {}, "not in the invented scam-domain list"),
     ("Track at https://sbi-kyc-update.xyz", LEGIT, "not an official domain"),

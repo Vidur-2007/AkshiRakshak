@@ -8,8 +8,11 @@
     "./browser": "./src/browser.ts"
   },
   "dependencies": {
+    "@akshi/content": "*",
     "@akshi/contracts": "*",
     "@akshi/model": "*",
-    "@akshi/content": "*"
-  }
+    "tesseract.js": "7.0.0",
+    "tldts-icann": "7.5.2"
+  },
+  "sideEffects": false
 }

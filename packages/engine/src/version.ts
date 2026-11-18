@@ -1,1 +1,1 @@
-export const ENGINE_VERSION: string = '0.0.0-stub';
+export const ENGINE_VERSION: string = '0.3.0';

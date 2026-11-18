@@ -1,0 +1,16 @@
+family: telecom-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+amount: legit_bill
+max_rows: 20
+pools:
+  brand: brands.telecom
+templates:
+- আপনার প্রিপেইড প্ল্যানের মেয়াদ {date} তারিখে শেষ হবে। রিচার্জ করতে অফিসিয়াল অ্যাপ ব্যবহার করুন। -{brand}
+- আপনার নম্বরে {amount} রিচার্জ সফল হয়েছে। মেয়াদ ২৮ দিন। -{brand}
+- আপনার পোস্টপেইড বিল {amount} তৈরি। শেষ তারিখ {date}। -{brand}
+notes: Genuine Bengali telecom messages

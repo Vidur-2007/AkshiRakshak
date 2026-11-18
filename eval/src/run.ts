@@ -3,9 +3,9 @@
  * the report the Proof page shows.
  *
  *   npm run eval                      test split → packages/content/src/eval-report.json + eval/out/report.md
- *   npm run eval -- --split val       validation split → eval/out/ only (for tuning; never published)
- *   npm run eval -- --limit 50        first 50 messages of the split (quick check; never published)
- *   npm run eval -- --ai              also run full_ai_sample on up to 100 test messages (needs npm run dev:api
+ *   npm run eval -w @akshi/eval -- --split val   validation split → eval/out/ only (for tuning; never published)
+ *   npm run eval -w @akshi/eval -- --limit 50    first 50 messages of the split (quick check; never published)
+ *   npm run eval -w @akshi/eval -- --ai          also run full_ai_sample on up to 100 test messages (needs npm run dev:api
  *                                     and your own keys in .env; one request every 4 seconds)
  *
  * Message text is never written to the output.
@@ -88,7 +88,16 @@ async function main() {
     datasetSizes: { train: count('train'), val: count('val'), test: count('test'), handwritten: count('handwritten') },
     extraNotes,
   };
-  const report = EvalReportSchema.parse(buildReport(input));
+  const built = buildReport(input);
+  // known weak spots, computed from this run: the lowest-F1 language and every category under 80% recall
+  const pct = (x: number) => Math.round(x * 1000) / 10 + '%';
+  const weakLang = [...built.perLang].sort((a, b) => a.f1 - b.f1)[0];
+  const weakCats = built.perCategory.filter((c) => c.support > 0 && c.recall < 0.8).sort((a, b) => a.recall - b.recall);
+  const weak: string[] = [];
+  if (weakLang) weak.push('weakest language ' + weakLang.lang + ' (F1 ' + pct(weakLang.f1) + ', precision ' + pct(weakLang.precision) + ')');
+  if (weakCats.length) weak.push('scam types caught less than 80% of the time: ' + weakCats.map((c) => c.category + ' ' + pct(c.recall)).join(', '));
+  if (weak.length) built.notes.push('Known weak spots in this run: ' + weak.join('; ') + '.');
+  const report = EvalReportSchema.parse(built);
   const publish = opts.split === 'test' && !opts.limit;
   mkdirSync(OUT_DIR, { recursive: true });
   const suffix = publish ? '' : '-' + opts.split + (opts.limit ? '-first' + opts.limit : '');

@@ -1,0 +1,17 @@
+family: invest-en-02
+label: scam
+category: investment_crypto
+lang: en
+script: latn
+channel: telegram
+hard_negative: false
+max_rows: 14
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- 'Join our VIP trading group and earn guaranteed returns of 5% daily. Invest {amount} today and double your money in 30 days. Limited seats: {link}'
+- Zero risk crypto plan! Fixed daily profit credited every evening. Send your first deposit of {amount} to {upi} and start earning today.
+- Your trading wallet shows a profit of {amount}. To withdraw, first pay the 20% service charge. Accounts not cleared {deadline} will be frozen.
+- Only a few seats left in the institutional IPO quota. Put in {amount} today and get 3x on listing day, assured. Do not share this with anyone.
+notes: English guaranteed daily returns

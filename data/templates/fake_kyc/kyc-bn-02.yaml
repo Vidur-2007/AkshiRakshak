@@ -1,0 +1,15 @@
+family: kyc-bn-02
+label: scam
+category: fake_kyc
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.kyc
+templates:
+- প্রিয় গ্রাহক, আপনার {bank} অ্যাকাউন্টে প্যান লিঙ্ক করা হয়নি। {deadline} আপডেট না করলে নেট ব্যাংকিং বন্ধ হয়ে যাবে। এখানে আপডেট করুন {link}
+- আপনার সিমের কেওয়াইসি যাচাই বাকি আছে। ২৪ ঘণ্টার মধ্যে নম্বর বন্ধ হয়ে যাবে। এখনই {phone} নম্বরে ফোন করুন।
+- ওয়ালেট কেওয়াইসির মেয়াদ শেষ। আপনার {amount} ব্যালেন্স আটকে গেছে। আধার নম্বর আর ওটিপি দিয়ে {link} এ আবার চালু করুন।
+notes: Bengali PAN and wallet KYC block

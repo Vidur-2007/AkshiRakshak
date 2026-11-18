@@ -1,0 +1,17 @@
+family: refundok-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- আপনার {brand} অর্ডার বাতিল হয়েছে। {amount} রিফান্ড ৫-৭ কাজের দিনের মধ্যে আপনার আসল পেমেন্ট মাধ্যমে ফিরে যাবে।
+- আপনার রিটার্ন পাওয়া গেছে। রিফান্ড {amount} প্রসেস করা হয়েছে। অবস্থা দেখতে {link} দেখুন। -{brand}
+- '{brand}: আপনার রিফান্ড {amount} আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে। এর জন্য পিন বা ওটিপি লাগে না।'
+notes: Genuine Bengali refunds

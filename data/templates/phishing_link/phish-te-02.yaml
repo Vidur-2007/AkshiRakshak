@@ -1,0 +1,15 @@
+family: phish-te-02
+label: scam
+category: phishing_link
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.bank_login
+templates:
+- '{bank} అలర్ట్: మీ ఖాతాలో {amount} అనుమానాస్పద లావాదేవీ గుర్తించాం. మీరు చేయకపోతే రద్దు చేయడానికి లాగిన్ అవ్వండి {link}'
+- ప్రియమైన కస్టమర్, మీ క్రెడిట్ కార్డ్ పరిమితి పెంచబడింది. ఆఫర్ పొందడానికి {deadline} ఈ లింక్‌లో వివరాలు నమోదు చేయండి {link}
+- మీ నెట్ బ్యాంకింగ్ పాస్‌వర్డ్ గడువు ఈరోజు ముగుస్తుంది. కొత్త పాస్‌వర్డ్ సెట్ చేయడానికి ఇప్పుడే ఇక్కడ క్లిక్ చేయండి {link}
+notes: Telugu fake login alerts

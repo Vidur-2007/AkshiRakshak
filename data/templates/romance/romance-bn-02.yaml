@@ -1,0 +1,14 @@
+family: romance-bn-02
+label: scam
+category: romance
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 10
+templates:
+- ডিয়ার, তোমার জন্য বিদেশ থেকে সোনা আর ডলারভরা উপহার পাঠিয়েছি। কাস্টমস {amount} ফি চাইছে, দিয়ে দাও।
+- আমরা শিগগিরই বিয়ে করব। আমার অ্যাকাউন্ট আটকে গেছে, এখন {amount} পাঠাতে পারবে? আগামী সপ্তাহে ফেরত দেব।
+- আমি আর্মি ডাক্তার, এখন বিদেশে মিশনে আছি। ছুটির জন্য {amount} দিলে তোমার সঙ্গে দেখা করতে ভারতে আসব।
+notes: Bengali romance

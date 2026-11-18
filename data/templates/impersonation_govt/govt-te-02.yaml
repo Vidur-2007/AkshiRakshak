@@ -1,0 +1,15 @@
+family: govt-te-02
+label: scam
+category: impersonation_govt
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.govt
+templates:
+- ప్రధానమంత్రి పథకం కింద మీకు {amount} సహాయం మంజూరైంది. {deadline} ఆధార్ వివరాలు నమోదు చేయండి {link}
+- 'ఆదాయపు పన్ను శాఖ నోటీస్: మీ పాన్ కార్డ్ డీయాక్టివేట్ అవుతుంది. జరిమానా {amount} తప్పించుకోవడానికి {link} లో వివరాలు ఇవ్వండి.'
+- 'ట్రాఫిక్ పోలీస్: మీ వాహనంపై ఈ-చలాన్ {amount} బకాయి ఉంది. {deadline} చెల్లించకపోతే కోర్టు కేసు. ఇక్కడ చెల్లించండి {link}'
+notes: Telugu fake government notices

@@ -1,0 +1,13 @@
+family: bankinfo-hid-02
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+max_rows: 20
+templates:
+- '{bank} चेतावनी: बैंक कर्मचारी कभी आपका कार्ड पिन, सीवीवी या ओटीपी नहीं मांगते। कोई मांगे तो कॉल काटें और 1930 पर शिकायत करें।'
+- पैसे पाने के लिए यूपीआई पिन की ज़रूरत नहीं होती। अनजान कलेक्ट रिक्वेस्ट अस्वीकार करें। -{bank}
+- ठग कस्टमर केयर बनकर स्क्रीन शेयरिंग ऐप इंस्टॉल करवाते हैं। ऐसे ऐप इंस्टॉल न करें। -{bank}
+notes: Genuine Devanagari fraud-awareness notices

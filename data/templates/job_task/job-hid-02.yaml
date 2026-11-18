@@ -1,0 +1,15 @@
+family: job-hid-02
+label: scam
+category: job_task
+lang: hi
+script: deva
+channel: telegram
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.job
+templates:
+- 'मेंटर: पिछले ऑर्डर में आपसे गलती हुई, इसलिए आपका फंड रुक गया है। पूरा पैसा निकालने के लिए {deadline} {amount} रिचार्ज करें।'
+- बधाई हो! आपका कमीशन {amount} तैयार है। निकालने से पहले कॉम्बो टास्क पूरा करना होगा। {upi} पर डिपॉज़िट भेजें।
+- 'एचआर टीम: होटल रेटिंग के काम के लिए आप चुने गए हैं। रोज़ तीन हज़ार तक कमाएं। रजिस्ट्रेशन फीस सिर्फ {amount}।'
+notes: Devanagari task withdrawal lock

@@ -1,0 +1,17 @@
+family: bankpromo-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: loan_app
+max_rows: 20
+pools:
+  link: official.bank
+templates:
+- '{bank} ফিক্সড ডিপোজিটে আকর্ষণীয় সুদের হার। বিস্তারিত জানতে {link} দেখুন বা কাছের শাখায় আসুন।'
+- আপনি {amount} পর্যন্ত প্রাক-অনুমোদিত ব্যক্তিগত ঋণের যোগ্য হতে পারেন। {bank} অ্যাপে আপনার অফার দেখুন। শর্তাবলী প্রযোজ্য।
+- মাসে ৫০০ টাকা থেকে এসআইপি শুরু করুন। মিউচুয়াল ফান্ডে বিনিয়োগ বাজারের ঝুঁকির অধীন। বিস্তারিত {link} এ। -{bank}
+- '{bank} ক্রেডিট কার্ডে উৎসবের অফার: বাছাই করা দোকানে দশ শতাংশ ক্যাশব্যাক, {date} পর্যন্ত। শর্তাবলী প্রযোজ্য।'
+notes: Genuine Bengali bank offers

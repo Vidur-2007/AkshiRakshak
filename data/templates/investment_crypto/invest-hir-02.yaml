@@ -1,0 +1,16 @@
+family: invest-hir-02
+label: scam
+category: investment_crypto
+lang: hi
+script: latn
+channel: telegram
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- Hamare VIP group mein roz 5% guaranteed return milta hai. Sirf {amount} lagao aur ek mahine mein paisa double. Abhi join karo {link}
+- Crypto mein koi risk nahi hai bhai, har din pakka profit. Pehla deposit {amount} {upi} pe bhejo, aaj se kamai shuru.
+- Aapke account mein {amount} ka profit aa gaya hai. Withdraw karne se pehle 20% service charge bharna hoga, warna account freeze ho jayega.
+notes: Hinglish guaranteed daily returns

@@ -1,0 +1,15 @@
+family: credit-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: legit_credit
+max_rows: 20
+templates:
+- మీ {bank} ఖాతా XX[#4] లో {date} న {amount} రీఫండ్ జమ అయింది. రిఫరెన్స్ [ref].
+- '{name} మీకు యూపీఐ ద్వారా {amount} పంపారు. ఖాతా XX[#4]. నిల్వ రూ.[#5]. -{bank}'
+- మీ ఫిక్స్‌డ్ డిపాజిట్ వడ్డీ {amount} {date} న మీ ఖాతా XX[#4] లో జమ అయింది. -{bank}
+- ప్రియమైన కస్టమర్, మీ క్యాష్‌బ్యాక్ {amount} మీ ఖాతాకు జమ అయింది. దీని కోసం ఎలాంటి చర్య అవసరం లేదు. -{bank}
+notes: Genuine Telugu credits

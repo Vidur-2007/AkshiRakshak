@@ -1,13 +1,13 @@
 {
-  "version": "2026.11.16-a",
-  "trainedAt": "2026-11-16T11:44:05Z",
+  "version": "2026.11.18-a",
+  "trainedAt": "2026-11-18T04:21:08Z",
   "format": "akshi-lr-v1",
   "metrics": {
-    "valF1": 0.95475,
-    "valCategoryMacroF1": 0.53515
+    "valF1": 0.96267,
+    "valCategoryMacroF1": 0.64993
   },
-  "rawBytes": 564953,
-  "gzipBytes": 122118,
-  "features": 18312,
-  "categoryNonZero": 1183
+  "rawBytes": 598252,
+  "gzipBytes": 133154,
+  "features": 18793,
+  "categoryNonZero": 1936
 }

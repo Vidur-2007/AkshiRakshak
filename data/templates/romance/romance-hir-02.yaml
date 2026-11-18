@@ -1,0 +1,14 @@
+family: romance-hir-02
+label: scam
+category: romance
+lang: hi
+script: latn
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 9
+templates:
+- Jaan, tumhare liye abroad se gold aur dollar wala gift bheja hai. Customs wale {amount} fees maang rahe hain, bhar do na.
+- Hum jaldi shaadi karenge. Mera account freeze ho gaya hai, abhi {amount} bhej sakti ho? Agle hafte lauta dunga.
+- Main army doctor hoon, abhi mission pe bahar hoon. Chhutti ke liye {amount} bharna hai, phir tumse milne India aaunga.
+notes: Hinglish romance

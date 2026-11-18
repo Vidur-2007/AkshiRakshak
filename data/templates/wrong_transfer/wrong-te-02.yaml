@@ -1,0 +1,15 @@
+family: wrong-te-02
+label: scam
+category: wrong_transfer
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.personal
+templates:
+- అన్నా, పొరపాటున మీ నంబర్‌కు {amount} పంపాను. అది మా అమ్మ ఆసుపత్రి డబ్బు. దయచేసి {upi} కు తిరిగి పంపండి.
+- మీ ఖాతాలో {amount} పొరపాటుగా జమ అయ్యాయి. మీకు రిక్వెస్ట్ పంపాను, దాన్ని అంగీకరించి పిన్ ఎంటర్ చేయండి.
+- సార్, స్క్రీన్‌షాట్ చూడండి, మీకు {amount} వెళ్లింది. వెంటనే తిరిగి ఇవ్వకపోతే సైబర్ క్రైమ్‌లో ఫిర్యాదు చేస్తాను.
+notes: Telugu wrong transfer

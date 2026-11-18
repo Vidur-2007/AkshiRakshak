@@ -1,0 +1,14 @@
+family: otp-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- '{otp} aapka {bank} OTP hai {amount} ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.'
+- Aapka {bank} net banking login OTP {otp} hai. Agar aapne login nahi kiya hai to is message ko ignore karein.
+- UPI registration ke liye aapka OTP {otp} hai. Bank staff ko bhi yeh OTP na batayein. -{bank}
+notes: Genuine Hinglish OTP SMS

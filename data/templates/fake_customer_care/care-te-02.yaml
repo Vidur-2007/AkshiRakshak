@@ -1,0 +1,16 @@
+family: care-te-02
+label: scam
+category: fake_customer_care
+lang: te
+script: telu
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+  brand: brands.ecommerce
+templates:
+- నమస్తే, మీరు {brand} కస్టమర్ కేర్‌కు కాల్ చేశారు. మీ రీఫండ్ ప్రాసెస్ చేయడానికి ప్లే స్టోర్ నుండి {app} డౌన్‌లోడ్ చేసి కోడ్ చెప్పండి.
+- మేడమ్, మీ ఫిర్యాదు నమోదైంది. రీఫండ్ {amount} మీ ఖాతాకు పంపడానికి మీ డెబిట్ కార్డ్ నంబర్, గడువు తేదీ చెప్పండి.
+- మీ డబ్బు పొరపాటున బ్లాక్ అయింది సార్. నేను పంపే లింక్‌లో మీ యూపీఐ పిన్ ఎంటర్ చేస్తే పది నిమిషాల్లో తిరిగి వస్తుంది.
+notes: Telugu fake helpline

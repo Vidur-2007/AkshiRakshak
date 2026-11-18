@@ -116,8 +116,8 @@ describe('EMERGENCY', () => {
 });
 
 describe('DRILLS', () => {
-  it('has six drills in English, Hindi and Telugu, with unique ids and the collect drill first', () => {
-    expect(DRILLS.length).toBeGreaterThanOrEqual(6);
+  it('has ten drills in English, Hindi and Telugu, with unique ids and the collect drill first', () => {
+    expect(DRILLS.length).toBe(10);
     expect(new Set(DRILLS.map((d) => d.id)).size).toBe(DRILLS.length);
     expect(DRILLS[0]!.id).toBe('drill-collect-refund');
     expect(new Set(DRILLS.map((d) => d.category)).size).toBe(DRILLS.length);
@@ -188,8 +188,8 @@ describe('DRILLS', () => {
 });
 
 describe('PATTERN_CARDS', () => {
-  it('has at least four cards for different scams, in four languages, with no statistics', () => {
-    expect(PATTERN_CARDS.length).toBeGreaterThanOrEqual(4);
+  it('has eight cards for different scams, in four languages, with no statistics', () => {
+    expect(PATTERN_CARDS.length).toBe(8);
     expect(new Set(PATTERN_CARDS.map((p) => p.category)).size).toBe(PATTERN_CARDS.length);
     for (const p of PATTERN_CARDS) {
       expect(has(p.title, ['en', 'hi', 'te', 'bn']) && has(p.body, ['en', 'hi', 'te', 'bn']), p.id).toBe(true);

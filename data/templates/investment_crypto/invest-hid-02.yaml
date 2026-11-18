@@ -1,0 +1,17 @@
+family: invest-hid-02
+label: scam
+category: investment_crypto
+lang: hi
+script: deva
+channel: telegram
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- हमारे प्रीमियम ग्रुप में रोज़ाना पांच प्रतिशत गारंटीड रिटर्न। {amount} लगाइए और एक महीने में दोगुना पाइए। अभी जुड़ें {link}
+- क्रिप्टो निवेश में कोई जोखिम नहीं, हर दिन पक्का मुनाफा। पहली जमा {amount} {upi} पर भेजिए, आज से कमाई शुरू।
+- आईपीओ के संस्थागत कोटे की कुछ सीटें बची हैं। आज {amount} लगाएं, लिस्टिंग के दिन तीन गुना पक्का। किसी को बताइए मत।
+- आपके वॉलेट में {amount} का लाभ जमा है। निकासी से पहले बीस प्रतिशत सर्विस चार्ज भरें, वरना खाता फ्रीज़ हो जाएगा।
+notes: Devanagari guaranteed daily returns

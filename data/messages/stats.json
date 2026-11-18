@@ -1,47 +1,63 @@
 {
- "rows": 2550,
- "families": 174,
+ "rows": 3579,
+ "families": 250,
  "byLabel": {
-  "scam": 1210,
-  "legit": 1340
+  "scam": 1739,
+  "legit": 1840
  },
  "bySplit": {
-  "train": 1683,
-  "test": 433,
-  "val": 434
+  "train": 2504,
+  "test": 527,
+  "val": 548
  },
  "familiesBySplit": {
-  "train": 114,
-  "val": 30,
-  "test": 30
+  "train": 177,
+  "val": 37,
+  "test": 36
  },
  "byLangLabelSplit": [
   {
    "lang": "en",
    "label": "scam",
-   "train": 278,
+   "train": 292,
    "val": 86,
    "test": 88,
-   "total": 452
+   "total": 466
   },
   {
    "lang": "en",
    "label": "legit",
    "train": 360,
-   "val": 80,
+   "val": 100,
    "test": 80,
-   "total": 520
+   "total": 540
   },
   {
    "lang": "hi",
    "label": "scam",
-   "train": 223,
+   "train": 334,
    "val": 66,
    "test": 65,
-   "total": 354
+   "total": 465
   },
   {
    "lang": "hi",
+   "label": "legit",
+   "train": 380,
+   "val": 80,
+   "test": 80,
+   "total": 540
+  },
+  {
+   "lang": "te",
+   "label": "scam",
+   "train": 308,
+   "val": 42,
+   "test": 54,
+   "total": 404
+  },
+  {
+   "lang": "te",
    "label": "legit",
    "train": 260,
    "val": 60,
@@ -49,324 +65,308 @@
    "total": 380
   },
   {
-   "lang": "te",
-   "label": "scam",
-   "train": 140,
-   "val": 32,
-   "test": 30,
-   "total": 202
-  },
-  {
-   "lang": "te",
-   "label": "legit",
-   "train": 140,
-   "val": 40,
-   "test": 40,
-   "total": 220
-  },
-  {
    "lang": "bn",
    "label": "scam",
-   "train": 142,
-   "val": 30,
-   "test": 30,
-   "total": 202
+   "train": 310,
+   "val": 54,
+   "test": 40,
+   "total": 404
   },
   {
    "lang": "bn",
    "label": "legit",
-   "train": 140,
-   "val": 40,
-   "test": 40,
-   "total": 220
+   "train": 260,
+   "val": 60,
+   "test": 60,
+   "total": 380
   }
  ],
  "hardNegativesByLang": {
-  "en": 180,
-  "hi": 140,
-  "te": 80,
-  "bn": 80
+  "en": 200,
+  "hi": 300,
+  "te": 200,
+  "bn": 200
  },
- "hindiRomanisedShare": 0.4319,
+ "hindiRomanisedShare": 0.4119,
  "byCategory": [
   {
    "category": "upi_collect",
-   "rows": 89,
-   "families": 7,
-   "train": 59,
+   "rows": 113,
+   "families": 9,
+   "train": 83,
    "val": 15,
    "test": 15,
    "langs": {
-    "bn": 12,
+    "bn": 24,
     "en": 45,
     "hi": 20,
-    "te": 12
+    "te": 24
    }
   },
   {
    "category": "qr_receive",
-   "rows": 52,
-   "families": 5,
-   "train": 28,
+   "rows": 81,
+   "families": 8,
+   "train": 57,
    "val": 14,
    "test": 10,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
-    "hi": 18,
-    "te": 10
+    "hi": 27,
+    "te": 20
    }
   },
   {
    "category": "fake_kyc",
-   "rows": 89,
-   "families": 7,
-   "train": 69,
+   "rows": 113,
+   "families": 9,
+   "train": 93,
    "val": 10,
    "test": 10,
    "langs": {
-    "bn": 12,
+    "bn": 24,
     "en": 45,
     "hi": 20,
-    "te": 12
+    "te": 24
    }
   },
   {
    "category": "bill_disconnection",
-   "rows": 89,
-   "families": 7,
-   "train": 69,
+   "rows": 113,
+   "families": 9,
+   "train": 93,
    "val": 10,
    "test": 10,
    "langs": {
-    "bn": 12,
+    "bn": 24,
     "en": 45,
     "hi": 20,
-    "te": 12
+    "te": 24
    }
   },
   {
    "category": "digital_arrest",
-   "rows": 89,
-   "families": 7,
-   "train": 62,
-   "val": 12,
-   "test": 15,
+   "rows": 123,
+   "families": 10,
+   "train": 72,
+   "val": 24,
+   "test": 27,
    "langs": {
-    "bn": 12,
+    "bn": 24,
     "en": 45,
-    "hi": 20,
-    "te": 12
+    "hi": 30,
+    "te": 24
    }
   },
   {
    "category": "courier_customs",
-   "rows": 52,
-   "families": 5,
-   "train": 28,
+   "rows": 72,
+   "families": 7,
+   "train": 48,
    "val": 14,
    "test": 10,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "job_task",
-   "rows": 89,
-   "families": 7,
-   "train": 59,
-   "val": 15,
-   "test": 15,
+   "rows": 133,
+   "families": 11,
+   "train": 79,
+   "val": 27,
+   "test": 27,
    "langs": {
-    "bn": 12,
+    "bn": 24,
     "en": 45,
-    "hi": 20,
-    "te": 12
+    "hi": 40,
+    "te": 24
    }
   },
   {
    "category": "investment_crypto",
-   "rows": 52,
-   "families": 5,
-   "train": 29,
-   "val": 9,
-   "test": 14,
+   "rows": 104,
+   "families": 10,
+   "train": 61,
+   "val": 19,
+   "test": 24,
    "langs": {
-    "bn": 10,
-    "en": 14,
-    "hi": 18,
-    "te": 10
+    "bn": 20,
+    "en": 28,
+    "hi": 36,
+    "te": 20
    }
   },
   {
    "category": "loan_app",
-   "rows": 52,
-   "families": 5,
-   "train": 32,
+   "rows": 81,
+   "families": 8,
+   "train": 61,
    "val": 10,
    "test": 10,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
-    "hi": 18,
-    "te": 10
+    "hi": 27,
+    "te": 20
    }
   },
   {
    "category": "lottery_prize",
-   "rows": 52,
-   "families": 5,
-   "train": 33,
+   "rows": 72,
+   "families": 7,
+   "train": 53,
    "val": 9,
    "test": 10,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "fake_customer_care",
-   "rows": 52,
-   "families": 5,
-   "train": 32,
+   "rows": 72,
+   "families": 7,
+   "train": 52,
    "val": 10,
    "test": 10,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "refund_cashback",
-   "rows": 52,
-   "families": 5,
-   "train": 32,
+   "rows": 72,
+   "families": 7,
+   "train": 52,
    "val": 10,
    "test": 10,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "wrong_transfer",
-   "rows": 52,
-   "families": 5,
-   "train": 34,
+   "rows": 81,
+   "families": 8,
+   "train": 63,
    "val": 9,
    "test": 9,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
-    "hi": 18,
-    "te": 10
+    "hi": 27,
+    "te": 20
    }
   },
   {
    "category": "malicious_apk",
-   "rows": 52,
-   "families": 5,
-   "train": 33,
+   "rows": 72,
+   "families": 7,
+   "train": 53,
    "val": 10,
    "test": 9,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "remote_access",
-   "rows": 52,
-   "families": 5,
-   "train": 28,
+   "rows": 72,
+   "families": 7,
+   "train": 48,
    "val": 10,
    "test": 14,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "otp_theft",
-   "rows": 52,
-   "families": 5,
-   "train": 29,
+   "rows": 90,
+   "families": 9,
+   "train": 67,
    "val": 14,
    "test": 9,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
-    "hi": 18,
-    "te": 10
+    "hi": 36,
+    "te": 20
    }
   },
   {
    "category": "romance",
-   "rows": 52,
-   "families": 5,
-   "train": 34,
+   "rows": 90,
+   "families": 9,
+   "train": 72,
    "val": 9,
    "test": 9,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
-    "hi": 18,
-    "te": 10
+    "hi": 36,
+    "te": 20
    }
   },
   {
    "category": "impersonation_govt",
-   "rows": 52,
-   "families": 5,
-   "train": 29,
+   "rows": 72,
+   "families": 7,
+   "train": 49,
    "val": 14,
    "test": 9,
    "langs": {
-    "bn": 10,
+    "bn": 20,
     "en": 14,
     "hi": 18,
-    "te": 10
+    "te": 20
    }
   },
   {
    "category": "phishing_link",
-   "rows": 89,
-   "families": 7,
-   "train": 64,
+   "rows": 113,
+   "families": 9,
+   "train": 88,
    "val": 10,
    "test": 15,
    "langs": {
-    "bn": 12,
+    "bn": 24,
     "en": 45,
     "hi": 20,
-    "te": 12
+    "te": 24
    }
   }
  ],
  "byChannel": {
-  "sms": 1520,
-  "whatsapp": 826,
-  "call": 154,
-  "telegram": 15,
+  "sms": 2132,
+  "whatsapp": 1073,
+  "call": 228,
+  "telegram": 111,
   "email": 35
  },
  "byScript": {
-  "beng": 422,
-  "latn": 1289,
-  "deva": 417,
-  "telu": 422
+  "beng": 784,
+  "latn": 1420,
+  "deva": 591,
+  "telu": 784
  }
 }

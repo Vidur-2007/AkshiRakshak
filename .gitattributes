@@ -3,3 +3,5 @@
 *.jpg binary
 *.gz binary
 *.traineddata binary
+packages/engine/assets/tesseract/** binary
+packages/engine/assets/tessdata/** binary
