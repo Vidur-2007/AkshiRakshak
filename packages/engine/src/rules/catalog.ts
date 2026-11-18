@@ -208,6 +208,8 @@ export const CATEGORY_CONTEXT: readonly CategoryContext[] = [
   { when: 'ADVANCE_FEE', textAny: PARCEL_WORDS, category: 'courier_customs' },
   { when: 'ADVANCE_FEE', textAny: LOAN_WORDS, category: 'loan_app' },
   { when: 'THREAT_LEGAL', textAny: PARCEL_WORDS, category: 'courier_customs' },
+  // loan-app harassment: "your photos will be sent to all your contacts" about a loan
+  { when: 'THREAT_LEGAL', textAny: LOAN_WORDS, category: 'loan_app' },
   { when: 'ASKS_OTP', withAny: ['BANK_IMPERSONATION', 'THREAT_BLOCK'], category: 'fake_kyc' },
   { when: 'ASKS_OTP', textAny: PARCEL_WORDS, category: 'courier_customs' },
   { when: 'BRAND_MISMATCH', textAny: UTILITY_WORDS, category: 'bill_disconnection' },
