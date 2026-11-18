@@ -345,8 +345,24 @@ const CREDENTIAL_ASKS: readonly SignalId[] = [
 ];
 const CLAUSE_BOUNDARY = /[.!?।;|]/;
 const NEG_BEFORE = /\b(?:not|never|don['’]?t|dont|won['’]?t|no one|nobody|avoid)\b/i;
+// Conditionals ("OTP नहीं दिया तो…", "…नहीं तो" = otherwise, "OTP না দিলে…") are threats, not
+// negation, so the ask stays.
 const NEG_INSIDE =
-  /(?:^|[\s,])(?:न|नहीं|मत|ना|na|nahi|nahin|mat)(?=$|[\s,।.!?])|వద్దు|కండి|కూడదు|ొద్దు|(?:^|\s)না(?=$|[\s,।.!?])/iu;
+  /(?:^|[\s,])(?:न|नहीं|मत|ना|na|nahi|nahin|mat)(?!\s?(?:तो|दिया तो|दी तो|दिए तो|किया तो|बताया तो|to|diya to|di to|kiya to|bataya to)(?=$|[\s,।.!?]))(?=$|[\s,।.!?])|వద్దు|కండి|కూడదు|ొద్దు|(?:^|\s)না(?!\s?(?:দিলে|দেন তবে|করলে|হলে|পাঠালে|জানালে))(?=$|[\s,।.!?])/iu;
+
+/**
+ * Telugu and Bengali put the verb, and so the negation, at the end of the clause: "…యూపీఐ పిన్
+ * ఎంటర్ చేయడం అవసరం లేదు" (entering the PIN is not needed), "…పాస్‌వర్డ్ అడగదు" (does not ask),
+ * "…পিন চায় না". So for those scripts the rest of the clause is checked, plus "never"/"nobody"
+ * before the phrase. Conditionals are threats, not negation, and stay flagged: "OTP না দিলে…"
+ * (if you don't give the OTP…), "-కపోతే". Hindi keeps the short window (C's validation showed no
+ * Hindi misses, and "OTP नहीं दिया तो…" must stay a threat).
+ */
+const SOV_SCRIPT = /[ఀ-౿ঀ-৿]/u;
+const NEG_BEFORE_SOV = /(?:^|[\s,])(?:ఎప్పుడూ|ఎన్నడూ|ఎవరూ|কখনও|কখনো|কেউ)(?=$|[\s,])/u;
+const NEG_CLAUSE_END_SOV =
+  /(?:^|[\s,])(?:లేదు|అక్కర్లేదు|అడగ(?:దు|రు|ము|బోదు|బోము)|చేయ(?:దు|రు)|కాదు|নয়|নেই|না(?!\s?(?:দিলে|দেন তবে|করলে|হলে|পাঠালে|জানালে)))(?=$|[\s,।.!?])/u;
+const SOV_TAIL_MAX = 60;
 
 function clauseBefore(text: string, start: number): string {
   let i = start - 1;
@@ -355,12 +371,26 @@ function clauseBefore(text: string, start: number): string {
   return text.slice(i + 1, start);
 }
 
-export function isNegated(text: string, span: Span): boolean {
-  if (NEG_BEFORE.test(clauseBefore(text, span.start))) return true;
-  let after = text.slice(span.end, span.end + 8);
-  const cut = after.search(CLAUSE_BOUNDARY);
+function clauseAfter(text: string, end: number, max: number, boundary = CLAUSE_BOUNDARY): string {
+  let after = text.slice(end, end + max);
+  const cut = after.search(boundary);
   if (cut >= 0) after = after.slice(0, cut);
-  return NEG_INSIDE.test(`${span.text}${after}`);
+  return after;
+}
+
+/** A comma also ends the sub-clause: "OTP পাঠান, কাউকে বলবেন না" asks, then demands secrecy. */
+const SUB_CLAUSE_BOUNDARY = /[.!?।;|,]/;
+/** Negation must start this close to the phrase; the lookahead may read further (conditionals). */
+const NEG_INSIDE_REACH = 8;
+
+export function isNegated(text: string, span: Span): boolean {
+  const before = clauseBefore(text, span.start);
+  if (NEG_BEFORE.test(before)) return true;
+  const near = NEG_INSIDE.exec(`${span.text}${clauseAfter(text, span.end, 24)}`);
+  if (near && near.index < span.text.length + NEG_INSIDE_REACH) return true;
+  const tail = clauseAfter(text, span.end, SOV_TAIL_MAX, SUB_CLAUSE_BOUNDARY);
+  if (!SOV_SCRIPT.test(`${span.text}${tail}`)) return false;
+  return NEG_BEFORE_SOV.test(before) || NEG_CLAUSE_END_SOV.test(` ${tail}`);
 }
 
 // ───────────── matching ─────────────
