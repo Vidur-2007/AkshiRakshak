@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { askOnline } from '@/components/learn/AskPanel';
 import { AnalysisShareCard, maskedDetails } from '@/components/share/ShareCards';
 import en from '@/locales/en.json';
-import { analyze, buildEntityGraph, DRILLS, FAQ } from '@/lib/engine';
+import { analyze, buildEntityGraph, DRILLS, EVAL_REPORT, FAQ } from '@/lib/engine';
 import { initI18n } from '@/lib/i18n';
 import { DEFAULT_PREFS, useAppStore } from '@/lib/store';
 import { routes } from '@/routes';
@@ -42,7 +42,7 @@ describe('Landing', () => {
     await waitFor(() => expect(router.state.location.pathname).toMatch(/^\/scan\/.+/), T);
   });
 
-  it('has the seven story sections, the placeholder label on proof numbers, and help links', async () => {
+  it('has the seven story sections, no placeholder label on the measured proof numbers, and help links', async () => {
     open('/');
     for (const title of [
       en.story.anatomyTitle,
@@ -55,7 +55,7 @@ describe('Landing', () => {
     ]) {
       expect(await screen.findByRole('heading', { level: 2, name: title }, T)).toBeTruthy();
     }
-    expect(screen.getByText(new RegExp(en.proof.placeholderTitle))).toBeTruthy();
+    expect(screen.queryByText(new RegExp(en.proof.placeholderTitle))).toBeNull();
     const hrefs = screen.getAllByRole('link').map((a) => a.getAttribute('href'));
     expect(hrefs).toEqual(
       expect.arrayContaining([
@@ -98,7 +98,8 @@ describe('Network', () => {
     fireEvent.click(screen.getByRole('button', { name: en.network.onlyMine }));
     const g = buildEntityGraph([], { includeBundled: true });
     const mine = g.nodes.filter((n) => n.mine);
-    expect(within(list).getAllByRole('button').length).toBeGreaterThanOrEqual(mine.length);
+    // with no scans of your own the filtered list can be empty
+    expect(within(list).queryAllByRole('button').length).toBeGreaterThanOrEqual(mine.length);
   });
 });
 
@@ -161,9 +162,10 @@ describe('Ask', () => {
 });
 
 describe('Proof', () => {
-  it('shows every block and the placeholder banner', async () => {
+  it('shows every block, without the placeholder banner for the measured report', async () => {
     open('/proof');
-    expect(await screen.findByRole('note', {}, T)).toBeTruthy();
+    expect(await screen.findByRole('heading', { level: 2, name: en.proof.vsTitle }, T)).toBeTruthy();
+    expect(screen.queryByText(new RegExp(en.proof.placeholderTitle))).toBeNull();
     for (const label of [
       en.proof.vsTitle,
       en.proof.ablationTitle,
@@ -177,7 +179,8 @@ describe('Proof', () => {
     ]) {
       expect(screen.getByRole('heading', { level: 2, name: label })).toBeTruthy();
     }
-    for (const cfg of Object.values(en.proof.cfg)) expect(screen.getByText(cfg)).toBeTruthy();
+    // one label per configuration in the bundled report (full_ai_sample appears after the AI sample run)
+    for (const c of EVAL_REPORT.configs) expect(screen.getByText(en.proof.cfg[c.name])).toBeTruthy();
     expect(screen.getByText(en.proof.mSynthetic)).toBeTruthy();
   });
 });

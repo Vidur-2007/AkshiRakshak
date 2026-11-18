@@ -32,7 +32,14 @@ describe('parseUrl', () => {
     expect(parseUrl('https://xn--sb-oja.co.in/login', 'co.in/login')!.domain).toBe(
       'xn--sb-oja.co.in',
     );
-    expect(parseUrl('https://xn--invalid-.co.in/login')).toBeNull(); // browsers reject broken punycode
+    // browsers reject broken punycode; some Node versions accept it, so follow the platform's own URL parser
+    let platformRejects = false;
+    try {
+      new URL('https://xn--invalid-.co.in/login');
+    } catch {
+      platformRejects = true;
+    }
+    if (platformRejects) expect(parseUrl('https://xn--invalid-.co.in/login')).toBeNull();
   });
 
   it('flags IPs, punycode and userinfo tricks', () => {

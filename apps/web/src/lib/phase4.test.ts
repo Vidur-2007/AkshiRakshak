@@ -148,15 +148,21 @@ describe('network helpers', () => {
 });
 
 describe('proof helpers', () => {
-  it('flags the placeholder report and orders the ablation', () => {
-    expect(isPlaceholderReport(EVAL_REPORT)).toBe(true);
+  it('flags a placeholder report, not the measured one, and orders the ablation', () => {
+    expect(isPlaceholderReport({ notes: ['PLACEHOLDER: not measured'] })).toBe(true);
+    // since Merge 2 the bundled report is a real measurement (C's eval harness on the real engine)
+    expect(isPlaceholderReport(EVAL_REPORT)).toBe(false);
     expect(isPlaceholderReport({ notes: ['Measured on the synthetic test split.'] })).toBe(false);
-    expect(orderedConfigs(EVAL_REPORT).map((c) => c.name)).toEqual([
-      'rules_only',
-      'rules_model',
-      'full_no_ai',
-      'full_ai_sample',
-    ]);
+    const configs = (names: string[]) =>
+      ({ configs: names.map((name) => ({ name })) }) as unknown as Parameters<typeof orderedConfigs>[0];
+    expect(
+      orderedConfigs(configs(['full_ai_sample', 'full_no_ai', 'rules_only', 'rules_model'])).map((c) => c.name),
+    ).toEqual(['rules_only', 'rules_model', 'full_no_ai', 'full_ai_sample']);
+    // the bundled report has the configurations that were run (full_ai_sample only after the AI sample run)
+    const order = ['rules_only', 'rules_model', 'full_no_ai', 'full_ai_sample'];
+    const bundled = orderedConfigs(EVAL_REPORT).map((c) => c.name);
+    expect(bundled).toEqual(order.filter((n) => bundled.includes(n as (typeof bundled)[number])));
+    expect(bundled).toEqual(expect.arrayContaining(['rules_only', 'rules_model', 'full_no_ai']));
   });
 
   it('formats percentages and row shares', () => {
