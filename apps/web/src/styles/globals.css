@@ -1,0 +1,255 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './tokens.css';
+@import './fonts.css';
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant elder (&:is(.elder *));
+
+/* Map our tokens into Tailwind and into the shadcn/ui variable names. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-brand: var(--brand);
+  --color-brand-contrast: var(--brand-contrast);
+  --color-ai: var(--ai);
+  --color-risk-safe: var(--risk-safe);
+  --color-risk-warn: var(--risk-warn);
+  --color-risk-scam: var(--risk-scam);
+  --color-risk-scam-solid: var(--risk-scam-solid);
+
+  /* shadcn/ui names, restyled to our tokens */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface-2);
+  --color-popover-foreground: var(--text);
+  --color-primary: var(--brand);
+  --color-primary-foreground: var(--brand-contrast);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--text-2);
+  --color-accent: rgba(255, 255, 255, 0.06);
+  --color-accent-foreground: var(--text);
+  --color-destructive: var(--risk-scam);
+  --color-border: var(--glass-border);
+  --color-input: rgba(255, 255, 255, 0.12);
+  --color-ring: var(--brand);
+
+  --radius-chip: var(--radius-chip);
+  --radius-card: var(--radius-card);
+  --radius-sheet: var(--radius-sheet);
+  --radius-sm: 8px;
+  --radius-md: var(--radius-chip);
+  --radius-lg: var(--radius-card);
+  --radius-xl: var(--radius-sheet);
+
+  --font-sans:
+    'Geist Variable', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Bengali', ui-sans-serif,
+    system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --text-sm: var(--text-size-sm);
+  --text-sm--line-height: inherit;
+  --text-base: var(--text-size-base);
+  --text-base--line-height: inherit;
+  --text-lg: var(--text-size-lg);
+  --text-lg--line-height: 1.3;
+  --text-xl: var(--text-size-xl);
+  --text-xl--line-height: 1.2;
+  --text-2xl: var(--text-size-2xl);
+  --text-2xl--line-height: 1.1;
+  --text-hero: var(--text-size-hero);
+  --text-hero--line-height: 1.02;
+
+  --spacing: var(--space);
+  --spacing-tap: var(--tap);
+  --spacing-topbar: var(--topbar-h);
+  --spacing-tabbar: var(--tabbar-h);
+
+  --shadow-glow-safe: var(--glow-safe);
+  --shadow-glow-warn: var(--glow-warn);
+  --shadow-glow-scam: var(--glow-scam);
+  --shadow-glow-brand: var(--glow-brand);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--glass-border);
+  }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    font-family: var(--font-sans);
+    font-size: var(--text-size-base);
+    line-height: var(--leading-latin);
+    /* at 200% text a single long word can be wider than a phone: break it only then (§6) */
+    overflow-wrap: break-word;
+  }
+
+  /* Indic scripts: own font first, taller line height (§3.2). Works on <html lang>
+     and on any element whose language differs (§6). */
+  :lang(hi) {
+    font-family: 'Noto Sans Devanagari', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    line-height: var(--leading-indic);
+  }
+  :lang(te) {
+    font-family: 'Noto Sans Telugu', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    line-height: var(--leading-indic);
+  }
+  :lang(bn) {
+    font-family: 'Noto Sans Bengali', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    line-height: var(--leading-indic);
+  }
+  :lang(en) {
+    line-height: var(--leading-latin);
+  }
+
+  /* Scores, UPI IDs, URLs, phone numbers and amounts. */
+  code,
+  kbd,
+  samp,
+  .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Visible focus ring on every interactive element (§6). */
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: rgb(61 224 255 / 0.3);
+    color: var(--text);
+  }
+
+  /* Tap targets ≥ 44px (56px in Elder mode). Switches keep their track shape and
+     grow in proportion instead (ui/switch.tsx); their row label is clickable too. */
+  html.elder button:not([role='switch']),
+  html.elder [role='button'],
+  html.elder a.tap {
+    min-height: var(--tap);
+  }
+
+  /* Decorative motion off in Elder mode. */
+  html.elder .decorative-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@layer components {
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+  }
+
+  .surface {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-card);
+  }
+
+  .surface-raised {
+    background: var(--surface-2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-card);
+  }
+
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Anomaly dots on the statement chart pulse three times, then stay still:
+   only the landing ShieldCore idles in a loop (§3.3). */
+@keyframes anomaly-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.anomaly-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: anomaly-pulse 1.4s cubic-bezier(0.22, 1, 0.36, 1) 3;
+  animation-fill-mode: forwards;
+}
+
+html.elder .anomaly-pulse {
+  animation: none;
+  opacity: 0;
+}
+
+/*
+ * Visible focus ring on every interactive element (§6). Unlayered on purpose: in
+ * Tailwind v4 `outline-none` sets --tw-outline-style: none, which also blanks the
+ * `focus-visible:outline-2` utilities (they reuse that variable), and the base-layer
+ * rule above loses to utilities. Unlayered declarations beat every layer.
+ */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Page-header entrance: transform only, so the text (often the LCP element) is
+   painted on the first frame instead of waiting for the Motion features chunk. */
+.enter-rise {
+  animation: enter-rise 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes enter-rise {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: none;
+  }
+}

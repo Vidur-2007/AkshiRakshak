@@ -1,0 +1,16 @@
+/*
+ * Self-hosted fonts via Fontsource (SPEC.md §4). Each face has unicode-range
+ * subsets, so a browser only downloads the scripts the page actually shows.
+ * font-display: swap is Fontsource's default.
+ */
+
+/* Geist as variable fonts: one ~29 KB file for every weight (four static weights were ~137 KB). */
+@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource-variable/geist-mono/wght.css';
+
+@import '@fontsource/noto-sans-devanagari/devanagari-400.css';
+@import '@fontsource/noto-sans-devanagari/devanagari-600.css';
+@import '@fontsource/noto-sans-telugu/telugu-400.css';
+@import '@fontsource/noto-sans-telugu/telugu-600.css';
+@import '@fontsource/noto-sans-bengali/bengali-400.css';
+@import '@fontsource/noto-sans-bengali/bengali-600.css';
