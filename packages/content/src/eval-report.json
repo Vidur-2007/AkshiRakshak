@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T04:32:30.548Z",
+  "generatedAt": "2026-11-18T04:39:27.355Z",
   "engineVersion": "0.3.0",
   "modelVersion": "2026.11.18-a",
   "datasets": [
@@ -25,10 +25,10 @@
     }
   ],
   "overall": {
-    "precision": 0.916,
-    "recall": 0.8826,
-    "f1": 0.899,
-    "accuracy": 0.907,
+    "precision": 0.9213,
+    "recall": 0.9474,
+    "f1": 0.9342,
+    "accuracy": 0.9374,
     "fpr": 0.0714,
     "support": 527
   },
@@ -37,10 +37,10 @@
     {
       "name": "rules_only",
       "metrics": {
-        "precision": 0.8621,
-        "recall": 0.5061,
-        "f1": 0.6378,
-        "accuracy": 0.7306,
+        "precision": 0.8571,
+        "recall": 0.4858,
+        "f1": 0.6201,
+        "accuracy": 0.7211,
         "fpr": 0.0714,
         "support": 527
       },
@@ -49,10 +49,10 @@
     {
       "name": "rules_model",
       "metrics": {
-        "precision": 0.9074,
-        "recall": 0.7935,
-        "f1": 0.8466,
-        "accuracy": 0.8653,
+        "precision": 0.9134,
+        "recall": 0.8543,
+        "f1": 0.8829,
+        "accuracy": 0.8937,
         "fpr": 0.0714,
         "support": 527
       },
@@ -61,10 +61,10 @@
     {
       "name": "full_no_ai",
       "metrics": {
-        "precision": 0.916,
-        "recall": 0.8826,
-        "f1": 0.899,
-        "accuracy": 0.907,
+        "precision": 0.9213,
+        "recall": 0.9474,
+        "f1": 0.9342,
+        "accuracy": 0.9374,
         "fpr": 0.0714,
         "support": 527
       },
@@ -79,12 +79,12 @@
     },
     {
       "category": "courier_customs",
-      "recall": 0.8,
+      "recall": 1,
       "support": 10
     },
     {
       "category": "digital_arrest",
-      "recall": 0.963,
+      "recall": 1,
       "support": 27
     },
     {
@@ -104,12 +104,12 @@
     },
     {
       "category": "investment_crypto",
-      "recall": 0.8333,
+      "recall": 1,
       "support": 24
     },
     {
       "category": "job_task",
-      "recall": 0.8889,
+      "recall": 0.9259,
       "support": 27
     },
     {
@@ -129,17 +129,17 @@
     },
     {
       "category": "otp_theft",
-      "recall": 0.7778,
+      "recall": 1,
       "support": 9
     },
     {
       "category": "phishing_link",
-      "recall": 0.5333,
+      "recall": 0.6667,
       "support": 15
     },
     {
       "category": "qr_receive",
-      "recall": 0.6,
+      "recall": 1,
       "support": 10
     },
     {
@@ -171,34 +171,34 @@
   "perLang": [
     {
       "lang": "en",
-      "precision": 1,
-      "recall": 0.8864,
-      "f1": 0.9398,
+      "precision": 0.9881,
+      "recall": 0.9432,
+      "f1": 0.9651,
       "support": 168
     },
     {
       "lang": "hi",
       "precision": 1,
-      "recall": 0.8769,
-      "f1": 0.9344,
+      "recall": 0.9077,
+      "f1": 0.9516,
       "support": 145
     },
     {
       "lang": "te",
-      "precision": 0.7727,
-      "recall": 0.9444,
-      "f1": 0.85,
+      "precision": 0.7879,
+      "recall": 0.963,
+      "f1": 0.8667,
       "support": 114
     },
     {
       "lang": "bn",
-      "precision": 0.8649,
-      "recall": 0.8,
-      "f1": 0.8312,
+      "precision": 0.8889,
+      "recall": 1,
+      "f1": 0.9412,
       "support": 100
     }
   ],
-  "fprGenuineBank": 0.1429,
+  "fprGenuineBank": 0.1286,
   "confusion": {
     "labels": [
       "scam",
@@ -207,9 +207,9 @@
     ],
     "matrix": [
       [
-        107,
-        111,
-        29
+        119,
+        115,
+        13
       ],
       [
         0,
@@ -224,8 +224,8 @@
     ]
   },
   "latency": {
-    "p50Ms": 0.15,
-    "p95Ms": 0.93
+    "p50Ms": 0.16,
+    "p95Ms": 0.98
   },
   "statements": {
     "injected": 6,
@@ -234,10 +234,10 @@
   },
   "notes": [
     "Message numbers are for the held-out test split of the synthetic dataset (527 messages). A message counts as flagged when the verdict is \"scam\" or \"suspicious\".",
-    "Counting only the \"scam\" verdict as flagged: precision 91.5%, recall 43.3%, false-alarm rate 3.6%.",
-    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 14.3% of 140.",
+    "Counting only the \"scam\" verdict as flagged: precision 92.3%, recall 48.2%, false-alarm rate 3.6%.",
+    "False-alarm rate on genuine bank, OTP and UPI messages (hard negatives): 12.9% of 140.",
     "The training data is synthetic: every message was generated from templates written for this project. Expect lower numbers on real messages.",
-    "Scam category named correctly for 67.0% of the scams that were flagged.",
+    "Scam category named correctly for 67.5% of the scams that were flagged.",
     "The handwritten test set has not been added yet, so there is no result for it.",
     "Statements: 6 of 6 planted scenarios flagged (5 with the expected anomaly type). The sample statements were written alongside the rules, so this is a check that they work, not an independent measure.",
     "The AI second opinion was not part of this run."
