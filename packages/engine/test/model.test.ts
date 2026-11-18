@@ -13,6 +13,7 @@ vi.mock('@akshi/model', async (orig) => ({
 
 const { analyze, warmup } = await import('../src/index');
 const { getModel, modelSignal, resetModelCache, safePredict } = await import('../src/model');
+const { currentCalibration } = await import('../src/pipeline/calibration');
 
 const OFF = { expandLinks: false, domainAge: false, layers: { indicators: false } } as const;
 
@@ -153,7 +154,9 @@ describe('analyze() with a model', () => {
     expect(r.signals.map((s) => s.id)).toContain('MODEL_PATTERN');
     expect(r.stages.find((s) => s.stage === 'model')?.status).toBe('done');
     const rules = r.layers.find((l) => l.layer === 'rules')!.score;
-    expect(r.riskScore).toBe(Math.round((0.45 * rules + 0.35 * 95) / 0.8));
+    // weights from the calibration the engine uses (C's calibration.json, or the defaults)
+    const { rules: wr, model: wm } = currentCalibration().fusion;
+    expect(r.riskScore).toBe(Math.round((wr * rules + wm * 95) / (wr + wm)));
   });
 
   it('keeps the rules category over the model, and uses the model when no rule names one (§8.4)', async () => {

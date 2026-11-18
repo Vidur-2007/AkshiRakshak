@@ -71,10 +71,14 @@ describe('§8.2 combination', () => {
     const e = noEntities();
     e.urls = [inspectUrlLocal('http://sbi-kyc-update.xyz/verify')]; // risk 69
     const r = fuse({ ...base, signals: [sig('THREAT_LEGAL')], entities: e });
-    expect(r.riskScore).toBe(Math.round((0.45 * 30 + 0.2 * 69) / 0.65));
+    // weights from the calibration in use (C's calibration.json, or the defaults)
+    const w = cal.fusion;
+    expect(r.riskScore).toBe(Math.round((w.rules * 30 + w.links * 69) / (w.rules + w.links)));
     expect(
       fuse({ ...base, signals: [sig('THREAT_LEGAL')], entities: e, model: 90 }).riskScore,
-    ).toBe(Math.round((0.45 * 30 + 0.35 * 90 + 0.2 * 69) / 1));
+    ).toBe(
+      Math.round((w.rules * 30 + w.model * 90 + w.links * 69) / (w.rules + w.model + w.links)),
+    );
   });
 
   it('uses only the links layer for single-item inputs', () => {
