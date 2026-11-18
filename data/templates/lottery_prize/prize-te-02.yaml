@@ -1,0 +1,15 @@
+family: prize-te-02
+label: scam
+category: lottery_prize
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.prize
+templates:
+- అభినందనలు! మీ నంబర్ టీవీ షో లక్కీ డ్రాలో {amount} గెలుచుకుంది. బహుమతి పొందడానికి జీఎస్టీ ఛార్జీ {upi} కు పంపండి.
+- మీరు మా వార్షికోత్సవ లక్కీ డ్రాలో కారు గెలిచారు. డెలివరీ కోసం రిజిస్ట్రేషన్ ఫీజు {amount} {deadline} చెల్లించండి.
+- మీ సిమ్ నంబర్‌కు {amount} బహుమతి వచ్చింది. క్లెయిమ్ చేయడానికి మీ బ్యాంక్ వివరాలు, ఏటీఎం పిన్ ఈ నంబర్‌కు పంపండి.
+notes: Telugu lucky draw

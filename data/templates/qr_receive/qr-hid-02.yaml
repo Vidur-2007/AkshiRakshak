@@ -1,0 +1,15 @@
+family: qr-hid-02
+label: scam
+category: qr_receive
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.buyer
+templates:
+- आपके सोफे के लिए {amount} दूंगा। पेमेंट के लिए यह क्यूआर भेजा है, स्कैन करके पिन डालिए, पैसा तुरंत आपके खाते में आ जाएगा।
+- '{amount} कैशबैक पाने के लिए यह क्यूआर कोड स्कैन करके राशि कन्फर्म करें। घबराइए मत, पैसा आएगा, जाएगा नहीं।'
+- मैं अभी शहर से बाहर हूं। क्यूआर भेज रहा हूं, अपने फोन से स्कैन करके अप्रूव कर दीजिए। एडवांस {amount} जमा हो जाएगा।
+notes: Devanagari QR to receive

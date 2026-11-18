@@ -1,0 +1,15 @@
+family: prize-bn-02
+label: scam
+category: lottery_prize
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.prize
+templates:
+- অভিনন্দন! আপনার নম্বর টিভি শোয়ের লাকি ড্রতে {amount} জিতেছে। পুরস্কার পেতে জিএসটি চার্জ {upi} তে পাঠান।
+- আমাদের বার্ষিক লাকি ড্রতে আপনি একটা গাড়ি জিতেছেন। ডেলিভারির জন্য রেজিস্ট্রেশন ফি {amount} {deadline} জমা দিন।
+- আপনার সিম নম্বরে {amount} পুরস্কার এসেছে। দাবি করতে ব্যাংকের তথ্য আর এটিএম পিন এই নম্বরে পাঠান।
+notes: Bengali lucky draw

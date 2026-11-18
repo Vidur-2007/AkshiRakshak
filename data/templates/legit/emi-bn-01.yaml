@@ -1,0 +1,14 @@
+family: emi-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_bill
+max_rows: 20
+templates:
+- আপনার লোন অ্যাকাউন্ট [#8] এর ইএমআই {amount} {date} তারিখে কাটা হবে। পর্যাপ্ত ব্যালেন্স রাখুন। -{bank}
+- আপনার ইএমআই {amount} সফলভাবে জমা হয়েছে। লোন অ্যাকাউন্ট [#8]। ধন্যবাদ। -{bank}
+- 'মনে করিয়ে দিচ্ছি: আপনার বিমার প্রিমিয়াম {amount} {date} এর মধ্যে দিতে হবে। অফিসিয়াল অ্যাপে বা শাখায় দিতে পারেন।'
+notes: Genuine Bengali EMI and premium reminders

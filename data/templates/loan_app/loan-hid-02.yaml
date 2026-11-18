@@ -1,0 +1,15 @@
+family: loan-hid-02
+label: scam
+category: loan_app
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+max_rows: 9
+pools:
+  upi: upi_ids.loan
+templates:
+- आपकी लोन किस्त {amount} आज ही भरनी है। नहीं भरी तो आपकी फोटो एडिट करके आपके सभी कॉन्टैक्ट्स को भेज देंगे।
+- सिर्फ पैन कार्ड, सिबिल की ज़रूरत नहीं! पांच मिनट में {amount} लोन। पहले प्रोसेसिंग फीस {upi} पर भेजें।
+- आप लोन नहीं चुकाते, यह मैसेज आपके सब रिश्तेदारों को जाएगा। {deadline} {amount} {upi} पर भरो, वरना पुलिस केस।
+notes: Devanagari loan app harassment

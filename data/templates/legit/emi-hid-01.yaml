@@ -1,0 +1,14 @@
+family: emi-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_bill
+max_rows: 20
+templates:
+- आपके लोन खाते [#8] की ईएमआई {amount} {date} को आपके खाते से कटेगी। पर्याप्त बैलेंस रखें। -{bank}
+- आपकी ईएमआई {amount} सफलतापूर्वक जमा हो गई है। लोन खाता [#8]। धन्यवाद। -{bank}
+- 'याद दिला दें: आपका बीमा प्रीमियम {amount} {date} तक भरना है। आधिकारिक ऐप या शाखा में भर सकते हैं।'
+notes: Genuine Devanagari EMI reminders

@@ -1,0 +1,15 @@
+family: job-te-02
+label: scam
+category: job_task
+lang: te
+script: telu
+channel: telegram
+hard_negative: false
+max_rows: 12
+pools:
+  upi: upi_ids.job
+templates:
+- 'మెంటర్: మీరు చివరి టాస్క్‌లో పొరపాటు చేశారు, అందుకే మీ ఫండ్స్ ఫ్రీజ్ అయ్యాయి. విత్‌డ్రా కోసం {deadline} {amount} రీఛార్జ్ చేయండి.'
+- అభినందనలు! మీ కమీషన్ {amount} సిద్ధంగా ఉంది. విత్‌డ్రా చేయడానికి ముందు కాంబో టాస్క్ పూర్తి చేయాలి. {upi} కు డిపాజిట్ పంపండి.
+- 'హెచ్ఆర్ నుండి: హోటల్ రేటింగ్ ఉద్యోగానికి మీరు ఎంపికయ్యారు. రోజుకు మూడు వేల వరకు సంపాదించవచ్చు. రిజిస్ట్రేషన్ ఫీజు {amount} మాత్రమే.'
+notes: Telugu task withdrawal lock

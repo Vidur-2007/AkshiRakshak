@@ -1,0 +1,17 @@
+family: invest-te-02
+label: scam
+category: investment_crypto
+lang: te
+script: telu
+channel: telegram
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- మా వీఐపీ ట్రేడింగ్ గ్రూప్‌లో చేరండి. రోజుకు ఐదు శాతం లాభం గ్యారంటీ. {amount} పెడితే నెలలో రెట్టింపు. ఇప్పుడే చేరండి {link}
+- 'క్రిప్టో పెట్టుబడి: ఎలాంటి రిస్క్ లేదు, ప్రతిరోజూ ఖచ్చితమైన రాబడి. మొదటి డిపాజిట్ {amount} {upi} కు పంపండి, ఈరోజే లాభం చూడండి.'
+- మీ ఖాతాలో లాభం {amount} చేరింది. విత్‌డ్రా చేయడానికి ముందుగా ఇరవై శాతం సర్వీస్ ఛార్జ్ కట్టాలి. ఆలస్యం చేస్తే ఖాతా ఫ్రీజ్ అవుతుంది.
+- ఐపీఓ ఇన్‌స్టిట్యూషనల్ కోటా సీట్లు కొన్ని మాత్రమే మిగిలాయి. ఈరోజు {amount} పెట్టుబడి పెడితే లిస్టింగ్ రోజున మూడు రెట్లు ఖాయం. ఎవరికీ చెప్పకండి.
+notes: Telugu guaranteed daily returns

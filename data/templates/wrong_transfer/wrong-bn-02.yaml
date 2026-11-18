@@ -1,0 +1,15 @@
+family: wrong-bn-02
+label: scam
+category: wrong_transfer
+lang: bn
+script: beng
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.personal
+templates:
+- দাদা, ভুল করে আপনার নম্বরে {amount} পাঠিয়ে ফেলেছি। ওটা মায়ের হাসপাতালের টাকা। দয়া করে {upi} তে ফেরত দিন।
+- আপনার অ্যাকাউন্টে ভুল করে {amount} জমা হয়েছে। আপনাকে রিকোয়েস্ট পাঠিয়েছি, মেনে নিয়ে পিন দিন।
+- স্ক্রিনশট দেখুন, আপনার কাছে {amount} গেছে। এখনই ফেরত না দিলে সাইবার ক্রাইমে অভিযোগ করব।
+notes: Bengali wrong transfer

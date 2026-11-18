@@ -1,0 +1,15 @@
+family: bill-bn-02
+label: scam
+category: bill_disconnection
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.electricity
+templates:
+- বিদ্যুৎ বিল বাকি থাকায় আপনার সংযোগ {deadline} কেটে দেওয়া হবে। এখনই {link} এ {amount} দিয়ে বিচ্ছিন্নতা আটকান।
+- প্রিয় গ্রাহক, আপনার মিটারের কেওয়াইসি আপডেট হয়নি। আজ রাতে বিদ্যুৎ বন্ধ হবে। নিচের অ্যাপ নামিয়ে আপডেট করুন {link}
+- 'গ্যাস সংযোগ বন্ধের নোটিস: আপনার কেওয়াইসি সম্পূর্ণ হয়নি। {deadline} {amount} দিয়ে আপডেট না করলে ভর্তুকি আর সংযোগ দুটোই বাতিল হবে। {link}'
+notes: Bengali bill update link

@@ -1,0 +1,15 @@
+family: govt-bn-02
+label: scam
+category: impersonation_govt
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.govt
+templates:
+- প্রধানমন্ত্রী প্রকল্পে আপনার {amount} সাহায্য মঞ্জুর হয়েছে। {deadline} আধারের তথ্য দিন {link}
+- 'আয়কর বিভাগের নোটিস: আপনার প্যান কার্ড নিষ্ক্রিয় হয়ে যাবে। {amount} জরিমানা এড়াতে {link} এ তথ্য দিন।'
+- 'ট্রাফিক পুলিশ: আপনার গাড়ির ই-চালান {amount} বাকি। {deadline} না দিলে আদালতে মামলা। এখানে পেমেন্ট করুন {link}'
+notes: Bengali fake government notices

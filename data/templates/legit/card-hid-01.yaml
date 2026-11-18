@@ -1,0 +1,14 @@
+family: card-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- आपके {bank} क्रेडिट कार्ड XX[#4] से {date} को {amount} का लेनदेन हुआ। यह आपने नहीं किया तो कार्ड के पीछे लिखे नंबर पर कॉल करें।
+- आपके {bank} क्रेडिट कार्ड का बिल {amount} है। भुगतान की अंतिम तिथि {date}। ऑटो-डेबिट चालू है तो कुछ करने की ज़रूरत नहीं।
+- आपका नया {bank} डेबिट कार्ड भेज दिया गया है। ऐप या एटीएम पर खुद पिन सेट करें। पिन किसी को न बताएं।
+notes: Genuine Devanagari card alerts

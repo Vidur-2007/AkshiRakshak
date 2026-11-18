@@ -1,0 +1,15 @@
+family: refund-bn-02
+label: scam
+category: refund_cashback
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  link: scam_domains.refund
+templates:
+- আপনার অর্ডার বাতিল হয়েছে। {amount} রিফান্ড পেতে {deadline} এই লিঙ্কে ব্যাংকের তথ্য দিন {link}
+- আপনার {amount} আয়কর রিফান্ড মঞ্জুর হয়েছে। অ্যাকাউন্ট যাচাইয়ের জন্য {link} এ যান।
+- বিদ্যুতের অতিরিক্ত পেমেন্টের {amount} রিফান্ড বাকি আছে। ক্যাশব্যাক দাবি করতে এখনই ক্লিক করুন {link}
+notes: Bengali refund link

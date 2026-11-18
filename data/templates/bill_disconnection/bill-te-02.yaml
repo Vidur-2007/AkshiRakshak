@@ -1,0 +1,15 @@
+family: bill-te-02
+label: scam
+category: bill_disconnection
+lang: te
+script: telu
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.electricity
+templates:
+- విద్యుత్ బిల్లు బకాయి కారణంగా మీ కనెక్షన్ {deadline} తొలగించబడుతుంది. వెంటనే {link} లో {amount} చెల్లించి నిలిపివేతను ఆపండి.
+- ప్రియమైన వినియోగదారు, మీ మీటర్ కేవైసీ అప్‌డేట్ కాలేదు. ఈ రాత్రి కరెంట్ కట్ అవుతుంది. కింది యాప్ డౌన్‌లోడ్ చేసి అప్‌డేట్ చేయండి {link}
+- 'గ్యాస్ కనెక్షన్ బ్లాక్ నోటీస్: మీ కేవైసీ పూర్తి కాలేదు. {deadline} {amount} తో అప్‌డేట్ చేయకపోతే సబ్సిడీ, కనెక్షన్ రెండూ రద్దవుతాయి. {link}'
+notes: Telugu bill update link

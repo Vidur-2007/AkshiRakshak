@@ -1,0 +1,15 @@
+family: loan-te-02
+label: scam
+category: loan_app
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.loan
+templates:
+- మీ లోన్ ఈఎంఐ {amount} ఈరోజు చెల్లించాలి. చెల్లించకపోతే మీ ఫోటోలను మార్ఫ్ చేసి మీ కాంటాక్ట్స్ అందరికీ పంపుతాం.
+- పాన్ కార్డ్ మాత్రమే, సిబిల్ అవసరం లేదు! ఐదు నిమిషాల్లో {amount} లోన్. ముందుగా ప్రాసెసింగ్ ఫీజు {upi} కు పంపండి.
+- మీరు లోన్ ఎగ్గొట్టే వ్యక్తి అని మీ బంధువులందరికీ మెసేజ్ వెళ్తుంది. {deadline} {amount} {upi} కు కట్టండి, లేకపోతే పోలీస్ కేసు.
+notes: Telugu loan app harassment

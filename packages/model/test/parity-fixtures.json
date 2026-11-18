@@ -1,5 +1,5 @@
 {
- "modelVersion": "2026.11.16-a",
+ "modelVersion": "2026.11.18-a",
  "cases": [
   {
    "id": "apk-te-01-001",
@@ -7,7 +7,7 @@
    "script": "telu",
    "text": "✅ మా పెళ్లికి మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము. పెళ్లి పత్రిక పంపుతున్నాము, Electricity_Bill.apk ఫైల్ తెరిచి తేదీ, వేదిక చూడండి.",
    "normalized": "✅ మా పెళ్లికి మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము. పెళ్లి పత్రిక పంపుతున్నాము, Electricity_Bill.apk ఫైల్ తెరిచి తేదీ, వేదిక చూడండి.",
-   "pScam": 0.793888,
+   "pScam": 0.859226,
    "category": "malicious_apk"
   },
   {
@@ -16,26 +16,8 @@
    "script": "telu",
    "text": "మీ వాహనానికి చలాన్ పడింది, జరిమానా రూ.2,917. చలాన్ చూసి చెల్లించడానికి ఈ యాప్ ఇన్‌స్టాల్ చేయండి: www.pm-yojana-apk.xyz/?ref=sms 💰",
    "normalized": "మీ వాహనానికి చలాన్ పడింది, జరిమానా రూ.2,917. చలాన్ చూసి చెల్లించడానికి ఈ యాప్ ఇన్స్టాల్ చేయండి: www.pm-yojana-apk.xyz/?ref=sms 💰",
-   "pScam": 0.926502,
-   "category": "courier_customs"
-  },
-  {
-   "id": "apk-te-01-003",
-   "lang": "te",
-   "script": "telu",
-   "text": "పీఎం కిసాన్ కొత్త జాబితా వచ్చింది. మీ పేరు చూడటానికి, రూ.244 వాయిదా పొందడానికి Electricity_Bill.apk డౌన్‌లోడ్ చేయండి.",
-   "normalized": "పీఎం కిసాన్ కొత్త జాబితా వచ్చింది. మీ పేరు చూడటానికి, రూ.244 వాయిదా పొందడానికి Electricity_Bill.apk డౌన్లోడ్ చేయండి.",
-   "pScam": 0.926053,
-   "category": "malicious_apk"
-  },
-  {
-   "id": "apk-te-01-006",
-   "lang": "te",
-   "script": "telu",
-   "text": "పీఎం కిసాన్ కొత్త జాబితా వచ్చింది. మీ పేరు చూడటానికి, రూ.9,888 వాయిదా పొందడానికి Electricity_Bill.apk డౌన్‌లోడ్ చేయండి. 🔴",
-   "normalized": "పీఎం కిసాన్ కొత్త జాబితా వచ్చింది. మీ పేరు చూడటానికి, రూ.9,888 వాయిదా పొందడానికి Electricity_Bill.apk డౌన్లోడ్ చేయండి. 🔴",
-   "pScam": 0.922427,
-   "category": "malicious_apk"
+   "pScam": 0.923731,
+   "category": "phishing_link"
   },
   {
    "id": "apk-te-01-007",
@@ -43,17 +25,8 @@
    "script": "telu",
    "text": "🚨 మీ వాహనానికి చలాన్ పడింది, జరిమానా 3,750 రూపాయలు. చలాన్ చూసి చెల్లించడానికి ఈ యాప్ ఇన్‌స్టాల్ చేయండి: www.bank-security-update.click/claim",
    "normalized": "🚨 మీ వాహనానికి చలాన్ పడింది, జరిమానా 3,750 రూపాయలు. చలాన్ చూసి చెల్లించడానికి ఈ యాప్ ఇన్స్టాల్ చేయండి: www.bank-security-update.click/claim",
-   "pScam": 0.961229,
+   "pScam": 0.958558,
    "category": "courier_customs"
-  },
-  {
-   "id": "apk-te-01-008",
-   "lang": "te",
-   "script": "telu",
-   "text": "పీఎం కిసాన్ కొత్త జాబితా వచ్చింది. మీ పేరు చూడటానికి, 3,176 రూపాయలు వాయిదా పొందడానికి Traffic_Challan.apk డౌన్‌లోడ్ చేయండి.",
-   "normalized": "పీఎం కిసాన్ కొత్త జాబితా వచ్చింది. మీ పేరు చూడటానికి, 3,176 రూపాయలు వాయిదా పొందడానికి Traffic_Challan.apk డౌన్లోడ్ చేయండి.",
-   "pScam": 0.908478,
-   "category": "malicious_apk"
   },
   {
    "id": "apk-te-01-009",
@@ -61,7 +34,7 @@
    "script": "telu",
    "text": "🚨 మీ వాహనానికి చలాన్ పడింది, జరిమానా 4,320 రూపాయలు. చలాన్ చూసి చెల్లించడానికి ఈ యాప్ ఇన్‌స్టాల్ చేయండి: http://bank-security-update.click/form.php",
    "normalized": "🚨 మీ వాహనానికి చలాన్ పడింది, జరిమానా 4,320 రూపాయలు. చలాన్ చూసి చెల్లించడానికి ఈ యాప్ ఇన్స్టాల్ చేయండి: http://bank-security-update.click/form.php",
-   "pScam": 0.972129,
+   "pScam": 0.967924,
    "category": "courier_customs"
   },
   {
@@ -70,17 +43,8 @@
    "script": "telu",
    "text": "మీ వాహన సర్వీస్ 07-Nov-26 కు బుక్ అయింది.\nమా సిబ్బంది 08:20 PM కు వాహనం తీసుకెళ్తారు.",
    "normalized": "మీ వాహన సర్వీస్ 07-Nov-26 కు బుక్ అయింది. మా సిబ్బంది 08:20 PM కు వాహనం తీసుకెళ్తారు.",
-   "pScam": 0.079747,
-   "category": "romance"
-  },
-  {
-   "id": "appt-te-01-003",
-   "lang": "te",
-   "script": "telu",
-   "text": "మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. 28-10-2026 తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.",
-   "normalized": "మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. 28-10-2026 తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.",
-   "pScam": 0.164056,
-   "category": "otp_theft"
+   "pScam": 0.083947,
+   "category": "upi_collect"
   },
   {
    "id": "appt-te-01-007",
@@ -88,26 +52,8 @@
    "script": "telu",
    "text": "మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. 17 Nov తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.",
    "normalized": "మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. 17 Nov తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.",
-   "pScam": 0.258069,
-   "category": "otp_theft"
-  },
-  {
-   "id": "appt-te-01-011",
-   "lang": "te",
-   "script": "telu",
-   "text": "మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. 03-11-2026 తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.",
-   "normalized": "మీ పరీక్ష రిపోర్టులు సిద్ధంగా ఉన్నాయి. 03-11-2026 తర్వాత ఉదయం 9 నుండి సాయంత్రం 6 లోపు కేంద్రంలో తీసుకోండి.",
-   "pScam": 0.141744,
-   "category": "otp_theft"
-  },
-  {
-   "id": "appt-te-01-013",
-   "lang": "te",
-   "script": "telu",
-   "text": "గుర్తు చేస్తున్నాము: డాక్టర్‌తో మీ అపాయింట్‌మెంట్ 15 Nov న 09:53 AM కు ఉంది. దయచేసి పది నిమిషాలు ముందుగా రండి.",
-   "normalized": "గుర్తు చేస్తున్నాము: డాక్టర్తో మీ అపాయింట్మెంట్ 15 Nov న 09:53 AM కు ఉంది. దయచేసి పది నిమిషాలు ముందుగా రండి.",
-   "pScam": 0.503785,
-   "category": "wrong_transfer"
+   "pScam": 0.247137,
+   "category": "bill_disconnection"
   },
   {
    "id": "appt-te-01-014",
@@ -115,8 +61,8 @@
    "script": "telu",
    "text": "మీ వాహన సర్వీస్ 29-Oct-26 కు బుక్ అయింది. మా సిబ్బంది 04:50 PM కు వాహనం తీసుకెళ్తారు.",
    "normalized": "మీ వాహన సర్వీస్ 29-Oct-26 కు బుక్ అయింది. మా సిబ్బంది 04:50 PM కు వాహనం తీసుకెళ్తారు.",
-   "pScam": 0.114608,
-   "category": "romance"
+   "pScam": 0.120126,
+   "category": "upi_collect"
   },
   {
    "id": "appt-te-01-018",
@@ -124,8 +70,53 @@
    "script": "telu",
    "text": "మీ వాహన సర్వీస్ 08 Nov కు బుక్ అయింది. మా సిబ్బంది 14:03 కు వాహనం తీసుకెళ్తారు.",
    "normalized": "మీ వాహన సర్వీస్ 08 Nov కు బుక్ అయింది. మా సిబ్బంది 14:03 కు వాహనం తీసుకెళ్తారు.",
-   "pScam": 0.112177,
-   "category": "romance"
+   "pScam": 0.124799,
+   "category": "upi_collect"
+  },
+  {
+   "id": "arrest-bn-02-001",
+   "lang": "bn",
+   "script": "beng",
+   "text": "আমি মুম্বাই নারকোটিক্স বিভাগের ইন্সপেক্টর অফিসার বিনোদ কুমার। আপনার নামে বিদেশে যাওয়া পার্সেলে পাসপোর্ট আর মাদক পাওয়া গেছে। ভিডিও কলে জেরার জন্য হাজির হতে হবে।",
+   "normalized": "আমি মুম্বাই নারকোটিক্স বিভাগের ইন্সপেক্টর অফিসার বিনোদ কুমার। আপনার নামে বিদেশে যাওয়া পার্সেলে পাসপোর্ট আর মাদক পাওয়া গেছে। ভিডিও কলে জেরার জন্য হাজির হতে হবে।",
+   "pScam": 0.657124,
+   "category": "digital_arrest"
+  },
+  {
+   "id": "arrest-bn-02-003",
+   "lang": "bn",
+   "script": "beng",
+   "text": "আপনি এখন ডিজিটাল হেফাজতে আছেন। ফোন রাখবেন না, কারও সঙ্গে কথা বলবেন না। প্রতি ঘণ্টায় রিপোর্ট করতে হবে, না হলে গ্রেপ্তারি পরোয়ানা জারি হবে।",
+   "normalized": "আপনি এখন ডিজিটাল হেফাজতে আছেন। ফোন রাখবেন না, কারও সঙ্গে কথা বলবেন না। প্রতি ঘণ্টায় রিপোর্ট করতে হবে, না হলে গ্রেপ্তারি পরোয়ানা জারি হবে।",
+   "pScam": 0.609,
+   "category": "digital_arrest"
+  },
+  {
+   "id": "arrest-bn-02-004",
+   "lang": "bn",
+   "script": "beng",
+   "text": "আমি সিবিআই অফিসার সিবিআই অফিসার অরবিন্দ রাও বলছি। আপনার আধার দিয়ে খোলা অ্যাকাউন্টে হাওয়ালার টাকা ঢুকেছে। এখনই +91 98765 02278 নম্বরে ভিডিও কল করুন, না হলে ২৪ ঘণ্টার মধ্যে পুলিশ আপনার বাড়ি যাবে।",
+   "normalized": "আমি সিবিআই অফিসার সিবিআই অফিসার অরবিন্দ রাও বলছি। আপনার আধার দিয়ে খোলা অ্যাকাউন্টে হাওয়ালার টাকা ঢুকেছে। এখনই +91 98765 02278 নম্বরে ভিডিও কল করুন, না হলে 24 ঘণ্টার মধ্যে পুলিশ আপনার বাড়ি যাবে।",
+   "pScam": 0.942561,
+   "category": "fake_kyc"
+  },
+  {
+   "id": "arrest-bn-02-007",
+   "lang": "bn",
+   "script": "beng",
+   "text": "আমি মুম্বাই নারকোটিক্স বিভাগের ইন্সপেক্টর ইন্সপেক্টর রাজেশ শর্মা। আপনার নামে বিদেশে যাওয়া পার্সেলে পাসপোর্ট আর মাদক পাওয়া গেছে। ভিডিও কলে জেরার জন্য হাজির হতে হবে।",
+   "normalized": "আমি মুম্বাই নারকোটিক্স বিভাগের ইন্সপেক্টর ইন্সপেক্টর রাজেশ শর্মা। আপনার নামে বিদেশে যাওয়া পার্সেলে পাসপোর্ট আর মাদক পাওয়া গেছে। ভিডিও কলে জেরার জন্য হাজির হতে হবে।",
+   "pScam": 0.634963,
+   "category": "digital_arrest"
+  },
+  {
+   "id": "arrest-bn-02-008",
+   "lang": "bn",
+   "script": "beng",
+   "text": "এই মামলা জাতীয় নিরাপত্তার। আপনার টাকা বৈধ কিনা যাচাই করতে পুরো ₹8,50,000 আরবিআই যাচাই অ্যাকাউন্টে পাঠান। তদন্তের পরে ফেরত পাবেন।",
+   "normalized": "এই মামলা জাতীয় নিরাপত্তার। আপনার টাকা বৈধ কিনা যাচাই করতে পুরো ₹8,50,000 আরবিআই যাচাই অ্যাকাউন্টে পাঠান। তদন্তের পরে ফেরত পাবেন।",
+   "pScam": 0.908986,
+   "category": "digital_arrest"
   },
   {
    "id": "arrest-te-01-003",
@@ -133,8 +124,8 @@
    "script": "telu",
    "text": "ఇది రహస్య కేసు. మీ కుటుంబానికి గానీ బ్యాంకుకు గానీ చెప్పకూడదు. కెమెరా ఆన్‌లో ఉంచండి, గది బయటకు వెళ్లకండి. కాల్ కట్ చేస్తే 2 గంటల్లో పోలీసులు మీ ఇంటికి వస్తారు.",
    "normalized": "ఇది రహస్య కేసు. మీ కుటుంబానికి గానీ బ్యాంకుకు గానీ చెప్పకూడదు. కెమెరా ఆన్లో ఉంచండి, గది బయటకు వెళ్లకండి. కాల్ కట్ చేస్తే 2 గంటల్లో పోలీసులు మీ ఇంటికి వస్తారు.",
-   "pScam": 0.732135,
-   "category": "bill_disconnection"
+   "pScam": 0.717345,
+   "category": "fake_customer_care"
   },
   {
    "id": "arrest-te-01-004",
@@ -142,8 +133,8 @@
    "script": "telu",
    "text": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే 9876501028 కు వాట్సాప్ వీడియో కాల్ చేయండి. రూ.3,60,000 సెక్యూరిటీ డిపాజిట్ కట్టకపోతే ఈరోజు మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
    "normalized": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే 9876501028 కు వాట్సాప్ వీడియో కాల్ చేయండి. రూ.3,60,000 సెక్యూరిటీ డిపాజిట్ కట్టకపోతే ఈరోజు మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
-   "pScam": 0.91061,
-   "category": "romance"
+   "pScam": 0.863965,
+   "category": "wrong_transfer"
   },
   {
    "id": "arrest-te-01-005",
@@ -151,7 +142,7 @@
    "script": "telu",
    "text": "నేను సైబర్ క్రైమ్ బ్రాంచ్ నుండి ఇన్‌స్పెక్టర్ రాజేష్ మాట్లాడుతున్నాను. మీ ఆధార్‌తో బుక్ అయిన పార్సెల్‌లో డ్రగ్స్ దొరికాయి. మీరు డిజిటల్ అరెస్ట్‌లో ఉన్నారు. వీడియో కాల్‌లోనే ఉండండి, ఎవరికీ చెప్పకండి.",
    "normalized": "నేను సైబర్ క్రైమ్ బ్రాంచ్ నుండి ఇన్స్పెక్టర్ రాజేష్ మాట్లాడుతున్నాను. మీ ఆధార్తో బుక్ అయిన పార్సెల్లో డ్రగ్స్ దొరికాయి. మీరు డిజిటల్ అరెస్ట్లో ఉన్నారు. వీడియో కాల్లోనే ఉండండి, ఎవరికీ చెప్పకండి.",
-   "pScam": 0.512108,
+   "pScam": 0.65428,
    "category": "otp_theft"
   },
   {
@@ -160,17 +151,8 @@
    "script": "telu",
    "text": "మీ మొబైల్ నంబర్ మనీ లాండరింగ్ కేసుతో ముడిపడి ఉంది. మీ పేరు మీద అరెస్ట్ వారెంట్ జారీ అయింది. విచారణ పూర్తయ్యే వరకు రూ.13,20,000 ప్రభుత్వ సురక్షిత ఖాతాకు పంపండి, తర్వాత తిరిగి ఇస్తాము.",
    "normalized": "మీ మొబైల్ నంబర్ మనీ లాండరింగ్ కేసుతో ముడిపడి ఉంది. మీ పేరు మీద అరెస్ట్ వారెంట్ జారీ అయింది. విచారణ పూర్తయ్యే వరకు రూ.13,20,000 ప్రభుత్వ సురక్షిత ఖాతాకు పంపండి, తర్వాత తిరిగి ఇస్తాము.",
-   "pScam": 0.872609,
-   "category": "romance"
-  },
-  {
-   "id": "arrest-te-01-007",
-   "lang": "te",
-   "script": "telu",
-   "text": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే 90000 03231 కు వాట్సాప్ వీడియో కాల్ చేయండి. 11,90,000 రూపాయలు సెక్యూరిటీ డిపాజిట్ కట్టకపోతే ఈ రాత్రి 9:30కి మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
-   "normalized": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే 90000 03231 కు వాట్సాప్ వీడియో కాల్ చేయండి. 11,90,000 రూపాయలు సెక్యూరిటీ డిపాజిట్ కట్టకపోతే ఈ రాత్రి 9:30కి మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
-   "pScam": 0.932744,
-   "category": "romance"
+   "pScam": 0.867634,
+   "category": "lottery_prize"
   },
   {
    "id": "arrest-te-01-008",
@@ -178,8 +160,8 @@
    "script": "telu",
    "text": "ఇది రహస్య కేసు. మీ కుటుంబానికి గానీ బ్యాంకుకు గానీ చెప్పకూడదు. కెమెరా ఆన్‌లో ఉంచండి, గది బయటకు వెళ్లకండి. కాల్ కట్ చేస్తే ఈరోజు పోలీసులు మీ ఇంటికి వస్తారు.",
    "normalized": "ఇది రహస్య కేసు. మీ కుటుంబానికి గానీ బ్యాంకుకు గానీ చెప్పకూడదు. కెమెరా ఆన్లో ఉంచండి, గది బయటకు వెళ్లకండి. కాల్ కట్ చేస్తే ఈరోజు పోలీసులు మీ ఇంటికి వస్తారు.",
-   "pScam": 0.648425,
-   "category": "upi_collect"
+   "pScam": 0.656181,
+   "category": "fake_customer_care"
   },
   {
    "id": "arrest-te-01-009",
@@ -187,8 +169,8 @@
    "script": "telu",
    "text": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే +91-98765-16836 కు వాట్సాప్ వీడియో కాల్ చేయండి. రూ.2,35,000 సెక్యూరిటీ డిపాజిట్ కట్టకపోతే 2 గంటల్లో మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
    "normalized": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే +91-98765-16836 కు వాట్సాప్ వీడియో కాల్ చేయండి. రూ.2,35,000 సెక్యూరిటీ డిపాజిట్ కట్టకపోతే 2 గంటల్లో మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
-   "pScam": 0.939014,
-   "category": "romance"
+   "pScam": 0.892425,
+   "category": "wrong_transfer"
   },
   {
    "id": "arrest-te-01-010",
@@ -196,17 +178,8 @@
    "script": "telu",
    "text": "🙏 ఇది రహస్య కేసు. మీ కుటుంబానికి గానీ బ్యాంకుకు గానీ చెప్పకూడదు. కెమెరా ఆన్‌లో ఉంచండి, గది బయటకు వెళ్లకండి. కాల్ కట్ చేస్తే ఈ రాత్రి 9:30కి పోలీసులు మీ ఇంటికి వస్తారు.",
    "normalized": "🙏 ఇది రహస్య కేసు. మీ కుటుంబానికి గానీ బ్యాంకుకు గానీ చెప్పకూడదు. కెమెరా ఆన్లో ఉంచండి, గది బయటకు వెళ్లకండి. కాల్ కట్ చేస్తే ఈ రాత్రి 9:30కి పోలీసులు మీ ఇంటికి వస్తారు.",
-   "pScam": 0.781343,
-   "category": "upi_collect"
-  },
-  {
-   "id": "arrest-te-01-011",
-   "lang": "te",
-   "script": "telu",
-   "text": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే +91-98765-15521 కు వాట్సాప్ వీడియో కాల్ చేయండి. ₹8,10,000 సెక్యూరిటీ డిపాజిట్ కట్టకపోతే వెంటనే మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
-   "normalized": "మీ బ్యాంక్ ఖాతా నుండి అక్రమ లావాదేవీలు జరిగాయని సీబీఐ కేసు నమోదు చేసింది. వెంటనే +91-98765-15521 కు వాట్సాప్ వీడియో కాల్ చేయండి. ₹8,10,000 సెక్యూరిటీ డిపాజిట్ కట్టకపోతే వెంటనే మీ ఖాతాలన్నీ ఫ్రీజ్ అవుతాయి.",
-   "pScam": 0.935967,
-   "category": "romance"
+   "pScam": 0.761902,
+   "category": "fake_customer_care"
   },
   {
    "id": "arrest-te-01-012",
@@ -214,8 +187,8 @@
    "script": "telu",
    "text": "మీ మొబైల్ నంబర్ మనీ లాండరింగ్ కేసుతో ముడిపడి ఉంది.\nమీ పేరు మీద అరెస్ట్ వారెంట్ జారీ అయింది.\nవిచారణ పూర్తయ్యే వరకు ₹11,45,000 ప్రభుత్వ సురక్షిత ఖాతాకు పంపండి, తర్వాత తిరిగి ఇస్తాము.",
    "normalized": "మీ మొబైల్ నంబర్ మనీ లాండరింగ్ కేసుతో ముడిపడి ఉంది. మీ పేరు మీద అరెస్ట్ వారెంట్ జారీ అయింది. విచారణ పూర్తయ్యే వరకు ₹11,45,000 ప్రభుత్వ సురక్షిత ఖాతాకు పంపండి, తర్వాత తిరిగి ఇస్తాము.",
-   "pScam": 0.866062,
-   "category": "romance"
+   "pScam": 0.860666,
+   "category": "lottery_prize"
   },
   {
    "id": "bankinfo-en-01-009",
@@ -223,7 +196,7 @@
    "script": "latn",
    "text": "Safe banking tip from Canara Bank: You never need to scan a QR code or enter your UPI PIN to receive money. Stay alert and stay safe.",
    "normalized": "Safe banking tip from Canara Bank: You never need to scan a QR code or enter your UPI PIN to receive money. Stay alert and stay safe.",
-   "pScam": 0.485387,
+   "pScam": 0.412968,
    "category": "qr_receive"
   },
   {
@@ -232,34 +205,7 @@
    "script": "latn",
    "text": "Dear Customer, periodic KYC update is due for your ICICI Bank account. Please visit your nearest branch with your original ID and address proof. No link or OTP is required for this.",
    "normalized": "Dear Customer, periodic KYC update is due for your ICICI Bank account. Please visit your nearest branch with your original ID and address proof. No link or OTP is required for this.",
-   "pScam": 0.390046,
-   "category": "fake_kyc"
-  },
-  {
-   "id": "bankinfo-en-01-014",
-   "lang": "en",
-   "script": "latn",
-   "text": "Your cheque book request for ICICI Bank a/c XX6226 is processed. It will be delivered to your registered address within 7 working days.",
-   "normalized": "Your cheque book request for ICICI Bank a/c XX6226 is processed. It will be delivered to your registered address within 7 working days.",
-   "pScam": 0.075984,
-   "category": "upi_collect"
-  },
-  {
-   "id": "bankinfo-te-01-001",
-   "lang": "te",
-   "script": "telu",
-   "text": "కోటక్ బ్యాంక్ ఎప్పుడూ ఫోన్, ఎస్ఎంఎస్ లేదా ఈమెయిల్ ద్వారా మీ ఓటీపీ, పిన్ లేదా పాస్‌వర్డ్ అడగదు. వాటిని ఎవరికీ చెప్పకండి. మోసాలపై 1930 కు ఫిర్యాదు చేయండి.",
-   "normalized": "కోటక్ బ్యాంక్ ఎప్పుడూ ఫోన్, ఎస్ఎంఎస్ లేదా ఈమెయిల్ ద్వారా మీ ఓటీపీ, పిన్ లేదా పాస్వర్డ్ అడగదు. వాటిని ఎవరికీ చెప్పకండి. మోసాలపై 1930 కు ఫిర్యాదు చేయండి.",
-   "pScam": 0.248784,
-   "category": "lottery_prize"
-  },
-  {
-   "id": "bankinfo-te-01-002",
-   "lang": "te",
-   "script": "telu",
-   "text": "ప్రియమైన కస్టమర్, మీ ఎస్‌బీఐ ఖాతా కేవైసీ అప్‌డేట్ చేయాలి. దయచేసి గుర్తింపు పత్రంతో సమీప శాఖకు రండి. దీనికి ఎలాంటి లింక్ లేదా ఓటీపీ అవసరం లేదు.",
-   "normalized": "ప్రియమైన కస్టమర్, మీ ఎస్బీఐ ఖాతా కేవైసీ అప్డేట్ చేయాలి. దయచేసి గుర్తింపు పత్రంతో సమీప శాఖకు రండి. దీనికి ఎలాంటి లింక్ లేదా ఓటీపీ అవసరం లేదు.",
-   "pScam": 0.541834,
+   "pScam": 0.463888,
    "category": "fake_kyc"
   },
   {
@@ -268,7 +214,7 @@
    "script": "telu",
    "text": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -ఐడీఎఫ్‌సీ ఫస్ట్ బ్యాంక్",
    "normalized": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -ఐడీఎఫ్సీ ఫస్ట్ బ్యాంక్",
-   "pScam": 0.566765,
+   "pScam": 0.39085,
    "category": "qr_receive"
   },
   {
@@ -277,44 +223,8 @@
    "script": "telu",
    "text": "ప్రియమైన కస్టమర్, మీ ఐసీఐసీఐ బ్యాంక్ ఖాతా కేవైసీ అప్‌డేట్ చేయాలి. దయచేసి గుర్తింపు పత్రంతో సమీప శాఖకు రండి. దీనికి ఎలాంటి లింక్ లేదా ఓటీపీ అవసరం లేదు.",
    "normalized": "ప్రియమైన కస్టమర్, మీ ఐసీఐసీఐ బ్యాంక్ ఖాతా కేవైసీ అప్డేట్ చేయాలి. దయచేసి గుర్తింపు పత్రంతో సమీప శాఖకు రండి. దీనికి ఎలాంటి లింక్ లేదా ఓటీపీ అవసరం లేదు.",
-   "pScam": 0.455575,
+   "pScam": 0.397138,
    "category": "fake_kyc"
-  },
-  {
-   "id": "bankinfo-te-01-007",
-   "lang": "te",
-   "script": "telu",
-   "text": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -బ్యాంక్ ఆఫ్ బరోడా",
-   "normalized": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -బ్యాంక్ ఆఫ్ బరోడా",
-   "pScam": 0.587486,
-   "category": "qr_receive"
-  },
-  {
-   "id": "bankinfo-te-01-010",
-   "lang": "te",
-   "script": "telu",
-   "text": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు.\nజాగ్రత్తగా ఉండండి.\n-ఇండస్ఇండ్ బ్యాంక్",
-   "normalized": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -ఇండస్ఇండ్ బ్యాంక్",
-   "pScam": 0.578429,
-   "category": "qr_receive"
-  },
-  {
-   "id": "bankinfo-te-01-012",
-   "lang": "te",
-   "script": "telu",
-   "text": "మీ చెక్ బుక్ 17/11/2026 న పోస్ట్ ద్వారా పంపబడింది. ఏడు పని దినాల్లో మీ చిరునామాకు చేరుతుంది. -ఐడీఎఫ్‌సీ ఫస్ట్ బ్యాంక్",
-   "normalized": "మీ చెక్ బుక్ 17/11/2026 న పోస్ట్ ద్వారా పంపబడింది. ఏడు పని దినాల్లో మీ చిరునామాకు చేరుతుంది. -ఐడీఎఫ్సీ ఫస్ట్ బ్యాంక్",
-   "pScam": 0.096432,
-   "category": "fake_kyc"
-  },
-  {
-   "id": "bankinfo-te-01-015",
-   "lang": "te",
-   "script": "telu",
-   "text": "మీ చెక్ బుక్ 25-10-2026 న పోస్ట్ ద్వారా పంపబడింది.\nఏడు పని దినాల్లో మీ చిరునామాకు చేరుతుంది.\n-యాక్సిస్ బ్యాంక్",
-   "normalized": "మీ చెక్ బుక్ 25-10-2026 న పోస్ట్ ద్వారా పంపబడింది. ఏడు పని దినాల్లో మీ చిరునామాకు చేరుతుంది. -యాక్సిస్ బ్యాంక్",
-   "pScam": 0.106923,
-   "category": "wrong_transfer"
   },
   {
    "id": "bankinfo-te-01-017",
@@ -322,8 +232,8 @@
    "script": "telu",
    "text": "మీ చెక్ బుక్ 21-Nov-26 న పోస్ట్ ద్వారా పంపబడింది. ఏడు పని దినాల్లో మీ చిరునామాకు చేరుతుంది. -యూనియన్ బ్యాంక్",
    "normalized": "మీ చెక్ బుక్ 21-Nov-26 న పోస్ట్ ద్వారా పంపబడింది. ఏడు పని దినాల్లో మీ చిరునామాకు చేరుతుంది. -యూనియన్ బ్యాంక్",
-   "pScam": 0.103602,
-   "category": "wrong_transfer"
+   "pScam": 0.074666,
+   "category": "fake_kyc"
   },
   {
    "id": "bankinfo-te-01-018",
@@ -331,26 +241,8 @@
    "script": "telu",
    "text": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -యూనియన్ బ్యాంక్",
    "normalized": "సురక్షిత బ్యాంకింగ్: డబ్బు అందుకోవడానికి క్యూఆర్ కోడ్ స్కాన్ చేయడం లేదా యూపీఐ పిన్ ఎంటర్ చేయడం అవసరం లేదు. జాగ్రత్తగా ఉండండి. -యూనియన్ బ్యాంక్",
-   "pScam": 0.568146,
+   "pScam": 0.40354,
    "category": "qr_receive"
-  },
-  {
-   "id": "bankinfo-te-01-019",
-   "lang": "te",
-   "script": "telu",
-   "text": "హెచ్‌డీఎఫ్‌సీ బ్యాంక్ ఎప్పుడూ ఫోన్, ఎస్ఎంఎస్ లేదా ఈమెయిల్ ద్వారా మీ ఓటీపీ, పిన్ లేదా పాస్‌వర్డ్ అడగదు. వాటిని ఎవరికీ చెప్పకండి. మోసాలపై 1930 కు ఫిర్యాదు చేయండి.",
-   "normalized": "హెచ్డీఎఫ్సీ బ్యాంక్ ఎప్పుడూ ఫోన్, ఎస్ఎంఎస్ లేదా ఈమెయిల్ ద్వారా మీ ఓటీపీ, పిన్ లేదా పాస్వర్డ్ అడగదు. వాటిని ఎవరికీ చెప్పకండి. మోసాలపై 1930 కు ఫిర్యాదు చేయండి.",
-   "pScam": 0.239493,
-   "category": "lottery_prize"
-  },
-  {
-   "id": "bankinfo-te-01-020",
-   "lang": "te",
-   "script": "telu",
-   "text": "ప్రియమైన కస్టమర్, మీ కోటక్ బ్యాంక్ ఖాతా కేవైసీ అప్‌డేట్ చేయాలి. దయచేసి గుర్తింపు పత్రంతో సమీప శాఖకు రండి. దీనికి ఎలాంటి లింక్ లేదా ఓటీపీ అవసరం లేదు.",
-   "normalized": "ప్రియమైన కస్టమర్, మీ కోటక్ బ్యాంక్ ఖాతా కేవైసీ అప్డేట్ చేయాలి. దయచేసి గుర్తింపు పత్రంతో సమీప శాఖకు రండి. దీనికి ఎలాంటి లింక్ లేదా ఓటీపీ అవసరం లేదు.",
-   "pScam": 0.46127,
-   "category": "fake_kyc"
   },
   {
    "id": "bill-hir-01-001",
@@ -358,7 +250,7 @@
    "script": "latn",
    "text": "Priya upbhokta, aapka bijli connection aaj raat 9:30 baje kaat diya jayega kyuki pichle mahine ka bill update nahi h. Turant bijli adhikari se +91-98765-14064 par sampark kare.",
    "normalized": "Priya upbhokta, aapka bijli connection aaj raat 9:30 baje kaat diya jayega kyuki pichle mahine ka bill update nahi h. Turant bijli adhikari se +91-98765-14064 par sampark kare.",
-   "pScam": 0.943237,
+   "pScam": 0.899725,
    "category": "bill_disconnection"
   },
   {
@@ -367,16 +259,7 @@
    "script": "latn",
    "text": "Aapka bijli bill Rs.3,920 bakaya hai. 24 ghante ke andar tak jama nhi kiya to meter kaat diya jayega. Abi bijli.vibhag.pay@paytm par payment kare aur screenshot bheje.",
    "normalized": "Aapka bijli bill Rs.3,920 bakaya hai. 24 ghante ke andar tak jama nhi kiya to meter kaat diya jayega. Abi bijli.vibhag.pay@paytm par payment kare aur screenshot bheje.",
-   "pScam": 0.859488,
-   "category": "refund_cashback"
-  },
-  {
-   "id": "bill-hir-01-003",
-   "lang": "hi",
-   "script": "latn",
-   "text": "Bijli vibhag: aapka payment system me update nahi hua hai. Line aaj raat 9:30 baje kat jayegi. Officer Rahul Singh ko 98765 01832 par call kare aur bill update karwaye.",
-   "normalized": "Bijli vibhag: aapka payment system me update nahi hua hai. Line aaj raat 9:30 baje kat jayegi. Officer Rahul Singh ko 98765 01832 par call kare aur bill update karwaye.",
-   "pScam": 0.955142,
+   "pScam": 0.805975,
    "category": "refund_cashback"
   },
   {
@@ -385,7 +268,7 @@
    "script": "latn",
    "text": "Priya upbhokta, apka bijli connection aaj raat 9:30 baje kaat diya jayega kyuki pichle mahine ka bill update nahi hai. Turnt bijli adhikari se 90000 08667 par sampark kare.",
    "normalized": "Priya upbhokta, apka bijli connection aaj raat 9:30 baje kaat diya jayega kyuki pichle mahine ka bill update nahi hai. Turnt bijli adhikari se 90000 08667 par sampark kare.",
-   "pScam": 0.929526,
+   "pScam": 0.878584,
    "category": "bill_disconnection"
   },
   {
@@ -394,7 +277,7 @@
    "script": "latn",
    "text": "bijli vibhag: aapka payment system me update nhi hua hai. line 24 ghante ke andar kat jayegi. officer neha das ko +91 90000 02119 par call kare aur bill update karwaye.",
    "normalized": "bijli vibhag: aapka payment system me update nhi hua hai. line 24 ghante ke andar kat jayegi. officer neha das ko +91 90000 02119 par call kare aur bill update karwaye.",
-   "pScam": 0.970456,
+   "pScam": 0.93332,
    "category": "refund_cashback"
   },
   {
@@ -403,7 +286,7 @@
    "script": "latn",
    "text": "Bijli vibhag: aapka payment system me update nahi hua hai. Line aaj raat 9:30 baje kat jayegi. Officer Vikram Patil ko 98765 06710 par call kare aur bill update karwaye.",
    "normalized": "Bijli vibhag: aapka payment system me update nahi hua hai. Line aaj raat 9:30 baje kat jayegi. Officer Vikram Patil ko 98765 06710 par call kare aur bill update karwaye.",
-   "pScam": 0.951332,
+   "pScam": 0.92313,
    "category": "refund_cashback"
   },
   {
@@ -412,35 +295,8 @@
    "script": "beng",
    "text": "আপনার অভিযোগ নথিভুক্ত হয়েছে। রিফান্ডের জন্য আপনার ডেবিট কার্ড নম্বর, মেয়াদ আর সিভিভি বলুন। এটা শুধু যাচাইয়ের জন্য।",
    "normalized": "আপনার অভিযোগ নথিভুক্ত হয়েছে। রিফান্ডের জন্য আপনার ডেবিট কার্ড নম্বর, মেয়াদ আর সিভিভি বলুন। এটা শুধু যাচাইয়ের জন্য।",
-   "pScam": 0.639379,
-   "category": "phishing_link"
-  },
-  {
-   "id": "care-bn-01-006",
-   "lang": "bn",
-   "script": "beng",
-   "text": "নমস্কার, আমি পেটিএম কাস্টমার কেয়ার থেকে বলছি। আপনার টাকা 806 রিফান্ড আটকে আছে। আপনার ফোনে যে ওটিপি এসেছে সেটা বলুন, এখনই রিফান্ড করে দিচ্ছি।",
-   "normalized": "নমস্কার, আমি পেটিএম কাস্টমার কেয়ার থেকে বলছি। আপনার টাকা 806 রিফান্ড আটকে আছে। আপনার ফোনে যে ওটিপি এসেছে সেটা বলুন, এখনই রিফান্ড করে দিচ্ছি।",
-   "pScam": 0.942556,
-   "category": "otp_theft"
-  },
-  {
-   "id": "care-bn-01-009",
-   "lang": "bn",
-   "script": "beng",
-   "text": "প্রযুক্তিগত সমস্যার কারণে টাকা ফেরত আসছে না। আপনি AirDroid ডাউনলোড করুন আর যে কোড দেখাবে সেটা আমাকে বলুন, আমি এখান থেকে ঠিক করে দেব।",
-   "normalized": "প্রযুক্তিগত সমস্যার কারণে টাকা ফেরত আসছে না। আপনি AirDroid ডাউনলোড করুন আর যে কোড দেখাবে সেটা আমাকে বলুন, আমি এখান থেকে ঠিক করে দেব।",
-   "pScam": 0.946592,
-   "category": "remote_access"
-  },
-  {
-   "id": "care-bn-01-010",
-   "lang": "bn",
-   "script": "beng",
-   "text": "প্রযুক্তিগত সমস্যার কারণে টাকা ফেরত আসছে না। আপনি TeamViewer QuickSupport ডাউনলোড করুন আর যে কোড দেখাবে সেটা আমাকে বলুন, আমি এখান থেকে ঠিক করে দেব।",
-   "normalized": "প্রযুক্তিগত সমস্যার কারণে টাকা ফেরত আসছে না। আপনি TeamViewer QuickSupport ডাউনলোড করুন আর যে কোড দেখাবে সেটা আমাকে বলুন, আমি এখান থেকে ঠিক করে দেব।",
-   "pScam": 0.936933,
-   "category": "remote_access"
+   "pScam": 0.81322,
+   "category": "fake_customer_care"
   },
   {
    "id": "chat-en-01-005",
@@ -448,7 +304,7 @@
    "script": "latn",
    "text": "mom is asking when you are coming home for diwali. book your tickets soon, they sell out fast.",
    "normalized": "mom is asking when you are coming home for diwali. book your tickets soon, they sell out fast.",
-   "pScam": 0.125499,
+   "pScam": 0.171185,
    "category": "digital_arrest"
   },
   {
@@ -457,7 +313,7 @@
    "script": "latn",
    "text": "Neha Das called, the wedding is on 21/10/2026. We should book the tickets this week.",
    "normalized": "Neha Das called, the wedding is on 21/10/2026. We should book the tickets this week.",
-   "pScam": 0.030412,
+   "pScam": 0.047044,
    "category": "phishing_link"
   },
   {
@@ -466,8 +322,8 @@
    "script": "latn",
    "text": "Can you send me the notes from today's class?\nI missed the last hour.",
    "normalized": "Can you send me the notes from today's class? I missed the last hour.",
-   "pScam": 0.691647,
-   "category": "digital_arrest"
+   "pScam": 0.667232,
+   "category": "romance"
   },
   {
    "id": "chat-en-01-011",
@@ -475,8 +331,8 @@
    "script": "latn",
    "text": "Thanks for the lift today! Same time tomorrow, around 11:02 PM?",
    "normalized": "Thanks for the lift today! Same time tomorrow, around 11:02 PM?",
-   "pScam": 0.109315,
-   "category": "fake_customer_care"
+   "pScam": 0.137494,
+   "category": "romance"
   },
   {
    "id": "chat-en-01-015",
@@ -484,7 +340,7 @@
    "script": "latn",
    "text": "Rahul Singh called, the wedding is on 03/11/2026. We should book the tickets this week.",
    "normalized": "Rahul Singh called, the wedding is on 03/11/2026. We should book the tickets this week.",
-   "pScam": 0.032187,
+   "pScam": 0.046444,
    "category": "phishing_link"
   },
   {
@@ -493,8 +349,8 @@
    "script": "latn",
    "text": "thanks for the lift today! same time tomorrow, around 12:18 am? 😊",
    "normalized": "thanks for the lift today! same time tomorrow, around 12:18 am? 😊",
-   "pScam": 0.104905,
-   "category": "fake_customer_care"
+   "pScam": 0.135214,
+   "category": "romance"
   },
   {
    "id": "chat-en-01-020",
@@ -502,8 +358,8 @@
    "script": "latn",
    "text": "Meeting got postponed to 06:34 PM. Let us have lunch together then?",
    "normalized": "Meeting got postponed to 06:34 PM. Let us have lunch together then?",
-   "pScam": 0.194392,
-   "category": "phishing_link"
+   "pScam": 0.241305,
+   "category": "romance"
   },
   {
    "id": "collect-en-01-002",
@@ -511,7 +367,7 @@
    "script": "latn",
    "text": "📢 Hello, this is the Flipkart refund team. To receive your refund of ₹2,542, accept the collect request from cashback.support01@okaxis and enter your P.I.N to confirm. Please do it immediately or the refund will lapse.",
    "normalized": "📢 Hello, this is the Flipkart refund team. To receive your refund of ₹2,542, accept the collect request from cashback.support01@okaxis and enter your P.I.N to confirm. Please do it immediately or the refund will lapse.",
-   "pScam": 0.91916,
+   "pScam": 0.892797,
    "category": "fake_customer_care"
   },
   {
@@ -520,7 +376,7 @@
    "script": "latn",
    "text": "🙏 dear customer, excess amount of inr 2,862 was charged on your last bill. to get it back, approve the request sent from amazon.refund.cell@axl in your upi app. enter pin to receive money.",
    "normalized": "🙏 dear customer, excess amount of inr 2,862 was charged on your last bill. to get it back, approve the request sent from amazon.refund.cell@axl in your upi app. enter pin to receive money.",
-   "pScam": 0.867424,
+   "pScam": 0.795939,
    "category": "upi_collect"
   },
   {
@@ -529,7 +385,7 @@
    "script": "latn",
    "text": "madam i already sent the refund request of rs 9,382, why are you not accepting? open phonepe, you will see a request from sbi.refund.desk@ybl, click on pay and put your pin, then only the amount will be credited.",
    "normalized": "madam i already sent the refund request of rs 9,382, why are you not accepting? open phonepe, you will see a request from sbi.refund.desk@ybl, click on pay and put your pin, then only the amount will be credited.",
-   "pScam": 0.958337,
+   "pScam": 0.937331,
    "category": "upi_collect"
   },
   {
@@ -538,7 +394,7 @@
    "script": "latn",
    "text": "Sir ur refund of Rs.6,542 is approved. I have sent a request on ur UPI app from sbi.refund.desk@ybl. Just open it, tap Pay and enter ur UPI PIN, the money will come to ur account in 2 minutes.",
    "normalized": "Sir ur refund of Rs.6,542 is approved. I have sent a request on ur UPI app from sbi.refund.desk@ybl. Just open it, tap Pay and enter ur UPI PIN, the money will come to ur account in 2 minutes.",
-   "pScam": 0.95852,
+   "pScam": 0.919832,
    "category": "upi_collect"
   },
   {
@@ -547,7 +403,7 @@
    "script": "latn",
    "text": "Ur cashback of ₹9,912 is waiting. We have sent a payment request to ur number. Approve it with ur UPI PIN to receive the amount instantly.",
    "normalized": "Ur cashback of ₹9,912 is waiting. We have sent a payment request to ur number. Approve it with ur UPI PIN to receive the amount instantly.",
-   "pScam": 0.894083,
+   "pScam": 0.838426,
    "category": "upi_collect"
   },
   {
@@ -556,7 +412,7 @@
    "script": "latn",
    "text": "💰 Dear costumer, excess amount of INR 2,445 was charged on your last bill. To get it back, approve the request sent from cashback.support01@okaxis in your UPI app. Enter PIN to receive money.",
    "normalized": "💰 Dear costumer, excess amount of INR 2,445 was charged on your last bill. To get it back, approve the request sent from cashback.support01@okaxis in your UPI app. Enter PIN to receive money.",
-   "pScam": 0.852955,
+   "pScam": 0.788052,
    "category": "upi_collect"
   },
   {
@@ -565,17 +421,8 @@
    "script": "latn",
    "text": "👉 Madam I already sent the refund request of INR 8,536, why are you not accepting? Open PhonePe, you will see a request from amazon.refund.cell@axl, click on pay and put your PIN, then only the amount will be credited.",
    "normalized": "👉 Madam I already sent the refund request of INR 8,536, why are you not accepting? Open PhonePe, you will see a request from amazon.refund.cell@axl, click on pay and put your PIN, then only the amount will be credited.",
-   "pScam": 0.934624,
+   "pScam": 0.902948,
    "category": "upi_collect"
-  },
-  {
-   "id": "courier-en-01-002",
-   "lang": "en",
-   "script": "latn",
-   "text": "Ur F3dEx parcel is held at customs. Pay the clearance fee of INR 2,858 at http://delivery-address-update.click/form.php to release it before 6 PM today.",
-   "normalized": "Ur F3dEx parcel is held at customs. Pay the clearance fee of INR 2,858 at http://delivery-address-update.click/form.php to release it before 6 PM today.",
-   "pScam": 0.964457,
-   "category": "courier_customs"
   },
   {
    "id": "courier-en-01-004",
@@ -583,7 +430,7 @@
    "script": "latn",
    "text": "FedEx Alert: Your consignment is waiting at the warehouse. Confirm your details within 12 hours or the parcel will be sent back. bluedart-reschedule.cyou/?ref=sms",
    "normalized": "FedEx Alert: Your consignment is waiting at the warehouse. Confirm your details within 12 hours or the parcel will be sent back. bluedart-reschedule.cyou/?ref=sms",
-   "pScam": 0.895475,
+   "pScam": 0.8457,
    "category": "courier_customs"
   },
   {
@@ -592,16 +439,7 @@
    "script": "latn",
    "text": "We tried to deliver your parcel today.\nNo one was available.\nCall our delivery agent on 90000 08250 and pay ₹123 handling fee to get it within 24 hours.",
    "normalized": "We tried to deliver your parcel today. No one was available. Call our delivery agent on 90000 08250 and pay ₹123 handling fee to get it within 24 hours.",
-   "pScam": 0.807002,
-   "category": "courier_customs"
-  },
-  {
-   "id": "courier-en-01-011",
-   "lang": "en",
-   "script": "latn",
-   "text": "Delhivery: Your package could not be delivered due to incomplete address.\nUpdate your address in 2 hours at http://bluedart-reschedule.cyou/form.php or it will be returned.",
-   "normalized": "Delhivery: Your package could not be delivered due to incomplete address. Update your address in 2 hours at http://bluedart-reschedule.cyou/form.php or it will be returned.",
-   "pScam": 0.849006,
+   "pScam": 0.774409,
    "category": "courier_customs"
   },
   {
@@ -610,7 +448,7 @@
    "script": "latn",
    "text": "your blue dart parcel is held at customs. pay the clearance fee of rs.1,843 at http://delivery-address-update.click/kyc to release it immediately.",
    "normalized": "your blue dart parcel is held at customs. pay the clearance fee of rs.1,843 at http://delivery-address-update.click/kyc to release it immediately.",
-   "pScam": 0.960108,
+   "pScam": 0.945986,
    "category": "courier_customs"
   },
   {
@@ -619,17 +457,8 @@
    "script": "latn",
    "text": "dear customer, delivery attempt failed. to reschedule your dtdc shipment pay the redelivery charge of rs 2,020 here: https://parcel-customs-fee.top/pay",
    "normalized": "dear customer, delivery attempt failed. to reschedule your dtdc shipment pay the redelivery charge of rs 2,020 here: https://parcel-customs-fee.top/pay",
-   "pScam": 0.866769,
+   "pScam": 0.839042,
    "category": "courier_customs"
-  },
-  {
-   "id": "credit-hid-01-004",
-   "lang": "hi",
-   "script": "deva",
-   "text": "आपके बचत खाते XX8408 में तिमाही ब्याज ₹50,622 जमा किया गया है।\n-एक्सिस बैंक",
-   "normalized": "आपके बचत खाते XX8408 में तिमाही ब्याज ₹50,622 जमा किया गया है। -एक्सिस बैंक",
-   "pScam": 0.121006,
-   "category": "otp_theft"
   },
   {
    "id": "credit-hid-01-005",
@@ -637,8 +466,8 @@
    "script": "deva",
    "text": "आपके केनरा बैंक खाते XX8482 में 29-Oct-26 को 54,298 रुपये जमा हुए। उपलब्ध शेष रु. 838292।",
    "normalized": "आपके केनरा बैंक खाते XX8482 में 29-Oct-26 को 54,298 रुपये जमा हुए। उपलब्ध शेष रु. 838292।",
-   "pScam": 0.070073,
-   "category": "digital_arrest"
+   "pScam": 0.073241,
+   "category": "upi_collect"
   },
   {
    "id": "credit-hid-01-007",
@@ -646,8 +475,8 @@
    "script": "deva",
    "text": "प्रिय ग्राहक, आपका वेतन ₹ 28,165 आपके खाते XX0443 में 29-10-2026 को जमा कर दिया गया है। -आईडीएफसी फर्स्ट बैंक",
    "normalized": "प्रिय ग्राहक, आपका वेतन ₹ 28,165 आपके खाते XX0443 में 29-10-2026 को जमा कर दिया गया है। -आईडीएफसी फर्स्ट बैंक",
-   "pScam": 0.035769,
-   "category": "otp_theft"
+   "pScam": 0.033617,
+   "category": "fake_customer_care"
   },
   {
    "id": "credit-hid-01-012",
@@ -655,17 +484,8 @@
    "script": "deva",
    "text": "आपके बचत खाते XX2950 में तिमाही ब्याज ₹ 9,104 जमा किया गया है।\n-एक्सिस बैंक",
    "normalized": "आपके बचत खाते XX2950 में तिमाही ब्याज ₹ 9,104 जमा किया गया है। -एक्सिस बैंक",
-   "pScam": 0.163838,
+   "pScam": 0.123571,
    "category": "otp_theft"
-  },
-  {
-   "id": "credit-hid-01-014",
-   "lang": "hi",
-   "script": "deva",
-   "text": "यस बैंक: खाता XX4006 में ₹8,518 क्रेडिट हुए। यूपीआई संदर्भ 032405811631।",
-   "normalized": "यस बैंक: खाता XX4006 में ₹8,518 क्रेडिट हुए। यूपीआई संदर्भ 032405811631।",
-   "pScam": 0.056391,
-   "category": "digital_arrest"
   },
   {
    "id": "credit-hid-01-017",
@@ -673,17 +493,8 @@
    "script": "deva",
    "text": "आपके यस बैंक खाते XX0193 में 16/11/2026 को ₹26,839 जमा हुए। उपलब्ध शेष रु. 644081।",
    "normalized": "आपके यस बैंक खाते XX0193 में 16/11/2026 को ₹26,839 जमा हुए। उपलब्ध शेष रु. 644081।",
-   "pScam": 0.023824,
-   "category": "digital_arrest"
-  },
-  {
-   "id": "debit-bn-01-001",
-   "lang": "bn",
-   "script": "beng",
-   "text": "আপনার আইসিআইসিআই ব্যাংক অ্যাকাউন্ট XX6050 থেকে 12-11-2026 তারিখে 21,399 টাকা ডেবিট হয়েছে। বর্তমান ব্যালেন্স 34334 টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।",
-   "normalized": "আপনার আইসিআইসিআই ব্যাংক অ্যাকাউন্ট XX6050 থেকে 12-11-2026 তারিখে 21,399 টাকা ডেবিট হয়েছে। বর্তমান ব্যালেন্স 34334 টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।",
-   "pScam": 0.300393,
-   "category": "fake_kyc"
+   "pScam": 0.02165,
+   "category": "upi_collect"
   },
   {
    "id": "debit-bn-01-002",
@@ -691,8 +502,8 @@
    "script": "beng",
    "text": "এসবিআই: অ্যাকাউন্ট XX6593 এ টাকা 42,353 জমা হয়েছে। ইউপিআই রেফারেন্স 032045282869।",
    "normalized": "এসবিআই: অ্যাকাউন্ট XX6593 এ টাকা 42,353 জমা হয়েছে। ইউপিআই রেফারেন্স 032045282869।",
-   "pScam": 0.364247,
-   "category": "fake_kyc"
+   "pScam": 0.095209,
+   "category": "phishing_link"
   },
   {
    "id": "debit-bn-01-003",
@@ -700,17 +511,8 @@
    "script": "beng",
    "text": "প্রিয় গ্রাহক, 26-10-2026 তারিখে 17:08 সময়ে এটিএম থেকে টাকা 21,223 তোলা হয়েছে। অ্যাকাউন্ট XX1617। ব্যালেন্স 99188 টাকা। -পিএনবি",
    "normalized": "প্রিয় গ্রাহক, 26-10-2026 তারিখে 17:08 সময়ে এটিএম থেকে টাকা 21,223 তোলা হয়েছে। অ্যাকাউন্ট XX1617। ব্যালেন্স 99188 টাকা। -পিএনবি",
-   "pScam": 0.060375,
-   "category": "fake_kyc"
-  },
-  {
-   "id": "debit-bn-01-007",
-   "lang": "bn",
-   "script": "beng",
-   "text": "প্রিয় গ্রাহক, 24-Oct-26 তারিখে 01:51 AM সময়ে এটিএম থেকে ₹17,104 তোলা হয়েছে। অ্যাকাউন্ট XX8267। ব্যালেন্স 78610 টাকা। -আইডিএফসি ফার্স্ট ব্যাংক",
-   "normalized": "প্রিয় গ্রাহক, 24-Oct-26 তারিখে 01:51 AM সময়ে এটিএম থেকে ₹17,104 তোলা হয়েছে। অ্যাকাউন্ট XX8267। ব্যালেন্স 78610 টাকা। -আইডিএফসি ফার্স্ট ব্যাংক",
-   "pScam": 0.063302,
-   "category": "digital_arrest"
+   "pScam": 0.023383,
+   "category": "upi_collect"
   },
   {
    "id": "debit-bn-01-008",
@@ -718,8 +520,8 @@
    "script": "beng",
    "text": "আপনার বেতন 5,225 টাকা আপনার পিএনবি অ্যাকাউন্ট XX2050 এ 23 Nov তারিখে জমা হয়েছে।",
    "normalized": "আপনার বেতন 5,225 টাকা আপনার পিএনবি অ্যাকাউন্ট XX2050 এ 23 Nov তারিখে জমা হয়েছে।",
-   "pScam": 0.319706,
-   "category": "fake_kyc"
+   "pScam": 0.140029,
+   "category": "upi_collect"
   },
   {
    "id": "debit-bn-01-013",
@@ -727,17 +529,8 @@
    "script": "beng",
    "text": "আপনার পিএনবি অ্যাকাউন্ট XX7709 থেকে 23 Oct তারিখে টাকা 8,101 ডেবিট হয়েছে। বর্তমান ব্যালেন্স 89992 টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।",
    "normalized": "আপনার পিএনবি অ্যাকাউন্ট XX7709 থেকে 23 Oct তারিখে টাকা 8,101 ডেবিট হয়েছে। বর্তমান ব্যালেন্স 89992 টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।",
-   "pScam": 0.51177,
-   "category": "fake_kyc"
-  },
-  {
-   "id": "debit-bn-01-016",
-   "lang": "bn",
-   "script": "beng",
-   "text": "আপনার বেতন টাকা 35,365 আপনার পিএনবি অ্যাকাউন্ট XX9661 এ 06-Nov-26 তারিখে জমা হয়েছে।",
-   "normalized": "আপনার বেতন টাকা 35,365 আপনার পিএনবি অ্যাকাউন্ট XX9661 এ 06-Nov-26 তারিখে জমা হয়েছে।",
-   "pScam": 0.238066,
-   "category": "fake_kyc"
+   "pScam": 0.354454,
+   "category": "upi_collect"
   },
   {
    "id": "debit-bn-01-017",
@@ -745,17 +538,8 @@
    "script": "beng",
    "text": "আপনার ব্যাংক অফ বরোদা অ্যাকাউন্ট XX8567 থেকে 25 Oct তারিখে টাকা 20,338 ডেবিট হয়েছে। বর্তমান ব্যালেন্স 56867 টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।",
    "normalized": "আপনার ব্যাংক অফ বরোদা অ্যাকাউন্ট XX8567 থেকে 25 Oct তারিখে টাকা 20,338 ডেবিট হয়েছে। বর্তমান ব্যালেন্স 56867 টাকা। এটি আপনি না করে থাকলে এখনই আপনার শাখায় যোগাযোগ করুন।",
-   "pScam": 0.429041,
+   "pScam": 0.26331,
    "category": "investment_crypto"
-  },
-  {
-   "id": "debit-bn-01-018",
-   "lang": "bn",
-   "script": "beng",
-   "text": "কানাড়া ব্যাংক: অ্যাকাউন্ট XX2734 এ টাকা 20,620 জমা হয়েছে। ইউপিআই রেফারেন্স 175533999248।",
-   "normalized": "কানাড়া ব্যাংক: অ্যাকাউন্ট XX2734 এ টাকা 20,620 জমা হয়েছে। ইউপিআই রেফারেন্স 175533999248।",
-   "pScam": 0.249417,
-   "category": "fake_kyc"
   },
   {
    "id": "debit-bn-01-019",
@@ -763,8 +547,89 @@
    "script": "beng",
    "text": "প্রিয় গ্রাহক, 23-Nov-26 তারিখে 02:25 PM সময়ে এটিএম থেকে ₹33,355 তোলা হয়েছে। অ্যাকাউন্ট XX2378। ব্যালেন্স 74521 টাকা। -পিএনবি",
    "normalized": "প্রিয় গ্রাহক, 23-Nov-26 তারিখে 02:25 PM সময়ে এটিএম থেকে ₹33,355 তোলা হয়েছে। অ্যাকাউন্ট XX2378। ব্যালেন্স 74521 টাকা। -পিএনবি",
-   "pScam": 0.046784,
-   "category": "fake_kyc"
+   "pScam": 0.020151,
+   "category": "upi_collect"
+  },
+  {
+   "id": "emi-te-01-001",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ లోన్ ఖాతా 05065128 ఈఎంఐ ₹619 26-10-2026 న మీ ఖాతా నుండి డెబిట్ అవుతుంది. తగిన నిల్వ ఉంచండి. -ఐసీఐసీఐ బ్యాంక్",
+   "normalized": "మీ లోన్ ఖాతా 05065128 ఈఎంఐ ₹619 26-10-2026 న మీ ఖాతా నుండి డెబిట్ అవుతుంది. తగిన నిల్వ ఉంచండి. -ఐసీఐసీఐ బ్యాంక్",
+   "pScam": 0.105642,
+   "category": "loan_app"
+  },
+  {
+   "id": "emi-te-01-002",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ ఈఎంఐ ₹3,573 విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 39411992. ధన్యవాదాలు. -కెనరా బ్యాంక్",
+   "normalized": "మీ ఈఎంఐ ₹3,573 విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 39411992. ధన్యవాదాలు. -కెనరా బ్యాంక్",
+   "pScam": 0.116147,
+   "category": "loan_app"
+  },
+  {
+   "id": "emi-te-01-003",
+   "lang": "te",
+   "script": "telu",
+   "text": "గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం 3,281 రూపాయలు 29-10-2026 లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.",
+   "normalized": "గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం 3,281 రూపాయలు 29-10-2026 లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.",
+   "pScam": 0.159442,
+   "category": "courier_customs"
+  },
+  {
+   "id": "emi-te-01-005",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ ఈఎంఐ ₹3,801 విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 55226307. ధన్యవాదాలు. -ఎస్‌బీఐ",
+   "normalized": "మీ ఈఎంఐ ₹3,801 విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 55226307. ధన్యవాదాలు. -ఎస్బీఐ",
+   "pScam": 0.147097,
+   "category": "loan_app"
+  },
+  {
+   "id": "emi-te-01-006",
+   "lang": "te",
+   "script": "telu",
+   "text": "గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం రూ.4,886 20/11/2026 లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.",
+   "normalized": "గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం రూ.4,886 20/11/2026 లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.",
+   "pScam": 0.124558,
+   "category": "courier_customs"
+  },
+  {
+   "id": "emi-te-01-013",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ లోన్ ఖాతా 79780499 ఈఎంఐ 4,211 రూపాయలు 10-Nov-26 న మీ ఖాతా నుండి డెబిట్ అవుతుంది. తగిన నిల్వ ఉంచండి. -హెచ్‌డీఎఫ్‌సీ బ్యాంక్",
+   "normalized": "మీ లోన్ ఖాతా 79780499 ఈఎంఐ 4,211 రూపాయలు 10-Nov-26 న మీ ఖాతా నుండి డెబిట్ అవుతుంది. తగిన నిల్వ ఉంచండి. -హెచ్డీఎఫ్సీ బ్యాంక్",
+   "pScam": 0.103067,
+   "category": "loan_app"
+  },
+  {
+   "id": "emi-te-01-014",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ ఈఎంఐ ₹2,896 విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 28801871. ధన్యవాదాలు. -బ్యాంక్ ఆఫ్ బరోడా",
+   "normalized": "మీ ఈఎంఐ ₹2,896 విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 28801871. ధన్యవాదాలు. -బ్యాంక్ ఆఫ్ బరోడా",
+   "pScam": 0.131004,
+   "category": "loan_app"
+  },
+  {
+   "id": "emi-te-01-018",
+   "lang": "te",
+   "script": "telu",
+   "text": "గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం 5,226 రూపాయలు 09-11-2026 లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.",
+   "normalized": "గుర్తుచేస్తున్నాం: మీ బీమా ప్రీమియం 5,226 రూపాయలు 09-11-2026 లోపు చెల్లించాలి. అధికారిక యాప్ లేదా శాఖలో చెల్లించవచ్చు.",
+   "pScam": 0.123649,
+   "category": "courier_customs"
+  },
+  {
+   "id": "emi-te-01-020",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ ఈఎంఐ 3,465 రూపాయలు విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 95738403. ధన్యవాదాలు. -ఇండస్ఇండ్ బ్యాంక్",
+   "normalized": "మీ ఈఎంఐ 3,465 రూపాయలు విజయవంతంగా చెల్లించబడింది. లోన్ ఖాతా 95738403. ధన్యవాదాలు. -ఇండస్ఇండ్ బ్యాంక్",
+   "pScam": 0.14882,
+   "category": "loan_app"
   },
   {
    "id": "govt-en-01-007",
@@ -772,7 +637,7 @@
    "script": "latn",
    "text": "parivahan: your pan card will be deactivated before 6 pm today because it is not linked with aadhaar. link it now: http://aadhaar-link-verify.xyz/claim",
    "normalized": "parivahan: your pan card will be deactivated before 6 pm today because it is not linked with aadhaar. link it now: http://aadhaar-link-verify.xyz/claim",
-   "pScam": 0.919699,
+   "pScam": 0.881321,
    "category": "impersonation_govt"
   },
   {
@@ -781,7 +646,7 @@
    "script": "deva",
    "text": "सिर्फ 56,000 रुपये लगाइए और पंद्रह दिन में दोगुना पाइए।\nकोई जोखिम नहीं है।\nपैसा vip.trading.desk@ybl पर भेजिए, मैं आपका खाता खोल दूंगा।",
    "normalized": "सिर्फ 56,000 रुपये लगाइए और पंद्रह दिन में दोगुना पाइए। कोई जोखिम नहीं है। पैसा vip.trading.desk@ybl पर भेजिए, मैं आपका खाता खोल दूंगा।",
-   "pScam": 0.962006,
+   "pScam": 0.972046,
    "category": "investment_crypto"
   },
   {
@@ -790,8 +655,8 @@
    "script": "deva",
    "text": "🚨 आपके ट्रेडिंग खाते में 3,16,000 रुपये का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा।",
    "normalized": "🚨 आपके ट्रेडिंग खाते में 3,16,000 रुपये का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा।",
-   "pScam": 0.860745,
-   "category": "romance"
+   "pScam": 0.91342,
+   "category": "job_task"
   },
   {
    "id": "invest-hid-01-004",
@@ -799,8 +664,8 @@
    "script": "deva",
    "text": "🚨 हमारे वीआईपी ग्रुप में रोज तीन पक्के शेयर टिप्स मिलते हैं। बीस प्रतिशत मुनाफे की गारंटी है। आज ही मुफ्त में जुड़ें: www.stock-tips-premium.live/update",
    "normalized": "🚨 हमारे वीआईपी ग्रुप में रोज तीन पक्के शेयर टिप्स मिलते हैं। बीस प्रतिशत मुनाफे की गारंटी है। आज ही मुफ्त में जुड़ें: www.stock-tips-premium.live/update",
-   "pScam": 0.758514,
-   "category": "digital_arrest"
+   "pScam": 0.778323,
+   "category": "investment_crypto"
   },
   {
    "id": "invest-hid-01-005",
@@ -808,7 +673,7 @@
    "script": "deva",
    "text": "सिर्फ ₹ 12,000 लगाइए और पंद्रह दिन में दोगुना पाइए। कोई जोखिम नहीं है। पैसा vip.trading.desk@ybl पर भेजिए, मैं आपका खाता खोल दूंगा।",
    "normalized": "सिर्फ ₹ 12,000 लगाइए और पंद्रह दिन में दोगुना पाइए। कोई जोखिम नहीं है। पैसा vip.trading.desk@ybl पर भेजिए, मैं आपका खाता खोल दूंगा।",
-   "pScam": 0.960653,
+   "pScam": 0.972067,
    "category": "investment_crypto"
   },
   {
@@ -817,8 +682,8 @@
    "script": "deva",
    "text": "आपके ट्रेडिंग खाते में रु. 2,58,000 का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा। 🙏",
    "normalized": "आपके ट्रेडिंग खाते में रु. 2,58,000 का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा। 🙏",
-   "pScam": 0.848125,
-   "category": "romance"
+   "pScam": 0.909619,
+   "category": "job_task"
   },
   {
    "id": "invest-hid-01-007",
@@ -826,8 +691,8 @@
    "script": "deva",
    "text": "हमारे वीआईपी ग्रुप में रोज तीन पक्के शेयर टिप्स मिलते हैं। बीस प्रतिशत मुनाफे की गारंटी है। आज ही मुफ्त में जुड़ें: http://crypto-double-return.xyz/verify",
    "normalized": "हमारे वीआईपी ग्रुप में रोज तीन पक्के शेयर टिप्स मिलते हैं। बीस प्रतिशत मुनाफे की गारंटी है। आज ही मुफ्त में जुड़ें: http://crypto-double-return.xyz/verify",
-   "pScam": 0.818393,
-   "category": "digital_arrest"
+   "pScam": 0.823068,
+   "category": "investment_crypto"
   },
   {
    "id": "invest-hid-01-008",
@@ -835,7 +700,7 @@
    "script": "deva",
    "text": "सिर्फ ₹ 2,54,000 लगाइए और पंद्रह दिन में दोगुना पाइए। कोई जोखिम नहीं है। पैसा vip.trading.desk@ybl पर भेजिए, मैं आपका खाता खोल दूंगा।",
    "normalized": "सिर्फ ₹ 2,54,000 लगाइए और पंद्रह दिन में दोगुना पाइए। कोई जोखिम नहीं है। पैसा vip.trading.desk@ybl पर भेजिए, मैं आपका खाता खोल दूंगा।",
-   "pScam": 0.963289,
+   "pScam": 0.973339,
    "category": "investment_crypto"
   },
   {
@@ -844,8 +709,116 @@
    "script": "deva",
    "text": "आपके ट्रेडिंग खाते में ₹3,74,000 का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा। 🔴",
    "normalized": "आपके ट्रेडिंग खाते में ₹3,74,000 का मुनाफा हुआ है। निकालने के लिए पहले अठारह प्रतिशत टैक्स जमा करना होगा, उसके बाद पूरा पैसा आपके खाते में आ जाएगा। 🔴",
-   "pScam": 0.851342,
+   "pScam": 0.911928,
+   "category": "job_task"
+  },
+  {
+   "id": "invest-te-02-001",
+   "lang": "te",
+   "script": "telu",
+   "text": "⚠️ మా వీఐపీ ట్రేడింగ్ గ్రూప్‌లో చేరండి. రోజుకు ఐదు శాతం లాభం గ్యారంటీ. 22,000 రూపాయలు పెడితే నెలలో రెట్టింపు. ఇప్పుడే చేరండి http://crypto-double-return.xyz/?ref=sms",
+   "normalized": "⚠️ మా వీఐపీ ట్రేడింగ్ గ్రూప్లో చేరండి. రోజుకు ఐదు శాతం లాభం గ్యారంటీ. 22,000 రూపాయలు పెడితే నెలలో రెట్టింపు. ఇప్పుడే చేరండి http://crypto-double-return.xyz/?ref=sms",
+   "pScam": 0.931394,
+   "category": "investment_crypto"
+  },
+  {
+   "id": "invest-te-02-004",
+   "lang": "te",
+   "script": "telu",
+   "text": "ఐపీఓ ఇన్‌స్టిట్యూషనల్ కోటా సీట్లు కొన్ని మాత్రమే మిగిలాయి. ఈరోజు ₹1,48,000 పెట్టుబడి పెడితే లిస్టింగ్ రోజున మూడు రెట్లు ఖాయం. ఎవరికీ చెప్పకండి.",
+   "normalized": "ఐపీఓ ఇన్స్టిట్యూషనల్ కోటా సీట్లు కొన్ని మాత్రమే మిగిలాయి. ఈరోజు ₹1,48,000 పెట్టుబడి పెడితే లిస్టింగ్ రోజున మూడు రెట్లు ఖాయం. ఎవరికీ చెప్పకండి.",
+   "pScam": 0.579019,
    "category": "romance"
+  },
+  {
+   "id": "invest-te-02-005",
+   "lang": "te",
+   "script": "telu",
+   "text": "క్రిప్టో పెట్టుబడి: ఎలాంటి రిస్క్ లేదు, ప్రతిరోజూ ఖచ్చితమైన రాబడి. మొదటి డిపాజిట్ 2,63,000 రూపాయలు vip.trading.desk@ybl కు పంపండి, ఈరోజే లాభం చూడండి.",
+   "normalized": "క్రిప్టో పెట్టుబడి: ఎలాంటి రిస్క్ లేదు, ప్రతిరోజూ ఖచ్చితమైన రాబడి. మొదటి డిపాజిట్ 2,63,000 రూపాయలు vip.trading.desk@ybl కు పంపండి, ఈరోజే లాభం చూడండి.",
+   "pScam": 0.834049,
+   "category": "investment_crypto"
+  },
+  {
+   "id": "invest-te-02-006",
+   "lang": "te",
+   "script": "telu",
+   "text": "👉 మీ ఖాతాలో లాభం ₹54,000 చేరింది.\nవిత్‌డ్రా చేయడానికి ముందుగా ఇరవై శాతం సర్వీస్ ఛార్జ్ కట్టాలి.\nఆలస్యం చేస్తే ఖాతా ఫ్రీజ్ అవుతుంది.",
+   "normalized": "👉 మీ ఖాతాలో లాభం ₹54,000 చేరింది. విత్డ్రా చేయడానికి ముందుగా ఇరవై శాతం సర్వీస్ ఛార్జ్ కట్టాలి. ఆలస్యం చేస్తే ఖాతా ఫ్రీజ్ అవుతుంది.",
+   "pScam": 0.837585,
+   "category": "investment_crypto"
+  },
+  {
+   "id": "invest-te-02-007",
+   "lang": "te",
+   "script": "telu",
+   "text": "ఐపీఓ ఇన్‌స్టిట్యూషనల్ కోటా సీట్లు కొన్ని మాత్రమే మిగిలాయి. ఈరోజు ₹4,17,000 పెట్టుబడి పెడితే లిస్టింగ్ రోజున మూడు రెట్లు ఖాయం. ఎవరికీ చెప్పకండి. 🎁",
+   "normalized": "ఐపీఓ ఇన్స్టిట్యూషనల్ కోటా సీట్లు కొన్ని మాత్రమే మిగిలాయి. ఈరోజు ₹4,17,000 పెట్టుబడి పెడితే లిస్టింగ్ రోజున మూడు రెట్లు ఖాయం. ఎవరికీ చెప్పకండి. 🎁",
+   "pScam": 0.586632,
+   "category": "romance"
+  },
+  {
+   "id": "invest-te-02-009",
+   "lang": "te",
+   "script": "telu",
+   "text": "మీ ఖాతాలో లాభం 1,90,000 రూపాయలు చేరింది. విత్‌డ్రా చేయడానికి ముందుగా ఇరవై శాతం సర్వీస్ ఛార్జ్ కట్టాలి. ఆలస్యం చేస్తే ఖాతా ఫ్రీజ్ అవుతుంది.",
+   "normalized": "మీ ఖాతాలో లాభం 1,90,000 రూపాయలు చేరింది. విత్డ్రా చేయడానికి ముందుగా ఇరవై శాతం సర్వీస్ ఛార్జ్ కట్టాలి. ఆలస్యం చేస్తే ఖాతా ఫ్రీజ్ అవుతుంది.",
+   "pScam": 0.840379,
+   "category": "investment_crypto"
+  },
+  {
+   "id": "job-bn-02-001",
+   "lang": "bn",
+   "script": "beng",
+   "text": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে ২৪ ঘণ্টার মধ্যে টাকা 4,400 রিচার্জ করুন।",
+   "normalized": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে 24 ঘণ্টার মধ্যে টাকা 4,400 রিচার্জ করুন।",
+   "pScam": 0.908875,
+   "category": "wrong_transfer"
+  },
+  {
+   "id": "job-bn-02-002",
+   "lang": "bn",
+   "script": "beng",
+   "text": "🎁 অভিনন্দন! আপনার কমিশন টাকা 10,200 তৈরি। তোলার আগে কম্বো টাস্ক শেষ করতে হবে। task.payout.hr@ybl তে ডিপোজিট পাঠান।",
+   "normalized": "🎁 অভিনন্দন! আপনার কমিশন টাকা 10,200 তৈরি। তোলার আগে কম্বো টাস্ক শেষ করতে হবে। task.payout.hr@ybl তে ডিপোজিট পাঠান।",
+   "pScam": 0.850886,
+   "category": "job_task"
+  },
+  {
+   "id": "job-bn-02-004",
+   "lang": "bn",
+   "script": "beng",
+   "text": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে আজ রাত ৯:৩০-এ ₹3,300 রিচার্জ করুন।",
+   "normalized": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে আজ রাত 9:30-এ ₹3,300 রিচার্জ করুন।",
+   "pScam": 0.911394,
+   "category": "wrong_transfer"
+  },
+  {
+   "id": "job-bn-02-007",
+   "lang": "bn",
+   "script": "beng",
+   "text": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে ২৪ ঘণ্টার মধ্যে টাকা 1,100 রিচার্জ করুন। 🚨",
+   "normalized": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে 24 ঘণ্টার মধ্যে টাকা 1,100 রিচার্জ করুন। 🚨",
+   "pScam": 0.911767,
+   "category": "wrong_transfer"
+  },
+  {
+   "id": "job-bn-02-009",
+   "lang": "bn",
+   "script": "beng",
+   "text": "🔴 এইচআর থেকে বলছি: হোটেল রেটিংয়ের কাজের জন্য আপনি নির্বাচিত। দিনে তিন হাজার টাকা পর্যন্ত আয়। রেজিস্ট্রেশন ফি মাত্র ₹10,100।",
+   "normalized": "🔴 এইচআর থেকে বলছি: হোটেল রেটিংয়ের কাজের জন্য আপনি নির্বাচিত। দিনে তিন হাজার টাকা পর্যন্ত আয়। রেজিস্ট্রেশন ফি মাত্র ₹10,100।",
+   "pScam": 0.741845,
+   "category": "digital_arrest"
+  },
+  {
+   "id": "job-bn-02-010",
+   "lang": "bn",
+   "script": "beng",
+   "text": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে আজ 600 টাকা রিচার্জ করুন।",
+   "normalized": "মেন্টর: শেষ টাস্কে আপনি ভুল করেছেন, তাই আপনার ফান্ড আটকে গেছে। তুলতে হলে আজ 600 টাকা রিচার্জ করুন।",
+   "pScam": 0.872149,
+   "category": "wrong_transfer"
   },
   {
    "id": "job-en-02-002",
@@ -853,7 +826,7 @@
    "script": "latn",
    "text": "Mentor: You made a mistake in the last order so your funds are frozen. To repair the order and withdraw everything you must recharge ₹ 7,700 before 6 PM today. ✅",
    "normalized": "Mentor: You made a mistake in the last order so your funds are frozen. To repair the order and withdraw everything you must recharge ₹ 7,700 before 6 PM today. ✅",
-   "pScam": 0.701483,
+   "pScam": 0.739135,
    "category": "digital_arrest"
   },
   {
@@ -862,7 +835,7 @@
    "script": "latn",
    "text": "New members bonus! Follow 5 Instagram pages and get Rs 12,900 instantly. After that join the paid tasks to earn more. Register here work-from-home-jobs.icu/update ⚠️",
    "normalized": "New members bonus! Follow 5 Instagram pages and get Rs 12,900 instantly. After that join the paid tasks to earn more. Register here work-from-home-jobs.icu/update ⚠️",
-   "pScam": 0.854042,
+   "pScam": 0.837796,
    "category": "job_task"
   },
   {
@@ -871,16 +844,7 @@
    "script": "latn",
    "text": "Part time job, only 20 minutes a day on your phone. Rate movies and products, earn ₹10,300 daily, payment guaranteed. Message the manager on +91-98765-16241 to get your work code.",
    "normalized": "Part time job, only 20 minutes a day on your phone. Rate movies and products, earn ₹10,300 daily, payment guaranteed. Message the manager on +91-98765-16241 to get your work code.",
-   "pScam": 0.59869,
-   "category": "job_task"
-  },
-  {
-   "id": "job-en-02-011",
-   "lang": "en",
-   "script": "latn",
-   "text": "📢 Welcome to the VIP task group. Today's merchant order: recharge Rs 13,300 and receive Rs 13,300 plus 40 percent profit. Limited seats, send payment to task.payout.hr@ybl and post the screenshot.",
-   "normalized": "📢 Welcome to the VIP task group. Today's merchant order: recharge Rs 13,300 and receive Rs 13,300 plus 40 percent profit. Limited seats, send payment to task.payout.hr@ybl and post the screenshot.",
-   "pScam": 0.878268,
+   "pScam": 0.609289,
    "category": "job_task"
   },
   {
@@ -889,7 +853,7 @@
    "script": "latn",
    "text": "🎁 Mentor: You made a mistake in the last order so your funds are frozen. To repair the order and withdraw everything you must recharge Rs 8,200 immediately.",
    "normalized": "🎁 Mentor: You made a mistake in the last order so your funds are frozen. To repair the order and withdraw everything you must recharge Rs 8,200 immediately.",
-   "pScam": 0.736879,
+   "pScam": 0.748044,
    "category": "digital_arrest"
   },
   {
@@ -898,16 +862,7 @@
    "script": "latn",
    "text": "Priya grahak, aapka IndusInd Bank khata turant band ho jayega kyunki KYC update nahi hai. Abhi is link par KYC kare: https://bank-kyc-renew.icu/?ref=sms ‼️",
    "normalized": "Priya grahak, aapka IndusInd Bank khata turant band ho jayega kyunki KYC update nahi hai. Abhi is link par KYC kare: https://bank-kyc-renew.icu/?ref=sms !!️",
-   "pScam": 0.929436,
-   "category": "fake_kyc"
-  },
-  {
-   "id": "kyc-hir-01-002",
-   "lang": "hi",
-   "script": "latn",
-   "text": "Axis Bank alert: aapki KYC expire ho gayi hai. Account chalu rakhne ke liye turant 98765 13658 par call kare ya https://axis-ekyc-verify.live/?ref=sms par details bhare.",
-   "normalized": "Axis Bank alert: aapki KYC expire ho gayi hai. Account chalu rakhne ke liye turant 98765 13658 par call kare ya https://axis-ekyc-verify.live/?ref=sms par details bhare.",
-   "pScam": 0.983488,
+   "pScam": 0.882164,
    "category": "fake_kyc"
   },
   {
@@ -916,7 +871,7 @@
    "script": "latn",
    "text": "Sir aapka Yes Bank account hold par hai, KYC pending hai. PAN aur Aadhaar ki photo bhejiye aur jo O T P aayega wo bata dijiye, aaj shaam 6 baje tak tak nhi kiya to khaata freeze ho jayega.",
    "normalized": "Sir aapka Yes Bank account hold par hai, KYC pending hai. PAN aur Aadhaar ki photo bhejiye aur jo O T P aayega wo bata dijiye, aaj shaam 6 baje tak tak nhi kiya to khaata freeze ho jayega.",
-   "pScam": 0.857839,
+   "pScam": 0.841497,
    "category": "fake_kyc"
   },
   {
@@ -925,7 +880,7 @@
    "script": "latn",
    "text": "Priya grahak, apka Kotak Bank khata 2 ghante me band ho jayega kyuki KYC update nhi hai. Abhi is link par KYC kare: axis-ekyc-verify.live/pay",
    "normalized": "Priya grahak, apka Kotak Bank khata 2 ghante me band ho jayega kyuki KYC update nhi hai. Abhi is link par KYC kare: axis-ekyc-verify.live/pay",
-   "pScam": 0.909723,
+   "pScam": 0.877792,
    "category": "fake_kyc"
   },
   {
@@ -934,7 +889,7 @@
    "script": "latn",
    "text": "sir aapka union bank account hold par hai, kyc pending hai. pan aur aadhaar ki photo bhejiye aur jo otp aayega wo bata dijiye, 2 ghante me tak nahi kiya to khata freeze ho jayega.",
    "normalized": "sir aapka union bank account hold par hai, kyc pending hai. pan aur aadhaar ki photo bhejiye aur jo otp aayega wo bata dijiye, 2 ghante me tak nahi kiya to khata freeze ho jayega.",
-   "pScam": 0.884239,
+   "pScam": 0.852623,
    "category": "fake_kyc"
   },
   {
@@ -943,7 +898,7 @@
    "script": "latn",
    "text": "Priya grahak, aapka IDFC FIRST Bank khata aaj raat 9:30 baje band ho jayega kyunki KYC update nahi hai. Abhi is link par KYC kare: https://bank-kyc-renew.icu/login",
    "normalized": "Priya grahak, aapka IDFC FIRST Bank khata aaj raat 9:30 baje band ho jayega kyunki KYC update nahi hai. Abhi is link par KYC kare: https://bank-kyc-renew.icu/login",
-   "pScam": 0.906784,
+   "pScam": 0.863446,
    "category": "fake_kyc"
   },
   {
@@ -952,7 +907,7 @@
    "script": "beng",
    "text": "অভিনন্দন! কোনো কাগজপত্র ছাড়াই আপনার ₹6,000 লোন মঞ্জুর হয়েছে। প্রসেসিং ফি loan.insurance.charge@ibl এ পাঠান, দশ মিনিটে টাকা পেয়ে যাবেন।",
    "normalized": "অভিনন্দন! কোনো কাগজপত্র ছাড়াই আপনার ₹6,000 লোন মঞ্জুর হয়েছে। প্রসেসিং ফি loan.insurance.charge@ibl এ পাঠান, দশ মিনিটে টাকা পেয়ে যাবেন।",
-   "pScam": 0.914718,
+   "pScam": 0.918523,
    "category": "loan_app"
   },
   {
@@ -961,25 +916,7 @@
    "script": "beng",
    "text": "এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে 1,65,000 টাকা পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: quick-cash-loan.top/apply",
    "normalized": "এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে 1,65,000 টাকা পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: quick-cash-loan.top/apply",
-   "pScam": 0.97009,
-   "category": "loan_app"
-  },
-  {
-   "id": "loan-bn-01-003",
-   "lang": "bn",
-   "script": "beng",
-   "text": "আপনার লোন বকেয়া আছে। ২ ঘণ্টার মধ্যে টাকা 23,000 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "normalized": "আপনার লোন বকেয়া আছে। 2 ঘণ্টার মধ্যে টাকা 23,000 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "pScam": 0.875587,
-   "category": "romance"
-  },
-  {
-   "id": "loan-bn-01-004",
-   "lang": "bn",
-   "script": "beng",
-   "text": "অভিনন্দন! কোনো কাগজপত্র ছাড়াই আপনার টাকা 1,31,000 লোন মঞ্জুর হয়েছে। প্রসেসিং ফি instant.loan.desk@okicici এ পাঠান, দশ মিনিটে টাকা পেয়ে যাবেন।",
-   "normalized": "অভিনন্দন! কোনো কাগজপত্র ছাড়াই আপনার টাকা 1,31,000 লোন মঞ্জুর হয়েছে। প্রসেসিং ফি instant.loan.desk@okicici এ পাঠান, দশ মিনিটে টাকা পেয়ে যাবেন।",
-   "pScam": 0.942167,
+   "pScam": 0.962969,
    "category": "loan_app"
   },
   {
@@ -988,8 +925,8 @@
    "script": "beng",
    "text": "এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে 22,500 টাকা পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: www.instant-loan-approve.xyz/kyc",
    "normalized": "এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে 22,500 টাকা পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: www.instant-loan-approve.xyz/kyc",
-   "pScam": 0.963105,
-   "category": "impersonation_govt"
+   "pScam": 0.947013,
+   "category": "loan_app"
   },
   {
    "id": "loan-bn-01-006",
@@ -997,35 +934,188 @@
    "script": "beng",
    "text": "আপনার লোন বকেয়া আছে। এখনই ₹1,79,000 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
    "normalized": "আপনার লোন বকেয়া আছে। এখনই ₹1,79,000 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "pScam": 0.934792,
-   "category": "romance"
+   "pScam": 0.934491,
+   "category": "loan_app"
   },
   {
-   "id": "loan-bn-01-008",
-   "lang": "bn",
-   "script": "beng",
-   "text": "আপনার লোন বকেয়া আছে। ২ ঘণ্টার মধ্যে টাকা 1,62,500 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "normalized": "আপনার লোন বকেয়া আছে। 2 ঘণ্টার মধ্যে টাকা 1,62,500 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "pScam": 0.834013,
+   "id": "mf-en-01-001",
+   "lang": "en",
+   "script": "latn",
+   "text": "Kotak Bank Fixed Deposits: earn up to 7.25% p.a. for senior citizens on select tenures. Rates are subject to change. Details at https://kotak.com",
+   "normalized": "Kotak Bank Fixed Deposits: earn up to 7.25% p.a. for senior citizens on select tenures. Rates are subject to change. Details at https://kotak.com",
+   "pScam": 0.322444,
+   "category": "phishing_link"
+  },
+  {
+   "id": "mf-en-01-002",
+   "lang": "en",
+   "script": "latn",
+   "text": "Start a SIP with Canara Bank from Rs 500 a month.\nMutual fund investments are subject to market risks; read all scheme related documents carefully.\nhttps://canarabank.com",
+   "normalized": "Start a SIP with Canara Bank from Rs 500 a month. Mutual fund investments are subject to market risks; read all scheme related documents carefully. https://canarabank.com",
+   "pScam": 0.27113,
+   "category": "digital_arrest"
+  },
+  {
+   "id": "mf-en-01-015",
+   "lang": "en",
+   "script": "latn",
+   "text": "Past returns do not guarantee future returns.\nReview your portfolio in the ICICI Bank app or speak to your relationship manager at the branch.",
+   "normalized": "Past returns do not guarantee future returns. Review your portfolio in the ICICI Bank app or speak to your relationship manager at the branch.",
+   "pScam": 0.195197,
+   "category": "investment_crypto"
+  },
+  {
+   "id": "otp-hir-01-001",
+   "lang": "hi",
+   "script": "latn",
+   "text": "259891 aapka Canara Bank OTP hai INR 11,533 ke transaction ke liye. Yeh OTP kisi ke saath share na karen, bank kabhi OTP nahi maangta.",
+   "normalized": "259891 aapka Canara Bank OTP hai INR 11,533 ke transaction ke liye. Yeh OTP kisi ke saath share na karen, bank kabhi OTP nahi maangta.",
+   "pScam": 0.175994,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-002",
+   "lang": "hi",
+   "script": "latn",
+   "text": "Aapka Bank of Baroda net banking login OTP 006905 hai. Agar aapne login nahin kiya hai to is message ko ignore kare.",
+   "normalized": "Aapka Bank of Baroda net banking login OTP 006905 hai. Agar aapne login nahin kiya hai to is message ko ignore kare.",
+   "pScam": 0.242633,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-003",
+   "lang": "hi",
+   "script": "latn",
+   "text": "UPI registration ke liye aapka OTP 518949 hai.\nBank staff ko bhi yeh OTP na batayein.\n-Union Bank",
+   "normalized": "UPI registration ke liye aapka OTP 518949 hai. Bank staff ko bhi yeh OTP na batayein. -Union Bank",
+   "pScam": 0.291709,
+   "category": "upi_collect"
+  },
+  {
+   "id": "otp-hir-01-004",
+   "lang": "hi",
+   "script": "latn",
+   "text": "266678 aapka PNB OTP h Rs 8,444 ke transaction ke liye. Yeh OTP kisi ke saath share na karen, bank kabhi OTP nahi maangta.",
+   "normalized": "266678 aapka PNB OTP h Rs 8,444 ke transaction ke liye. Yeh OTP kisi ke saath share na karen, bank kabhi OTP nahi maangta.",
+   "pScam": 0.189004,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-006",
+   "lang": "hi",
+   "script": "latn",
+   "text": "UPI registration ke liye aapka OTP 306320 hai. Bank staff ko bhi yeh OTP na batayein. -Axis Bank",
+   "normalized": "UPI registration ke liye aapka OTP 306320 hai. Bank staff ko bhi yeh OTP na batayein. -Axis Bank",
+   "pScam": 0.351248,
+   "category": "upi_collect"
+  },
+  {
+   "id": "otp-hir-01-007",
+   "lang": "hi",
+   "script": "latn",
+   "text": "699190 aapka Union Bank OTP hai Rs.27,586 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "normalized": "699190 aapka Union Bank OTP hai Rs.27,586 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "pScam": 0.181601,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-008",
+   "lang": "hi",
+   "script": "latn",
+   "text": "Aapka IndusInd Bank net banking login OTP 734792 h. Agar aapne login nahi kiya h to is message ko ignore karein.",
+   "normalized": "Aapka IndusInd Bank net banking login OTP 734792 h. Agar aapne login nahi kiya h to is message ko ignore karein.",
+   "pScam": 0.203334,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-009",
+   "lang": "hi",
+   "script": "latn",
+   "text": "UPI registration ke liye aapka OTP 861923 hai. Bank staff ko bhi yeh OTP na batayein. -Yes Bank",
+   "normalized": "UPI registration ke liye aapka OTP 861923 hai. Bank staff ko bhi yeh OTP na batayein. -Yes Bank",
+   "pScam": 0.306514,
+   "category": "upi_collect"
+  },
+  {
+   "id": "otp-hir-01-010",
+   "lang": "hi",
+   "script": "latn",
+   "text": "149300 aapka Axis Bank OTP h ₹3,834 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "normalized": "149300 aapka Axis Bank OTP h ₹3,834 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "pScam": 0.231148,
    "category": "job_task"
   },
   {
-   "id": "loan-bn-01-009",
-   "lang": "bn",
-   "script": "beng",
-   "text": "এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে টাকা 7,000 পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: www.instant-loan-approve.xyz/claim",
-   "normalized": "এখনই লোন চাই? শুধু আধার আর প্যান দিয়ে টাকা 7,000 পর্যন্ত লোন পাঁচ মিনিটে। এখনই আবেদন করুন: www.instant-loan-approve.xyz/claim",
-   "pScam": 0.975759,
-   "category": "impersonation_govt"
+   "id": "otp-hir-01-011",
+   "lang": "hi",
+   "script": "latn",
+   "text": "Apka Kotak Bank net banking login OTP 015180 h. Agar aapne login nahi kiya h to is message ko ignore karein.",
+   "normalized": "Apka Kotak Bank net banking login OTP 015180 h. Agar aapne login nahi kiya h to is message ko ignore karein.",
+   "pScam": 0.176847,
+   "category": "phishing_link"
   },
   {
-   "id": "loan-bn-01-010",
-   "lang": "bn",
-   "script": "beng",
-   "text": "আপনার লোন বকেয়া আছে। ২৪ ঘণ্টার মধ্যে টাকা 1,43,500 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "normalized": "আপনার লোন বকেয়া আছে। 24 ঘণ্টার মধ্যে টাকা 1,43,500 না দিলে আপনার ছবি আপনার সব কন্টাক্টে পাঠিয়ে দেওয়া হবে।",
-   "pScam": 0.850903,
-   "category": "job_task"
+   "id": "otp-hir-01-012",
+   "lang": "hi",
+   "script": "latn",
+   "text": "UPI registration ke lie aapka OTP 449333 hai. Bank staff ko bhi yeh OTP na batayein. -PNB",
+   "normalized": "UPI registration ke lie aapka OTP 449333 hai. Bank staff ko bhi yeh OTP na batayein. -PNB",
+   "pScam": 0.293338,
+   "category": "upi_collect"
+  },
+  {
+   "id": "otp-hir-01-013",
+   "lang": "hi",
+   "script": "latn",
+   "text": "248521 aapka Canara Bank OTP hai Rs 9,049 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "normalized": "248521 aapka Canara Bank OTP hai Rs 9,049 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "pScam": 0.193915,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-014",
+   "lang": "hi",
+   "script": "latn",
+   "text": "Aapka IDFC FIRST Bank net banking login OTP 588221 hai. Agar aapne login nahi kiya hai to is message ko ignore karen.",
+   "normalized": "Aapka IDFC FIRST Bank net banking login OTP 588221 hai. Agar aapne login nahi kiya hai to is message ko ignore karen.",
+   "pScam": 0.20724,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-015",
+   "lang": "hi",
+   "script": "latn",
+   "text": "UPI registration ke liye aapka OTP 144067 hai. Bank staff ko bhi yeh OTP na batayein. -IDFC FIRST Bank",
+   "normalized": "UPI registration ke liye aapka OTP 144067 hai. Bank staff ko bhi yeh OTP na batayein. -IDFC FIRST Bank",
+   "pScam": 0.276045,
+   "category": "upi_collect"
+  },
+  {
+   "id": "otp-hir-01-016",
+   "lang": "hi",
+   "script": "latn",
+   "text": "221304 aapka Canara Bank OTP hai Rs 34,423 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "normalized": "221304 aapka Canara Bank OTP hai Rs 34,423 ke transaction ke liye. Yeh OTP kisi ke saath share na karein, bank kabhi OTP nahi maangta.",
+   "pScam": 0.158816,
+   "category": "phishing_link"
+  },
+  {
+   "id": "otp-hir-01-018",
+   "lang": "hi",
+   "script": "latn",
+   "text": "UPI registration ke lie apka OTP 508850 h. Bank staff ko bhi yeh OTP na batayein. -Yes Bank",
+   "normalized": "UPI registration ke lie apka OTP 508850 h. Bank staff ko bhi yeh OTP na batayein. -Yes Bank",
+   "pScam": 0.238107,
+   "category": "upi_collect"
+  },
+  {
+   "id": "otp-hir-01-020",
+   "lang": "hi",
+   "script": "latn",
+   "text": "Aapka HDFC Bank net banking login OTP 146867 hai. Agar aapne login nahi kiya hai to is message ko ignore karen.",
+   "normalized": "Aapka HDFC Bank net banking login OTP 146867 hai. Agar aapne login nahi kiya hai to is message ko ignore karen.",
+   "pScam": 0.222164,
+   "category": "phishing_link"
   },
   {
    "id": "otps-en-01-002",
@@ -1033,8 +1123,8 @@
    "script": "latn",
    "text": "Sir I am the delivery boy from 4mazon. Your order is cancelled by mistake. Tell me the OTP that came to your mobile to rebook it.",
    "normalized": "Sir I am the delivery boy from 4mazon. Your order is cancelled by mistake. Tell me the OTP that came to your mobile to rebook it.",
-   "pScam": 0.164378,
-   "category": "wrong_transfer"
+   "pScam": 0.187579,
+   "category": "fake_customer_care"
   },
   {
    "id": "otps-en-01-003",
@@ -1042,17 +1132,8 @@
    "script": "latn",
    "text": "Dear customer, to stop the transaction of INR 44,575 from your Canara Bank card, share the OTP sent to your number with our executive immediately. 🎁",
    "normalized": "Dear customer, to stop the transaction of INR 44,575 from your Canara Bank card, share the OTP sent to your number with our executive immediately. 🎁",
-   "pScam": 0.796266,
-   "category": "phishing_link"
-  },
-  {
-   "id": "otps-en-01-004",
-   "lang": "en",
-   "script": "latn",
-   "text": "hey it is me, i lost my phone and this is my new number. i sent my whatsapp code to your phone, can you forward it to me right now? 🔴",
-   "normalized": "hey it is me, i lost my phone and this is my new number. i sent my whatsapp code to your phone, can you forward it to me right now? 🔴",
-   "pScam": 0.773491,
-   "category": "wrong_transfer"
+   "pScam": 0.77629,
+   "category": "fake_customer_care"
   },
   {
    "id": "otps-en-01-005",
@@ -1060,7 +1141,7 @@
    "script": "latn",
    "text": "IDFC FIRST BANK VERIFICATION: AN OTP HAS BEEN SENT TO YOU. REPLY TO THIS MESSAGE WITH THE OTP TODAY TO CONFIRM YOUR IDENTITY AND AVOID ACCOUNT BLOCKING.",
    "normalized": "IDFC FIRST BANK VERIFICATION: AN OTP HAS BEEN SENT TO YOU. REPLY TO THIS MESSAGE WITH THE OTP TODAY TO CONFIRM YOUR IDENTITY AND AVOID ACCOUNT BLOCKING.",
-   "pScam": 0.565399,
+   "pScam": 0.618608,
    "category": "digital_arrest"
   },
   {
@@ -1069,8 +1150,8 @@
    "script": "latn",
    "text": "Sir I am the delivery boy from Flipkart. Your order is cancelled by mistake. Tell me the OTP that came to your mobile to rebook it.",
    "normalized": "Sir I am the delivery boy from Flipkart. Your order is cancelled by mistake. Tell me the OTP that came to your mobile to rebook it.",
-   "pScam": 0.137553,
-   "category": "wrong_transfer"
+   "pScam": 0.164654,
+   "category": "fake_customer_care"
   },
   {
    "id": "otps-en-01-012",
@@ -1078,8 +1159,8 @@
    "script": "latn",
    "text": "DEAR CUSTOMER, TO STOP THE TRANSACTION OF INR 53,424 FROM YOUR CANARA BANK CARD, SHARE THE OTP SENT TO YOUR NUMBER WITH OUR EXECUTIVE IMMEDIATELY.",
    "normalized": "DEAR CUSTOMER, TO STOP THE TRANSACTION OF INR 53,424 FROM YOUR CANARA BANK CARD, SHARE THE OTP SENT TO YOUR NUMBER WITH OUR EXECUTIVE IMMEDIATELY.",
-   "pScam": 0.793867,
-   "category": "phishing_link"
+   "pScam": 0.776441,
+   "category": "fake_customer_care"
   },
   {
    "id": "otps-en-01-014",
@@ -1087,8 +1168,8 @@
    "script": "latn",
    "text": "Sir I am the delivery boy from Fl1pkart. Your order is cancelled by mistake. Tell me the O.T.P that came to your mobile to rebook it.",
    "normalized": "Sir I am the delivery boy from Fl1pkart. Your order is cancelled by mistake. Tell me the O.T.P that came to your mobile to rebook it.",
-   "pScam": 0.185723,
-   "category": "wrong_transfer"
+   "pScam": 0.21147,
+   "category": "fake_customer_care"
   },
   {
    "id": "phish-hid-01-001",
@@ -1096,7 +1177,7 @@
    "script": "deva",
    "text": "कोटक बैंक: आपके कार्ड के रिवॉर्ड पॉइंट आज शाम 6 बजे से पहले समाप्त हो रहे हैं। 5,015 रुपये नकद पाने के लिए अभी लॉगिन करें: http://onlinesbi-co-in.site/?ref=sms",
    "normalized": "कोटक बैंक: आपके कार्ड के रिवॉर्ड पॉइंट आज शाम 6 बजे से पहले समाप्त हो रहे हैं। 5,015 रुपये नकद पाने के लिए अभी लॉगिन करें: http://onlinesbi-co-in.site/?ref=sms",
-   "pScam": 0.843752,
+   "pScam": 0.82894,
    "category": "phishing_link"
   },
   {
@@ -1105,7 +1186,7 @@
    "script": "deva",
    "text": "आपके केनरा बैंक खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: http://paytm-wallet-kyc.cyou/form.php",
    "normalized": "आपके केनरा बैंक खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: http://paytm-wallet-kyc.cyou/form.php",
-   "pScam": 0.832078,
+   "pScam": 0.768769,
    "category": "digital_arrest"
   },
   {
@@ -1114,7 +1195,7 @@
    "script": "deva",
    "text": "प्रिय ग्राहक, आपका डेबिट कार्ड सुरक्षा कारणों से बंद कर दिया गया है। दोबारा चालू करने के लिए कार्ड नंबर और सीवीवी इस लिंक पर भरें http://axisbnk.live/kyc",
    "normalized": "प्रिय ग्राहक, आपका डेबिट कार्ड सुरक्षा कारणों से बंद कर दिया गया है। दोबारा चालू करने के लिए कार्ड नंबर और सीवीवी इस लिंक पर भरें http://axisbnk.live/kyc",
-   "pScam": 0.771854,
+   "pScam": 0.634479,
    "category": "fake_customer_care"
   },
   {
@@ -1123,7 +1204,7 @@
    "script": "deva",
    "text": "पंजाब नेशनल बैंक: आपके कार्ड के रिवॉर्ड पॉइंट आज शाम 6 बजे से पहले समाप्त हो रहे हैं। ₹ 1,883 नकद पाने के लिए अभी लॉगिन करें: https://onlinesbi-co-in.site/pay",
    "normalized": "पंजाब नेशनल बैंक: आपके कार्ड के रिवॉर्ड पॉइंट आज शाम 6 बजे से पहले समाप्त हो रहे हैं। ₹ 1,883 नकद पाने के लिए अभी लॉगिन करें: https://onlinesbi-co-in.site/pay",
-   "pScam": 0.63647,
+   "pScam": 0.668269,
    "category": "phishing_link"
   },
   {
@@ -1132,7 +1213,7 @@
    "script": "deva",
    "text": "आपके आईडीएफसी फर्स्ट बैंक खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: arnazon-offers.click/pay",
    "normalized": "आपके आईडीएफसी फर्स्ट बैंक खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: arnazon-offers.click/pay",
-   "pScam": 0.61142,
+   "pScam": 0.569971,
    "category": "digital_arrest"
   },
   {
@@ -1141,8 +1222,8 @@
    "script": "deva",
    "text": "प्रिय ग्राहक, आपका डेबिट कार्ड सुरक्षा कारणों से बंद कर दिया गया है। दोबारा चालू करने के लिए कार्ड नंबर और सीवीवी इस लिंक पर भरें https://icicibank-secure.xyz/?ref=sms",
    "normalized": "प्रिय ग्राहक, आपका डेबिट कार्ड सुरक्षा कारणों से बंद कर दिया गया है। दोबारा चालू करने के लिए कार्ड नंबर और सीवीवी इस लिंक पर भरें https://icicibank-secure.xyz/?ref=sms",
-   "pScam": 0.832765,
-   "category": "fake_customer_care"
+   "pScam": 0.716135,
+   "category": "phishing_link"
   },
   {
    "id": "phish-hid-01-007",
@@ -1150,7 +1231,7 @@
    "script": "deva",
    "text": "एसबीआई: आपके कार्ड के रिवॉर्ड पॉइंट आज रात 9:30 बजे समाप्त हो रहे हैं। रु. 4,795 नकद पाने के लिए अभी लॉगिन करें: http://axisbnk.live/claim",
    "normalized": "एसबीआई: आपके कार्ड के रिवॉर्ड पॉइंट आज रात 9:30 बजे समाप्त हो रहे हैं। रु. 4,795 नकद पाने के लिए अभी लॉगिन करें: http://axisbnk.live/claim",
-   "pScam": 0.872553,
+   "pScam": 0.853172,
    "category": "phishing_link"
   },
   {
@@ -1159,7 +1240,7 @@
    "script": "deva",
    "text": "आपके बैंक ऑफ बड़ौदा खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: kotak-netbank.online/login",
    "normalized": "आपके बैंक ऑफ बड़ौदा खाते में नए डिवाइस से लॉगिन हुआ है। अगर यह आप नहीं थे तो तुरंत यहां जांच करें: kotak-netbank.online/login",
-   "pScam": 0.713284,
+   "pScam": 0.626471,
    "category": "phishing_link"
   },
   {
@@ -1168,7 +1249,7 @@
    "script": "deva",
    "text": "आईडीएफसी फर्स्ट बैंक: आपके कार्ड के रिवॉर्ड पॉइंट तुरंत समाप्त हो रहे हैं। 7,211 रुपये नकद पाने के लिए अभी लॉगिन करें: http://onlinesbi-co-in.site/kyc",
    "normalized": "आईडीएफसी फर्स्ट बैंक: आपके कार्ड के रिवॉर्ड पॉइंट तुरंत समाप्त हो रहे हैं। 7,211 रुपये नकद पाने के लिए अभी लॉगिन करें: http://onlinesbi-co-in.site/kyc",
-   "pScam": 0.848069,
+   "pScam": 0.803566,
    "category": "phishing_link"
   },
   {
@@ -1177,7 +1258,7 @@
    "script": "latn",
    "text": "Aapka number lucky draw me select hua hai. ₹20,35,000 ka inaam paane ke liye pehle government tax reward.claim2026@okicici par jama kare, cheque 24 ghante ke andar mil jaega.",
    "normalized": "Aapka number lucky draw me select hua hai. ₹20,35,000 ka inaam paane ke liye pehle government tax reward.claim2026@okicici par jama kare, cheque 24 ghante ke andar mil jaega.",
-   "pScam": 0.97763,
+   "pScam": 0.95452,
    "category": "lottery_prize"
   },
   {
@@ -1186,16 +1267,7 @@
    "script": "latn",
    "text": "✅ Aapka number lucky draw me select hua hai. INR 22,75,000 ka inaam paane ke liye pehle government tax kbc.prize.office@paytm par jama kare, cheque aaj raat 9:30 baje mil jayega.",
    "normalized": "✅ Aapka number lucky draw me select hua hai. INR 22,75,000 ka inaam paane ke liye pehle government tax kbc.prize.office@paytm par jama kare, cheque aaj raat 9:30 baje mil jayega.",
-   "pScam": 0.977224,
-   "category": "lottery_prize"
-  },
-  {
-   "id": "prize-hir-01-006",
-   "lang": "hi",
-   "script": "latn",
-   "text": "🎁 mubarak ho aapki inr 1,30,000 ki lottery lagi hai. apna naam, bank account aur processing fee bheje. kisi ko mat batana varna inaam cancel ho jayega.",
-   "normalized": "🎁 mubarak ho aapki inr 1,30,000 ki lottery lagi hai. apna naam, bank account aur processing fee bheje. kisi ko mat batana varna inaam cancel ho jayega.",
-   "pScam": 0.904725,
+   "pScam": 0.955892,
    "category": "lottery_prize"
   },
   {
@@ -1204,7 +1276,7 @@
    "script": "latn",
    "text": "Badhai ho! Apke mobile number ne KBC lucky draw me INR 7,15,000 jeete hai. Inaam lene ke liye lottery manager ko WhatsApp par +91-98765-14979 par call kare.",
    "normalized": "Badhai ho! Apke mobile number ne KBC lucky draw me INR 7,15,000 jeete hai. Inaam lene ke liye lottery manager ko WhatsApp par +91-98765-14979 par call kare.",
-   "pScam": 0.965116,
+   "pScam": 0.925477,
    "category": "lottery_prize"
   },
   {
@@ -1213,7 +1285,7 @@
    "script": "latn",
    "text": "Aapka number lucky draw me select hua hai. INR 3,35,000 ka inaam paane ke lie pehle government tax reward.claim2026@okicici par jama kare, cheque aaj mil jayega.",
    "normalized": "Aapka number lucky draw me select hua hai. INR 3,35,000 ka inaam paane ke lie pehle government tax reward.claim2026@okicici par jama kare, cheque aaj mil jayega.",
-   "pScam": 0.972546,
+   "pScam": 0.94845,
    "category": "lottery_prize"
   },
   {
@@ -1222,7 +1294,7 @@
    "script": "latn",
    "text": "⚠️ Mubarak ho aapki Rs 4,80,000 ki lottery lagi h. Apna naam, bank account aur processing fee bheje. Kisi ko mat batana warna inaam cancel ho jayega.",
    "normalized": "⚠️ Mubarak ho aapki Rs 4,80,000 ki lottery lagi h. Apna naam, bank account aur processing fee bheje. Kisi ko mat batana warna inaam cancel ho jayega.",
-   "pScam": 0.917616,
+   "pScam": 0.908549,
    "category": "lottery_prize"
   },
   {
@@ -1231,7 +1303,7 @@
    "script": "latn",
    "text": "Sir payment for your item is ready. Scan the QR I sent, it will show ₹ 15,000, then put your PIN to receive it. This is how army accounts transfer money.",
    "normalized": "Sir payment for your item is ready. Scan the QR I sent, it will show ₹ 15,000, then put your PIN to receive it. This is how army accounts transfer money.",
-   "pScam": 0.732703,
+   "pScam": 0.728066,
    "category": "wrong_transfer"
   },
   {
@@ -1240,7 +1312,7 @@
    "script": "latn",
    "text": "🚨 Madam your refund QR is generated. Open any UPI app, scan and confirm with PIN to credit ₹ 20,000. If it shows debit do not worry, it will be reversed and doubled.",
    "normalized": "🚨 Madam your refund QR is generated. Open any UPI app, scan and confirm with PIN to credit ₹ 20,000. If it shows debit do not worry, it will be reversed and doubled.",
-   "pScam": 0.701003,
+   "pScam": 0.669706,
    "category": "qr_receive"
   },
   {
@@ -1249,7 +1321,7 @@
    "script": "latn",
    "text": "‼️ First scan the QR for Rs 5 as a test. Good, now scan the second one for Rs.6,500 to get the full payment. Enter your PIN quickly, the code expires before 6 PM today.",
    "normalized": "!!️ First scan the QR for Rs 5 as a test. Good, now scan the second one for Rs.6,500 to get the full payment. Enter your PIN quickly, the code expires before 6 PM today.",
-   "pScam": 0.668319,
+   "pScam": 0.619106,
    "category": "qr_receive"
   },
   {
@@ -1258,7 +1330,7 @@
    "script": "latn",
    "text": "Madam your refund QR is generated. Open any UPI app, scan and confirm with P.I.N to credit Rs 22,000. If it shows debit do not worry, it will be reversed and doubled.",
    "normalized": "Madam your refund QR is generated. Open any UPI app, scan and confirm with P.I.N to credit Rs 22,000. If it shows debit do not worry, it will be reversed and doubled.",
-   "pScam": 0.662562,
+   "pScam": 0.618171,
    "category": "qr_receive"
   },
   {
@@ -1267,17 +1339,8 @@
    "script": "beng",
    "text": "আয়কর রিফান্ড: আপনার ₹17,462 রিফান্ড মঞ্জুর হয়েছে। আজ আপনার ব্যাংকের তথ্য এখানে দিন: www.gst-refund-claim.click/verify",
    "normalized": "আয়কর রিফান্ড: আপনার ₹17,462 রিফান্ড মঞ্জুর হয়েছে। আজ আপনার ব্যাংকের তথ্য এখানে দিন: www.gst-refund-claim.click/verify",
-   "pScam": 0.951129,
+   "pScam": 0.956857,
    "category": "refund_cashback"
-  },
-  {
-   "id": "refund-bn-01-002",
-   "lang": "bn",
-   "script": "beng",
-   "text": "আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। 12,390 টাকা ফেরত পেতে 9876501450 নম্বরে কল করে ওটিপি বলুন।",
-   "normalized": "আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। 12,390 টাকা ফেরত পেতে 9876501450 নম্বরে কল করে ওটিপি বলুন।",
-   "pScam": 0.816095,
-   "category": "bill_disconnection"
   },
   {
    "id": "refund-bn-01-003",
@@ -1285,7 +1348,7 @@
    "script": "beng",
    "text": "আপনার আগের অর্ডারে টাকা 27,389 ক্যাশব্যাক বাকি আছে। পেতে হলে কার্ডের তথ্য এই লিঙ্কে দিন: incometax-refund-status.top/login",
    "normalized": "আপনার আগের অর্ডারে টাকা 27,389 ক্যাশব্যাক বাকি আছে। পেতে হলে কার্ডের তথ্য এই লিঙ্কে দিন: incometax-refund-status.top/login",
-   "pScam": 0.936724,
+   "pScam": 0.94026,
    "category": "refund_cashback"
   },
   {
@@ -1294,7 +1357,7 @@
    "script": "beng",
    "text": "আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। টাকা 29,093 ফেরত পেতে +91 90000 08334 নম্বরে কল করে ওটিপি বলুন।",
    "normalized": "আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। টাকা 29,093 ফেরত পেতে +91 90000 08334 নম্বরে কল করে ওটিপি বলুন।",
-   "pScam": 0.860829,
+   "pScam": 0.868204,
    "category": "bill_disconnection"
   },
   {
@@ -1303,26 +1366,53 @@
    "script": "beng",
    "text": "আপনার আগের অর্ডারে 30,683 টাকা ক্যাশব্যাক বাকি আছে। পেতে হলে কার্ডের তথ্য এই লিঙ্কে দিন: www.incometax-refund-status.top/?ref=sms",
    "normalized": "আপনার আগের অর্ডারে 30,683 টাকা ক্যাশব্যাক বাকি আছে। পেতে হলে কার্ডের তথ্য এই লিঙ্কে দিন: www.incometax-refund-status.top/?ref=sms",
-   "pScam": 0.949077,
+   "pScam": 0.95059,
    "category": "refund_cashback"
   },
   {
-   "id": "refund-bn-01-008",
+   "id": "refundok-bn-01-002",
    "lang": "bn",
    "script": "beng",
-   "text": "আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। টাকা 49,624 ফেরত পেতে +91-98765-13362 নম্বরে কল করে ওটিপি বলুন।",
-   "normalized": "আপনার বিদ্যুৎ বিল দুবার কাটা হয়েছিল। টাকা 49,624 ফেরত পেতে +91-98765-13362 নম্বরে কল করে ওটিপি বলুন।",
-   "pScam": 0.835164,
-   "category": "bill_disconnection"
+   "text": "আপনার রিটার্ন পাওয়া গেছে। রিফান্ড 3,029 টাকা প্রসেস করা হয়েছে। অবস্থা দেখতে https://www.flipkart.com দেখুন। -ফ্লিপকার্ট",
+   "normalized": "আপনার রিটার্ন পাওয়া গেছে। রিফান্ড 3,029 টাকা প্রসেস করা হয়েছে। অবস্থা দেখতে https://www.flipkart.com দেখুন। -ফ্লিপকার্ট",
+   "pScam": 0.439777,
+   "category": "fake_customer_care"
   },
   {
-   "id": "remote-te-01-001",
-   "lang": "te",
-   "script": "telu",
-   "text": "ఈ సమస్య పరిష్కరించడానికి ప్లే స్టోర్ నుండి AirDroid ఇన్‌స్టాల్ చేసి, స్క్రీన్‌పై కనిపించే తొమ్మిది అంకెల కోడ్ నాకు చెప్పండి.",
-   "normalized": "ఈ సమస్య పరిష్కరించడానికి ప్లే స్టోర్ నుండి AirDroid ఇన్స్టాల్ చేసి, స్క్రీన్పై కనిపించే తొమ్మిది అంకెల కోడ్ నాకు చెప్పండి.",
-   "pScam": 0.895707,
-   "category": "remote_access"
+   "id": "refundok-bn-01-003",
+   "lang": "bn",
+   "script": "beng",
+   "text": "অ্যামাজন: আপনার রিফান্ড টাকা 3,784 আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে।\nএর জন্য পিন বা ওটিপি লাগে না।",
+   "normalized": "অ্যামাজন: আপনার রিফান্ড টাকা 3,784 আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে। এর জন্য পিন বা ওটিপি লাগে না।",
+   "pScam": 0.293785,
+   "category": "otp_theft"
+  },
+  {
+   "id": "refundok-bn-01-009",
+   "lang": "bn",
+   "script": "beng",
+   "text": "ফ্লিপকার্ট: আপনার রিফান্ড টাকা 18,728 আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে। এর জন্য পিন বা ওটিপি লাগে না।",
+   "normalized": "ফ্লিপকার্ট: আপনার রিফান্ড টাকা 18,728 আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে। এর জন্য পিন বা ওটিপি লাগে না।",
+   "pScam": 0.257643,
+   "category": "otp_theft"
+  },
+  {
+   "id": "refundok-bn-01-010",
+   "lang": "bn",
+   "script": "beng",
+   "text": "আপনার অ্যামাজন অর্ডার বাতিল হয়েছে। 7,101 টাকা রিফান্ড ৫-৭ কাজের দিনের মধ্যে আপনার আসল পেমেন্ট মাধ্যমে ফিরে যাবে।",
+   "normalized": "আপনার অ্যামাজন অর্ডার বাতিল হয়েছে। 7,101 টাকা রিফান্ড 5-7 কাজের দিনের মধ্যে আপনার আসল পেমেন্ট মাধ্যমে ফিরে যাবে।",
+   "pScam": 0.630625,
+   "category": "fake_customer_care"
+  },
+  {
+   "id": "refundok-bn-01-015",
+   "lang": "bn",
+   "script": "beng",
+   "text": "অ্যামাজন: আপনার রিফান্ড টাকা 7,550 আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে।\nএর জন্য পিন বা ওটিপি লাগে না।",
+   "normalized": "অ্যামাজন: আপনার রিফান্ড টাকা 7,550 আপনার ইউপিআই অ্যাকাউন্টে জমা হয়েছে। এর জন্য পিন বা ওটিপি লাগে না।",
+   "pScam": 0.311592,
+   "category": "otp_theft"
   },
   {
    "id": "remote-te-01-002",
@@ -1330,7 +1420,7 @@
    "script": "telu",
    "text": "✅ మీ ఫోన్‌లో వైరస్ ఉంది, అందుకే యూపీఐ పనిచేయడం లేదు. AnyDesk డౌన్‌లోడ్ చేసి అనుమతి ఇవ్వండి, నేను చెప్పే వరకు యాప్ మూసివేయకండి.",
    "normalized": "✅ మీ ఫోన్లో వైరస్ ఉంది, అందుకే యూపీఐ పనిచేయడం లేదు. AnyDesk డౌన్లోడ్ చేసి అనుమతి ఇవ్వండి, నేను చెప్పే వరకు యాప్ మూసివేయకండి.",
-   "pScam": 0.731636,
+   "pScam": 0.742775,
    "category": "remote_access"
   },
   {
@@ -1339,7 +1429,7 @@
    "script": "telu",
    "text": "ఈ సమస్య పరిష్కరించడానికి ప్లే స్టోర్ నుండి TeamViewer QuickSupport ఇన్‌స్టాల్ చేసి, స్క్రీన్‌పై కనిపించే తొమ్మిది అంకెల కోడ్ నాకు చెప్పండి.",
    "normalized": "ఈ సమస్య పరిష్కరించడానికి ప్లే స్టోర్ నుండి TeamViewer QuickSupport ఇన్స్టాల్ చేసి, స్క్రీన్పై కనిపించే తొమ్మిది అంకెల కోడ్ నాకు చెప్పండి.",
-   "pScam": 0.87909,
+   "pScam": 0.925111,
    "category": "remote_access"
   },
   {
@@ -1348,7 +1438,7 @@
    "script": "telu",
    "text": "61,343 రూపాయలు రీఫండ్ మాన్యువల్‌గా చేయడం కుదరదు.\nRustDesk తెరిచి కోడ్ చెప్పండి, తర్వాత మీ బ్యాంక్ యాప్ తెరిచి ఎంపిన్ ఎంటర్ చేయండి.\nనేను ఒక్కొక్క అడుగు చెప్తాను.",
    "normalized": "61,343 రూపాయలు రీఫండ్ మాన్యువల్గా చేయడం కుదరదు. RustDesk తెరిచి కోడ్ చెప్పండి, తర్వాత మీ బ్యాంక్ యాప్ తెరిచి ఎంపిన్ ఎంటర్ చేయండి. నేను ఒక్కొక్క అడుగు చెప్తాను.",
-   "pScam": 0.84605,
+   "pScam": 0.865853,
    "category": "remote_access"
   },
   {
@@ -1357,7 +1447,7 @@
    "script": "telu",
    "text": "మీ ఫోన్‌లో వైరస్ ఉంది, అందుకే యూపీఐ పనిచేయడం లేదు. AirDroid డౌన్‌లోడ్ చేసి అనుమతి ఇవ్వండి, నేను చెప్పే వరకు యాప్ మూసివేయకండి.",
    "normalized": "మీ ఫోన్లో వైరస్ ఉంది, అందుకే యూపీఐ పనిచేయడం లేదు. AirDroid డౌన్లోడ్ చేసి అనుమతి ఇవ్వండి, నేను చెప్పే వరకు యాప్ మూసివేయకండి.",
-   "pScam": 0.734043,
+   "pScam": 0.745506,
    "category": "remote_access"
   },
   {
@@ -1366,8 +1456,8 @@
    "script": "telu",
    "text": "రూ.75,098 రీఫండ్ మాన్యువల్‌గా చేయడం కుదరదు. TeamViewer QuickSupport తెరిచి కోడ్ చెప్పండి, తర్వాత మీ బ్యాంక్ యాప్ తెరిచి ఎంపిన్ ఎంటర్ చేయండి. నేను ఒక్కొక్క అడుగు చెప్తాను.",
    "normalized": "రూ.75,098 రీఫండ్ మాన్యువల్గా చేయడం కుదరదు. TeamViewer QuickSupport తెరిచి కోడ్ చెప్పండి, తర్వాత మీ బ్యాంక్ యాప్ తెరిచి ఎంపిన్ ఎంటర్ చేయండి. నేను ఒక్కొక్క అడుగు చెప్తాను.",
-   "pScam": 0.828064,
-   "category": "upi_collect"
+   "pScam": 0.868896,
+   "category": "remote_access"
   },
   {
    "id": "remote-te-01-009",
@@ -1375,7 +1465,7 @@
    "script": "telu",
    "text": "ఈ సమస్య పరిష్కరించడానికి ప్లే స్టోర్ నుండి AnyDesk ఇన్‌స్టాల్ చేసి, స్క్రీన్‌పై కనిపించే తొమ్మిది అంకెల కోడ్ నాకు చెప్పండి.",
    "normalized": "ఈ సమస్య పరిష్కరించడానికి ప్లే స్టోర్ నుండి AnyDesk ఇన్స్టాల్ చేసి, స్క్రీన్పై కనిపించే తొమ్మిది అంకెల కోడ్ నాకు చెప్పండి.",
-   "pScam": 0.888797,
+   "pScam": 0.919927,
    "category": "remote_access"
   },
   {
@@ -1384,26 +1474,8 @@
    "script": "telu",
    "text": "రూ.82,009 రీఫండ్ మాన్యువల్‌గా చేయడం కుదరదు. RustDesk తెరిచి కోడ్ చెప్పండి, తర్వాత మీ బ్యాంక్ యాప్ తెరిచి ఎంపిన్ ఎంటర్ చేయండి. నేను ఒక్కొక్క అడుగు చెప్తాను.",
    "normalized": "రూ.82,009 రీఫండ్ మాన్యువల్గా చేయడం కుదరదు. RustDesk తెరిచి కోడ్ చెప్పండి, తర్వాత మీ బ్యాంక్ యాప్ తెరిచి ఎంపిన్ ఎంటర్ చేయండి. నేను ఒక్కొక్క అడుగు చెప్తాను.",
-   "pScam": 0.870068,
+   "pScam": 0.885234,
    "category": "remote_access"
-  },
-  {
-   "id": "romance-hid-01-001",
-   "lang": "hi",
-   "script": "deva",
-   "text": "मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस रु. 1,41,000 कस्टम शुल्क भरना है।",
-   "normalized": "मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस रु. 1,41,000 कस्टम शुल्क भरना है।",
-   "pScam": 0.937355,
-   "category": "romance"
-  },
-  {
-   "id": "romance-hid-01-002",
-   "lang": "hi",
-   "script": "deva",
-   "text": "मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया 4,05,000 रुपये भेज दो, मिलते ही वापस कर दूंगा।",
-   "normalized": "मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया 4,05,000 रुपये भेज दो, मिलते ही वापस कर दूंगा।",
-   "pScam": 0.793118,
-   "category": "fake_customer_care"
   },
   {
    "id": "romance-hid-01-003",
@@ -1411,16 +1483,7 @@
    "script": "deva",
    "text": "मेरी बेटी अस्पताल में है और मेरा कार्ड यहां काम नहीं कर रहा। क्या तुम आज 1,54,000 रुपये की मदद कर सकती हो? अगले हफ्ते भारत आकर सब लौटा दूंगा। 🎁",
    "normalized": "मेरी बेटी अस्पताल में है और मेरा कार्ड यहां काम नहीं कर रहा। क्या तुम आज 1,54,000 रुपये की मदद कर सकती हो? अगले हफ्ते भारत आकर सब लौटा दूंगा। 🎁",
-   "pScam": 0.80824,
-   "category": "fake_customer_care"
-  },
-  {
-   "id": "romance-hid-01-004",
-   "lang": "hi",
-   "script": "deva",
-   "text": "🚨 मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस ₹ 1,07,000 कस्टम शुल्क भरना है।",
-   "normalized": "🚨 मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस ₹ 1,07,000 कस्टम शुल्क भरना है।",
-   "pScam": 0.943475,
+   "pScam": 0.841457,
    "category": "romance"
   },
   {
@@ -1429,8 +1492,8 @@
    "script": "deva",
    "text": "मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया ₹ 1,98,000 भेज दो, मिलते ही वापस कर दूंगा।",
    "normalized": "मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया ₹ 1,98,000 भेज दो, मिलते ही वापस कर दूंगा।",
-   "pScam": 0.782575,
-   "category": "fake_customer_care"
+   "pScam": 0.832957,
+   "category": "romance"
   },
   {
    "id": "romance-hid-01-006",
@@ -1438,8 +1501,8 @@
    "script": "deva",
    "text": "⚠️ मेरी बेटी अस्पताल में है और मेरा कार्ड यहां काम नहीं कर रहा।\nक्या तुम आज ₹ 3,05,000 की मदद कर सकती हो?\nअगले हफ्ते भारत आकर सब लौटा दूंगा।",
    "normalized": "⚠️ मेरी बेटी अस्पताल में है और मेरा कार्ड यहां काम नहीं कर रहा। क्या तुम आज ₹ 3,05,000 की मदद कर सकती हो? अगले हफ्ते भारत आकर सब लौटा दूंगा।",
-   "pScam": 0.819921,
-   "category": "fake_customer_care"
+   "pScam": 0.867864,
+   "category": "romance"
   },
   {
    "id": "romance-hid-01-007",
@@ -1447,7 +1510,7 @@
    "script": "deva",
    "text": "मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस रु. 76,000 कस्टम शुल्क भरना है। ⚠️",
    "normalized": "मैंने तुम्हारे लिए उपहार का पार्सल भेजा है, उसमें सोने की चेन और आईफोन है। कूरियर वाले कॉल करेंगे, बस रु. 76,000 कस्टम शुल्क भरना है। ⚠️",
-   "pScam": 0.945482,
+   "pScam": 0.922758,
    "category": "romance"
   },
   {
@@ -1456,17 +1519,8 @@
    "script": "deva",
    "text": "मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया ₹4,05,000 भेज दो, मिलते ही वापस कर दूंगा।",
    "normalized": "मैं दिल्ली हवाई अड्डे पर फंस गया हूं, कस्टम वाले छोड़ नहीं रहे। कृपया ₹4,05,000 भेज दो, मिलते ही वापस कर दूंगा।",
-   "pScam": 0.778783,
-   "category": "fake_customer_care"
-  },
-  {
-   "id": "scheme-bn-01-001",
-   "lang": "bn",
-   "script": "beng",
-   "text": "পিএম কিষান: 05/11/2026 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
-   "normalized": "পিএম কিষান: 05/11/2026 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
-   "pScam": 0.088179,
-   "category": "phishing_link"
+   "pScam": 0.831103,
+   "category": "lottery_prize"
   },
   {
    "id": "scheme-bn-01-004",
@@ -1474,17 +1528,8 @@
    "script": "beng",
    "text": "এই মাসের রেশন 30 Oct তারিখ থেকে আপনার রেশন দোকানে পাওয়া যাবে।",
    "normalized": "এই মাসের রেশন 30 Oct তারিখ থেকে আপনার রেশন দোকানে পাওয়া যাবে।",
-   "pScam": 0.485829,
+   "pScam": 0.5324,
    "category": "digital_arrest"
-  },
-  {
-   "id": "scheme-bn-01-006",
-   "lang": "bn",
-   "script": "beng",
-   "text": "পিএম কিষান: 22-10-2026 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
-   "normalized": "পিএম কিষান: 22-10-2026 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
-   "pScam": 0.099508,
-   "category": "phishing_link"
   },
   {
    "id": "scheme-bn-01-008",
@@ -1492,8 +1537,8 @@
    "script": "beng",
    "text": "আপনার গ্যাস ভর্তুকির 79,280 টাকা 13-Nov-26 তারিখে আপনার ব্যাংক অ্যাকাউন্টে পাঠানো হয়েছে।",
    "normalized": "আপনার গ্যাস ভর্তুকির 79,280 টাকা 13-Nov-26 তারিখে আপনার ব্যাংক অ্যাকাউন্টে পাঠানো হয়েছে।",
-   "pScam": 0.253377,
-   "category": "otp_theft"
+   "pScam": 0.137859,
+   "category": "upi_collect"
   },
   {
    "id": "scheme-bn-01-011",
@@ -1501,17 +1546,8 @@
    "script": "beng",
    "text": "আপনার আধার 09/11/2026 তারিখে যাচাইয়ের জন্য ব্যবহার হয়েছে। এটি আপনি না করে থাকলে ইউআইডিএআই এর অফিসিয়াল ওয়েবসাইটে বায়োমেট্রিক লক করুন।",
    "normalized": "আপনার আধার 09/11/2026 তারিখে যাচাইয়ের জন্য ব্যবহার হয়েছে। এটি আপনি না করে থাকলে ইউআইডিএআই এর অফিসিয়াল ওয়েবসাইটে বায়োমেট্রিক লক করুন।",
-   "pScam": 0.148533,
-   "category": "digital_arrest"
-  },
-  {
-   "id": "scheme-bn-01-012",
-   "lang": "bn",
-   "script": "beng",
-   "text": "এই মাসের রেশন 03-11-2026 তারিখ থেকে আপনার রেশন দোকানে পাওয়া যাবে।",
-   "normalized": "এই মাসের রেশন 03-11-2026 তারিখ থেকে আপনার রেশন দোকানে পাওয়া যাবে।",
-   "pScam": 0.186545,
-   "category": "digital_arrest"
+   "pScam": 0.13149,
+   "category": "otp_theft"
   },
   {
    "id": "scheme-bn-01-015",
@@ -1519,7 +1555,7 @@
    "script": "beng",
    "text": "এই মাসের রেশন 17 Nov তারিখ থেকে আপনার রেশন দোকানে পাওয়া যাবে।",
    "normalized": "এই মাসের রেশন 17 Nov তারিখ থেকে আপনার রেশন দোকানে পাওয়া যাবে।",
-   "pScam": 0.351576,
+   "pScam": 0.420133,
    "category": "digital_arrest"
   },
   {
@@ -1528,8 +1564,8 @@
    "script": "beng",
    "text": "পিএম কিষান: 23-Oct-26 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
    "normalized": "পিএম কিষান: 23-Oct-26 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
-   "pScam": 0.130087,
-   "category": "phishing_link"
+   "pScam": 0.091421,
+   "category": "upi_collect"
   },
   {
    "id": "scheme-bn-01-020",
@@ -1537,8 +1573,8 @@
    "script": "beng",
    "text": "পিএম কিষান: 23/10/2026 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
    "normalized": "পিএম কিষান: 23/10/2026 তারিখে আপনার ব্যাংক অ্যাকাউন্টে কিস্তি জমা হয়েছে। অবস্থা pmkisan.gov.in এ দেখুন।",
-   "pScam": 0.095442,
-   "category": "phishing_link"
+   "pScam": 0.068361,
+   "category": "upi_collect"
   },
   {
    "id": "scheme-hid-01-001",
@@ -1546,7 +1582,7 @@
    "script": "deva",
    "text": "पीएम किसान: 12 Nov को आपके पंजीकृत बैंक खाते में किस्त जमा कर दी गई है। स्थिति pmkisan.gov.in पर देखें।",
    "normalized": "पीएम किसान: 12 Nov को आपके पंजीकृत बैंक खाते में किस्त जमा कर दी गई है। स्थिति pmkisan.gov.in पर देखें।",
-   "pScam": 0.095245,
+   "pScam": 0.09617,
    "category": "fake_customer_care"
   },
   {
@@ -1555,7 +1591,7 @@
    "script": "deva",
    "text": "आपके राशन कार्ड पर इस महीने का राशन 25-Oct-26 से उचित मूल्य की दुकान पर उपलब्ध है।",
    "normalized": "आपके राशन कार्ड पर इस महीने का राशन 25-Oct-26 से उचित मूल्य की दुकान पर उपलब्ध है।",
-   "pScam": 0.161776,
+   "pScam": 0.190141,
    "category": "fake_customer_care"
   },
   {
@@ -1564,8 +1600,8 @@
    "script": "deva",
    "text": "आपके राशन कार्ड पर इस महीने का राशन 10/11/2026 से उचित मूल्य की दुकान पर उपलब्ध है।",
    "normalized": "आपके राशन कार्ड पर इस महीने का राशन 10/11/2026 से उचित मूल्य की दुकान पर उपलब्ध है।",
-   "pScam": 0.089379,
-   "category": "fake_customer_care"
+   "pScam": 0.099336,
+   "category": "digital_arrest"
   },
   {
    "id": "scheme-hid-01-013",
@@ -1573,7 +1609,7 @@
    "script": "deva",
    "text": "पीएम किसान: 08-Nov-26 को आपके पंजीकृत बैंक खाते में किस्त जमा कर दी गई है। स्थिति pmkisan.gov.in पर देखें।",
    "normalized": "पीएम किसान: 08-Nov-26 को आपके पंजीकृत बैंक खाते में किस्त जमा कर दी गई है। स्थिति pmkisan.gov.in पर देखें।",
-   "pScam": 0.061132,
+   "pScam": 0.064313,
    "category": "fake_customer_care"
   },
   {
@@ -1582,8 +1618,8 @@
    "script": "deva",
    "text": "आपका आधार 16-Nov-26 को प्रमाणीकरण के लिए इस्तेमाल हुआ। अगर यह आपने नहीं किया तो यूआईडीएआई की आधिकारिक वेबसाइट पर बायोमेट्रिक लॉक करें।",
    "normalized": "आपका आधार 16-Nov-26 को प्रमाणीकरण के लिए इस्तेमाल हुआ। अगर यह आपने नहीं किया तो यूआईडीएआई की आधिकारिक वेबसाइट पर बायोमेट्रिक लॉक करें।",
-   "pScam": 0.100658,
-   "category": "digital_arrest"
+   "pScam": 0.081566,
+   "category": "otp_theft"
   },
   {
    "id": "scheme-hid-01-015",
@@ -1591,8 +1627,8 @@
    "script": "deva",
    "text": "आपके राशन कार्ड पर इस महीने का राशन 29 Oct से उचित मूल्य की दुकान पर उपलब्ध है।",
    "normalized": "आपके राशन कार्ड पर इस महीने का राशन 29 Oct से उचित मूल्य की दुकान पर उपलब्ध है।",
-   "pScam": 0.228221,
-   "category": "fake_customer_care"
+   "pScam": 0.275358,
+   "category": "digital_arrest"
   },
   {
    "id": "scheme-hid-01-016",
@@ -1600,8 +1636,8 @@
    "script": "deva",
    "text": "आपके गैस सब्सिडी के 48,956 रुपये आपके बैंक खाते में 05/11/2026 को भेज दिए गए हैं।",
    "normalized": "आपके गैस सब्सिडी के 48,956 रुपये आपके बैंक खाते में 05/11/2026 को भेज दिए गए हैं।",
-   "pScam": 0.081025,
-   "category": "digital_arrest"
+   "pScam": 0.101078,
+   "category": "wrong_transfer"
   },
   {
    "id": "scheme-hid-01-020",
@@ -1609,8 +1645,8 @@
    "script": "deva",
    "text": "आपका आधार 25/10/2026 को प्रमाणीकरण के लिए इस्तेमाल हुआ।\nअगर यह आपने नहीं किया तो यूआईडीएआई की आधिकारिक वेबसाइट पर बायोमेट्रिक लॉक करें।",
    "normalized": "आपका आधार 25/10/2026 को प्रमाणीकरण के लिए इस्तेमाल हुआ। अगर यह आपने नहीं किया तो यूआईडीएआई की आधिकारिक वेबसाइट पर बायोमेट्रिक लॉक करें।",
-   "pScam": 0.0985,
-   "category": "digital_arrest"
+   "pScam": 0.078808,
+   "category": "otp_theft"
   },
   {
    "id": "school-en-01-001",
@@ -1618,7 +1654,7 @@
    "script": "latn",
    "text": "Dear Parent, the parent teacher meeting for class 7 is on 20-Nov-26 at 02:18. Your presence is requested.",
    "normalized": "Dear Parent, the parent teacher meeting for class 7 is on 20-Nov-26 at 02:18. Your presence is requested.",
-   "pScam": 0.055209,
+   "pScam": 0.074171,
    "category": "upi_collect"
   },
   {
@@ -1627,7 +1663,7 @@
    "script": "latn",
    "text": "Your ward was absent today. Kindly send a leave note with the student tomorrow.",
    "normalized": "Your ward was absent today. Kindly send a leave note with the student tomorrow.",
-   "pScam": 0.594476,
+   "pScam": 0.588738,
    "category": "digital_arrest"
   },
   {
@@ -1636,26 +1672,8 @@
    "script": "latn",
    "text": "School will remain closed on 09-11-2026 due to heavy rain.\nClasses will resume the next working day.",
    "normalized": "School will remain closed on 09-11-2026 due to heavy rain. Classes will resume the next working day.",
-   "pScam": 0.102195,
+   "pScam": 0.122823,
    "category": "bill_disconnection"
-  },
-  {
-   "id": "school-en-01-015",
-   "lang": "en",
-   "script": "latn",
-   "text": "School will remain closed on 25-Oct-26 due to heavy rain. Classes will resume the next working day.",
-   "normalized": "School will remain closed on 25-Oct-26 due to heavy rain. Classes will resume the next working day.",
-   "pScam": 0.176884,
-   "category": "bill_disconnection"
-  },
-  {
-   "id": "school-en-01-016",
-   "lang": "en",
-   "script": "latn",
-   "text": "Dear Parent, term fee of INR 5,842 is due by 17 Nov. You may pay at the school office or through the school portal.",
-   "normalized": "Dear Parent, term fee of INR 5,842 is due by 17 Nov. You may pay at the school office or through the school portal.",
-   "pScam": 0.095254,
-   "category": "job_task"
   },
   {
    "id": "school-en-01-017",
@@ -1663,17 +1681,8 @@
    "script": "latn",
    "text": "Exam timetable for the half yearly exams has been shared in the student diary. Exams begin on 10 Nov.",
    "normalized": "Exam timetable for the half yearly exams has been shared in the student diary. Exams begin on 10 Nov.",
-   "pScam": 0.037059,
+   "pScam": 0.056913,
    "category": "digital_arrest"
-  },
-  {
-   "id": "school-en-01-019",
-   "lang": "en",
-   "script": "latn",
-   "text": "School will remain closed on 11/11/2026 due to heavy rain.\nClasses will resume the next working day.",
-   "normalized": "School will remain closed on 11/11/2026 due to heavy rain. Classes will resume the next working day.",
-   "pScam": 0.095424,
-   "category": "bill_disconnection"
   },
   {
    "id": "service-en-01-001",
@@ -1681,17 +1690,8 @@
    "script": "latn",
    "text": "Your complaint no. 93461594 has been registered. Our team will resolve it within 48 hours. We will never ask for your OTP or PIN.",
    "normalized": "Your complaint no. 93461594 has been registered. Our team will resolve it within 48 hours. We will never ask for your OTP or PIN.",
-   "pScam": 0.168163,
-   "category": "bill_disconnection"
-  },
-  {
-   "id": "service-en-01-004",
-   "lang": "en",
-   "script": "latn",
-   "text": "Thank you for contacting support.\nYour ticket 0418448 is in progress.\nYou can check the status in the app under Help.",
-   "normalized": "Thank you for contacting support. Your ticket 0418448 is in progress. You can check the status in the app under Help.",
-   "pScam": 0.199903,
-   "category": "phishing_link"
+   "pScam": 0.207403,
+   "category": "fake_customer_care"
   },
   {
    "id": "service-en-01-007",
@@ -1699,7 +1699,7 @@
    "script": "latn",
    "text": "Vi: Your service request 5739169 is resolved. If you are still facing the issue, reply in the Vi app.",
    "normalized": "Vi: Your service request 5739169 is resolved. If you are still facing the issue, reply in the Vi app.",
-   "pScam": 0.30664,
+   "pScam": 0.353135,
    "category": "upi_collect"
   },
   {
@@ -1708,8 +1708,8 @@
    "script": "deva",
    "text": "आपने आज का 90 प्रतिशत डेटा इस्तेमाल कर लिया है। नए पैक जियो ऐप में देखें।",
    "normalized": "आपने आज का 90 प्रतिशत डेटा इस्तेमाल कर लिया है। नए पैक जियो ऐप में देखें।",
-   "pScam": 0.341218,
-   "category": "fake_customer_care"
+   "pScam": 0.350247,
+   "category": "investment_crypto"
   },
   {
    "id": "telecom-hid-01-003",
@@ -1717,7 +1717,7 @@
    "script": "deva",
    "text": "आपका जियो प्लान 10 Nov को समाप्त हो रहा है।\nबिना रुकावट सेवा के लिए समय पर रिचार्ज करें।",
    "normalized": "आपका जियो प्लान 10 Nov को समाप्त हो रहा है। बिना रुकावट सेवा के लिए समय पर रिचार्ज करें।",
-   "pScam": 0.325321,
+   "pScam": 0.342423,
    "category": "refund_cashback"
   },
   {
@@ -1726,8 +1726,8 @@
    "script": "deva",
    "text": "वीआई: रु. 5,533 का रिचार्ज सफल रहा। वैधता 28 दिन। धन्यवाद।",
    "normalized": "वीआई: रु. 5,533 का रिचार्ज सफल रहा। वैधता 28 दिन। धन्यवाद।",
-   "pScam": 0.166284,
-   "category": "phishing_link"
+   "pScam": 0.188887,
+   "category": "digital_arrest"
   },
   {
    "id": "telecom-hid-01-010",
@@ -1735,7 +1735,7 @@
    "script": "deva",
    "text": "आपका जियो पोस्टपेड बिल 2,471 रुपये बन गया है। अंतिम तिथि 19 Nov। भुगतान जियो ऐप से करें।",
    "normalized": "आपका जियो पोस्टपेड बिल 2,471 रुपये बन गया है। अंतिम तिथि 19 Nov। भुगतान जियो ऐप से करें।",
-   "pScam": 0.318221,
+   "pScam": 0.157835,
    "category": "refund_cashback"
   },
   {
@@ -1744,8 +1744,8 @@
    "script": "deva",
    "text": "जियो: ₹2,051 का रिचार्ज सफल रहा।\nवैधता 28 दिन।\nधन्यवाद।",
    "normalized": "जियो: ₹2,051 का रिचार्ज सफल रहा। वैधता 28 दिन। धन्यवाद।",
-   "pScam": 0.194046,
-   "category": "phishing_link"
+   "pScam": 0.222119,
+   "category": "digital_arrest"
   },
   {
    "id": "wrong-hir-01-001",
@@ -1753,8 +1753,8 @@
    "script": "latn",
    "text": "Bhai galti se Rs.13,000 aapke number par chala gaya hai, mujhe apne bhai ko bhejna tha. Please wapas kar do mk.traders.online@axl par, hospital ka paisa hai. ✅",
    "normalized": "Bhai galti se Rs.13,000 aapke number par chala gaya hai, mujhe apne bhai ko bhejna tha. Please wapas kar do mk.traders.online@axl par, hospital ka paisa hai. ✅",
-   "pScam": 0.883002,
-   "category": "digital_arrest"
+   "pScam": 0.88803,
+   "category": "romance"
   },
   {
    "id": "wrong-hir-01-004",
@@ -1762,8 +1762,8 @@
    "script": "latn",
    "text": "Bhai galti se ₹ 20,000 apke number par chala gaya hai, mujhe apne bhai ko bhejna tha. Please wapas kar do rakesh.yadav4410@ybl par, hospital ka paisa hai.",
    "normalized": "Bhai galti se ₹ 20,000 apke number par chala gaya hai, mujhe apne bhai ko bhejna tha. Please wapas kar do rakesh.yadav4410@ybl par, hospital ka paisa hai.",
-   "pScam": 0.806332,
-   "category": "digital_arrest"
+   "pScam": 0.832909,
+   "category": "romance"
   },
   {
    "id": "wrong-hir-01-005",
@@ -1771,7 +1771,7 @@
    "script": "latn",
    "text": "Sir mera paisa galti se aapke khate me aa gaya hai, screenshot bhej raha hoon. Rs 7,500 hai, please 2 ghante me wapas bhej dijiye warna mujhe police me complaint karni padegi.",
    "normalized": "Sir mera paisa galti se aapke khate me aa gaya hai, screenshot bhej raha hoon. Rs 7,500 hai, please 2 ghante me wapas bhej dijiye warna mujhe police me complaint karni padegi.",
-   "pScam": 0.845551,
+   "pScam": 0.835007,
    "category": "digital_arrest"
   },
   {
@@ -1780,7 +1780,7 @@
    "script": "latn",
    "text": "Bhaiya ek digit galat type ho gaya aur INR 15,500 aapko chala gaya. Maine request bheji h, usko accept karke PIN daal do bas. Bhagwan aapka bhala kare.",
    "normalized": "Bhaiya ek digit galat type ho gaya aur INR 15,500 aapko chala gaya. Maine request bheji h, usko accept karke PIN daal do bas. Bhagwan aapka bhala kare.",
-   "pScam": 0.875309,
+   "pScam": 0.880048,
    "category": "upi_collect"
   },
   {
@@ -1789,8 +1789,8 @@
    "script": "latn",
    "text": "🙏 Bhai galti se Rs 7,500 aapke number par chala gya hai, mujhe apne bhai ko bhejna tha. Please wapas kr do suresh.kumar.76@ibl par, hospital ka paisa hai.",
    "normalized": "🙏 Bhai galti se Rs 7,500 aapke number par chala gya hai, mujhe apne bhai ko bhejna tha. Please wapas kr do suresh.kumar.76@ibl par, hospital ka paisa hai.",
-   "pScam": 0.751146,
-   "category": "digital_arrest"
+   "pScam": 0.759337,
+   "category": "wrong_transfer"
   },
   {
    "id": "wrong-hir-01-009",
@@ -1798,7 +1798,7 @@
    "script": "latn",
    "text": "Bhaiya ek digit galat type ho gya aur ₹ 12,000 aapko chala gya. Maine request bheji hai, usko accept karke PIN daal do bas. Bhagwan apka bhala kare.",
    "normalized": "Bhaiya ek digit galat type ho gya aur ₹ 12,000 aapko chala gya. Maine request bheji hai, usko accept karke PIN daal do bas. Bhagwan apka bhala kare.",
-   "pScam": 0.889075,
+   "pScam": 0.893067,
    "category": "upi_collect"
   }
  ]

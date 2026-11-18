@@ -1,0 +1,17 @@
+family: refundok-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- మీ {brand} ఆర్డర్ రద్దు అయింది. {amount} రీఫండ్ 5-7 పని దినాల్లో మీ అసలు చెల్లింపు విధానానికి వస్తుంది.
+- మీ రిటర్న్ అందింది. రీఫండ్ {amount} ప్రాసెస్ చేయబడింది. స్థితి కోసం {link} చూడండి. -{brand}
+- '{brand}: మీ రీఫండ్ {amount} మీ యూపీఐ ఖాతాకు జమ అయింది. దీని కోసం పిన్ లేదా ఓటీపీ అవసరం లేదు.'
+notes: Genuine Telugu refunds

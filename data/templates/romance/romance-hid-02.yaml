@@ -1,0 +1,14 @@
+family: romance-hid-02
+label: scam
+category: romance
+lang: hi
+script: deva
+channel: whatsapp
+hard_negative: false
+amount: romance
+max_rows: 9
+templates:
+- जानू, तुम्हारे लिए विदेश से सोना और डॉलर वाला गिफ्ट भेजा है। कस्टम वाले {amount} फीस मांग रहे हैं, भर दो।
+- हम जल्दी शादी करेंगे। मेरा खाता फ्रीज़ हो गया है, अभी {amount} भेज सकती हो? अगले हफ्ते लौटा दूंगा।
+- मैं आर्मी डॉक्टर हूं, अभी विदेश में मिशन पर हूं। छुट्टी के लिए {amount} भरो तो तुमसे मिलने भारत आऊंगा।
+notes: Devanagari romance

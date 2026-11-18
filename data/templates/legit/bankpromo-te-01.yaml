@@ -1,0 +1,17 @@
+family: bankpromo-te-01
+label: legit
+category: null
+lang: te
+script: telu
+channel: sms
+hard_negative: true
+amount: loan_app
+max_rows: 20
+pools:
+  link: official.bank
+templates:
+- '{bank} ఫిక్స్‌డ్ డిపాజిట్‌పై ఆకర్షణీయమైన వడ్డీ రేట్లు. వివరాలకు {link} చూడండి లేదా సమీప శాఖను సందర్శించండి.'
+- మీరు {amount} వరకు ముందస్తు ఆమోదిత వ్యక్తిగత రుణానికి అర్హులు కావచ్చు. {bank} యాప్‌లో మీ ఆఫర్ చూడండి. నిబంధనలు వర్తిస్తాయి.
+- నెలకు రూ.500 నుండి ఎస్ఐపీ ప్రారంభించండి. మ్యూచువల్ ఫండ్ పెట్టుబడులు మార్కెట్ రిస్క్‌కు లోబడి ఉంటాయి. వివరాలు {link} లో. -{bank}
+- '{bank} క్రెడిట్ కార్డ్‌తో పండుగ ఆఫర్: ఎంపిక చేసిన దుకాణాల్లో పది శాతం క్యాష్‌బ్యాక్, {date} వరకు. నిబంధనలు వర్తిస్తాయి.'
+notes: Genuine Telugu bank offers

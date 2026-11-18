@@ -86,7 +86,7 @@ def scam_model(c: float) -> LogisticRegression:
 
 def category_model(c: float) -> LogisticRegression:
     # l1_ratio=1.0 is pure L1 (scikit-learn 1.8 deprecated the penalty= argument)
-    return LogisticRegression(l1_ratio=1.0, solver="saga", C=c, max_iter=4000, random_state=SEED)
+    return LogisticRegression(l1_ratio=1.0, solver="saga", C=c, max_iter=12000, random_state=SEED)
 
 
 def fit_quietly(model, x, y):

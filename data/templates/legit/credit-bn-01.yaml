@@ -1,0 +1,15 @@
+family: credit-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_credit
+max_rows: 20
+templates:
+- আপনার {bank} অ্যাকাউন্ট XX[#4] এ {date} তারিখে {amount} রিফান্ড জমা হয়েছে। রেফারেন্স [ref]।
+- '{name} আপনাকে ইউপিআই-তে {amount} পাঠিয়েছেন। অ্যাকাউন্ট XX[#4]। ব্যালেন্স [#5] টাকা। -{bank}'
+- আপনার ফিক্সড ডিপোজিটের সুদ {amount} {date} তারিখে অ্যাকাউন্ট XX[#4] এ জমা হয়েছে। -{bank}
+- প্রিয় গ্রাহক, আপনার ক্যাশব্যাক {amount} অ্যাকাউন্টে জমা হয়েছে। এর জন্য কিছু করতে হবে না। -{bank}
+notes: Genuine Bengali credits

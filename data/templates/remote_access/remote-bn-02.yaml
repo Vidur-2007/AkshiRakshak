@@ -1,0 +1,15 @@
+family: remote-bn-02
+label: scam
+category: remote_access
+lang: bn
+script: beng
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+templates:
+- স্যার, আপনার নেট ব্যাংকিংয়ে সমস্যা হয়েছে। {app} ইনস্টল করে স্ক্রিন শেয়ার চালু করুন, আমি ঠিক করে দেব।
+- ক্রেডিট কার্ডের বার্ষিক চার্জ {amount} বাতিল করতে {app} খুলে যে নয় অঙ্কের কোড দেখাচ্ছে সেটা বলুন।
+- অ্যাপে যা অনুমতি চাইছে সব দিয়ে দিন। আমি আপনার ফোনেই কেওয়াইসি করে দেব, আপনাকে কিছু করতে হবে না।
+notes: Bengali screen share

@@ -1,0 +1,16 @@
+family: bankpromo-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: sms
+hard_negative: true
+amount: loan_app
+max_rows: 20
+pools:
+  link: official.bank
+templates:
+- '{bank} FD par ab behtar interest rate. Details ke liye {link} dekhein ya apni nazdeeki branch mein aayein.'
+- Aap {amount} tak ke pre-approved personal loan ke liye eligible ho sakte hain. Apna offer {bank} app mein dekhein. T&C apply.
+- Har mahine sirf Rs 500 se SIP shuru karein. Mutual fund nivesh market risk ke adheen hai, scheme documents dhyan se padhein. {link}
+notes: Genuine Hinglish bank offers

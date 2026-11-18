@@ -1,0 +1,16 @@
+family: care-bn-02
+label: scam
+category: fake_customer_care
+lang: bn
+script: beng
+channel: call
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.remote
+  brand: brands.ecommerce
+templates:
+- নমস্কার, আপনি {brand} কাস্টমার কেয়ারে ফোন করেছেন। রিফান্ড প্রসেস করতে প্লে স্টোর থেকে {app} নামিয়ে কোডটা বলুন।
+- ম্যাডাম, আপনার অভিযোগ নথিভুক্ত হয়েছে। {amount} রিফান্ড পাঠাতে আপনার ডেবিট কার্ডের নম্বর আর মেয়াদের তারিখ বলুন।
+- আপনার টাকা ভুল করে আটকে গেছে স্যার। আমার পাঠানো লিঙ্কে ইউপিআই পিন দিলেই দশ মিনিটে ফেরত আসবে।
+notes: Bengali fake helpline

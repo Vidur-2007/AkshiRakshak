@@ -1,0 +1,17 @@
+family: refundok-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: legit_order
+max_rows: 20
+pools:
+  brand: brands.ecommerce
+  link: official.brand
+templates:
+- आपका {brand} ऑर्डर रद्द हो गया है। {amount} का रिफंड 5-7 कार्य दिवसों में आपके मूल भुगतान माध्यम में आ जाएगा।
+- आपका रिटर्न मिल गया है। रिफंड {amount} प्रोसेस कर दिया गया है। स्थिति के लिए {link} देखें। -{brand}
+- '{brand}: आपका रिफंड {amount} आपके यूपीआई खाते में जमा हो गया है। इसके लिए पिन या ओटीपी की ज़रूरत नहीं है।'
+notes: Genuine Devanagari refunds

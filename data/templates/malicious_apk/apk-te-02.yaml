@@ -1,0 +1,16 @@
+family: apk-te-02
+label: scam
+category: malicious_apk
+lang: te
+script: telu
+channel: whatsapp
+hard_negative: false
+max_rows: 10
+pools:
+  app: apps.apk
+  link: scam_domains.apk
+templates:
+- 'పీఎం కిసాన్ కొత్త జాబితా విడుదలైంది. మీ పేరు చూసుకోవడానికి ఈ యాప్ ఇన్‌స్టాల్ చేయండి: {app}'
+- మీ ట్రాఫిక్ చలాన్ {amount} పెండింగ్‌లో ఉంది. వివరాల కోసం {app} డౌన్‌లోడ్ చేసి తెరవండి. {link}
+- పెళ్లి ఆహ్వాన పత్రిక పంపాను, ఈ ఫైల్ తెరిచి చూడండి {app}
+notes: Telugu APK lures

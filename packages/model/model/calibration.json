@@ -1,5 +1,5 @@
 {
-  "version": "2026.11.16-a",
+  "version": "2026.11.18-a",
   "thresholds": { "scam": 70, "suspicious": 40 },
   "fusion": { "rules": 0.45, "model": 0.35, "links": 0.2 },
   "aiBlend": 0.2

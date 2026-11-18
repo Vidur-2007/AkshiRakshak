@@ -1,0 +1,16 @@
+family: bankpromo-hid-01
+label: legit
+category: null
+lang: hi
+script: deva
+channel: sms
+hard_negative: true
+amount: loan_app
+max_rows: 20
+pools:
+  link: official.bank
+templates:
+- '{bank} फिक्स्ड डिपॉज़िट पर आकर्षक ब्याज दरें। ज़्यादा जानकारी के लिए {link} देखें या नज़दीकी शाखा जाएं।'
+- आप {amount} तक के प्री-अप्रूव्ड पर्सनल लोन के पात्र हो सकते हैं। {bank} ऐप में अपना ऑफर देखें। नियम और शर्तें लागू।
+- हर महीने 500 रुपये से एसआईपी शुरू करें। म्यूचुअल फंड निवेश बाज़ार जोखिमों के अधीन हैं। विवरण {link} पर। -{bank}
+notes: Genuine Devanagari bank offers

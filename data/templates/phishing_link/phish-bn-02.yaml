@@ -1,0 +1,15 @@
+family: phish-bn-02
+label: scam
+category: phishing_link
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 12
+pools:
+  link: scam_domains.bank_login
+templates:
+- '{bank} সতর্কবার্তা: আপনার অ্যাকাউন্টে {amount} এর সন্দেহজনক লেনদেন ধরা পড়েছে। আপনি না করে থাকলে বাতিল করতে লগইন করুন {link}'
+- প্রিয় গ্রাহক, আপনার ক্রেডিট কার্ডের সীমা বাড়ানো হয়েছে। অফার পেতে {deadline} এই লিঙ্কে তথ্য দিন {link}
+- আপনার নেট ব্যাংকিং পাসওয়ার্ডের মেয়াদ আজ শেষ। নতুন পাসওয়ার্ড সেট করতে এখনই এখানে যান {link}
+notes: Bengali fake login alerts

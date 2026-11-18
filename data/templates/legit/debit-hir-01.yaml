@@ -1,0 +1,14 @@
+family: debit-hir-01
+label: legit
+category: null
+lang: hi
+script: latn
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- Aapke {bank} khate XX[#4] se {date} ko {amount} debit hua hai. Yeh aapne nahi kiya to turant apni branch se sampark karein.
+- '{bank}: Aapke khate XX[#4] mein {amount} credit hua hai. UPI ref [ref]. Paise paane ke liye PIN ki zaroorat nahi hai.'
+- Aapki EMI {amount} {date} ko khate XX[#4] se kategi. Kripya khate mein balance rakhein. -{bank}
+notes: Genuine Hinglish debit alerts

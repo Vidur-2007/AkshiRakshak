@@ -1,0 +1,15 @@
+family: card-bn-01
+label: legit
+category: null
+lang: bn
+script: beng
+channel: sms
+hard_negative: true
+amount: legit_debit
+max_rows: 20
+templates:
+- আপনার {bank} ক্রেডিট কার্ড XX[#4] দিয়ে {date} তারিখে {amount} লেনদেন হয়েছে। আপনি না করে থাকলে কার্ডের পিছনের নম্বরে ফোন করুন।
+- আপনার {bank} ক্রেডিট কার্ডের বিল {amount}। শেষ তারিখ {date}। অটো-ডেবিট চালু থাকলে কিছু করতে হবে না।
+- আপনার নতুন {bank} ডেবিট কার্ড পাঠানো হয়েছে। অ্যাপে বা এটিএমে নিজেই পিন সেট করুন। পিন কাউকে বলবেন না।
+- অনলাইন লেনদেনের জন্য আপনার কার্ডের সীমা বদলানো হয়েছে। আপনি না করে থাকলে {bank} অ্যাপে কার্ড ব্লক করুন।
+notes: Genuine Bengali card alerts

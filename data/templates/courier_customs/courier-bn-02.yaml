@@ -1,0 +1,16 @@
+family: courier-bn-02
+label: scam
+category: courier_customs
+lang: bn
+script: beng
+channel: sms
+hard_negative: false
+max_rows: 10
+pools:
+  brand: brands.courier
+  link: scam_domains.courier
+templates:
+- '{brand}: ঠিকানা অসম্পূর্ণ থাকায় আপনার পার্সেল গুদামে আটকে আছে। {deadline} ঠিকানা আপডেট করে ২৫ টাকা দিন {link}'
+- আপনার আন্তর্জাতিক পার্সেলের কাস্টমস শুল্ক {amount} বাকি। না দিলে পার্সেল ফেরত যাবে। {link}
+- '{brand} ডেলিভারির চেষ্টা ব্যর্থ হয়েছে। আবার ডেলিভারি নিতে ২৪ ঘণ্টার মধ্যে এখানে ক্লিক করুন {link}'
+notes: Bengali parcel fee

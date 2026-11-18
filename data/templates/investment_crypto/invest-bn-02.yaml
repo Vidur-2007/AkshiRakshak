@@ -1,0 +1,17 @@
+family: invest-bn-02
+label: scam
+category: investment_crypto
+lang: bn
+script: beng
+channel: telegram
+hard_negative: false
+max_rows: 10
+pools:
+  upi: upi_ids.investment
+  link: scam_domains.investment
+templates:
+- আমাদের ভিআইপি ট্রেডিং গ্রুপে যোগ দিন। প্রতিদিন পাঁচ শতাংশ লাভের গ্যারান্টি। {amount} রাখলে এক মাসে দ্বিগুণ। এখনই যোগ দিন {link}
+- 'ক্রিপ্টোতে বিনিয়োগ: কোনো ঝুঁকি নেই, প্রতিদিন নিশ্চিত রিটার্ন। প্রথম ডিপোজিট {amount} {upi} তে পাঠান, আজই লাভ দেখুন।'
+- আপনার অ্যাকাউন্টে {amount} লাভ জমা হয়েছে। তোলার আগে কুড়ি শতাংশ সার্ভিস চার্জ দিতে হবে। দেরি করলে অ্যাকাউন্ট ফ্রিজ হবে।
+- আইপিওর প্রাতিষ্ঠানিক কোটার কয়েকটা সিট বাকি। আজ {amount} লাগালে লিস্টিংয়ের দিন তিনগুণ নিশ্চিত। কাউকে বলবেন না।
+notes: Bengali guaranteed daily returns
