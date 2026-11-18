@@ -3,9 +3,9 @@
  * the report the Proof page shows.
  *
  *   npm run eval                      test split → packages/content/src/eval-report.json + eval/out/report.md
- *   npm run eval -- --split val       validation split → eval/out/ only (for tuning; never published)
- *   npm run eval -- --limit 50        first 50 messages of the split (quick check; never published)
- *   npm run eval -- --ai              also run full_ai_sample on up to 100 test messages (needs npm run dev:api
+ *   npm run eval -w @akshi/eval -- --split val   validation split → eval/out/ only (for tuning; never published)
+ *   npm run eval -w @akshi/eval -- --limit 50    first 50 messages of the split (quick check; never published)
+ *   npm run eval -w @akshi/eval -- --ai          also run full_ai_sample on up to 100 test messages (needs npm run dev:api
  *                                     and your own keys in .env; one request every 4 seconds)
  *
  * Message text is never written to the output.
