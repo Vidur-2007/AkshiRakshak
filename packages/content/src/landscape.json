@@ -1,116 +1,116 @@
 {
   "byCategory": [
     {
-      "category": "upi_collect",
-      "count": 89
-    },
-    {
-      "category": "fake_kyc",
-      "count": 89
-    },
-    {
-      "category": "bill_disconnection",
-      "count": 89
+      "category": "job_task",
+      "count": 133
     },
     {
       "category": "digital_arrest",
-      "count": 89
+      "count": 123
     },
     {
-      "category": "job_task",
-      "count": 89
+      "category": "upi_collect",
+      "count": 113
+    },
+    {
+      "category": "fake_kyc",
+      "count": 113
+    },
+    {
+      "category": "bill_disconnection",
+      "count": 113
     },
     {
       "category": "phishing_link",
-      "count": 89
-    },
-    {
-      "category": "qr_receive",
-      "count": 52
-    },
-    {
-      "category": "courier_customs",
-      "count": 52
+      "count": 113
     },
     {
       "category": "investment_crypto",
-      "count": 52
-    },
-    {
-      "category": "loan_app",
-      "count": 52
-    },
-    {
-      "category": "lottery_prize",
-      "count": 52
-    },
-    {
-      "category": "fake_customer_care",
-      "count": 52
-    },
-    {
-      "category": "refund_cashback",
-      "count": 52
-    },
-    {
-      "category": "wrong_transfer",
-      "count": 52
-    },
-    {
-      "category": "malicious_apk",
-      "count": 52
-    },
-    {
-      "category": "remote_access",
-      "count": 52
+      "count": 104
     },
     {
       "category": "otp_theft",
-      "count": 52
+      "count": 90
     },
     {
       "category": "romance",
-      "count": 52
+      "count": 90
+    },
+    {
+      "category": "qr_receive",
+      "count": 81
+    },
+    {
+      "category": "loan_app",
+      "count": 81
+    },
+    {
+      "category": "wrong_transfer",
+      "count": 81
+    },
+    {
+      "category": "courier_customs",
+      "count": 72
+    },
+    {
+      "category": "lottery_prize",
+      "count": 72
+    },
+    {
+      "category": "fake_customer_care",
+      "count": 72
+    },
+    {
+      "category": "refund_cashback",
+      "count": 72
+    },
+    {
+      "category": "malicious_apk",
+      "count": 72
+    },
+    {
+      "category": "remote_access",
+      "count": 72
     },
     {
       "category": "impersonation_govt",
-      "count": 52
+      "count": 72
     }
   ],
   "byLang": [
     {
       "lang": "en",
-      "count": 452
+      "count": 466
     },
     {
       "lang": "hi",
-      "count": 354
+      "count": 465
     },
     {
       "lang": "te",
-      "count": 202
+      "count": 404
     },
     {
       "lang": "bn",
-      "count": 202
+      "count": 404
     }
   ],
   "byChannel": [
     {
       "channel": "whatsapp",
-      "count": 566
+      "count": 773
     },
     {
       "channel": "sms",
-      "count": 460
+      "count": 612
     },
     {
       "channel": "call",
-      "count": 154
+      "count": 228
     },
     {
       "channel": "telegram",
-      "count": 15
+      "count": 111
     },
     {
       "channel": "email",

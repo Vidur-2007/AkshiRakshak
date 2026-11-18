@@ -80,7 +80,7 @@
     "value": "aadhaar-link-verify.xyz",
     "type": "domain",
     "category": "impersonation_govt",
-    "reports": 7,
+    "reports": 13,
     "campaign": "fake-govt-notice",
     "sampleData": true
   },
@@ -112,7 +112,7 @@
     "value": "axis-ekyc-verify.live",
     "type": "domain",
     "category": "fake_kyc",
-    "reports": 12,
+    "reports": 15,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -128,7 +128,7 @@
     "value": "bank-kyc-renew.icu",
     "type": "domain",
     "category": "fake_kyc",
-    "reports": 9,
+    "reports": 10,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -136,7 +136,7 @@
     "value": "bank-security-update.click",
     "type": "domain",
     "category": "malicious_apk",
-    "reports": 9,
+    "reports": 13,
     "campaign": "apk-invite",
     "sampleData": true
   },
@@ -144,7 +144,7 @@
     "value": "bijli-bill-online.click",
     "type": "domain",
     "category": "bill_disconnection",
-    "reports": 4,
+    "reports": 9,
     "campaign": "power-cut-tonight",
     "sampleData": true
   },
@@ -152,7 +152,7 @@
     "value": "bluedart-reschedule.cyou",
     "type": "domain",
     "category": "courier_customs",
-    "reports": 11,
+    "reports": 15,
     "campaign": "parcel-customs-fee",
     "sampleData": true
   },
@@ -160,7 +160,7 @@
     "value": "bob-account-unlock.site",
     "type": "domain",
     "category": "phishing_link",
-    "reports": 4,
+    "reports": 10,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -168,7 +168,7 @@
     "value": "crypto-double-return.xyz",
     "type": "domain",
     "category": "investment_crypto",
-    "reports": 4,
+    "reports": 8,
     "campaign": "trading-tips-club",
     "sampleData": true
   },
@@ -192,15 +192,23 @@
     "value": "delivery-address-update.click",
     "type": "domain",
     "category": "courier_customs",
-    "reports": 10,
+    "reports": 14,
     "campaign": "parcel-customs-fee",
+    "sampleData": true
+  },
+  {
+    "value": "discom-connection-renew.live",
+    "type": "domain",
+    "category": "bill_disconnection",
+    "reports": 8,
+    "campaign": "power-cut-tonight",
     "sampleData": true
   },
   {
     "value": "dtdc-pending-parcel.live",
     "type": "domain",
     "category": "courier_customs",
-    "reports": 9,
+    "reports": 10,
     "campaign": "parcel-customs-fee",
     "sampleData": true
   },
@@ -208,7 +216,7 @@
     "value": "echallan-pay-online.top",
     "type": "domain",
     "category": "impersonation_govt",
-    "reports": 11,
+    "reports": 14,
     "campaign": "fake-govt-notice",
     "sampleData": true
   },
@@ -216,7 +224,7 @@
     "value": "electricity-due-pay.top",
     "type": "domain",
     "category": "bill_disconnection",
-    "reports": 4,
+    "reports": 11,
     "campaign": "power-cut-tonight",
     "sampleData": true
   },
@@ -224,7 +232,7 @@
     "value": "epfo-claim-status.live",
     "type": "domain",
     "category": "impersonation_govt",
-    "reports": 9,
+    "reports": 13,
     "campaign": "fake-govt-notice",
     "sampleData": true
   },
@@ -255,7 +263,7 @@
     "value": "gst-refund-claim.click",
     "type": "domain",
     "category": "refund_cashback",
-    "reports": 12,
+    "reports": 21,
     "campaign": "refund-collect",
     "sampleData": true
   },
@@ -263,7 +271,7 @@
     "value": "hdfc-netbanking-verify.top",
     "type": "domain",
     "category": "fake_kyc",
-    "reports": 8,
+    "reports": 12,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -271,7 +279,7 @@
     "value": "icici-kyc-online.click",
     "type": "domain",
     "category": "fake_kyc",
-    "reports": 8,
+    "reports": 10,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -287,7 +295,7 @@
     "value": "incometax-refund-status.top",
     "type": "domain",
     "category": "refund_cashback",
-    "reports": 15,
+    "reports": 20,
     "campaign": "refund-collect",
     "sampleData": true
   },
@@ -295,7 +303,7 @@
     "value": "indiapost-redelivery.info",
     "type": "domain",
     "category": "courier_customs",
-    "reports": 4,
+    "reports": 10,
     "campaign": "parcel-customs-fee",
     "sampleData": true
   },
@@ -311,7 +319,7 @@
     "value": "ipo-allotment-vip.click",
     "type": "domain",
     "category": "investment_crypto",
-    "reports": 3,
+    "reports": 8,
     "campaign": "trading-tips-club",
     "sampleData": true
   },
@@ -343,7 +351,7 @@
     "value": "kyc-update-portal.cyou",
     "type": "domain",
     "category": "fake_kyc",
-    "reports": 13,
+    "reports": 15,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -351,7 +359,7 @@
     "value": "netbanking-secure-auth.top",
     "type": "domain",
     "category": "phishing_link",
-    "reports": 9,
+    "reports": 12,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -359,7 +367,7 @@
     "value": "nifty-profit-club.top",
     "type": "domain",
     "category": "investment_crypto",
-    "reports": 5,
+    "reports": 10,
     "campaign": "trading-tips-club",
     "sampleData": true
   },
@@ -375,7 +383,7 @@
     "value": "onlinesbi-login.help",
     "type": "domain",
     "category": "phishing_link",
-    "reports": 7,
+    "reports": 11,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -383,7 +391,7 @@
     "value": "parcel-customs-fee.top",
     "type": "domain",
     "category": "courier_customs",
-    "reports": 7,
+    "reports": 12,
     "campaign": "parcel-customs-fee",
     "sampleData": true
   },
@@ -415,7 +423,7 @@
     "value": "pm-yojana-apk.xyz",
     "type": "domain",
     "category": "malicious_apk",
-    "reports": 5,
+    "reports": 6,
     "campaign": "apk-invite",
     "sampleData": true
   },
@@ -423,7 +431,7 @@
     "value": "pmkisan-ekyc-update.click",
     "type": "domain",
     "category": "impersonation_govt",
-    "reports": 11,
+    "reports": 18,
     "campaign": "fake-govt-notice",
     "sampleData": true
   },
@@ -431,7 +439,7 @@
     "value": "pnb-reward-points.click",
     "type": "domain",
     "category": "phishing_link",
-    "reports": 11,
+    "reports": 19,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -439,7 +447,7 @@
     "value": "power-bill-update.xyz",
     "type": "domain",
     "category": "bill_disconnection",
-    "reports": 1,
+    "reports": 5,
     "campaign": "power-cut-tonight",
     "sampleData": true
   },
@@ -463,7 +471,7 @@
     "value": "refund-process-desk.xyz",
     "type": "domain",
     "category": "refund_cashback",
-    "reports": 10,
+    "reports": 16,
     "campaign": "refund-collect",
     "sampleData": true
   },
@@ -495,7 +503,7 @@
     "value": "stock-tips-premium.live",
     "type": "domain",
     "category": "investment_crypto",
-    "reports": 7,
+    "reports": 8,
     "campaign": "trading-tips-club",
     "sampleData": true
   },
@@ -519,7 +527,7 @@
     "value": "wedding-invite-card.top",
     "type": "domain",
     "category": "malicious_apk",
-    "reports": 5,
+    "reports": 8,
     "campaign": "apk-invite",
     "sampleData": true
   },
@@ -535,7 +543,7 @@
     "value": "yonosbi-verify.online",
     "type": "domain",
     "category": "phishing_link",
-    "reports": 6,
+    "reports": 9,
     "campaign": "kyc-block-wave",
     "sampleData": true
   },
@@ -559,14 +567,14 @@
     "value": "anita.k2209@ibl",
     "type": "upi",
     "category": "wrong_transfer",
-    "reports": 1,
+    "reports": 2,
     "sampleData": true
   },
   {
     "value": "army.transfer.desk@okaxis",
     "type": "upi",
     "category": "upi_collect",
-    "reports": 3,
+    "reports": 7,
     "campaign": "refund-collect",
     "sampleData": true
   },
@@ -598,7 +606,7 @@
     "value": "daily.task.reward@ibl",
     "type": "upi",
     "category": "job_task",
-    "reports": 7,
+    "reports": 13,
     "campaign": "task-job-ring",
     "sampleData": true
   },
@@ -636,7 +644,7 @@
     "value": "furniture.buyer22@paytm",
     "type": "upi",
     "category": "upi_collect",
-    "reports": 2,
+    "reports": 6,
     "campaign": "refund-collect",
     "sampleData": true
   },
@@ -652,7 +660,7 @@
     "value": "hr.joining.fee@okaxis",
     "type": "upi",
     "category": "job_task",
-    "reports": 9,
+    "reports": 12,
     "campaign": "task-job-ring",
     "sampleData": true
   },
@@ -660,23 +668,23 @@
     "value": "instant.loan.desk@okicici",
     "type": "upi",
     "category": "loan_app",
-    "reports": 3,
+    "reports": 9,
     "campaign": "instant-loan-apps",
     "sampleData": true
   },
   {
     "value": "kbc.prize.office@paytm",
     "type": "upi",
-    "category": "upi_collect",
-    "reports": 11,
-    "campaign": "refund-collect",
+    "category": "lottery_prize",
+    "reports": 13,
+    "campaign": "lucky-draw-prize",
     "sampleData": true
   },
   {
     "value": "loan.insurance.charge@ibl",
     "type": "upi",
     "category": "loan_app",
-    "reports": 6,
+    "reports": 9,
     "campaign": "instant-loan-apps",
     "sampleData": true
   },
@@ -684,7 +692,7 @@
     "value": "loan.processing.fee@ybl",
     "type": "upi",
     "category": "loan_app",
-    "reports": 11,
+    "reports": 20,
     "campaign": "instant-loan-apps",
     "sampleData": true
   },
@@ -692,22 +700,29 @@
     "value": "lucky.draw.winner@ybl",
     "type": "upi",
     "category": "lottery_prize",
-    "reports": 3,
+    "reports": 8,
     "campaign": "lucky-draw-prize",
+    "sampleData": true
+  },
+  {
+    "value": "meena.devi2024@paytm",
+    "type": "upi",
+    "category": "wrong_transfer",
+    "reports": 2,
     "sampleData": true
   },
   {
     "value": "mk.traders.online@axl",
     "type": "upi",
     "category": "wrong_transfer",
-    "reports": 1,
+    "reports": 3,
     "sampleData": true
   },
   {
     "value": "olx.buyer.payment@ybl",
     "type": "upi",
     "category": "upi_collect",
-    "reports": 3,
+    "reports": 9,
     "campaign": "refund-collect",
     "sampleData": true
   },
@@ -730,7 +745,7 @@
     "value": "profit.club.fund@okaxis",
     "type": "upi",
     "category": "investment_crypto",
-    "reports": 4,
+    "reports": 12,
     "campaign": "trading-tips-club",
     "sampleData": true
   },
@@ -745,7 +760,7 @@
     "value": "rakesh.yadav4410@ybl",
     "type": "upi",
     "category": "wrong_transfer",
-    "reports": 5,
+    "reports": 7,
     "sampleData": true
   },
   {
@@ -760,7 +775,7 @@
     "value": "reward.claim2026@okicici",
     "type": "upi",
     "category": "lottery_prize",
-    "reports": 11,
+    "reports": 12,
     "campaign": "lucky-draw-prize",
     "sampleData": true
   },
@@ -768,21 +783,21 @@
     "value": "sonu.enterprises9@paytm",
     "type": "upi",
     "category": "wrong_transfer",
-    "reports": 1,
+    "reports": 2,
     "sampleData": true
   },
   {
     "value": "suresh.kumar.76@ibl",
     "type": "upi",
     "category": "wrong_transfer",
-    "reports": 1,
+    "reports": 2,
     "sampleData": true
   },
   {
     "value": "task.payout.hr@ybl",
     "type": "upi",
     "category": "job_task",
-    "reports": 10,
+    "reports": 14,
     "campaign": "task-job-ring",
     "sampleData": true
   },
@@ -790,14 +805,14 @@
     "value": "vijay.s8834@okhdfcbank",
     "type": "upi",
     "category": "wrong_transfer",
-    "reports": 1,
+    "reports": 3,
     "sampleData": true
   },
   {
     "value": "vip.trading.desk@ybl",
     "type": "upi",
     "category": "investment_crypto",
-    "reports": 11,
+    "reports": 17,
     "campaign": "trading-tips-club",
     "sampleData": true
   },
@@ -818,7 +833,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876518493",
+    "value": "+919000002178",
     "type": "phone",
     "category": "digital_arrest",
     "reports": 1,
@@ -905,7 +920,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876508002",
+    "value": "+919876518493",
     "type": "phone",
     "category": "digital_arrest",
     "reports": 1,
@@ -921,7 +936,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876507193",
+    "value": "+919876514670",
     "type": "phone",
     "category": "fake_kyc",
     "reports": 1,
@@ -992,7 +1007,7 @@
     "sampleData": true
   },
   {
-    "value": "+919000009336",
+    "value": "+919876508002",
     "type": "phone",
     "category": "digital_arrest",
     "reports": 1,
@@ -1000,7 +1015,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876500999",
+    "value": "+919876507193",
     "type": "phone",
     "category": "fake_kyc",
     "reports": 1,
@@ -1071,7 +1086,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876502279",
+    "value": "+919876511797",
     "type": "phone",
     "category": "digital_arrest",
     "reports": 1,
@@ -1079,7 +1094,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876505553",
+    "value": "+919876500999",
     "type": "phone",
     "category": "fake_kyc",
     "reports": 1,
@@ -1135,7 +1150,7 @@
     "sampleData": true
   },
   {
-    "value": "+919876501028",
+    "value": "+919000008216",
     "type": "phone",
     "category": "digital_arrest",
     "reports": 1,
@@ -1143,7 +1158,7 @@
     "sampleData": true
   },
   {
-    "value": "+919000001460",
+    "value": "+919876505553",
     "type": "phone",
     "category": "fake_kyc",
     "reports": 1,
@@ -1164,22 +1179,6 @@
     "category": "job_task",
     "reports": 1,
     "campaign": "task-job-ring",
-    "sampleData": true
-  },
-  {
-    "value": "+919876501420",
-    "type": "phone",
-    "category": "lottery_prize",
-    "reports": 1,
-    "campaign": "lucky-draw-prize",
-    "sampleData": true
-  },
-  {
-    "value": "+919000004256",
-    "type": "phone",
-    "category": "refund_cashback",
-    "reports": 1,
-    "campaign": "refund-collect",
     "sampleData": true
   }
 ]
