@@ -215,23 +215,22 @@ export function analyzeChat(
   turnRisk: (turnText: string) => number,
 ): ChatAnalysis {
   const turns = parseChat(raw, text);
-  const risks: ChatTurnRisk[] = turns.map((t) => ({
-    index: t.index,
-    sender: t.sender,
-    text: t.text,
-    risk: turnRisk(t.text),
-    start: t.start,
-    end: t.end,
-  }));
-  const them = turns
-    .map((t, i) => ({
-      index: t.index,
-      body: t.body,
-      risk: risks[i]!.risk,
-      sender: t.sender,
-      ids: new Set(matchRules(normalizeText(t.body)).map((h) => h.id)),
-    }))
-    .filter((t) => t.sender === 'them');
+  // Long exports repeat turns ("ok", "👍", "<Media omitted>"): score each distinct text once.
+  const riskOf = new Map<string, number>();
+  const risks: ChatTurnRisk[] = turns.map((t) => {
+    let risk = riskOf.get(t.text);
+    if (risk === undefined) riskOf.set(t.text, (risk = turnRisk(t.text)));
+    return { index: t.index, sender: t.sender, text: t.text, risk, start: t.start, end: t.end };
+  });
+  // The escalation sequence only reads the other person's turns.
+  const idsOf = new Map<string, Set<SignalId>>();
+  const them = turns.flatMap((t, i) => {
+    if (t.sender !== 'them') return [];
+    let ids = idsOf.get(t.body);
+    if (!ids)
+      idsOf.set(t.body, (ids = new Set(matchRules(normalizeText(t.body)).map((h) => h.id))));
+    return [{ index: t.index, body: t.body, risk: risks[i]!.risk, sender: t.sender, ids }];
+  });
   const rising = risingRisk(them);
   const sequence = rising ? null : stageSequence(them);
   const escalation: Escalation | null = rising
