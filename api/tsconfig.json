@@ -1,15 +1,25 @@
 {
-  "extends": "../tsconfig.base.json",
+  // Read by Vercel's function builder (@vercel/node), which uses the tsconfig nearest the
+  // function. It honours only this file's own options (not `extends`), forces module NodeNext and
+  // strict: false when `module` is unset, and emits nothing if `emitDeclarationOnly` is inherited.
+  // So this file is standalone. `tsc -b` uses tsconfig.build.json instead.
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "../.tsbuild/api",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "lib": ["ES2023"],
-    "types": ["node"]
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": ["**/*.ts"],
-  "references": [
-    { "path": "../packages/contracts" },
-    { "path": "../packages/content" },
-    { "path": "../packages/engine" }
-  ]
+  "include": ["**/*.ts"]
 }

@@ -1,6 +1,6 @@
 {
   "installCommand": "npm ci",
-  "buildCommand": "npm run build -w @akshi/web",
+  "buildCommand": "npm run build -w @akshi/web && npm run build:api",
   "outputDirectory": "apps/web/dist",
   "framework": null,
   "functions": { "api/**/*.ts": { "maxDuration": 30 } },

@@ -76,7 +76,7 @@ Put a comment `// STUB — owned by Laptop C; replaced on feat/data` at the top 
 ```json
 {
   "installCommand": "npm ci",
-  "buildCommand": "npm run build -w @akshi/web",
+  "buildCommand": "npm run build -w @akshi/web && npm run build:api",
   "outputDirectory": "apps/web/dist",
   "framework": null,
   "functions": { "api/**/*.ts": { "maxDuration": 30 } },
@@ -93,6 +93,11 @@ Put a comment `// STUB — owned by Laptop C; replaced on feat/data` at the top 
 ```
 
 Until B pushes `apps/web`, the build on `feat/engine` previews will fail; that is expected. Production deploys only from `main` after M1.
+
+How Vercel builds the functions, and the two things that make it work:
+
+- **`api/tsconfig.json` is standalone** (no `extends`, no `references`). Vercel's Node builder reads the tsconfig nearest the function but honours only that file's own options. If `module` is unset it forces `NodeNext` and `strict: false`, and an inherited `emitDeclarationOnly` makes it emit nothing ("Cannot read properties of undefined (reading 'text')"). `tsc -b` uses `api/tsconfig.build.json`, the composite project with references.
+- **`npm run build:api` bundles each function** (`scripts/build-api.ts`, esbuild). The builder compiles each `.ts` file on its own and runs it in plain Node, which cannot load our workspace packages (their `exports` point at `.ts`, and relative imports have no extension). In the Vercel build only (`VERCEL=1`), the script bundles each entry with `api/_lib` and `@akshi/*` into one ES module and writes it over the entry. Published packages stay external. `npm run build:api -- --check` tries it anywhere without writing.
 
 ### 2.6 CI (`.github/workflows/ci.yml`)
 
