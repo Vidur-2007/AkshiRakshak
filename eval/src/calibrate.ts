@@ -55,8 +55,10 @@ function evaluate(points: Point[], w: Weights, suspicious: number) {
   let tp = 0, fp = 0, fn = 0, hardFp = 0, hardN = 0;
   for (const p of points) {
     const flagged = score(p, w) >= suspicious;
-    if (p.scam) flagged ? tp++ : fn++;
-    else if (flagged) fp++;
+    if (p.scam) {
+      if (flagged) tp++;
+      else fn++;
+    } else if (flagged) fp++;
     if (p.hard && !p.scam) {
       hardN++;
       if (flagged) hardFp++;
