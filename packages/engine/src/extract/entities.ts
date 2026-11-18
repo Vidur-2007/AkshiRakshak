@@ -83,7 +83,9 @@ function extractUrlSpans(text: string, exclude: Span[]): Span[] {
 
 /** UPI ID: the part after '@' has no dot (otherwise it is an email). */
 export const UPI_ID_RE =
-  /(?<![a-zA-Z0-9.\-_])[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z][a-zA-Z0-9]{1,63}(?![a-zA-Z0-9.-])/g;
+  // a "." right after the handle may end the sentence ("…to daily.task.reward@ibl. All members");
+  // only a dot followed by a letter or digit (name@gmail.com) makes it an email domain instead
+  /(?<![a-zA-Z0-9.\-_])[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z][a-zA-Z0-9]{1,63}(?![a-zA-Z0-9-]|\.[a-zA-Z0-9])/g;
 export const UPI_ID_FULL = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z][a-zA-Z0-9]{1,63}$/;
 const EMAIL_RE =
   /(?<![a-zA-Z0-9._%+-])[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(?![a-zA-Z0-9-])/g;

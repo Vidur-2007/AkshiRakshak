@@ -6,6 +6,25 @@
 
 ## Done
 
+**C's Phase 4 requests (2026-11-18), branch `feat/engine` (goes to `main` with PR #2).** C opened PR #3 (Phase 4: model `2026.11.18-a`, dataset 3,579 rows) and PR #4 (tuned calibration: rules 0.30 / model 0.35 / links 0.35, thresholds 70 / 40). All fixes below come from C's **validation** error analysis (`docs/eval-notes.md`, "For A"); A did not read any test-split message.
+
+- **Calibration tests (C's request 1, unblocks PR #4):** `fusion.test.ts` and `model.test.ts` now read the weights from the calibration in use instead of hard-coding 0.45 / 0.35 / 0.20.
+- **Negation in Telugu and Bengali (request 2; eval-notes 1–3):** these languages put the negation at the end of the clause ("…పిన్ ఎంటర్ చేయడం అవసరం లేదు", "…పాస్‌వర్డ్ అడగదు", "…চায় না"). `isNegated` now checks the rest of the sub-clause (up to a comma or full stop) and never/nobody before the phrase. Conditionals are threats, not negation, in every language ("OTP না দিলে…", "OTP नहीं दिया तो…", "…नहीं तो"); that also fixes an older bug where those dropped the OTP ask. New Telugu and Bengali `SAFETY_ADVICE` patterns ("the bank never asks…", "don't tell **them** to anyone"); a scammer's bare "don't tell anyone" is still `SECRECY`.
+- **UPI ID before a full stop (request 3; eval-notes 9):** "…to sample@ibl. All members…" is now extracted. Only a dot followed by a letter or digit makes it an email domain.
+- **Lexicon gaps (request 4; eval-notes 4–10, 12–16):** 64 general phrases and patterns: English OTP asks by reply/code, QR-to-receive, spaced "P.I.N", task-job "recharge to withdraw" / "combo task", "before 6 PM"; Hinglish wrong transfer and "accept karke PIN daal do"; Telugu secrecy, stay on call, police threat, withdrawal fee, account freeze, "n times assured"; Bengali task fee, the photos-to-contacts loan threat (now `loan_app`), "within N hours". `test/eval-fixes.test.ts` uses A's own sentences in the same patterns, plus guards (a genuine OTP SMS, a mobile recharge receipt, real asks and threats in Telugu and Bengali stay flagged).
+- **Not fixed: eval-notes 11** (Hindi "stranded at the airport, send money, I'll return it", expected `romance`). No signal fits; a new one is a contract change (§9.4) during the code freeze.
+- **Speed:** a 50 KB chat re-ran the rules on every turn for the escalation pass. Each distinct turn is now scored once, and only the other person's turns are re-read. Slowest fuzz input 884 → 594 ms. The fuzz test now times CPU work (parallel test files can't fail it) and warms up on one large input per kind.
+- **Rehearsal on C's branches** (`feat/data-calibration` + these fixes, C's model and tuned calibration): typecheck 0 errors, lint clean, **559 tests pass**. C's eval, full system without AI:
+
+  | Split | F1 | Precision | Recall | False alarms | Genuine bank/OTP/UPI flagged |
+  |---|---|---|---|---|---|
+  | Validation, C's PR #4 (before these fixes) | 97.6% | 97.2% | 98.0% | 2.3% | 3.75% |
+  | Validation, with these fixes (optimistic: fixes came from it) | 99.6% | 99.6% | 99.6% | 0.3% | 0.0% of 160 |
+  | **Test, C's PR #4 (before)** | 93.4% | — | — | 7.1% | 12.9% |
+  | **Test, with these fixes (reported only)** | **95.7%** | 96.7% | 94.7% | **2.9%** | **4.3% of 140** |
+
+  Test by language: en 96.5%, hi 95.2%, te 92.0% (precision 88.1%), **bn 100%** (was 81.4% at Merge 1). Statements: 6 of 6, no false flags.
+
 **Merge 1 rehearsal (2026-11-17), branch `feat/engine`.** C opened PR #1 (`feat/data` → `main`: 276 files, all in C's area plus `package-lock.json`; CI `check` and `e2e` pass). Before anything reaches `main`, A merged `origin/feat/data` into a throwaway copy of `feat/engine` (lockfile: took C's, `npm install` re-added `tldts-icann`) and ran everything against C's real model `2026.11.16-a`.
 
 - **First run: 12 of 518 tests failed, no crashes.** Causes and fixes (all in A's code, now on `feat/engine`):
@@ -128,6 +147,12 @@
 5. **`.tsbuild/**` in ESLint ignores:** already in `eslint.config.js`; `npm run lint` passes with `.tsbuild/` present.
 
 For B's Merge 2: after merging `origin/main` (C's and A's work), the `stageText` fallback (`TODO(M1)`) can become a plain re-export; the model stage now reports `done`, so the stage ticker shows it.
+
+**New after C's Phase 4 (2026-11-18):**
+
+- **To C:** requests 1–4 in `data.md` are done on `feat/engine` (above); request 5 noted. Once PR #2 is on `main`, merge `origin/main` into `feat/data` and `feat/data-calibration` (PR #4 then passes: 559 of 559 in A's rehearsal), rerun `npm run eval`, and commit the report.
+- **To C (next error analysis):** the remaining test-split false alarms are Telugu (precision 88.1%; C's note points at the bank-advisory family `bankinfo-te-02`). A did not read those messages and will not. Please add **new Telugu bank-advisory families to validation** (other banks, other phrasings: "will not ask", "never shares", "only on the official app") so the next fix comes from validation. Genuine bank messages flagged on test are 4.3%, still above the 3% target.
+- **To C / the human:** eval-notes 11 (Hindi "stranded, send money, I'll return it", `romance`) needs a new signal ID, which is a contract change (SPEC.md §9.4). Left for after the freeze unless the human wants it now.
 
 **New at Merge 1 (2026-11-17):**
 

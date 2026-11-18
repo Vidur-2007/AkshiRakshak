@@ -179,7 +179,9 @@
         "pin daalke paise",
         "request accept karo paise milenge"
       ],
-      "regex": []
+      "regex": [
+        "\\baccept\\s?(?:karke|kar ke|karo|kar do|karein)\\b[^.!?]{0,20}\\bpin\\b[^.!?]{0,10}\\b(?:daal|dal|dalo|daalo|daal do|enter)\\b"
+      ]
     },
     "COLLECT_REQUEST": {
       "phrases": [
@@ -275,9 +277,14 @@
         "paise wapas bhej",
         "paise lauta do",
         "wapas bhej do",
-        "galat number pe"
+        "galat number pe",
+        "galti se bhej diya",
+        "galti se aapko",
+        "digit galat"
       ],
-      "regex": []
+      "regex": [
+        "\\bgalat\\b[^.!?]{0,60}\\b(?:chala gaya|chale gaye|aa gaya|aa gaye|bhej diya|transfer ho gaya)\\b"
+      ]
     },
     "CUSTOMER_CARE_NUMBER": {
       "phrases": [

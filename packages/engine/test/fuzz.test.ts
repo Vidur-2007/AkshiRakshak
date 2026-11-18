@@ -339,31 +339,53 @@ function uiStrings(r: Awaited<ReturnType<typeof analyze>>): string[] {
   ];
 }
 
+/**
+ * This process's CPU time in ms where Node exposes it (the work done for the input, which other
+ * test files running in parallel cannot inflate), else wall time.
+ */
+const cpuUsage = (globalThis as { process?: { cpuUsage?: () => { user: number; system: number } } })
+  .process?.cpuUsage;
+const clock = (): number => {
+  if (!cpuUsage) return performance.now();
+  const u = cpuUsage();
+  return (u.user + u.system) / 1000;
+};
+
 const N = 1_000;
 const REQUESTS = Array.from({ length: N }, (_, i) => randomRequest(i));
 
 describe('fuzz (§15)', () => {
   // the first scan would otherwise include loading the model JSON (warmup() does that in the app)
-  beforeAll(() => warmup(), 60_000);
+  // and the first 50 KB input of each kind pays the JIT's warm-up; time inputs, not the cold start
+  beforeAll(async () => {
+    await warmup();
+    for (const kind of ['message', 'chat', 'email'] as const)
+      await analyze({
+        kind,
+        lang: 'en',
+        text: hugeText(),
+        options: { expandLinks: false, domainAge: false },
+      });
+  }, 60_000);
 
   it(`analyze() survives ${N} random inputs, each < 1 s, contract-valid, no raw errors`, async () => {
     let slowest = 0;
     let huge = 0;
     for (let i = 0; i < N; i++) {
       const req = REQUESTS[i]!;
-      const t0 = performance.now();
+      const t0 = clock();
       let res: Awaited<ReturnType<typeof analyze>>;
       try {
         res = await analyze(req);
       } catch (err) {
         throw new Error(`#${i} (${req.kind}) threw: ${String(err)}`, { cause: err });
       }
-      let ms = performance.now() - t0;
+      let ms = clock() - t0;
       if (ms >= 1000) {
-        // a GC pause or a busy CPU (tests run in parallel) can spike one run; a slow input stays slow
-        const t1 = performance.now();
+        // a GC pause can spike one run; a slow input stays slow
+        const t1 = clock();
         await analyze(req);
-        ms = performance.now() - t1;
+        ms = clock() - t1;
       }
       slowest = Math.max(slowest, ms);
       if ((req.text?.length ?? 0) >= 50_000) huge++;

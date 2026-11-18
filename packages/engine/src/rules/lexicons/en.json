@@ -31,7 +31,8 @@
       ],
       "regex": [
         "\\bwithin\\s?\\d{1,2}\\s?(?:hours?|hrs?|minutes?|mins?)\\b",
-        "\\bin\\s?\\d{1,2}\\s?(?:minutes?|mins?)\\b"
+        "\\bin\\s?\\d{1,2}\\s?(?:minutes?|mins?)\\b",
+        "\\bbefore \\d{1,2}(?::\\d{2})?\\s?(?:am|pm)\\b"
       ]
     },
     "THREAT_BLOCK": {
@@ -63,7 +64,11 @@
         "bl0cked",
         "blokced",
         "will be terminated",
-        "will be discontinued"
+        "will be discontinued",
+        "avoid account blocking",
+        "to avoid blocking",
+        "avoid blocking of your account",
+        "avoid account suspension"
       ],
       "regex": [
         "\\b(?:a\\/c|acc(?:oun)?t)\\s(?:is\\s|will\\s(?:be\\s)?|has\\s(?:been\\s)?|got\\s)?(?:bl[o0]ck(?:ed)?|suspend(?:ed)?|deactivat(?:ed|e)|clos(?:ed|e)|fr[o0]zen)\\b",
@@ -209,11 +214,20 @@
         "verification code you received",
         "share the verification code",
         "share the code you received",
-        "share the 6 digit code"
+        "share the 6 digit code",
+        "reply with the otp",
+        "reply with otp",
+        "reply with the code",
+        "send me the code",
+        "send me that code",
+        "forward the code"
       ],
       "regex": [
         "\\b(?:share|send|tell|give|forward|provide|read|confirm|whatsapp)\\b[^.!?]{0,25}\\bo[\\s.*_-]?t[\\s.*_-]?p\\b",
-        "\\bo[\\s.*_-]?t[\\s.*_-]?p\\b[^.!?]{0,20}\\b(?:share|send|tell|forward)\\b"
+        "\\bo[\\s.*_-]?t[\\s.*_-]?p\\b[^.!?]{0,20}\\b(?:share|send|tell|forward)\\b",
+        "\\b(?:reply|respond)\\b[^.!?]{0,30}\\b(?:otp|verification code)\\b",
+        "\\b(?:send|forward|tell|give)\\b[^.!?]{0,15}\\b(?:\\d|six|4|four)[\\s-]?digit (?:code|otp)\\b",
+        "\\bcode\\b[^.!?]{0,30}\\b(?:has come|came|received)\\b[^.!?]{0,40}\\b(?:send|forward|tell)\\b"
       ]
     },
     "ASKS_PIN": {
@@ -237,7 +251,8 @@
         "pin number"
       ],
       "regex": [
-        "\\b(?:enter|share|tell|type|give|put)\\b[^.!?]{0,15}\\bm?p[\\s.*_-]?i[\\s.*_-]?n\\b"
+        "\\b(?:enter|share|tell|type|give|put)\\b[^.!?]{0,15}\\bm?p[\\s.*_-]?i[\\s.*_-]?n\\b",
+        "\\b(?:confirm|enter|approve)\\b[^.!?]{0,20}\\bp\\.?\\s?i\\.?\\s?n\\b"
       ]
     },
     "ASKS_CVV_PASSWORD": {
@@ -332,7 +347,8 @@
       ],
       "regex": [
         "\\b(?:enter|put|type)\\b[^.!?]{0,15}\\bpin\\b[^.!?]{0,25}\\b(?:receive|get|claim|credit)\\b",
-        "\\b(?:accept|approve)\\b[^.!?]{0,25}\\b(?:request|collect)\\b[^.!?]{0,25}\\b(?:receive|get|refund|credit)\\b"
+        "\\b(?:accept|approve)\\b[^.!?]{0,25}\\b(?:request|collect)\\b[^.!?]{0,25}\\b(?:receive|get|refund|credit)\\b",
+        "\\bp\\.?\\s?i\\.?\\s?n\\b[^.!?]{0,20}\\bto (?:credit|receive|get)\\b"
       ]
     },
     "COLLECT_REQUEST": {
@@ -374,10 +390,16 @@
         "scan to get cashback",
         "scan the qr and enter pin",
         "scan this qr to get paid",
-        "scan to accept payment"
+        "scan to accept payment",
+        "refund qr",
+        "cashback qr",
+        "scanning is only for confirmation",
+        "scan is only for confirmation"
       ],
       "regex": [
-        "\\bscan\\b[^.!?]{0,30}\\b(?:receive|get paid|get the money|get money|credit|claim)\\b"
+        "\\bscan\\b[^.!?]{0,30}\\b(?:receive|get paid|get the money|get money|credit|claim)\\b",
+        "\\bto (?:receive|get)\\b[^.!?]{0,50}\\bscan\\b[^.!?]{0,20}\\bqr\\b",
+        "\\bscan\\b[^.!?]{0,30}\\bqr\\b[^.!?]{0,60}\\b(?:money will come|to receive|to credit|will be credited)\\b"
       ]
     },
     "ADVANCE_FEE": {
@@ -411,7 +433,10 @@
         "unlock fee",
         "reactivation fee"
       ],
-      "regex": []
+      "regex": [
+        "\\b(?:recharge|pay|deposit)\\b[^.!?]{0,40}\\bto withdraw\\b",
+        "\\bto withdraw\\b[^.!?]{0,30}\\b(?:you )?(?:must|need to|have to) (?:pay|recharge|deposit)\\b"
+      ]
     },
     "PRIZE_LOTTERY": {
       "phrases": [
@@ -483,11 +508,18 @@
         "subscribe youtube channels",
         "commission per task",
         "earn up to",
-        "easy money"
+        "easy money",
+        "combo task",
+        "funds are frozen",
+        "funds frozen",
+        "repair the order",
+        "mistake in the last order"
       ],
       "regex": [
         "\\bearn\\s?(?:rs\\.?|₹|inr)\\s?\\d",
-        "\\b(?:like|subscribe|review|rate)\\b[^.!?]{0,30}\\bearn\\b"
+        "\\b(?:like|subscribe|review|rate)\\b[^.!?]{0,30}\\bearn\\b",
+        "\\brecharge\\b[^.!?]{0,40}\\bto withdraw\\b",
+        "\\bto withdraw\\b[^.!?]{0,40}\\b(?:recharge|finish the task|complete the task)\\b"
       ]
     },
     "WRONG_TRANSFER_RETURN": {
