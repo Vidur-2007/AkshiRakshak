@@ -4,6 +4,7 @@ import { DEFAULT_CALIBRATION, parseCalibration } from '../src/calibration';
 import { MODEL_VERSION, loadCalibration, loadModel } from '../src/index';
 import { createModel, parseModelJson } from '../src/model';
 import versionJson from '../model/version.json';
+import calibrationJson from '../model/calibration.json';
 
 const KYC = normalizeText(
   'Dear Customer, your SBI account will be BLOCKED today due to pending KYC. Update KYC immediately at http://sbi-kyc-update.xyz/verify or call 98765 00001.',
@@ -125,14 +126,21 @@ describe('predict', () => {
 });
 
 describe('calibration', () => {
-  it('loads calibration.json, valid against the contract, as a fresh object each time', () => {
+  it('loads calibration.json, valid against the contract and the engine\'s check, as a fresh object each time', () => {
     const c = loadCalibration();
     CalibrationSchema.parse(c);
-    expect(c.thresholds).toEqual({ scam: 70, suspicious: 40 });
-    expect(c.fusion).toEqual({ rules: 0.45, model: 0.35, links: 0.2 });
-    expect(c.aiBlend).toBe(0.2);
+    // the file itself is loaded, not the fallback
+    expect(c).toEqual(calibrationJson);
+    expect(c.version).toBe(MODEL_VERSION);
+    // the engine silently falls back to the defaults unless all of these hold (packages/engine/src/pipeline/calibration.ts)
+    const { scam, suspicious } = c.thresholds;
+    expect(0 < suspicious && suspicious < scam && scam < 100).toBe(true);
+    for (const w of Object.values(c.fusion)) expect(w >= 0 && w <= 1).toBe(true);
+    expect(c.fusion.rules).toBeGreaterThan(0);
+    expect(c.aiBlend >= 0 && c.aiBlend <= 1).toBe(true);
+    const before = c.thresholds.scam;
     c.thresholds.scam = 1;
-    expect(loadCalibration().thresholds.scam).toBe(70);
+    expect(loadCalibration().thresholds.scam).toBe(before);
   });
 
   it('falls back to the defaults as a whole when the file is missing or invalid', () => {
