@@ -2,6 +2,7 @@
 
 ## Production
 
+- **2026-11-18: the first `main` deploy (87829c7, after Merge 2) failed in the function build.** The web app built. Vercel's Node builder then forced `module: NodeNext` and `strict: false` on `api/` (it ignores options inherited through `extends`) and crashed with "Cannot read properties of undefined (reading 'text')". After that was fixed, the functions would still have failed at runtime, because Node cannot load our workspace packages (`.ts` exports, extensionless imports). Fix: `api/tsconfig.json` is now standalone (`tsc -b` uses `api/tsconfig.build.json`), and the Vercel build command runs `npm run build:api`, which bundles each function with esbuild. Verified with `@vercel/node` 31.0.2 on a clean clone (`npm ci`, then the build command with `VERCEL=1`): all 7 functions build, load, and answer (health 200; the others return their own validation errors, or "no provider" without keys). Still to do: the production URL and smoke results.
 - **URL: not deployed.** On 2026-11-15 (code-freeze day) there is still no Vercel project linked to the repo, `main` is the Phase 0 skeleton and C's and B's work is not merged, so the final production deploy and smoke check (P6 task 5) could not run. When the project exists and Merge 2 is done: `npm run smoke -- <url>` (now also checks `X-Frame-Options` and CSP), then the phone checks, then record the URL here.
 
 ## Done

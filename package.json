@@ -25,7 +25,8 @@
     "fixtures": "tsx scripts/build-fixtures.ts",
     "ocr-assets": "tsx scripts/ocr-assets.ts",
     "size": "tsx scripts/bundle-size.ts",
-    "smoke": "tsx scripts/smoke.ts"
+    "smoke": "tsx scripts/smoke.ts",
+    "build:api": "tsx scripts/build-api.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.121",
@@ -42,6 +43,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.20.5",
     "concurrently": "^10.0.7",
+    "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
     "globals": "^17.14.0",
     "prettier": "^3.10.1",

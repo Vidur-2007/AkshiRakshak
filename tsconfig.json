@@ -7,7 +7,7 @@
     { "path": "packages/content" },
     { "path": "packages/insights" },
     { "path": "packages/engine" },
-    { "path": "api" },
+    { "path": "api/tsconfig.build.json" },
     { "path": "scripts" }
   ]
 }
