@@ -16,7 +16,7 @@ import {
   type AiProvider,
   type Outcome,
 } from './ai.js';
-import { claimsSafe } from './truth.js';
+import { claimsSafe, unsupportedClaim } from './truth.js';
 
 export const AskOutputSchema = z.object({
   answer: z
@@ -75,6 +75,8 @@ export async function runAsk(
   } = {},
 ): Promise<AskResult> {
   const { system, prompt } = buildAskPrompt(question, lang, items);
+  // what the answer may draw on: the question and the reference answers given to the model
+  const evidence = [question, ...items.flatMap((f) => [f.a[lang] ?? f.a.en, f.a.en])].join(' ');
   for (const p of providers.slice(0, 2)) {
     const t0 = Date.now();
     const signal = AbortSignal.timeout(opts.timeoutMs ?? AI_TIMEOUT_MS);
@@ -91,8 +93,15 @@ export async function runAsk(
         ),
       ]);
       const out = AskOutputSchema.safeParse(raw);
-      // §1.3: an answer that calls anything safe is unusable (next provider, or the offline FAQ)
-      if (out.success && out.data.answer.trim() && !claimsSafe(out.data.answer)) {
+      // §1.3: an answer that calls anything safe is unusable (next provider, or the offline FAQ),
+      // and so is one that names a number, UPI ID or website the question and references don't
+      // contain (official .gov.in sites and 1930 are fine): no invented helplines.
+      if (
+        out.success &&
+        out.data.answer.trim() &&
+        !claimsSafe(out.data.answer) &&
+        !unsupportedClaim(out.data.answer, evidence)
+      ) {
         opts.log?.({ provider: p.name, ms: Date.now() - t0, status });
         const covered = out.data.covered && items.length > 0;
         return {
