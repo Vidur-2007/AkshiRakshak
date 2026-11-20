@@ -369,6 +369,51 @@
     "lookupReported": "This {what} appears in {reports} scam reports ({category}, sample data).",
     "lookupBlocked": "You blocked this {what} earlier.",
     "lookupClean": "No reports found for this {what} in our sample list. That does not prove it is genuine, so check before you pay or share anything.",
-    "faqNotCovered": "Our guide does not cover this yet. If money left your account, call 1930 or report at cybercrime.gov.in."
+    "faqNotCovered": "Our guide does not cover this yet. If money left your account, call 1930 or report at cybercrime.gov.in.",
+    "realityPinSendsAmount": "Entering your UPI PIN sends {amount} from your account. A PIN never brings money in.",
+    "realityPinSendsAmountTo": "Entering your UPI PIN sends {amount} from your account to {upi}",
+    "claimAuthority": "Says it is from the police, a court or a government agency",
+    "realityAuthorityUpi": "Asks for money to {upi}, a personal UPI ID. Police and courts do not ask you to pay fines or bail to a personal UPI ID.",
+    "realityAuthorityCall": "Keeps you on the call and tells you to keep it secret. There is no \"digital arrest\" in Indian law.",
+    "realityAuthorityPhone": "Gives {phone}, a personal mobile number that could not be verified as official"
+  },
+  "story": {
+    "lead": "How this scam works: {steps}.",
+    "steps": {
+      "BANK_IMPERSONATION": "pretends to be your bank",
+      "AUTHORITY_CLAIM": "claims to be police or an official",
+      "BRAND_MISMATCH": "pretends to be a known company",
+      "CUSTOMER_CARE_NUMBER": "poses as customer care",
+      "PRIZE_LOTTERY": "promises a prize",
+      "TOO_GOOD_RETURNS": "promises big returns",
+      "TASK_JOB_PAYMENT": "offers easy paid work",
+      "WRONG_TRANSFER_RETURN": "says money was sent to you by mistake",
+      "THREAT_LEGAL": "threatens arrest or legal action",
+      "THREAT_BLOCK": "threatens to block your account",
+      "SECRECY": "tells you to keep it secret",
+      "STAY_ON_CALL": "keeps you on the call",
+      "URGENCY": "rushes you",
+      "ASKS_REMOTE_APP": "asks you to install a screen-sharing app",
+      "APK_LINK": "sends an app file to install",
+      "LOOKALIKE_DOMAIN": "sends a link to a fake website",
+      "SUSPICIOUS_LINK": "sends a risky link",
+      "RECEIVE_WITH_PIN": "asks for your UPI PIN to \"receive\" money",
+      "QR_TO_RECEIVE": "asks you to scan a QR to \"receive\" money",
+      "ASKS_OTP": "asks for your OTP",
+      "ASKS_PIN": "asks for your UPI PIN",
+      "ASKS_CVV_PASSWORD": "asks for your card details or password",
+      "COLLECT_REQUEST": "sends a request that takes money",
+      "ADVANCE_FEE": "asks you to pay a fee first",
+      "PERSONAL_UPI_HANDLE": "asks you to pay a personal UPI ID"
+    },
+    "tactics": {
+      "fear": "Fear",
+      "urgency": "Artificial urgency",
+      "authority": "Authority pressure",
+      "secrecy": "Secrecy and isolation",
+      "reward": "Reward bait",
+      "false_guarantee": "False guarantees",
+      "payment_trick": "Payment-direction trick"
+    }
   }
 }

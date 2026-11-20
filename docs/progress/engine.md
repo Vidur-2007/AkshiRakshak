@@ -13,6 +13,23 @@
 
 ## Done
 
+**New features, Phase 2: "understand the scam" (2026-11-20).** Everything appears in existing UI, with no contract change.
+- **Attack story** (`pipeline/story.ts`):
+  - When a flagged result shows three or more stages (hook → pressure → device → money), one sentence is added at the **end** of the explanation, in all four languages.
+  - English example: "How this scam works: pretends to be your bank → threatens to block your account → sends a link to a fake website → asks for your OTP."
+  - Hindi example: "यह ठगी ऐसे काम करती है: आपका बैंक होने का दिखावा करता है → …"
+  - Elder mode's first sentence is unchanged.
+- **Tactics:** `attackStory()` and `manipulationTactics()` are exported from `@akshi/engine` for B (chips or an attack-replay timeline later).
+- **Payment truth for messages** (`claims/truth.ts`): "You will receive ₹4,999" vs "Entering your UPI PIN sends ₹4,999 from your account to refund.desk@ybl". It also covers QR-to-receive. The collect form already had its own row.
+- **Authority consistency:**
+  - Police, court or government claims with a personal UPI ID are a mismatch.
+  - "Stay on the call / keep it secret" is a mismatch: there is no "digital arrest" in Indian law.
+  - A personal mobile number only gets "could not be verified as official" (`mismatch: false`): an unfamiliar number is not proof.
+- **Strings:** 25 step phrases, 7 tactic names and 6 claim templates in en, hi, te and bn. Non-English files are still marked `_review: pending`.
+- **Scores:** no score changes.
+- **Tests:** `test/story.test.ts` (10). Engine and web suites pass, except B's known timing flake in `scanFlow.test.tsx`, which passes on a rerun.
+- **Known issue seen while testing:** "Stay on this video call" and "a case is registered against you" are not in the lexicons (no STAY_ON_CALL or THREAT_LEGAL), so a written "digital arrest" can score only Suspicious with the category task_job. A lexicon change waits for C's validation analysis.
+
 **New features, Phase 1: adversarial hardening (2026-11-20).** The user asked for features that need no UI change and no contract change. Phase 1 catches disguised scam words.
 - **Matching view** (`rules/view.ts`, used by `matchRules`) undoes disguises before the lexicons run:
   - Cyrillic and Greek lookalikes are folded to Latin.
