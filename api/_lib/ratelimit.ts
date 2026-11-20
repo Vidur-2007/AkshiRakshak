@@ -4,7 +4,14 @@
  */
 import { apiError, clientIp } from './http.js';
 
-export const LIMITS = { ai: 20, ask: 20, expand: 60, 'domain-age': 60, reports: 60 } as const;
+export const LIMITS = {
+  ai: 20,
+  ask: 20,
+  expand: 60,
+  'domain-age': 60,
+  reports: 60,
+  analyze: 30,
+} as const;
 export type LimitName = keyof typeof LIMITS;
 const WINDOW_MS = 60_000;
 const MAX_KEYS = 10_000;

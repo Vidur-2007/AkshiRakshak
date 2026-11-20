@@ -16,6 +16,7 @@ import { countScripts, scriptsPresent, type Script } from '../detect/lang';
 import { dedupeSpans, overlaps } from '../extract/entities';
 import { signalText } from '../i18n';
 import { CATALOG } from './catalog';
+import { matchingView, toSpan, undisguised } from './view';
 import en from './lexicons/en.json';
 import hiLatn from './lexicons/hi-latn.json';
 
@@ -73,6 +74,33 @@ function loadPack(pack: Pack): Promise<void> {
     loading.set(pack, p);
   }
   return p;
+}
+
+/**
+ * Latin words of the core lexicons (English, romanised Hindi) and the obfuscation targets: used to
+ * split a fully spaced-out phrase back into words ("S H A R E Y O U R O T P" → "share your otp").
+ * Built once, on first use; both Latin packs are always loaded.
+ */
+let vocab: Set<string> | null = null;
+function latinVocabulary(): Set<string> {
+  if (vocab) return vocab;
+  const words = new Set<string>([
+    ...OBF_TARGETS,
+    'a',
+    'i',
+    'to',
+    'is',
+    'my',
+    'me',
+    'we',
+    'you',
+    'your',
+  ]);
+  for (const lex of [en as Lexicon, hiLatn as Lexicon])
+    for (const e of Object.values(lex.signals))
+      for (const p of e?.phrases ?? [])
+        for (const w of p.toLowerCase().split(/[^a-z]+/)) if (w.length >= 2) words.add(w);
+  return (vocab = words);
 }
 
 const packsFor = (scripts: Iterable<Script>): Pack[] => [
@@ -224,6 +252,14 @@ export function deobfuscate(text: string): string {
   return text.replace(MIXED_TOKEN, (tok) =>
     isLeetCandidate(tok) ? tok.replace(/[0-9@$]/g, (c) => LEET[c] ?? c) : tok,
   );
+}
+
+/**
+ * The text the model reads: disguises undone ("S H A R E your 0TP" → "SHARE your oTP"). The model
+ * was trained on plain text, so disguised words would otherwise look unfamiliar to it.
+ */
+export function modelText(text: string): string {
+  return undisguised(text, deobfuscate, latinVocabulary());
 }
 
 // ───────────── OBFUSCATION detection ─────────────
@@ -400,9 +436,12 @@ export function matchRules(
   text: string,
   scripts: Set<Script> = scriptsPresent(countScripts(text)),
 ): RuleHit[] {
-  const probe = deobfuscate(text);
+  // Match on the view with disguises undone (spaced, dotted, lookalike, repeated letters), then
+  // digit-for-letter swaps; spans map back to the original text.
   const found = new Map<SignalId, Span[]>();
   if (!lexiconsReady(scripts)) void ensureLexicons(scripts); // ready for the next call
+  const view = matchingView(text, latinVocabulary());
+  const probe = deobfuscate(view.view);
   for (const pack of packsFor(scripts)) {
     const groups = groupsFor(pack);
     if (!groups) continue;
@@ -412,11 +451,7 @@ export function matchRules(
         re.lastIndex = 0;
         for (const m of probe.matchAll(re)) {
           if (m[0].length === 0) continue;
-          const span = {
-            start: m.index,
-            end: m.index + m[0].length,
-            text: text.slice(m.index, m.index + m[0].length),
-          };
+          const span = toSpan(text, view, m.index, m.index + m[0].length);
           let list = found.get(id);
           if (!list) found.set(id, (list = []));
           list.push(span);

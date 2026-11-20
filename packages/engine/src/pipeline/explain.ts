@@ -1,6 +1,7 @@
 /**
  * Explanation (SPEC_A_ENGINE.md §8.7): category one-liner + the top two reasons, at most two
  * sentences, second person. Never says "safe". The AI explanation replaces it when AI is used (P3).
+ * analyze() may append one attack-story sentence after it (pipeline/story.ts).
  */
 import type { Lang, ScamCategory, Signal, Verdict } from '@akshi/contracts';
 import { categoryText, template } from '../i18n';

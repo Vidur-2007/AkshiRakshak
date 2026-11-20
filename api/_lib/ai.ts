@@ -19,7 +19,7 @@ import {
   type ScamCategory,
 } from '@akshi/contracts';
 import { z } from 'zod';
-import { claimsSafe } from './truth.js';
+import { claimsSafe, unsupportedClaim } from './truth.js';
 
 export const AI_TIMEOUT_MS = 8_000;
 
@@ -148,10 +148,16 @@ export function buildPrompt(req: AiAnalyzeRequest): { system: string; prompt: st
 
 const words = (s: string) => s.trim().split(/\s+/).filter(Boolean);
 
-/** Validate and clean model output; null when it cannot be used. */
+/**
+ * Validate and clean model output; null when it cannot be used. Text that calls the message safe
+ * (§1.3) or states facts no check found (report counts, "verified", a UPI ID, number or website
+ * that is not in the message: `unsupportedClaim`) is dropped; the score still counts.
+ * `ruleSignals` are the device's own findings: a report claim is allowed when our lookup found one.
+ */
 export function cleanOutput(
   raw: unknown,
   maskedText: string,
+  ruleSignals: readonly string[] = [],
 ): Omit<AiAnalyzeResponse, 'provider' | 'model'> | null {
   const parsed = ModelOutputSchema.safeParse(raw);
   if (!parsed.success || !Number.isFinite(parsed.data.likelihood)) return null;
@@ -160,9 +166,12 @@ export function cleanOutput(
     o.category && (SCAM_CATEGORIES as readonly string[]).includes(o.category)
       ? (o.category as ScamCategory)
       : null;
+  const reportsFound =
+    ruleSignals.includes('KNOWN_INDICATOR') || ruleSignals.includes('BLOCKLISTED');
+  const unusable = (t: string) => claimsSafe(t) || unsupportedClaim(t, maskedText, reportsFound);
   const redFlags = o.redFlags
     .map((f) => ({ quote: f.quote.trim(), reason: f.reason.trim().slice(0, 200) }))
-    .filter((f) => f.quote.length > 0 && maskedText.includes(f.quote) && !claimsSafe(f.reason))
+    .filter((f) => f.quote.length > 0 && maskedText.includes(f.quote) && !unusable(f.reason))
     .slice(0, 5);
   const explanationWords = words(o.explanation);
   const explanation =
@@ -175,9 +184,9 @@ export function cleanOutput(
   return {
     category,
     likelihood: Math.round(Math.max(0, Math.min(100, o.likelihood))),
-    explanation: claimsSafe(explanation) ? '' : explanation,
+    explanation: unusable(explanation) ? '' : explanation,
     redFlags,
-    advice: claimsSafe(o.advice) ? '' : o.advice.trim().slice(0, 300),
+    advice: unusable(o.advice) ? '' : o.advice.trim().slice(0, 300),
   };
 }
 
@@ -220,7 +229,7 @@ export async function runAi(
           ),
         ),
       ]);
-      const cleaned = cleanOutput(raw, req.maskedText);
+      const cleaned = cleanOutput(raw, req.maskedText, req.ruleSignals);
       if (cleaned) {
         opts.log?.({ provider: p.name, ms: Date.now() - t0, status });
         return { ok: true, body: { provider: p.name, model: p.model, ...cleaned } };

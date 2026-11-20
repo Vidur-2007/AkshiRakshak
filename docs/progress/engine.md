@@ -2,10 +2,78 @@
 
 ## Production
 
+- **URL: https://akshi-rakshak.vercel.app** (`main` at 7ce77ad, deployed 2026-11-18, after PR #6).
+- **Smoke check** (`npm run smoke -- https://akshi-rakshak.vercel.app`): 8 pass, 1 warning, 0 fail.
+  - **Pass:** app shell and service worker, security headers, health (groq true, gemini true), expand (2 hops), the SSRF refusal (`blocked_private_address`), domain age, AI analyze, ask.
+  - **Warning:** `/api/reports` is not configured, because the Upstash integration is not connected yet.
+  - **To check:** AI analyze answered from **Gemini**, the fallback. Groq is first, so Groq may have failed or timed out on that call. Look at the `ai/analyze` provider logs in Vercel.
+- Phone checks (§16 step 3): not done yet.
 - **2026-11-18: the first `main` deploy (87829c7, after Merge 2) failed in the function build.** The web app built. Vercel's Node builder then forced `module: NodeNext` and `strict: false` on `api/` (it ignores options inherited through `extends`) and crashed with "Cannot read properties of undefined (reading 'text')". After that was fixed, the functions would still have failed at runtime, because Node cannot load our workspace packages (`.ts` exports, extensionless imports). Fix: `api/tsconfig.json` is now standalone (`tsc -b` uses `api/tsconfig.build.json`), and the Vercel build command runs `npm run build:api`, which bundles each function with esbuild. Verified with `@vercel/node` 31.0.2 on a clean clone (`npm ci`, then the build command with `VERCEL=1`): all 7 functions build, load, and answer (health 200; the others return their own validation errors, or "no provider" without keys). Still to do: the production URL and smoke results.
 - **URL: not deployed.** On 2026-11-15 (code-freeze day) there is still no Vercel project linked to the repo, `main` is the Phase 0 skeleton and C's and B's work is not merged, so the final production deploy and smoke check (P6 task 5) could not run. When the project exists and Merge 2 is done: `npm run smoke -- <url>` (now also checks `X-Frame-Options` and CSP), then the phone checks, then record the URL here.
 
 ## Done
+
+**New features, Phase 3: AI evidence guard + developer API (2026-11-20).**
+- **Evidence guard** (`api/_lib/truth.ts` `unsupportedClaim`, used by `cleanOutput` and `/api/ask`). AI text that states a fact no check found is dropped. The AI score still counts, and the app falls back to its own text. Dropped text:
+  - report counts, "blacklisted" or "known scammer", unless the device's own lookup found the value (KNOWN_INDICATOR or BLOCKLISTED);
+  - "verified" or "confirmed fraud" claims;
+  - a UPI ID, Indian mobile or 1800 number, or website that is not in the message (for Ask: the question and FAQ references) and not official (.gov.in, .nic.in, RBI, NPCI; 1930 is fine).
+  - For Ask, this means no invented helpline numbers.
+  - Limitation: advice naming a bank's own website is also dropped unless the message has it. That's the conservative side.
+- **`POST /api/analyze`** (developer sandbox, `api/analyze.ts`):
+  - The engine on the server: no AI, no link expansion, no domain lookup.
+  - Returns `{ result, attackStory, tactics }`.
+  - Text ≤ 20,000 characters, kind detected when missing, 30/min/IP, no CORS, the text is never logged.
+  - Bundled by `build:api` (1.27 MB with the model).
+  - Verified with `@vercel/node` 31.0.2 on a clean clone: fake KYC → 200, scam, 221 ms.
+  - In `scripts/smoke.ts` and SPEC.md §6.6.
+- **Tests:** API 60/60 (evidence guard, analyze endpoint, its rate limit, no CORS, no text in logs).
+
+**New features, Phase 2: "understand the scam" (2026-11-20).** Everything appears in existing UI, with no contract change.
+- **Attack story** (`pipeline/story.ts`):
+  - When a flagged result shows three or more stages (hook → pressure → device → money), one sentence is added at the **end** of the explanation, in all four languages.
+  - English example: "How this scam works: pretends to be your bank → threatens to block your account → sends a link to a fake website → asks for your OTP."
+  - Hindi example: "यह ठगी ऐसे काम करती है: आपका बैंक होने का दिखावा करता है → …"
+  - Elder mode's first sentence is unchanged.
+- **Tactics:** `attackStory()` and `manipulationTactics()` are exported from `@akshi/engine` for B (chips or an attack-replay timeline later).
+- **Payment truth for messages** (`claims/truth.ts`): "You will receive ₹4,999" vs "Entering your UPI PIN sends ₹4,999 from your account to refund.desk@ybl". It also covers QR-to-receive. The collect form already had its own row.
+- **Authority consistency:**
+  - Police, court or government claims with a personal UPI ID are a mismatch.
+  - "Stay on the call / keep it secret" is a mismatch: there is no "digital arrest" in Indian law.
+  - A personal mobile number only gets "could not be verified as official" (`mismatch: false`): an unfamiliar number is not proof.
+- **Strings:** 25 step phrases, 7 tactic names and 6 claim templates in en, hi, te and bn. Non-English files are still marked `_review: pending`.
+- **Scores:** no score changes.
+- **Tests:** `test/story.test.ts` (10). Engine and web suites pass, except B's known timing flake in `scanFlow.test.tsx`, which passes on a rerun.
+- **Known issue seen while testing:** "Stay on this video call" and "a case is registered against you" are not in the lexicons (no STAY_ON_CALL or THREAT_LEGAL), so a written "digital arrest" can score only Suspicious with the category task_job. A lexicon change waits for C's validation analysis.
+
+**New features, Phase 1: adversarial hardening (2026-11-20).** The user asked for features that need no UI change and no contract change. Phase 1 catches disguised scam words.
+- **Matching view** (`rules/view.ts`, used by `matchRules`) undoes disguises before the lexicons run:
+  - Cyrillic and Greek lookalikes are folded to Latin.
+  - Split letters are joined: "S H A R E", "O.T.P.", "P*I*N", emoji between letters.
+  - A fully spaced-out phrase is split back into words using the Latin lexicon vocabulary ("S H A R E Y O U R O T P" → "share your otp").
+  - A letter repeated three or more times is reduced to one. The words around it are also read with two, because "CVVVV" is "CVV".
+  - Then the existing digit-for-letter swaps run.
+- An index map sends every match back to the original characters, so underlines stay right. "/" and apostrophes end a run, so "a/c" and "don't" are untouched.
+- **The model reads the same undisguised text** (`modelText`).
+- **Evasion suite** (`test/adversarial.test.ts`): 12 base scams (en, Hinglish, hi, te, bn) × 9 disguises applied to the words a scammer would hide.
+  - Main signal still found: **50/108 before → 108/108 after**.
+
+    | Disguise | Before | After |
+    |---|---|---|
+    | Spaced | 3 | 12 |
+    | Dotted | 2 | 12 |
+    | Starred | 3 | 12 |
+    | Homoglyph | 1 | 12 |
+    | Repeated | 5 | 12 |
+    | Emoji | 1 | 12 |
+    | Leetspeak | 11 | 12 |
+    | Zero-width | 12 | 12 |
+    | Mixed case | 12 | 12 |
+
+  - 4 genuine messages × 9 disguises: 0 become "scam".
+- **No regression on validation** (`npm run eval -w @akshi/eval -- --split val`): full_no_ai F1 99.6%, false alarms 0.3%, genuine bank, OTP and UPI messages flagged 0.0% of 160. All three are unchanged.
+- **Cost:** matching a short chat turn is about 20% slower (300 random turns: 152 → 185 ms). The view itself is about 10 ms per 50 KB.
+- **Lexicon gap seen while writing the suite:** "Paise receive karne ke liye apna UPI PIN dalo" fires ASKS_PIN, not RECEIVE_WITH_PIN. Not fixed: a lexicon change waits for C's validation analysis.
 
 **C's Phase 4 requests (2026-11-18), branch `feat/engine` (goes to `main` with PR #2).** C opened PR #3 (Phase 4: model `2026.11.18-a`, dataset 3,579 rows) and PR #4 (tuned calibration: rules 0.30 / model 0.35 / links 0.35, thresholds 70 / 40). All fixes below come from C's **validation** error analysis (`docs/eval-notes.md`, "For A"); A did not read any test-split message.
 
@@ -138,6 +206,19 @@
 - Carried: deviations listed in Phase 2/3 (single-item fusion, lookalike token length, identity signals in rules, website-QR floor 40, phone mismatch needs pressure, ASKS_OTP floor 45), Vercel compiling `api/*.ts` with `.ts` workspace imports unverified, typescript-eslint minimatch advisory (still no fixed release; 8.72.2 is latest on 2026-11-15), tool escaping quirks on this laptop.
 
 ## Requests
+
+**New features (2026-11-20):**
+
+- **To C (README):** please add a short "Developer API" section:
+  - `POST /api/analyze` with `{"text": "...", "lang": "en"}` (kind optional) returns `{ result, attackStory, tactics }`.
+  - It uses the same engine: no AI, no link expansion, no domain lookup.
+  - 30 requests a minute, and the text is never logged.
+  - curl example: `curl -X POST https://akshi-rakshak.vercel.app/api/analyze -H 'content-type: application/json' -d '{"text":"Your SBI account will be blocked. Share the OTP now.","lang":"en"}'`.
+  - For the Proof page, the evasion results: 50/108 → 108/108 under 9 disguises (above).
+- **To B (when the freeze lifts, optional):**
+  - `attackStory(signals, lang)` and `manipulationTactics(signals, lang)` are exported from `@akshi/engine`, for tactic chips or an attack-replay timeline on `/scan/:id`.
+  - Until then the story already shows as the last sentence of the explanation.
+- **To C (validation):** add written "digital arrest" families to validation, e.g. "stay on this video call", "a case is registered against you", "pay the security deposit". A fixes the lexicon gaps from validation findings.
 
 **Answers to B's open requests (web.md, Phase 6), 2026-11-17:**
 

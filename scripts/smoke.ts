@@ -4,12 +4,14 @@
  *   npm run smoke -- https://<project>.vercel.app
  *
  * Checks the app shell, security headers, /api/health (both providers), link expansion,
- * domain age, the AI second opinion, the grounded assistant and community reports, and
- * validates every reply with the contract schemas. Sends only synthetic sample text.
+ * domain age, the AI second opinion, the developer analyze endpoint, the grounded assistant and
+ * community reports, and validates every reply with the contract schemas. Sends only synthetic
+ * sample text.
  * The phone checks (sample scan, QR sample, airplane-mode scan after one visit) stay manual.
  */
 import {
   AiAnalyzeResponseSchema,
+  AnalysisResultSchema,
   AssistantAnswerSchema,
   DomainAgeSchema,
   HealthResponseSchema,
@@ -163,6 +165,24 @@ await check('/api/ai/analyze', async () => {
   return [
     a.likelihood >= 60 ? 'pass' : 'warn',
     `${a.provider}/${a.model}: likelihood ${a.likelihood}, ${a.category ?? 'no category'} (${ms} ms)`,
+  ];
+});
+
+await check('/api/analyze', async () => {
+  const { res, body, ms } = await call(
+    '/api/analyze',
+    post({
+      text: 'Dear Customer, your SBI account will be BLOCKED today due to pending KYC. Update KYC at http://sbi-kyc-update.xyz/verify and share the OTP you receive.',
+      lang: 'en',
+    }),
+    20_000,
+  );
+  if (res.status !== 200) return ['fail', `HTTP ${res.status} ${JSON.stringify(body)}`];
+  const b = body as { result?: unknown; attackStory?: unknown[]; tactics?: unknown[] };
+  const r = parsed(AnalysisResultSchema, b.result);
+  return [
+    r.verdict === 'scam' && (b.attackStory?.length ?? 0) >= 3 ? 'pass' : 'warn',
+    `${r.verdict} ${r.riskScore}, ${b.attackStory?.length ?? 0} attack stages, ${b.tactics?.length ?? 0} tactics (${ms} ms)`,
   ];
 });
 

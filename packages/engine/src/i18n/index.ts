@@ -12,7 +12,25 @@ export interface Strings {
   actions: Partial<Record<ActionId, { label: string; body: string }>>;
   stages: Partial<Record<StageTiming['stage'], string>>;
   templates: Partial<Record<TemplateKey, string>>;
+  /** attack story (pipeline/story.ts): lead sentence, one phrase per signal, tactic names */
+  story?: {
+    lead?: string;
+    steps?: Partial<Record<SignalId, string>>;
+    tactics?: Partial<Record<Tactic, string>>;
+  };
 }
+
+/** Manipulation tactics a scam uses (pipeline/story.ts maps signals to them). */
+export const TACTICS = [
+  'fear',
+  'urgency',
+  'authority',
+  'secrecy',
+  'reward',
+  'false_guarantee',
+  'payment_trick',
+] as const;
+export type Tactic = (typeof TACTICS)[number];
 export const TEMPLATE_KEYS = [
   'noSigns',
   'reasons',
@@ -58,6 +76,12 @@ export const TEMPLATE_KEYS = [
   'lookupBlocked',
   'lookupClean',
   'faqNotCovered',
+  'realityPinSendsAmount',
+  'realityPinSendsAmountTo',
+  'claimAuthority',
+  'realityAuthorityUpi',
+  'realityAuthorityCall',
+  'realityAuthorityPhone',
 ] as const;
 export type TemplateKey = (typeof TEMPLATE_KEYS)[number];
 
@@ -147,4 +171,19 @@ export function stageText(stage: StageTiming['stage'], lang: Lang): string {
 export function template(key: TemplateKey, lang: Lang, vars: Record<string, string> = {}): string {
   const t = S(lang).templates[key] ?? EN.templates[key] ?? '';
   return t.replace(/\{(\w+)\}/g, (_m, k: string) => vars[k] ?? '');
+}
+
+/** One attack-story phrase ("asks for your OTP"), or undefined when the signal has none. */
+export function storyStep(id: SignalId, lang: Lang): string | undefined {
+  return S(lang).story?.steps?.[id] ?? EN.story?.steps?.[id];
+}
+
+/** "How this scam works: {steps}." with the steps filled in. */
+export function storyLead(steps: string, lang: Lang): string {
+  const t = S(lang).story?.lead ?? EN.story?.lead ?? '{steps}';
+  return t.replace('{steps}', steps);
+}
+
+export function tacticText(t: Tactic, lang: Lang): string {
+  return S(lang).story?.tactics?.[t] ?? EN.story?.tactics?.[t] ?? t;
 }

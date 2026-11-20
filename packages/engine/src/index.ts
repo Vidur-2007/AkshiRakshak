@@ -35,6 +35,15 @@ export {
 } from './listen';
 export { isWeakOcr, WEAK_OCR_CONFIDENCE, WEAK_OCR_MIN_CHARS } from './ocr/quality';
 export { signalText, categoryText, actionText, stageText } from './i18n';
+export { TACTICS, tacticText, type Tactic } from './i18n';
+export {
+  attackStory,
+  manipulationTactics,
+  ATTACK_STAGES,
+  type AttackStage,
+  type AttackStep,
+  type TacticFound,
+} from './pipeline/story';
 
 /**
  * The full pipeline is its own chunk (SPEC_A_ENGINE.md §14): the core holds scoreLive and what it

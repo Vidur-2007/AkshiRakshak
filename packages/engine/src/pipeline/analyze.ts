@@ -28,6 +28,7 @@ import {
 import { MODEL_VERSION } from '@akshi/model';
 import { currentCalibration } from './calibration';
 import { analyzeIdentity } from '../claims/brands';
+import { messageClaims } from '../claims/truth';
 import { analyzeChat, type ChatAnalysis } from '../context/chat';
 import { analyzeEmail, type EmailAnalysis } from '../context/email';
 import { isWeakOcr } from '../ocr/quality';
@@ -40,7 +41,7 @@ import { inspectUrlsNetwork, rescoreUrl } from '../links/inspect';
 import { getModel, modelSignal, safePredict } from '../model';
 import { aiSignals, isOnline, requestAiOpinion } from '../ai';
 import { CATALOG } from '../rules/catalog';
-import { ensureLexicons, matchRules, toSignals } from '../rules/engine';
+import { ensureLexicons, matchRules, modelText, toSignals } from '../rules/engine';
 import {
   analyzeCollect,
   COLLECT_ACTIONS,
@@ -51,6 +52,7 @@ import { analyzeQr, type QrAnalysis } from '../upi/qr';
 import { ENGINE_VERSION } from '../version';
 import { chooseActions, MONEY_LOST } from './actions';
 import { explain } from './explain';
+import { storySentence } from './story';
 import { chooseCategory, confidenceOf, fuse, severityOf, verdictOf } from './fusion';
 import { scoreLive } from './live';
 import { noisyOrRisk } from '../links/inspect';
@@ -357,7 +359,7 @@ export async function analyzeRequest(
   if (model && text) {
     onStage?.({ stage: 'model', ms: 0, status: 'running' });
     const m0 = now();
-    prediction = safePredict(model, text);
+    prediction = safePredict(model, modelText(text));
     emit({ stage: 'model', ms: round2(now() - m0), status: prediction ? 'done' : 'failed' });
     if (prediction) modelSig = modelSignal(text, prediction, req.lang);
   } else skip('model');
@@ -483,7 +485,9 @@ export async function analyzeRequest(
     else if (!lookupLead && verdict === 'no_signs')
       lookupBody = template('lookupClean', req.lang, { what });
   }
-  const explanation = [qr?.lead, lookupLead, lookupBody].filter(Boolean).join(' ');
+  // the attack story ("How this scam works: … → … → …") goes last; Elder mode reads the first sentence
+  const story = verdict !== 'no_signs' ? storySentence(signals, req.lang) : null;
+  const explanation = [qr?.lead, lookupLead, lookupBody, story].filter(Boolean).join(' ');
 
   const result: AnalysisResult = {
     id: newId(),
@@ -508,6 +512,14 @@ export async function analyzeRequest(
       ...(screen?.claims ?? []),
       ...(email?.claims ?? []),
       ...identity.claims,
+      ...(verdict !== 'no_signs'
+        ? messageClaims({
+            signals,
+            entities,
+            lang: req.lang,
+            collectRow: (collect?.claims.length ?? 0) > 0,
+          })
+        : []),
     ]),
     entities,
     layers: fusion.layers,

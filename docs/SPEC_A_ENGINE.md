@@ -378,6 +378,20 @@ Map from verdict, category and signals to an ordered `ActionId[]` (max 5). Examp
 
 Template per language: category one-liner + the top two reasons, at most two sentences, plain words, second person. AI explanation replaces it when AI was used and validated. Never use "safe"; for `no_signs` say "No warning signs found. Still, never share your OTP or PIN with anyone."
 
+**Attack story** (`pipeline/story.ts`, added 2026-11-20).
+- When a flagged result shows **three or more attack stages**, one more sentence goes **last**. The stages are: hook (trusted name or lure), pressure, getting onto the device, and taking money or credentials.
+  - Example: "How this scam works: pretends to be your bank → threatens to block your account → sends a link to a fake website → asks for your OTP."
+  - It goes last because Elder mode reads only the first sentence.
+- Each step names a signal that fired, so the story claims nothing beyond what the checks found.
+- `attackStory(signals, lang)` and `manipulationTactics(signals, lang)` are exported for a richer display. The tactics are fear, artificial urgency, authority pressure, secrecy and isolation, reward bait, false guarantees, and the payment-direction trick.
+
+**Message claim rows** (`claims/truth.ts`) appear in `claimVsReality` for flagged results:
+- **"You will receive ₹X" vs "Entering your UPI PIN sends ₹X from your account to {UPI ID}"**, when RECEIVE_WITH_PIN or QR_TO_RECEIVE comes in a message. The collect form already adds its own row.
+- **Police, court or government claims:**
+  - With a personal UPI ID: a mismatch.
+  - With "stay on the call" or "keep it secret": a mismatch, noting there is no "digital arrest" in Indian law.
+  - With only a personal mobile number: **not** a mismatch, just "could not be verified as official".
+
 ---
 
 ## 9. Chat and email (P4)
