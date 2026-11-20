@@ -14,6 +14,7 @@ import {
 
 test('1. landing: typing a scam phrase moves the live meter above 40', async ({ page }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Check a message' }).click();
   await page.getByLabel(EN.inputLabel).fill(KYC_TEXT);
   const meter = page.getByRole('img', { name: /^Live risk: \d+ out of 100$/ });
   await expect(async () => {

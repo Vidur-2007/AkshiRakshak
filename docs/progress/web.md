@@ -1,6 +1,52 @@
 # Progress — web
 
+Since 2026-11-20 the web app is maintained in the single session on `feat/engine` (see CLAUDE.md). Laptop B no longer edits `apps/web/`.
+
 ## Done
+
+### Redesign to the human's design file (20 Nov 2026)
+
+The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by night, cyan for Akshi, red only for danger. Instrument Serif headings with Inter Tight text, and Space Grotesk / Space Mono for the cards and numbers. Liquid-glass pills.
+
+**Foundation (every page)**
+- **Two themes:** `tokens.css` has a night and a day token set on `<html data-theme>`.
+  - The preference is follow the phone (default), day or night. It's set in the store and applied before first paint by `index.html`.
+  - Switches: a day/night switch in the top bar, a switch in the More sheet on phones, and a three-way choice in Settings.
+  - Strings in en, hi, te and bn.
+- **Contrast in both themes:**
+  - Day text `#10161d` / `#545f6c`.
+  - Day `--brand` is `#006a80`, because bright cyan can't be text on paper. The bright cyan stays for glows and fills.
+  - Day risk colours: scam `#c8193c`, suspicious `#9a5200`, no signs `#137337`.
+  - White hover tints became a theme-aware `overlay` colour.
+- **Buttons are pills:** ink for the main action, a new `cyan` variant, and glass for outline/secondary.
+- **Headings:** the serif at weight 400. All-caps labels stay sans and spaced (the design's eyebrow).
+- **Top bar:** the design's three columns (links | serif wordmark | tools, SOS). The SOS pill shows "SOS" below 1536 px so everything fits.
+- **Fonts:** self-hosted via Fontsource, so they work offline. Geist was removed.
+
+**Landing (`/`)**: three full-screen moments that snap one at a time with normal scrolling (CSS scroll-snap; no wheel hijacking), with section dots.
+1. **Phone x-ray:**
+   - The bundled fake-KYC sample is analysed by the real engine. Akshi view shows its real highlights and score (Scam 95).
+   - The Normal / Akshi view switch is from the design.
+   - "Check a message" opens the real paste box with the live meter. Scan morphs into the result.
+2. **Shield eye:** lights up with a flicker the first time it's seen, or on tap.
+3. **Scam deck:**
+   - 19 cards, one per scam category, using the engine's translated names and one-liners. Each card has two warning-sign tags.
+   - Flick, drag, arrows and arrow keys all work. It autoplays only while on screen.
+   - The "Shield on" switch turns every card to "Caught".
+   - Help links underneath: 1930, cybercrime.gov.in, Chakshu.
+- **Loader:** the "AKSHI" loader plays on the first visit only. It's skipped with reduced motion, in Elder mode, with `?demo` / `?simple` / tour links, and under automation.
+- **Top bar:** turns dark over the dark moments.
+- **Copy changed for the truth rules (§1.3):**
+  - "a safe look at every link" → "a careful look".
+  - "nothing leaves your phone" → "Text checks run on your phone, even offline", because link expansion and the optional AI do go online.
+  - "Blocked" → "Caught", because the app can't block anything.
+- **Removed:** ShieldCore, ShieldPoster, Story, `shieldMath.ts`, `lenis`.
+
+**Tests**
+- Landing unit tests rewritten. Browser smoke test 1 now opens the check first.
+- The performance test now checks that the deck only moves while on screen. The canvas test is gone.
+- The axe check runs on every page in **both themes**.
+- Results on this laptop: 36/36 accessibility checks pass in day and night. The full browser suite passes through Edge.
 
 ### Phase 0 — scaffold, tokens, shell (14 Nov 2026)
 

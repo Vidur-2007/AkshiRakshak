@@ -9,7 +9,10 @@ export function MobileHeader() {
   const { t } = useTranslation();
   const openPalette = usePalette((s) => s.setOpen);
   return (
-    <header className="sticky top-0 z-40 border-b border-glass-border bg-bg/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl lg:hidden">
+    <header
+      data-shell-header
+      className="sticky top-0 z-40 border-b border-glass-border bg-bg/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl lg:hidden"
+    >
       <div className="flex h-topbar items-center gap-2 px-4">
         <Logo />
         <div className="ml-auto flex items-center gap-1.5">

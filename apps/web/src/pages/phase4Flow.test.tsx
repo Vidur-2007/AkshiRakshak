@@ -24,8 +24,9 @@ beforeEach(() => {
 });
 
 describe('Landing', () => {
-  it('scores as you type, then the hero Scan runs the real scan', async () => {
+  it('opens the real check from the hero: scores as you type, then Scan runs the real scan', async () => {
     const router = open('/');
+    fireEvent.click(await screen.findByRole('button', { name: en.home.check }, T));
     const input = await screen.findByLabelText(en.landing.inputLabel, {}, T);
     fireEvent.change(input, {
       target: {
@@ -42,28 +43,36 @@ describe('Landing', () => {
     await waitFor(() => expect(router.state.location.pathname).toMatch(/^\/scan\/.+/), T);
   });
 
-  it('has the seven story sections, no placeholder label on the measured proof numbers, and help links', async () => {
+  it('has the three moments, the Akshi view switch, the scam deck and the help links', async () => {
     open('/');
-    for (const title of [
-      en.story.anatomyTitle,
-      en.story.pinTitle,
-      en.story.modulesTitle,
-      en.story.proofTitle,
-      en.story.offlineTitle,
-      en.story.langTitle,
-      en.story.ctaTitle,
-    ]) {
-      expect(await screen.findByRole('heading', { level: 2, name: title }, T)).toBeTruthy();
-    }
-    expect(screen.queryByText(new RegExp(en.proof.placeholderTitle))).toBeNull();
+    expect(await screen.findByRole('heading', { level: 1 }, T)).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: /Paste it/ })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: /tricks/ })).toBeTruthy();
+
+    const view = screen.getByRole('button', { name: en.home.toAkshi });
+    fireEvent.click(view);
+    expect(
+      screen.getByRole('button', { name: en.home.toNormal }).getAttribute('aria-pressed'),
+    ).toBe('true');
+
+    const deck = screen.getByRole('region', { name: en.home.deckLabel });
+    // every scam type is a card; only the front one is exposed to screen readers
+    expect(within(deck).getAllByRole('group', { hidden: true }).length).toBeGreaterThanOrEqual(15);
+    expect(within(deck).getAllByRole('group')).toHaveLength(1);
+    fireEvent.click(screen.getByRole('button', { name: en.home.next }));
+    expect(await screen.findByText(/^2 of \d+ · /, {}, T)).toBeTruthy();
+
     const hrefs = screen.getAllByRole('link').map((a) => a.getAttribute('href'));
     expect(hrefs).toEqual(
       expect.arrayContaining([
         'tel:1930',
         'https://cybercrime.gov.in',
         'https://sancharsaathi.gov.in/sfc/',
+        '/tour?start=1',
       ]),
     );
+    // §1.3: the landing never calls anything "safe"
+    expect(screen.queryByText(/\bsafe\b/i)).toBeNull();
   });
 });
 
@@ -164,7 +173,9 @@ describe('Ask', () => {
 describe('Proof', () => {
   it('shows every block, without the placeholder banner for the measured report', async () => {
     open('/proof');
-    expect(await screen.findByRole('heading', { level: 2, name: en.proof.vsTitle }, T)).toBeTruthy();
+    expect(
+      await screen.findByRole('heading', { level: 2, name: en.proof.vsTitle }, T),
+    ).toBeTruthy();
     expect(screen.queryByText(new RegExp(en.proof.placeholderTitle))).toBeNull();
     for (const label of [
       en.proof.vsTitle,
@@ -180,7 +191,8 @@ describe('Proof', () => {
       expect(screen.getByRole('heading', { level: 2, name: label })).toBeTruthy();
     }
     // one label per configuration in the bundled report (full_ai_sample appears after the AI sample run)
-    for (const c of EVAL_REPORT.configs) expect(screen.getByText(en.proof.cfg[c.name])).toBeTruthy();
+    for (const c of EVAL_REPORT.configs)
+      expect(screen.getByText(en.proof.cfg[c.name])).toBeTruthy();
     expect(screen.getByText(en.proof.mSynthetic)).toBeTruthy();
   });
 });

@@ -28,7 +28,7 @@ async function axe(page: Page) {
   );
 }
 
-for (const path of [
+const PAGES = [
   '/',
   '/scan',
   '/modules/collect',
@@ -42,20 +42,30 @@ for (const path of [
   '/learn/dojo',
   '/learn/ask',
   '/network',
-]) {
-  test(`axe: ${path}`, async ({ page }) => {
-    await page.goto(path);
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(800); // page-in transition
-    expect(await axe(page)).toEqual([]);
+];
+
+// Both themes (2026-11-20): the app follows the phone, so the browser's colour scheme picks
+// day (light) or night (dark).
+for (const scheme of ['light', 'dark'] as const) {
+  test.describe(`${scheme === 'light' ? 'day' : 'night'} theme`, () => {
+    test.use({ colorScheme: scheme });
+
+    for (const path of PAGES) {
+      test(`axe: ${path}`, async ({ page }) => {
+        await page.goto(path);
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(800); // page-in transition
+        expect(await axe(page)).toEqual([]);
+      });
+    }
+
+    test('axe: analysis screen after the reveal', async ({ page }) => {
+      await openAnalysisFromSample(page, EN.fakeKyc);
+      await page.waitForTimeout(1600);
+      expect(await axe(page)).toEqual([]);
+    });
   });
 }
-
-test('axe: analysis screen after the reveal', async ({ page }) => {
-  await openAnalysisFromSample(page, EN.fakeKyc);
-  await page.waitForTimeout(1600);
-  expect(await axe(page)).toEqual([]);
-});
 
 test('keyboard: Quick Scan → Analysis → a highlighted phrase → Copy evidence', async ({
   page,

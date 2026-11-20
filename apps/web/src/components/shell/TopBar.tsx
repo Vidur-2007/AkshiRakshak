@@ -77,7 +77,10 @@ export function TopBar() {
   const iconBtn =
     'inline-flex size-10 elder:size-tap items-center justify-center rounded-full text-text/75 transition-colors hover:bg-overlay/6 hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand';
   return (
-    <header className="sticky top-0 z-40 hidden border-b border-glass-border bg-bg/85 backdrop-blur-xl lg:block">
+    <header
+      data-shell-header
+      className="sticky top-0 z-40 hidden border-b border-glass-border bg-bg/85 backdrop-blur-xl lg:block"
+    >
       <div className="mx-auto grid h-topbar max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6">
         <nav aria-label={t('nav.main')} className="flex min-w-0 items-center gap-0.5">
           <TopLink item={SCAN} />
