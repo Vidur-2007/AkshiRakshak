@@ -131,7 +131,7 @@ function RejectSheetBody({ result }: { result: AnalysisResult }) {
           <ul className="mt-3 flex flex-col gap-1">
             {values.map((v) => (
               <li key={v.value}>
-                <label className="flex min-h-tap cursor-pointer items-center gap-3 rounded-chip px-2 hover:bg-white/5">
+                <label className="flex min-h-tap cursor-pointer items-center gap-3 rounded-chip px-2 hover:bg-overlay/5">
                   <input
                     type="checkbox"
                     className="size-4.5 accent-[var(--brand)]"

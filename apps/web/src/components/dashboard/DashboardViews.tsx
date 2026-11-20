@@ -70,7 +70,7 @@ export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
             >
               <Link
                 to={`/scan/${s.id}`}
-                className="flex min-h-tap items-center gap-3 rounded-chip px-2 py-2 hover:bg-white/5 outline-none focus-visible:outline-2 focus-visible:outline-brand"
+                className="flex min-h-tap items-center gap-3 rounded-chip px-2 py-2 hover:bg-overlay/5 outline-none focus-visible:outline-2 focus-visible:outline-brand"
               >
                 <Icon
                   className="size-5 shrink-0"
@@ -123,7 +123,7 @@ export function BarList({
           className="grid grid-cols-[minmax(0,9rem)_minmax(0,1fr)_3rem] items-center gap-3 text-sm"
         >
           <span className="truncate">{r.label}</span>
-          <span className="h-2.5 overflow-hidden rounded-full bg-white/6" aria-hidden>
+          <span className="h-2.5 overflow-hidden rounded-full bg-overlay/6" aria-hidden>
             <m.span
               className="block h-full rounded-full bg-brand/70"
               style={{ originX: 0 }}

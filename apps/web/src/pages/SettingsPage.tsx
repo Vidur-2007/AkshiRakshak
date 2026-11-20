@@ -2,6 +2,7 @@ import { Database, Trash2, UserRound, X } from 'lucide-react';
 import { AlertDialog } from 'radix-ui';
 import { useCallback, useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ChoiceGroup } from '@/components/modules/ChoiceGroup';
 import { ElderToggle } from '@/components/shell/ElderToggle';
 import { LanguageSwitcher } from '@/components/shell/LanguageSwitcher';
 import { buttonVariants } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import {
 } from '@/lib/db';
 import { useSession } from '@/lib/session';
 import { useAppStore } from '@/lib/store';
+import type { ThemePref } from '@/lib/theme';
 
 function Card({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
   return (
@@ -198,7 +200,7 @@ function PrivacyPanel() {
                   type="button"
                   aria-label={t('settings.unblock', { value: b.value })}
                   onClick={() => void removeFromBlocklist(b.value).then(refresh)}
-                  className="inline-flex size-8 items-center justify-center rounded-[10px] text-text-2 hover:bg-white/8 hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
+                  className="inline-flex size-8 items-center justify-center rounded-[10px] text-text-2 hover:bg-overlay/8 hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
                 >
                   <X className="size-4" aria-hidden />
                 </button>
@@ -272,6 +274,16 @@ export default function SettingsPage() {
       </Card>
 
       <Card title={t('settings.display')}>
+        <ChoiceGroup<ThemePref>
+          label={t('theme.label')}
+          value={s.theme}
+          onChange={s.setTheme}
+          choices={[
+            { value: 'system', label: t('theme.system') },
+            { value: 'day', label: t('theme.day') },
+            { value: 'night', label: t('theme.night') },
+          ]}
+        />
         <ElderToggle showHint className="justify-between" />
         <SwitchRow label={t('settings.voice')} checked={s.voiceAuto} onChange={s.setVoiceAuto} />
         <SwitchRow label={t('settings.haptics')} checked={s.haptics} onChange={s.setHaptics} />

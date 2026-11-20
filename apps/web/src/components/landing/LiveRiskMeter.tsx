@@ -46,7 +46,7 @@ export function LiveRiskMeter({ live }: { live: LiveScore | null }) {
       <div className="flex items-center gap-3">
         <span className="text-sm text-text-2">{t('landing.liveRisk')}</span>
         <div
-          className="relative h-2 flex-1 overflow-hidden rounded-full bg-white/8"
+          className="relative h-2 flex-1 overflow-hidden rounded-full bg-overlay/8"
           role="img"
           aria-label={`${t('landing.liveRisk')}: ${score} ${t('landing.outOf100')}`}
         >

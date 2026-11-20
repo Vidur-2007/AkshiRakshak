@@ -105,7 +105,7 @@ function EntityPanel({
                         <Link
                           to={`/scan/${s.id}`}
                           onClick={onClose}
-                          className="flex min-h-tap items-center gap-2 rounded-chip px-2 text-sm hover:bg-white/5"
+                          className="flex min-h-tap items-center gap-2 rounded-chip px-2 text-sm hover:bg-overlay/5"
                         >
                           <Icon className="size-4 shrink-0 text-text-2" aria-hidden />
                           <span className="truncate">{s.inputPreview}</span>

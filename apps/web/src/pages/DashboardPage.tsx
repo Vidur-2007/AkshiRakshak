@@ -286,7 +286,7 @@ function Landscape() {
 }
 
 const tabClass =
-  'min-h-tap rounded-chip px-4 text-sm font-medium text-text-2 transition-colors outline-none hover:text-text focus-visible:outline-2 focus-visible:outline-brand data-[state=active]:bg-white/8 data-[state=active]:text-text';
+  'min-h-tap rounded-chip px-4 text-sm font-medium text-text-2 transition-colors outline-none hover:text-text focus-visible:outline-2 focus-visible:outline-brand data-[state=active]:bg-overlay/8 data-[state=active]:text-text';
 
 /** Dashboard (§5.11): My shield, Lookup, Scam landscape. */
 export default function DashboardPage() {

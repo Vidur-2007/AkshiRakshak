@@ -142,7 +142,7 @@ export default function ForceGraphView({
           }
           if (scale > 1.6 && !dim) {
             ctx.globalAlpha = 0.9;
-            ctx.font = `${11 / scale}px Geist Mono Variable, monospace`;
+            ctx.font = `${11 / scale}px Space Mono, monospace`;
             ctx.fillStyle = '#e8eef6';
             ctx.textAlign = 'center';
             ctx.fillText(n.label, x, y + r + 12 / scale);

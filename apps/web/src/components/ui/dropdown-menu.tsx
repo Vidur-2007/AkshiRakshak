@@ -35,7 +35,7 @@ export function DropdownMenuItem({
     <DropdownMenuPrimitive.Item
       data-slot="dropdown-menu-item"
       className={cn(
-        'relative flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5 text-sm outline-none select-none data-[highlighted]:bg-white/6 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:mt-0.5 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-brand',
+        'relative flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5 text-sm outline-none select-none data-[highlighted]:bg-overlay/6 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:mt-0.5 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-brand',
         className,
       )}
       {...props}

@@ -27,8 +27,8 @@ export default function TopMenu({
       <DropdownMenuTrigger
         className={cn(
           linkBase,
-          'data-[state=open]:bg-white/8 data-[state=open]:text-text',
-          active ? 'bg-white/8 text-text' : 'text-text-2 hover:text-text',
+          'data-[state=open]:bg-overlay/8 data-[state=open]:text-text',
+          active ? 'bg-overlay/8 text-text' : 'text-text-2 hover:text-text',
         )}
       >
         {label}

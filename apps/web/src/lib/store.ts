@@ -8,6 +8,7 @@ import { detectDeviceTier, type DeviceTier } from './deviceTier';
 import type { Lang } from './engine';
 import { UI_LANGS as LANGS } from './langs';
 import { safeLocalStorage } from './safeStorage';
+import { isThemePref, type ThemePref } from './theme';
 import { useSession } from './session';
 
 export interface TrustedContact {
@@ -25,6 +26,8 @@ export interface PersistedPrefs {
   /** stored on this device only */
   trustedContact: TrustedContact | null;
   onboarded: boolean;
+  /** day / night / follow the phone */
+  theme: ThemePref;
 }
 
 export interface RuntimeState {
@@ -42,6 +45,7 @@ export interface Actions {
   setHaptics(on: boolean): void;
   setTrustedContact(contact: TrustedContact | null): void;
   setOnboarded(on: boolean): void;
+  setTheme(theme: ThemePref): void;
   setOnline(online: boolean): void;
   setDeviceTier(tier: DeviceTier): void;
   setLastResultId(id: string | null): void;
@@ -75,6 +79,7 @@ export const DEFAULT_PREFS: PersistedPrefs = {
   haptics: true,
   trustedContact: null,
   onboarded: false,
+  theme: 'system',
 };
 
 export const useAppStore = create<AppState>()(
@@ -96,6 +101,7 @@ export const useAppStore = create<AppState>()(
       setHaptics: (haptics) => set({ haptics }),
       setTrustedContact: (trustedContact) => set({ trustedContact }),
       setOnboarded: (onboarded) => set({ onboarded }),
+      setTheme: (theme) => set({ theme }),
       setOnline: (online) => set({ online }),
       setDeviceTier: (deviceTier) => set({ deviceTier }),
       setLastResultId: (lastResultId) => set({ lastResultId }),
@@ -112,6 +118,7 @@ export const useAppStore = create<AppState>()(
         haptics: s.haptics,
         trustedContact: s.trustedContact,
         onboarded: s.onboarded,
+        theme: s.theme,
       }),
       // Drop anything malformed from storage instead of trusting it.
       merge: (persisted, current) => ({ ...current, ...sanitizePrefs(persisted) }),
@@ -127,6 +134,7 @@ export function sanitizePrefs(raw: unknown): Partial<PersistedPrefs> {
   for (const k of ['elderMode', 'aiOptIn', 'voiceAuto', 'haptics', 'onboarded'] as const) {
     if (typeof r[k] === 'boolean') out[k] = r[k];
   }
+  if (isThemePref(r.theme)) out.theme = r.theme;
   const tc = r.trustedContact;
   if (tc === null) out.trustedContact = null;
   else if (

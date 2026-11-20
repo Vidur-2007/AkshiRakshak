@@ -16,8 +16,9 @@ export function SosPill({ className }: { className?: string }) {
       )}
     >
       <Siren className="size-4" aria-hidden />
-      <span className="hidden whitespace-nowrap xl:inline">{t('shell.sosPill')}</span>
-      <span className="xl:hidden">{t('nav.sosShort')}</span>
+      {/* the full words fit beside the centred wordmark only on wide screens */}
+      <span className="hidden whitespace-nowrap 2xl:inline">{t('shell.sosPill')}</span>
+      <span className="2xl:hidden">{t('nav.sosShort')}</span>
     </Link>
   );
 }

@@ -42,7 +42,7 @@ export function LanguageSwitcher({
             className={cn(
               'min-h-9 rounded-[10px] px-2.5 text-sm font-medium transition-colors duration-150 outline-none focus-visible:outline-2 focus-visible:outline-brand',
               full && 'min-h-tap flex-1 px-3',
-              active ? 'bg-brand/15 text-brand' : 'text-text-2 hover:bg-white/6 hover:text-text',
+              active ? 'bg-brand/15 text-brand' : 'text-text-2 hover:bg-overlay/6 hover:text-text',
             )}
           >
             {full ? t(`lang.${l}`) : LANG_SHORT[l]}

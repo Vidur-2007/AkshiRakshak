@@ -189,7 +189,7 @@ export default function TransactionsPage() {
                           setLoaded({ name: r.name, analysis: r.analysis, errors: [] });
                           setSelected(sortAnomalies(r.analysis.anomalies)[0]?.id ?? null);
                         }}
-                        className="flex min-h-tap w-full items-center justify-between gap-3 rounded-chip px-3 text-left text-sm hover:bg-white/5 outline-none focus-visible:outline-2 focus-visible:outline-brand"
+                        className="flex min-h-tap w-full items-center justify-between gap-3 rounded-chip px-3 text-left text-sm hover:bg-overlay/5 outline-none focus-visible:outline-2 focus-visible:outline-brand"
                       >
                         <span className="truncate">{r.name}</span>
                         <span className="shrink-0 text-xs text-text-2">
@@ -269,7 +269,7 @@ export default function TransactionsPage() {
                           type="button"
                           aria-pressed={x.id === current?.id}
                           onClick={() => setSelected(x.id)}
-                          className={`w-full rounded-chip border px-3 py-2.5 text-left text-sm transition-colors outline-none focus-visible:outline-2 focus-visible:outline-brand ${x.id === current?.id ? 'border-brand/50 bg-brand/10' : 'border-glass-border hover:bg-white/5'}`}
+                          className={`w-full rounded-chip border px-3 py-2.5 text-left text-sm transition-colors outline-none focus-visible:outline-2 focus-visible:outline-brand ${x.id === current?.id ? 'border-brand/50 bg-brand/10' : 'border-glass-border hover:bg-overlay/5'}`}
                         >
                           <span className="font-medium">{x.title}</span>
                           <span className="block text-xs text-text-2">

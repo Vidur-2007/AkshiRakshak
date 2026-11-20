@@ -868,5 +868,13 @@
       "title": "Tips from your own checks",
       "body": "Check any message you are unsure about. Tips based on what you checked appear here."
     }
+  },
+  "theme": {
+    "label": "Theme",
+    "system": "Follow my phone",
+    "day": "Day",
+    "night": "Night",
+    "toDay": "Switch to day theme",
+    "toNight": "Switch to night theme"
   }
 }

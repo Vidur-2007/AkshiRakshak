@@ -1,17 +1,41 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" data-theme="night">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#05070B" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#05070b" />
+    <meta name="color-scheme" content="dark light" />
     <meta
       name="description"
       content="Akshi Rakshak checks messages, links, UPI IDs, QR codes and collect requests for scam signs, on your device."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <title>Akshi Rakshak — Scan Anything. Stop Fraud Before It Happens.</title>
+    <title>Akshi Rakshak — Every message, seen clearly</title>
+    <script>
+      // Day or night before the first paint (same rules as src/lib/theme.ts), so there is no flash.
+      (function () {
+        var pref = 'system';
+        try {
+          var raw = localStorage.getItem('akshi-prefs');
+          var t = raw && JSON.parse(raw).state && JSON.parse(raw).state.theme;
+          if (t === 'day' || t === 'night' || t === 'system') pref = t;
+        } catch (e) {}
+        var theme = pref;
+        if (pref === 'system') {
+          try {
+            theme = matchMedia('(prefers-color-scheme: light)').matches ? 'day' : 'night';
+          } catch (e) {
+            theme = 'night';
+          }
+        }
+        var root = document.documentElement;
+        root.setAttribute('data-theme', theme);
+        if (theme === 'day') root.classList.remove('dark');
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'day' ? '#eef0f2' : '#05070b');
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

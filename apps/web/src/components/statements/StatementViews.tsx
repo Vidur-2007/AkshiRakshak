@@ -294,7 +294,7 @@ export function SpendingSummary({ summary }: { summary: StatementAnalysis['summa
               className="grid grid-cols-[7rem_minmax(0,1fr)_5rem] items-center gap-2 text-sm"
             >
               <span className="truncate">{t(`spend.${c.category}`)}</span>
-              <span className="h-2 overflow-hidden rounded-full bg-white/6" aria-hidden>
+              <span className="h-2 overflow-hidden rounded-full bg-overlay/6" aria-hidden>
                 <m.span
                   className="block h-full rounded-full bg-brand/70"
                   style={{ originX: 0 }}
@@ -324,7 +324,7 @@ export function SpendingSummary({ summary }: { summary: StatementAnalysis['summa
                   <span className="text-xs text-text-2">
                     {k === 'in' ? t('tx.moneyIn') : t('tx.moneyOut')}
                   </span>
-                  <span className="h-2 overflow-hidden rounded-full bg-white/6" aria-hidden>
+                  <span className="h-2 overflow-hidden rounded-full bg-overlay/6" aria-hidden>
                     <span
                       className={cn(
                         'block h-full rounded-full',

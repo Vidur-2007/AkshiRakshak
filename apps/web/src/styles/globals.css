@@ -22,6 +22,10 @@
   --color-risk-warn: var(--risk-warn);
   --color-risk-scam: var(--risk-scam);
   --color-risk-scam-solid: var(--risk-scam-solid);
+  --color-overlay: var(--overlay);
+  --color-ink-fill: var(--ink-fill);
+  --color-ink-fill-text: var(--ink-fill-text);
+  --color-cyan: var(--cyan);
 
   /* shadcn/ui names, restyled to our tokens */
   --color-background: var(--bg);
@@ -36,11 +40,11 @@
   --color-secondary-foreground: var(--text);
   --color-muted: var(--surface-2);
   --color-muted-foreground: var(--text-2);
-  --color-accent: rgba(255, 255, 255, 0.06);
+  --color-accent: color-mix(in srgb, var(--overlay) 6%, transparent);
   --color-accent-foreground: var(--text);
   --color-destructive: var(--risk-scam);
   --color-border: var(--glass-border);
-  --color-input: rgba(255, 255, 255, 0.12);
+  --color-input: color-mix(in srgb, var(--overlay) 14%, transparent);
   --color-ring: var(--brand);
 
   --radius-chip: var(--radius-chip);
@@ -52,9 +56,13 @@
   --radius-xl: var(--radius-sheet);
 
   --font-sans:
-    'Geist Variable', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Bengali', ui-sans-serif,
-    system-ui, sans-serif;
-  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    'Inter Tight Variable', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Bengali',
+    ui-sans-serif, system-ui, sans-serif;
+  --font-serif:
+    'Instrument Serif', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Bengali', Georgia,
+    serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Tight Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
   --text-sm: var(--text-size-sm);
   --text-sm--line-height: inherit;
@@ -90,7 +98,6 @@
   html {
     background: var(--bg);
     color: var(--text);
-    color-scheme: dark;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -110,15 +117,16 @@
   /* Indic scripts: own font first, taller line height (§3.2). Works on <html lang>
      and on any element whose language differs (§6). */
   :lang(hi) {
-    font-family: 'Noto Sans Devanagari', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    font-family:
+      'Noto Sans Devanagari', 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: var(--leading-indic);
   }
   :lang(te) {
-    font-family: 'Noto Sans Telugu', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Noto Sans Telugu', 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: var(--leading-indic);
   }
   :lang(bn) {
-    font-family: 'Noto Sans Bengali', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Noto Sans Bengali', 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: var(--leading-indic);
   }
   :lang(en) {
@@ -161,6 +169,52 @@
 }
 
 @layer components {
+  /* Liquid-glass pill (the design's .pill): buttons and calls to action. */
+  .pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    border: 1px solid var(--pill-border);
+    background: var(--pill-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    backdrop-filter: blur(14px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--pill-highlight),
+      0 10px 30px -14px rgb(0 0 0 / 0.35);
+    font-weight: 500;
+    color: var(--text);
+    overflow: hidden;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+  }
+  .pill:hover {
+    border-color: color-mix(in srgb, var(--overlay) 28%, transparent);
+  }
+  .pill-ink {
+    background: var(--ink-fill);
+    color: var(--ink-fill-text);
+    border-color: transparent;
+  }
+  .pill-cyan {
+    background: var(--cyan);
+    color: #04121a;
+    border-color: rgb(255 255 255 / 0.6);
+  }
+  .pill-sm {
+    min-height: 2.375rem;
+    padding: 0 1rem;
+    font-size: var(--text-size-sm);
+  }
+  html.elder .pill {
+    min-height: var(--tap);
+  }
+
   .glass {
     background: var(--glass);
     -webkit-backdrop-filter: blur(var(--glass-blur));
@@ -238,6 +292,31 @@ html.elder .anomaly-pulse {
 :focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 2px;
+}
+
+/*
+ * Headings in Instrument Serif (design 2026-11-20). It has one weight, so headings are 400
+ * everywhere; unlayered so a leftover font-semibold utility cannot fake a bold serif. Indic
+ * headings fall back to Noto Sans (the serif has no Indic glyphs).
+ */
+h1,
+h2,
+.font-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+/* small all-caps labels are eyebrows, not titles: sans, spaced (the design's .eyebrow) */
+:is(h1, h2, h3).uppercase {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+:lang(hi) :is(h1, h2),
+:lang(te) :is(h1, h2),
+:lang(bn) :is(h1, h2) {
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 /* Page-header entrance: transform only, so the text (often the LCP element) is

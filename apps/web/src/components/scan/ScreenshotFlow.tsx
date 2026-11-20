@@ -155,7 +155,7 @@ export function ScreenshotFlow({
         {step.kind === 'reading' && (
           <div role="status" aria-live="polite" className="flex flex-col gap-2">
             <div
-              className="h-2 overflow-hidden rounded-full bg-white/8"
+              className="h-2 overflow-hidden rounded-full bg-overlay/8"
               role="progressbar"
               aria-valuemin={0}
               aria-valuemax={100}

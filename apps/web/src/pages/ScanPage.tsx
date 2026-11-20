@@ -66,7 +66,7 @@ function useAutoGrow(value: string, maxPx = 420) {
 type Sheet = 'screenshot' | 'qr' | 'listen' | null;
 
 const toolBtn =
-  'relative inline-flex min-h-10 items-center gap-2 rounded-chip px-3 text-sm text-text-2 transition-colors duration-150 hover:bg-white/6 hover:text-text disabled:opacity-50 outline-none focus-visible:outline-2 focus-visible:outline-brand';
+  'relative inline-flex min-h-10 items-center gap-2 rounded-chip px-3 text-sm text-text-2 transition-colors duration-150 hover:bg-overlay/6 hover:text-text disabled:opacity-50 outline-none focus-visible:outline-2 focus-visible:outline-brand';
 
 export default function ScanPage() {
   const { t } = useTranslation();

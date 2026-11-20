@@ -1,33 +1,79 @@
 /*
- * Akshi Rakshak design tokens (SPEC_B_WEB.md §3.1).
- * Red, amber and green appear only when they mean a risk level.
- * Glow is reserved for the verdict and the shield.
+ * Akshi Rakshak design tokens (SPEC_B_WEB.md §3.1, restyled 2026-11-20).
+ *
+ * Two themes, set on <html data-theme="night|day"> (lib/theme.ts; index.html sets it before the
+ * first paint): near-black by night, cool paper by day. Cyan is Akshi; red, amber and green appear
+ * only when they mean a risk level. Every text colour below meets WCAG AA (4.5:1) on --bg,
+ * --surface and --surface-2 of its own theme.
  */
-:root {
+:root,
+html[data-theme='night'] {
+  color-scheme: dark;
   /* surfaces */
   --bg: #05070b;
   --surface: #0b1018;
   --surface-2: #111826;
   --glass: rgba(18, 26, 38, 0.72);
   --glass-blur: 16px;
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.09);
   /* Text on glass sits on a backing of at least 72% opacity (§3.1). */
   --glass-text-backing: rgba(11, 16, 24, 0.72);
+  /* hover / pressed tints and the glass-pill highlight */
+  --overlay: #ffffff;
+  --pill-bg: rgba(255, 255, 255, 0.07);
+  --pill-border: rgba(255, 255, 255, 0.16);
+  --pill-highlight: rgba(255, 255, 255, 0.22);
+  --ink-fill: #f4f7fb; /* the solid "ink" pill */
+  --ink-fill-text: #10161d;
 
   /* text */
-  --text: #e8eef6;
-  --text-2: #93a1b5;
+  --text: #f1ebe0;
+  --text-2: #9a948a;
 
   /* accents */
   --brand: #3de0ff;
-  --brand-contrast: #05070b;
-  --ai: #7c5cff;
+  --brand-contrast: #04121a;
+  --ai: #8f75ff;
 
   /* risk — use only to mean a risk level */
   --risk-safe: #22c55e; /* "No warning signs found" */
   --risk-warn: #f5a524; /* suspicious */
-  --risk-scam: #ff3b5c; /* scam: text, strokes and dots on dark surfaces (5.8:1) */
-  --risk-scam-solid: #d91f45; /* scam fill behind white text (4.96:1, WCAG AA) */
+  --risk-scam: #ff3b5c; /* scam: text, strokes and dots (5.8:1) */
+  --risk-scam-solid: #d91f45; /* scam fill behind white text (4.96:1) */
+}
+
+html[data-theme='day'] {
+  color-scheme: light;
+  --bg: #eef0f2;
+  --surface: #f8f9fa;
+  --surface-2: #e4e8ec;
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(16, 22, 29, 0.11);
+  --glass-text-backing: rgba(248, 249, 250, 0.82);
+  --overlay: #10161d;
+  --pill-bg: rgba(255, 255, 255, 0.55);
+  --pill-border: rgba(16, 22, 29, 0.12);
+  --pill-highlight: rgba(255, 255, 255, 0.85);
+  --ink-fill: #10161d;
+  --ink-fill-text: #f4f7fb;
+
+  --text: #10161d; /* 15.9:1 on paper */
+  --text-2: #545f6c; /* 5.3:1 on --surface-2 */
+
+  --brand: #006a80; /* cyan that reads on paper: 5.1:1 on --surface-2 */
+  --brand-contrast: #ffffff; /* white on --brand: 5.9:1 */
+  --ai: #5b3fd9;
+
+  --risk-safe: #137337;
+  --risk-warn: #9a5200;
+  --risk-scam: #c8193c;
+  --risk-scam-solid: #c8193c; /* white on it: 5.7:1 */
+}
+
+:root {
+  /* Akshi cyan as light, in both themes: glows, the shield, scanning lines (never text on paper) */
+  --cyan: #3de0ff;
+  --red: #ff3b5c;
 
   /* verdict glow: risk colour at 35%, 24–48px blur */
   --glow-opacity: 0.35;
@@ -38,9 +84,9 @@
   --glow-scam: 0 0 var(--glow-blur-lg) rgb(255 59 92 / var(--glow-opacity));
   --glow-brand: 0 0 var(--glow-blur-lg) rgb(61 224 255 / var(--glow-opacity));
 
-  /* radius: chips / cards / sheets */
+  /* radius: chips / cards / sheets; buttons are pills (999px) */
   --radius-chip: 12px;
-  --radius-card: 16px;
+  --radius-card: 18px;
   --radius-sheet: 24px;
 
   /* spacing: 4px base scale */
@@ -52,9 +98,8 @@
   --text-size-lg: 1.25rem; /* 20 */
   --text-size-xl: 1.75rem; /* 28 */
   --text-size-2xl: 2.5rem; /* 40 */
-  /* 48–88; capped by height too, so the hero input and live meter stay above the fold at 1280×800 */
-  --text-size-hero: clamp(3rem, min(7vw, 9vh), 5.5rem);
-  --leading-latin: 1.4;
+  --text-size-hero: clamp(2.75rem, min(6.6vw, 10vh), 6rem);
+  --leading-latin: 1.5;
   --leading-indic: 1.6;
 
   /* interaction */
@@ -72,8 +117,12 @@ html.elder {
   --tap: 56px;
   --glass: var(--surface);
   --glass-blur: 0px;
-  --glass-border: rgba(255, 255, 255, 0.16);
-  --text-2: #b4c0d0;
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --text-2: #b4ada2;
+}
+html.elder[data-theme='day'] {
+  --glass-border: rgba(16, 22, 29, 0.22);
+  --text-2: #3f4955;
 }
 
 /* Low device tier (§3.4): glass falls back to --surface-2 with no blur. */
