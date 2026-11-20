@@ -4,7 +4,7 @@
  * must ask first. The model only transcribes — no analysis, no translation. 8 s timeout.
  */
 import type { Lang } from '@akshi/contracts';
-import { AI_TIMEOUT_MS, LANG_NAMES } from './ai.js';
+import { AI_TIMEOUT_MS, fastThinking, LANG_NAMES } from './ai.js';
 
 /** ≤ 1.5 MB of image bytes (base64 is 4/3 of that). */
 export const MAX_IMAGE_BYTES = 1_500_000;
@@ -31,8 +31,10 @@ export function visionProviderFromEnv(env: NodeJS.ProcessEnv = process.env): Vis
         import('ai'),
         import('@ai-sdk/google'),
       ]);
+      const providerOptions = fastThinking('gemini', model);
       const r = await generateText({
         model: createGoogleGenerativeAI({ apiKey })(model),
+        ...(providerOptions ? { providerOptions } : {}),
         temperature: 0,
         maxOutputTokens: 1500,
         maxRetries: 0,
