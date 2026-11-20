@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   buildPrompt,
   cleanOutput,
+  fastThinking,
   providersFromEnv,
   runAi,
   sanitizeForPrompt,
@@ -81,6 +82,25 @@ describe('output validation', () => {
       REQ.maskedText,
     )!;
     expect(long.explanation.split(' ').length).toBeLessThanOrEqual(61);
+  });
+});
+
+describe('reasoning models think briefly', () => {
+  it('asks gpt-oss for low reasoning and Gemini 3 / 2.5 Flash for minimal thinking', () => {
+    expect(fastThinking('groq', 'openai/gpt-oss-20b')).toEqual({
+      groq: { reasoningEffort: 'low' },
+    });
+    expect(fastThinking('gemini', 'gemini-3.1-flash-lite')).toEqual({
+      google: { thinkingConfig: { thinkingLevel: 'minimal' } },
+    });
+    expect(fastThinking('gemini', 'gemini-2.5-flash-lite')).toEqual({
+      google: { thinkingConfig: { thinkingBudget: 0 } },
+    });
+  });
+
+  it('sends no options to models that do not reason', () => {
+    expect(fastThinking('groq', 'llama-3.3-70b-versatile')).toBeUndefined();
+    expect(fastThinking('gemini', 'gemini-2.0-flash')).toBeUndefined();
   });
 });
 

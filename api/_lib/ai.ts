@@ -1,8 +1,11 @@
 /**
  * AI second opinion, server side (SPEC_A_ENGINE.md §12.1).
  *
- * - Vercel AI SDK `generateObject` with a zod schema; temperature 0.2, ≤ 500 output tokens,
- *   no SDK retries, 8 s timeout per provider.
+ * - Vercel AI SDK `generateObject` with a zod schema; temperature 0.2, ≤ 1,500 output tokens,
+ *   no SDK retries, 8 s timeout per provider. Reasoning models think as little as they allow
+ *   (`fastThinking`): gpt-oss on Groq spent its token budget thinking and failed ("max completion
+ *   tokens reached"), and Gemini 3 timed out at 8 s every time while thinking. Measured
+ *   2026-11-20: Groq 0.4–1.0 s and Gemini 1.2–1.9 s with these settings, 3 of 3 each.
  * - Provider order: Groq (GROQ_MODEL) → Gemini (GEMINI_MODEL). On 429, timeout, invalid output or
  *   any other error from the first, the second is tried once. Both fail → 503 upstream_unavailable.
  * - Prompt-injection defence: the message is untrusted data inside <message> … </message>; tag-like
@@ -19,6 +22,7 @@ import {
   type ScamCategory,
 } from '@akshi/contracts';
 import { z } from 'zod';
+import type { JSONValue } from 'ai';
 import { claimsSafe, unsupportedClaim } from './truth.js';
 
 export const AI_TIMEOUT_MS = 8_000;
@@ -64,12 +68,37 @@ export interface AiProvider {
   }): Promise<unknown>;
 }
 
+/**
+ * Provider options that keep reasoning short, for models that support it (others get none, so a
+ * plain model name in GROQ_MODEL or GEMINI_MODEL keeps working).
+ */
+export function fastThinking(
+  provider: 'groq' | 'gemini',
+  model: string,
+): Record<string, Record<string, JSONValue>> | undefined {
+  if (provider === 'groq' && /gpt-oss/i.test(model)) return { groq: { reasoningEffort: 'low' } };
+  if (provider === 'gemini' && /gemini-3/i.test(model))
+    return { google: { thinkingConfig: { thinkingLevel: 'minimal' } } };
+  if (provider === 'gemini' && /gemini-2\.5-flash/i.test(model))
+    return { google: { thinkingConfig: { thinkingBudget: 0 } } };
+  return undefined;
+}
+
+function optionsFor(
+  provider: 'groq' | 'gemini',
+  model: string,
+): { providerOptions?: Record<string, Record<string, JSONValue>> } {
+  const providerOptions = fastThinking(provider, model);
+  return providerOptions ? { providerOptions } : {};
+}
+
 /** Providers with both a key and a model name configured, in fallback order. */
 export function providersFromEnv(env: NodeJS.ProcessEnv = process.env): AiProvider[] {
   const out: AiProvider[] = [];
   const common = {
     temperature: 0.2,
-    maxOutputTokens: 500,
+    // headroom for reasoning tokens; the text itself is cut to 60 / 90 words after validation
+    maxOutputTokens: 1500,
     maxRetries: 0,
   } as const;
   if (env.GROQ_API_KEY && env.GROQ_MODEL) {
@@ -87,6 +116,7 @@ export function providersFromEnv(env: NodeJS.ProcessEnv = process.env): AiProvid
           ...common,
           schema: schema ?? ModelOutputSchema,
           model: createGroq({ apiKey })(model),
+          ...optionsFor('groq', model),
           system,
           prompt,
           abortSignal: signal,
@@ -110,6 +140,7 @@ export function providersFromEnv(env: NodeJS.ProcessEnv = process.env): AiProvid
           ...common,
           schema: schema ?? ModelOutputSchema,
           model: createGoogleGenerativeAI({ apiKey })(model),
+          ...optionsFor('gemini', model),
           system,
           prompt,
           abortSignal: signal,
