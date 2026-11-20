@@ -3,8 +3,8 @@
 Scam and fraud detector for Indian UPI users (Arthaton 2026). Read docs/SPEC.md first, then your laptop's spec (SPEC_A_ENGINE.md, SPEC_B_WEB.md or SPEC_C_DATA.md), then your progress log in docs/progress/.
 
 ## Ownership — never edit files outside your area
-- Laptop A, branch feat/engine: packages/contracts, packages/engine, api/, scripts/, root config files, vercel.json, .github/, CLAUDE.md, docs/SPEC*.md, docs/PROMPTS*.md, docs/progress/engine.md
-- Laptop B, branch feat/web: apps/web/, docs/progress/web.md
+- Laptop A, branch feat/engine: packages/contracts, packages/engine, api/, scripts/, root config files, vercel.json, .github/, CLAUDE.md, docs/SPEC*.md, docs/PROMPTS*.md, docs/progress/engine.md, and since 2026-11-20 also apps/web/ and docs/progress/web.md (UI changes)
+- Laptop B, branch feat/web: no files from 2026-11-20. The human moved apps/web/ to Laptop A; B must not edit apps/web/ or push feat/web.
 - Laptop C, branch feat/data: packages/model, packages/insights, packages/content, ml/, data/, eval/, README.md, docs/progress/data.md, docs/dataset-card.md, docs/eval-notes.md, docs/i18n-review.md, docs/demo-script.md, docs/screenshots/
 If you need a change outside your area, write the exact request under "Requests" in your progress log and stop working on that item.
 
