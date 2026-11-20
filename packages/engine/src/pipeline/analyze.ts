@@ -40,7 +40,7 @@ import { inspectUrlsNetwork, rescoreUrl } from '../links/inspect';
 import { getModel, modelSignal, safePredict } from '../model';
 import { aiSignals, isOnline, requestAiOpinion } from '../ai';
 import { CATALOG } from '../rules/catalog';
-import { ensureLexicons, matchRules, toSignals } from '../rules/engine';
+import { ensureLexicons, matchRules, modelText, toSignals } from '../rules/engine';
 import {
   analyzeCollect,
   COLLECT_ACTIONS,
@@ -357,7 +357,7 @@ export async function analyzeRequest(
   if (model && text) {
     onStage?.({ stage: 'model', ms: 0, status: 'running' });
     const m0 = now();
-    prediction = safePredict(model, text);
+    prediction = safePredict(model, modelText(text));
     emit({ stage: 'model', ms: round2(now() - m0), status: prediction ? 'done' : 'failed' });
     if (prediction) modelSig = modelSignal(text, prediction, req.lang);
   } else skip('model');

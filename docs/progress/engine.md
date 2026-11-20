@@ -13,6 +13,35 @@
 
 ## Done
 
+**New features, Phase 1: adversarial hardening (2026-11-20).** The user asked for features that need no UI change and no contract change. Phase 1 catches disguised scam words.
+- **Matching view** (`rules/view.ts`, used by `matchRules`) undoes disguises before the lexicons run:
+  - Cyrillic and Greek lookalikes are folded to Latin.
+  - Split letters are joined: "S H A R E", "O.T.P.", "P*I*N", emoji between letters.
+  - A fully spaced-out phrase is split back into words using the Latin lexicon vocabulary ("S H A R E Y O U R O T P" → "share your otp").
+  - A letter repeated three or more times is reduced to one. The words around it are also read with two, because "CVVVV" is "CVV".
+  - Then the existing digit-for-letter swaps run.
+- An index map sends every match back to the original characters, so underlines stay right. "/" and apostrophes end a run, so "a/c" and "don't" are untouched.
+- **The model reads the same undisguised text** (`modelText`).
+- **Evasion suite** (`test/adversarial.test.ts`): 12 base scams (en, Hinglish, hi, te, bn) × 9 disguises applied to the words a scammer would hide.
+  - Main signal still found: **50/108 before → 108/108 after**.
+
+    | Disguise | Before | After |
+    |---|---|---|
+    | Spaced | 3 | 12 |
+    | Dotted | 2 | 12 |
+    | Starred | 3 | 12 |
+    | Homoglyph | 1 | 12 |
+    | Repeated | 5 | 12 |
+    | Emoji | 1 | 12 |
+    | Leetspeak | 11 | 12 |
+    | Zero-width | 12 | 12 |
+    | Mixed case | 12 | 12 |
+
+  - 4 genuine messages × 9 disguises: 0 become "scam".
+- **No regression on validation** (`npm run eval -w @akshi/eval -- --split val`): full_no_ai F1 99.6%, false alarms 0.3%, genuine bank, OTP and UPI messages flagged 0.0% of 160. All three are unchanged.
+- **Cost:** matching a short chat turn is about 20% slower (300 random turns: 152 → 185 ms). The view itself is about 10 ms per 50 KB.
+- **Lexicon gap seen while writing the suite:** "Paise receive karne ke liye apna UPI PIN dalo" fires ASKS_PIN, not RECEIVE_WITH_PIN. Not fixed: a lexicon change waits for C's validation analysis.
+
 **C's Phase 4 requests (2026-11-18), branch `feat/engine` (goes to `main` with PR #2).** C opened PR #3 (Phase 4: model `2026.11.18-a`, dataset 3,579 rows) and PR #4 (tuned calibration: rules 0.30 / model 0.35 / links 0.35, thresholds 70 / 40). All fixes below come from C's **validation** error analysis (`docs/eval-notes.md`, "For A"); A did not read any test-split message.
 
 - **Calibration tests (C's request 1, unblocks PR #4):** `fusion.test.ts` and `model.test.ts` now read the weights from the calibration in use instead of hard-coding 0.45 / 0.35 / 0.20.
