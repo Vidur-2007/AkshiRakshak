@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanOutput, type AiProvider } from '../_lib/ai.js';
 import { resetRateLimits } from '../_lib/ratelimit.js';
 import { claimsSafe, unsupportedClaim } from '../_lib/truth.js';
+import { POST as analyzeApi } from '../analyze.js';
 import { POST as aiAnalyze, __setProviders as setAiProviders } from '../ai/analyze.js';
 import { POST as aiVision, __setVisionProvider } from '../ai/vision.js';
 import { POST as ask, __setProviders as setAskProviders } from '../ask.js';
@@ -221,6 +222,7 @@ describe('rate limits', () => {
       ['ask', () => ask(req('/api/ask', {})), 20],
       ['expand', () => expand(req('/api/expand?url=http%3A%2F%2F10.0.0.1%2F')), 60],
       ['domain-age', () => domainAge(req('/api/domain-age?domain=-bad-')), 60],
+      ['analyze', () => analyzeApi(req('/api/analyze', {})), 30],
     ];
     for (const [name, call, limit] of cases) {
       resetRateLimits();
@@ -240,6 +242,7 @@ describe('same origin only', () => {
       await aiAnalyze(req('/api/ai/analyze', AI_BODY)),
       await expand(req('/api/expand?url=http%3A%2F%2F10.0.0.1%2F')),
       await ask(req('/api/ask', { question: 'pin?', lang: 'en', faqIds: [] })),
+      await analyzeApi(req('/api/analyze', { text: 'share your OTP', lang: 'en' })),
     ];
     for (const r of responses)
       for (const h of r.headers.keys()) expect(h.startsWith('access-control-')).toBe(false);
@@ -251,6 +254,7 @@ describe('same origin only', () => {
       import('../expand.js'),
       import('../domain-age.js'),
       import('../reports.js'),
+      import('../analyze.js'),
     ]);
     for (const m of modules) expect('OPTIONS' in m).toBe(false);
   });
@@ -276,6 +280,7 @@ describe('logs', () => {
     __setVisionProvider({ model: 'v', transcribe: vi.fn(async () => `text ${MARK}`) });
 
     await aiAnalyze(req('/api/ai/analyze', AI_BODY));
+    await analyzeApi(req('/api/analyze', { text: `Share your OTP ${MARK} now`, lang: 'en' }));
     await ask(
       req('/api/ask', { question: `pin ${MARK}?`, lang: 'en', faqIds: ['faq-pin-sends-money'] }),
     );
