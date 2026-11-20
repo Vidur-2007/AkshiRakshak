@@ -928,5 +928,12 @@
     "secCheck": "Check",
     "secHow": "How it works",
     "secDeck": "Scam patterns"
+  },
+  "errors": {
+    "title": "Something went wrong on this screen",
+    "body": "Your saved checks are still on this device. Reload the page, or go back home. If money has left your account, call 1930 now.",
+    "reload": "Reload",
+    "home": "Go home",
+    "call1930": "Call 1930"
   }
 }

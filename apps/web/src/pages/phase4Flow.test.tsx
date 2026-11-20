@@ -168,6 +168,27 @@ describe('Ask', () => {
     expect(await screen.findByText(en.ask.offlineBadge, {}, T)).toBeTruthy();
     expect(screen.getByText(en.ask.sources)).toBeTruthy();
   });
+
+  it('survives browsers where scrollIntoView returns a Promise (opening and leaving Ask)', async () => {
+    // Newer Chrome / Edge: scrollIntoView() returns a Promise. An effect that returned it
+    // crashed the page with "destroy is not a function" when Ask closed or the page changed.
+    const original = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = function () {
+      return Promise.resolve() as unknown as void;
+    };
+    try {
+      const router = open('/learn/ask');
+      fireEvent.click(await screen.findByRole('button', { name: FAQ[0]!.q.en }, T));
+      expect(await screen.findByText(en.ask.offlineBadge, {}, T)).toBeTruthy();
+      await router.navigate('/scan'); // unmounts Ask: its effect cleanups run here
+      expect(
+        await screen.findByRole('heading', { level: 1, name: en.page.scan.title }, T),
+      ).toBeTruthy();
+      expect(screen.queryByText(en.errors.title)).toBeNull();
+    } finally {
+      Element.prototype.scrollIntoView = original;
+    }
+  });
 });
 
 describe('Proof', () => {

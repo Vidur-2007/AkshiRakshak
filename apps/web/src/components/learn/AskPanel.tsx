@@ -34,7 +34,11 @@ export function AskPanel({ compact = false }: { compact?: boolean }) {
   const abort = useRef<AbortController | null>(null);
 
   useEffect(() => () => abort.current?.abort(), []);
-  useEffect(() => endRef.current?.scrollIntoView?.({ block: 'nearest' }), [turns]);
+  // A block body on purpose: newer browsers make scrollIntoView() return a Promise, and an effect
+  // that returns anything but a cleanup function crashes React ("destroy is not a function").
+  useEffect(() => {
+    endRef.current?.scrollIntoView?.({ block: 'nearest' });
+  }, [turns]);
 
   const ask = async (question: string) => {
     const text = question.trim();
