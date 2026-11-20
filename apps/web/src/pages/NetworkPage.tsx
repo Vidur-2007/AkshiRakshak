@@ -13,9 +13,9 @@ import { cn } from '@/lib/utils';
 const ForceGraphView = lazy(() => import('@/components/network/ForceGraphView'));
 
 const TYPE_DOT: Record<NodeType, string> = {
-  phone: 'bg-[#3de0ff] rounded-full',
-  upi: 'bg-[#9ff0ff] rotate-45',
-  domain: 'bg-[#93a1b5]',
+  phone: 'bg-[#3de0ff] [html[data-theme=day]_&]:bg-[#0891b2] rounded-full',
+  upi: 'bg-[#9ff0ff] [html[data-theme=day]_&]:bg-[#0e7490] rotate-45',
+  domain: 'bg-[#93a1b5] [html[data-theme=day]_&]:bg-[#64748b]',
   campaign: 'bg-ai rounded-[3px]',
 };
 
