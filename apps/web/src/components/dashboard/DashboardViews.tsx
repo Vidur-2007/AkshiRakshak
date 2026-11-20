@@ -103,7 +103,7 @@ export function RecentDetectionsFeed({
                     <span className="shrink-0 font-mono text-xs text-text-2">{s.riskScore}</span>
                   </span>
                   <span className="block truncate text-sm text-text-2">{s.inputPreview}</span>
-                  <span className="block text-xs text-text-2/80">
+                  <span className="block text-xs text-text-2">
                     {fmt.format(new Date(s.createdAt))}
                   </span>
                 </span>

@@ -101,7 +101,7 @@ export function URLAnatomy({ finding }: { finding: UrlFinding }) {
             key: 'query',
             text: parts.query,
             label: t('anatomy.query'),
-            className: 'text-text-2/80',
+            className: 'text-text-2',
           },
         ]
       : []),
