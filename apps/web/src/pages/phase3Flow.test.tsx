@@ -258,6 +258,7 @@ describe('Transactions', () => {
 
 describe('Dashboard', () => {
   it('My shield updates live when a scan is broadcast', async () => {
+    localStorage.setItem('akshi-dash-sample', 'off'); // this test is about the person's own checks
     open('/dashboard');
     expect(await screen.findByText(en.dash.recentEmpty, {}, T)).toBeTruthy();
     const r = await analyze({
@@ -271,6 +272,23 @@ describe('Dashboard', () => {
     expect(await screen.findByText(r.text.slice(0, 40), { exact: false }, T)).toBeTruthy();
     expect(screen.queryByText(en.dash.recentEmpty)).toBeNull();
     expect(screen.getByText(en.dash.kMoney)).toBeTruthy();
+  });
+
+  it('shows labelled sample checks until the person has their own, and hides them on request', async () => {
+    localStorage.removeItem('akshi-dash-sample');
+    open('/dashboard');
+    expect(await screen.findByText(en.dash.sampleTitle, {}, T)).toBeTruthy();
+    // sample checks fill the feed, each tagged "Sample", and the numbers are no longer zero
+    expect((await screen.findAllByText(en.dash.sampleTag, {}, T)).length).toBeGreaterThan(5);
+    const scans = screen.getAllByText(en.dash.kScans)[0]!.parentElement!; // the KPI tile
+    await waitFor(() => expect(within(scans).queryByText('0')).toBeNull(), T);
+
+    fireEvent.click(screen.getByRole('button', { name: en.dash.sampleHide }));
+    expect(await screen.findByText(en.dash.recentEmpty, {}, T)).toBeTruthy();
+    expect(screen.queryByText(en.dash.sampleTag)).toBeNull();
+    expect(localStorage.getItem('akshi-dash-sample')).toBe('off');
+    expect(screen.getByRole('button', { name: en.dash.sampleShow })).toBeTruthy();
+    localStorage.removeItem('akshi-dash-sample');
   });
 
   it('Lookup labels bundled sample data; unknown values are not called trustworthy', async () => {

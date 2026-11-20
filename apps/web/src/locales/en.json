@@ -622,7 +622,13 @@
     "byLang": "By language",
     "byChannel": "By channel",
     "patternsTitle": "Common scam patterns",
-    "source": "Source"
+    "source": "Source",
+    "sampleTitle": "Sample data.",
+    "sampleBody": "These are example checks of made-up scam and genuine messages, so you can see how your dashboard works. Your own checks appear here as you make them.",
+    "sampleBodyMixed": "Example checks are mixed in with yours and marked \"Sample\".",
+    "sampleHide": "Hide sample data",
+    "sampleShow": "Show sample data",
+    "sampleTag": "Sample"
   },
   "story": {
     "signals": "Signals found",

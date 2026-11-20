@@ -46,7 +46,14 @@ export function KpiTile({
 }
 
 /** Latest checks; new ones slide in when another tab broadcasts a scan (M8.2). */
-export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
+export function RecentDetectionsFeed({
+  scans,
+  isSample,
+}: {
+  scans: ScanRecord[];
+  /** marks sample checks with a "Sample" tag */
+  isSample?: (id: string) => boolean;
+}) {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
   const fmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-IN' : `${lang}-IN`, {
@@ -80,6 +87,11 @@ export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
                 <span className="min-w-0 flex-1">
                   <span className="flex items-baseline justify-between gap-2 text-sm">
                     <span className="font-medium">
+                      {isSample?.(s.id) && (
+                        <span className="mr-1.5 rounded-full border border-glass-border px-1.5 py-0.5 align-middle text-[0.7rem] font-normal text-text-2">
+                          {t('dash.sampleTag')}
+                        </span>
+                      )}
                       {t(`verdict.${s.verdict}`)}
                       {s.category && (
                         <span className="text-text-2">

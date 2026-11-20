@@ -1,6 +1,14 @@
-import { ExternalLink, Lightbulb, Search } from 'lucide-react';
+import { ExternalLink, FlaskConical, Lightbulb, Search } from 'lucide-react';
 import { Tabs } from 'radix-ui';
-import { useCallback, useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { RevealProvider } from '@/components/analysis/reveal';
@@ -26,6 +34,8 @@ import {
   type IndicatorMatch,
 } from '@/lib/engine';
 import { l10n } from '@/lib/l10n';
+import { safeLocalStorage } from '@/lib/safeStorage';
+import { buildSampleHistory, isSampleCheck } from '@/lib/sampleHistory';
 import { loadResult } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
@@ -103,15 +113,102 @@ function Tips({ scans }: { scans: ScanRecord[] }) {
   );
 }
 
+const SAMPLE_PREF_KEY = 'akshi-dash-sample';
+
+/**
+ * Sample history on the dashboard: shown by default until the person has checks of their own,
+ * and they can show or hide it at any time (the choice is remembered on this device).
+ */
+function useSampleHistory(own: ScanRecord[] | null) {
+  const lang = useAppStore((s) => s.lang);
+  const [pref, setPref] = useState<'on' | 'off' | null>(() => {
+    const v = safeLocalStorage.getItem(SAMPLE_PREF_KEY);
+    return v === 'on' || v === 'off' ? v : null;
+  });
+  const show = own !== null && (pref ? pref === 'on' : own.length === 0);
+  const [samples, setSamples] = useState<ScanRecord[]>([]);
+  useEffect(() => {
+    if (!show) return;
+    let alive = true;
+    void buildSampleHistory(lang).then((list) => {
+      if (alive) setSamples(list);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [show, lang]);
+  const setShow = (on: boolean) => {
+    safeLocalStorage.setItem(SAMPLE_PREF_KEY, on ? 'on' : 'off');
+    setPref(on ? 'on' : 'off');
+  };
+  return { show, samples: show ? samples : [], setShow };
+}
+
+function SampleBanner({
+  show,
+  hasOwn,
+  onChange,
+}: {
+  show: boolean;
+  hasOwn: boolean;
+  onChange(on: boolean): void;
+}) {
+  const { t } = useTranslation();
+  if (!show)
+    return (
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => onChange(true)}
+          className={buttonVariants({ variant: 'outline', size: 'sm' })}
+        >
+          <FlaskConical aria-hidden />
+          {t('dash.sampleShow')}
+        </button>
+      </div>
+    );
+  return (
+    <div
+      role="status"
+      className="flex flex-col gap-3 rounded-card border border-brand/40 bg-brand/8 p-4 sm:flex-row sm:items-center"
+    >
+      <FlaskConical className="size-5 shrink-0 text-brand" aria-hidden />
+      <p className="flex-1 text-sm">
+        <span className="font-semibold">{t('dash.sampleTitle')}</span>{' '}
+        <span className="text-text-2">
+          {hasOwn ? t('dash.sampleBodyMixed') : t('dash.sampleBody')}
+        </span>
+      </p>
+      <button
+        type="button"
+        onClick={() => onChange(false)}
+        className={buttonVariants({ variant: 'outline', size: 'sm', className: 'shrink-0' })}
+      >
+        {t('dash.sampleHide')}
+      </button>
+    </div>
+  );
+}
+
 function Shield() {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
   const scans = useLiveHistory();
-  const list = scans ?? [];
+  const sample = useSampleHistory(scans);
+  // own checks and samples in time order; the network preview uses own checks only
+  const list = useMemo(
+    () =>
+      [...(scans ?? []), ...sample.samples].sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
+    [scans, sample.samples],
+  );
+  const own = scans ?? [];
   const k = computeKpis(list);
   return (
     <RevealProvider>
       <div className="flex flex-col gap-4">
+        {scans && (
+          <SampleBanner show={sample.show} hasOwn={own.length > 0} onChange={sample.setShow} />
+        )}
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <KpiTile label={t('dash.kScans')} value={k.scans} />
           <KpiTile label={t('dash.kThreats')} value={k.threats} delayMs={80} />
@@ -120,7 +217,7 @@ function Shield() {
         </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <Card title={t('dash.recentTitle')}>
-            {scans && <RecentDetectionsFeed scans={list} />}
+            {scans && <RecentDetectionsFeed scans={list} isSample={isSampleCheck} />}
           </Card>
           <div className="flex flex-col gap-4">
             {scans && (
@@ -138,7 +235,7 @@ function Shield() {
               <DayArea days={byDay(list)} />
             </Card>
             <Card title={t('dash.networkTitle')} extra={<SampleDataBadge />}>
-              <NetworkPreview scans={list} />
+              <NetworkPreview scans={own} />
             </Card>
           </div>
         </div>
