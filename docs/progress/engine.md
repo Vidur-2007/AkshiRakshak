@@ -13,6 +13,22 @@
 
 ## Done
 
+**New features, Phase 3: AI evidence guard + developer API (2026-11-20).**
+- **Evidence guard** (`api/_lib/truth.ts` `unsupportedClaim`, used by `cleanOutput` and `/api/ask`). AI text that states a fact no check found is dropped. The AI score still counts, and the app falls back to its own text. Dropped text:
+  - report counts, "blacklisted" or "known scammer", unless the device's own lookup found the value (KNOWN_INDICATOR or BLOCKLISTED);
+  - "verified" or "confirmed fraud" claims;
+  - a UPI ID, Indian mobile or 1800 number, or website that is not in the message (for Ask: the question and FAQ references) and not official (.gov.in, .nic.in, RBI, NPCI; 1930 is fine).
+  - For Ask, this means no invented helpline numbers.
+  - Limitation: advice naming a bank's own website is also dropped unless the message has it. That's the conservative side.
+- **`POST /api/analyze`** (developer sandbox, `api/analyze.ts`):
+  - The engine on the server: no AI, no link expansion, no domain lookup.
+  - Returns `{ result, attackStory, tactics }`.
+  - Text ≤ 20,000 characters, kind detected when missing, 30/min/IP, no CORS, the text is never logged.
+  - Bundled by `build:api` (1.27 MB with the model).
+  - Verified with `@vercel/node` 31.0.2 on a clean clone: fake KYC → 200, scam, 221 ms.
+  - In `scripts/smoke.ts` and SPEC.md §6.6.
+- **Tests:** API 60/60 (evidence guard, analyze endpoint, its rate limit, no CORS, no text in logs).
+
 **New features, Phase 2: "understand the scam" (2026-11-20).** Everything appears in existing UI, with no contract change.
 - **Attack story** (`pipeline/story.ts`):
   - When a flagged result shows three or more stages (hook → pressure → device → money), one sentence is added at the **end** of the explanation, in all four languages.
@@ -190,6 +206,19 @@
 - Carried: deviations listed in Phase 2/3 (single-item fusion, lookalike token length, identity signals in rules, website-QR floor 40, phone mismatch needs pressure, ASKS_OTP floor 45), Vercel compiling `api/*.ts` with `.ts` workspace imports unverified, typescript-eslint minimatch advisory (still no fixed release; 8.72.2 is latest on 2026-11-15), tool escaping quirks on this laptop.
 
 ## Requests
+
+**New features (2026-11-20):**
+
+- **To C (README):** please add a short "Developer API" section:
+  - `POST /api/analyze` with `{"text": "...", "lang": "en"}` (kind optional) returns `{ result, attackStory, tactics }`.
+  - It uses the same engine: no AI, no link expansion, no domain lookup.
+  - 30 requests a minute, and the text is never logged.
+  - curl example: `curl -X POST https://akshi-rakshak.vercel.app/api/analyze -H 'content-type: application/json' -d '{"text":"Your SBI account will be blocked. Share the OTP now.","lang":"en"}'`.
+  - For the Proof page, the evasion results: 50/108 → 108/108 under 9 disguises (above).
+- **To B (when the freeze lifts, optional):**
+  - `attackStory(signals, lang)` and `manipulationTactics(signals, lang)` are exported from `@akshi/engine`, for tactic chips or an attack-replay timeline on `/scan/:id`.
+  - Until then the story already shows as the last sentence of the explanation.
+- **To C (validation):** add written "digital arrest" families to validation, e.g. "stay on this video call", "a case is registered against you", "pay the security deposit". A fixes the lexicon gaps from validation findings.
 
 **Answers to B's open requests (web.md, Phase 6), 2026-11-17:**
 

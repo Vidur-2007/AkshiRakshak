@@ -649,6 +649,18 @@ All bodies JSON. Errors: `{ "error": { "code": "bad_request" | "rate_limited" | 
 | `GET /api/reports?type=&value=` (P2) | — | `{ reports: number; category?: ScamCategory }` |
 | `POST /api/reports` (P2) | `{ type: 'upi'\|'phone'\|'domain'; value: string; category: ScamCategory }` | `{ ok: true; reports: number }` |
 | `GET /api/health` | — | `{ ok: true; version: string; ai: { groq: boolean; gemini: boolean } }` |
+| `POST /api/analyze` (added 2026-11-20) | `{ text: string; lang?: Lang; kind?: 'message'\|'chat'\|'email'\|'url'\|'upi_id'\|'phone'\|'qr' }` (text ≤ 20,000 chars; kind detected when missing) | `{ result: AnalysisResult; attackStory: AttackStep[]; tactics: TacticFound[] }` |
+
+**`POST /api/analyze` (developer sandbox).**
+- It runs the same engine on the server: rules, model, link checks and UPI checks.
+- It makes **no AI call, no link expansion and no domain lookup**, so it spends no quota and makes no outbound request.
+- Limits and privacy: 30 per minute per IP, same origin only for browsers (curl and scripts work), and the text is never logged.
+- **The app never calls it.** Text checks stay on the device.
+
+**Evidence guard (added 2026-11-20).** Besides the "safe" rule (§1.3), AI text that states a fact no check found is dropped. The AI score still counts. Dropped text:
+- report counts or "blacklisted", unless the device's own lookup found the value;
+- "verified" or "confirmed fraud" claims;
+- a UPI ID, phone number or website that is in neither the message (or, for `/api/ask`, the question and the FAQ references) nor the official list. The official list is `.gov.in`, `.nic.in`, RBI and NPCI; 1930 is always allowed.
 
 ```ts
 export interface AiAnalyzeRequest {
