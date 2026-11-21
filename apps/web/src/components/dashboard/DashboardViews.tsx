@@ -46,7 +46,14 @@ export function KpiTile({
 }
 
 /** Latest checks; new ones slide in when another tab broadcasts a scan (M8.2). */
-export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
+export function RecentDetectionsFeed({
+  scans,
+  isSample,
+}: {
+  scans: ScanRecord[];
+  /** marks sample checks with a "Sample" tag */
+  isSample?: (id: string) => boolean;
+}) {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
   const fmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-IN' : `${lang}-IN`, {
@@ -70,7 +77,7 @@ export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
             >
               <Link
                 to={`/scan/${s.id}`}
-                className="flex min-h-tap items-center gap-3 rounded-chip px-2 py-2 hover:bg-white/5 outline-none focus-visible:outline-2 focus-visible:outline-brand"
+                className="flex min-h-tap items-center gap-3 rounded-chip px-2 py-2 hover:bg-overlay/5 outline-none focus-visible:outline-2 focus-visible:outline-brand"
               >
                 <Icon
                   className="size-5 shrink-0"
@@ -80,6 +87,11 @@ export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
                 <span className="min-w-0 flex-1">
                   <span className="flex items-baseline justify-between gap-2 text-sm">
                     <span className="font-medium">
+                      {isSample?.(s.id) && (
+                        <span className="mr-1.5 rounded-full border border-glass-border px-1.5 py-0.5 align-middle text-[0.7rem] font-normal text-text-2">
+                          {t('dash.sampleTag')}
+                        </span>
+                      )}
                       {t(`verdict.${s.verdict}`)}
                       {s.category && (
                         <span className="text-text-2">
@@ -91,7 +103,7 @@ export function RecentDetectionsFeed({ scans }: { scans: ScanRecord[] }) {
                     <span className="shrink-0 font-mono text-xs text-text-2">{s.riskScore}</span>
                   </span>
                   <span className="block truncate text-sm text-text-2">{s.inputPreview}</span>
-                  <span className="block text-xs text-text-2/80">
+                  <span className="block text-xs text-text-2">
                     {fmt.format(new Date(s.createdAt))}
                   </span>
                 </span>
@@ -123,7 +135,7 @@ export function BarList({
           className="grid grid-cols-[minmax(0,9rem)_minmax(0,1fr)_3rem] items-center gap-3 text-sm"
         >
           <span className="truncate">{r.label}</span>
-          <span className="h-2.5 overflow-hidden rounded-full bg-white/6" aria-hidden>
+          <span className="h-2.5 overflow-hidden rounded-full bg-overlay/6" aria-hidden>
             <m.span
               className="block h-full rounded-full bg-brand/70"
               style={{ originX: 0 }}

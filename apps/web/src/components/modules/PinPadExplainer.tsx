@@ -142,7 +142,7 @@ export function PinPadExplainer({
                 key={i}
                 className={cn(
                   'grid h-12 place-items-center rounded-card bg-surface-2 font-mono text-lg transition-[background-color,transform] duration-150',
-                  activeKey === k && 'scale-95 bg-white/15',
+                  activeKey === k && 'scale-95 bg-overlay/15',
                 )}
               >
                 {k}

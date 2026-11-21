@@ -24,7 +24,7 @@ const TITLE: Record<string, string> = {
   '/settings': en.page.settings.title,
   '/share-target': en.page.shareTarget.title,
   '/tour': en.page.tour.title,
-  '/': en.app.tagline,
+  '/': en.home.h1a,
   '/no-such-page': en.page.notFound.title,
 };
 

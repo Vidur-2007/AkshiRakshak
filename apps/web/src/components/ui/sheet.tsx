@@ -39,11 +39,11 @@ export function SheetContent({
         {...props}
       >
         {side === 'bottom' && (
-          <div aria-hidden className="mx-auto -mt-1 h-1.5 w-10 rounded-full bg-white/15" />
+          <div aria-hidden className="mx-auto -mt-1 h-1.5 w-10 rounded-full bg-overlay/15" />
         )}
         {children}
         <SheetPrimitive.Close
-          className="absolute top-3 right-3 inline-flex size-tap items-center justify-center rounded-chip text-text-2 hover:bg-white/6 hover:text-text focus-visible:outline-2 focus-visible:outline-brand"
+          className="absolute top-3 right-3 inline-flex size-tap items-center justify-center rounded-chip text-text-2 hover:bg-overlay/6 hover:text-text focus-visible:outline-2 focus-visible:outline-brand"
           aria-label={closeLabel}
         >
           <XIcon className="size-5" />

@@ -47,7 +47,7 @@ export function LayerBreakdownBar({
   const total = visible.reduce((sum, l) => sum + l.share, 0) || 1;
   return (
     <div>
-      <div className="flex h-3 overflow-hidden rounded-full bg-white/6" aria-hidden>
+      <div className="flex h-3 overflow-hidden rounded-full bg-overlay/6" aria-hidden>
         {visible.map((l, i) => (
           <m.div
             key={l.layer}

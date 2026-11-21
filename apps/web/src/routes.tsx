@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { AppShell } from '@/components/shell/AppShell';
+import { RouteError } from '@/components/shell/RouteError';
 
 // One lazy chunk per page (SPEC_B_WEB.md §7).
 const LandingPage = lazy(() => import('@/pages/LandingPage'));
@@ -48,6 +49,8 @@ export const ROUTE_PATHS = [
 export const routes: RouteObject[] = [
   {
     element: <AppShell />,
+    // a crash shows a calm page with a way back and 1930, not the developer error screen
+    errorElement: <RouteError />,
     children: [
       { index: true, element: <LandingPage /> },
       { path: 'scan', element: <ScanPage /> },

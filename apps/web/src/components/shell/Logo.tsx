@@ -34,7 +34,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
     >
       <LogoMark />
       {!compact && (
-        <span className="truncate text-base font-semibold tracking-tight whitespace-nowrap">
+        <span className="truncate font-serif text-[1.6rem] leading-none tracking-[0.04em] whitespace-nowrap">
           {t('app.name')}
         </span>
       )}

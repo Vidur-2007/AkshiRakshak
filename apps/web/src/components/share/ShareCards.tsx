@@ -39,7 +39,7 @@ function CardFrame({ children, accent }: { children: ReactNode; accent: string }
         background: `radial-gradient(70% 45% at 50% 0%, color-mix(in srgb, ${accent} 22%, transparent), transparent 70%), #05070b`,
         color: '#e8eef6',
         fontFamily:
-          "'Geist Variable','Noto Sans Devanagari','Noto Sans Telugu','Noto Sans Bengali',sans-serif",
+          "'Inter Tight Variable','Noto Sans Devanagari','Noto Sans Telugu','Noto Sans Bengali',sans-serif",
         padding: 88,
         display: 'flex',
         flexDirection: 'column',
@@ -74,7 +74,7 @@ function CardFrame({ children, accent }: { children: ReactNode; accent: string }
         }}
       >
         <span>{t('share.checkedWith')}</span>
-        <span style={{ fontFamily: "'Geist Mono Variable',monospace" }}>{host}</span>
+        <span style={{ fontFamily: "'Space Mono',monospace" }}>{host}</span>
       </div>
     </div>
   );
@@ -125,7 +125,7 @@ export function AnalysisShareCard({ result, lang }: { result: AnalysisResult; la
         </div>
       )}
       {details.length > 0 && (
-        <div style={{ fontFamily: "'Geist Mono Variable',monospace", fontSize: 36, color: '#93a1b5' }}>
+        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 36, color: '#93a1b5' }}>
           {details.join('   ·   ')}
         </div>
       )}
@@ -163,7 +163,7 @@ export function DojoShareCard({
       <div style={{ fontSize: 72, fontWeight: 700, lineHeight: 1.1 }}>{title}</div>
       <div
         style={{
-          fontFamily: "'Geist Mono Variable',monospace",
+          fontFamily: "'Space Mono',monospace",
           fontSize: 140,
           fontWeight: 600,
           color: '#3de0ff',

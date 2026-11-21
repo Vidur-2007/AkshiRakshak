@@ -58,7 +58,7 @@ export function ReasonList({ signals }: { signals: Signal[] }) {
               <p className="mt-0.5 text-sm text-text-2">{s.detail}</p>
             </div>
             <div
-              className="mt-2 h-1.5 w-16 shrink-0 overflow-hidden rounded-full bg-white/8 sm:w-24"
+              className="mt-2 h-1.5 w-16 shrink-0 overflow-hidden rounded-full bg-overlay/8 sm:w-24"
               aria-hidden
             >
               <m.div

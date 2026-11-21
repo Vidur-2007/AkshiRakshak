@@ -13,9 +13,9 @@ import { cn } from '@/lib/utils';
 const ForceGraphView = lazy(() => import('@/components/network/ForceGraphView'));
 
 const TYPE_DOT: Record<NodeType, string> = {
-  phone: 'bg-[#3de0ff] rounded-full',
-  upi: 'bg-[#9ff0ff] rotate-45',
-  domain: 'bg-[#93a1b5]',
+  phone: 'bg-[#3de0ff] [html[data-theme=day]_&]:bg-[#0891b2] rounded-full',
+  upi: 'bg-[#9ff0ff] [html[data-theme=day]_&]:bg-[#0e7490] rotate-45',
+  domain: 'bg-[#93a1b5] [html[data-theme=day]_&]:bg-[#64748b]',
   campaign: 'bg-ai rounded-[3px]',
 };
 
@@ -105,7 +105,7 @@ function EntityPanel({
                         <Link
                           to={`/scan/${s.id}`}
                           onClick={onClose}
-                          className="flex min-h-tap items-center gap-2 rounded-chip px-2 text-sm hover:bg-white/5"
+                          className="flex min-h-tap items-center gap-2 rounded-chip px-2 text-sm hover:bg-overlay/5"
                         >
                           <Icon className="size-4 shrink-0 text-text-2" aria-hidden />
                           <span className="truncate">{s.inputPreview}</span>

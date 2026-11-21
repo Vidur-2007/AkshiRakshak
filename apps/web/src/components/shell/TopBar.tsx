@@ -19,6 +19,7 @@ import {
 } from './nav';
 import { isMac, usePalette } from './paletteStore';
 import { SosPill } from './SosButton';
+import { ThemeToggle } from './ThemeToggle';
 
 // Ask slide-over loads on first open (§5.13)
 const AskSlideOver = lazy(() => import('@/components/learn/AskSlideOver'));
@@ -30,7 +31,7 @@ function TopLink({ item }: { item: NavItem }) {
       to={item.to}
       end={item.to === '/scan'}
       className={({ isActive }) =>
-        cn(linkBase, isActive ? 'bg-white/8 text-text' : 'text-text-2 hover:text-text')
+        cn(linkBase, isActive ? 'bg-overlay/8 text-text' : 'text-text/75 hover:text-text')
       }
     >
       {t(`nav.${item.key}`)}
@@ -46,7 +47,7 @@ function MenuFallback({ label, active }: { label: string; active: boolean }) {
   return (
     <button
       type="button"
-      className={cn(linkBase, active ? 'bg-white/8 text-text' : 'text-text-2')}
+      className={cn(linkBase, active ? 'bg-overlay/8 text-text' : 'text-text-2')}
       aria-haspopup="menu"
     >
       {label}
@@ -63,33 +64,43 @@ function LazyTopMenu(props: { label: string; items: NavItem[]; active: boolean }
   );
 }
 
-/** Desktop glass top bar (≥ lg). */
+/**
+ * Desktop top bar (≥ lg), laid out like the design's nav: links on the left, the serif wordmark in
+ * the middle, tools and SOS on the right.
+ */
 export function TopBar() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const openPalette = usePalette((s) => s.setOpen);
   const [askOpen, setAskOpen] = useState(false);
   const [askLoaded, setAskLoaded] = useState(false);
+  // below 1280px these two make room for the centred wordmark: search stays on Ctrl/Cmd+K and
+  // Ask in the Learn menu
+  const iconBtn =
+    'hidden xl:inline-flex size-10 elder:size-tap items-center justify-center rounded-full text-text/75 transition-colors hover:bg-overlay/6 hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand';
   return (
-    <header className="glass sticky top-0 z-40 hidden border-x-0 border-t-0 lg:block">
-      <div className="mx-auto flex h-topbar max-w-7xl items-center gap-3 px-6">
-        <Logo />
-        <nav aria-label={t('nav.main')} className="ml-2 flex items-center gap-0.5">
+    <header
+      data-shell-header
+      className="sticky top-0 z-40 hidden border-b border-glass-border bg-bg/85 backdrop-blur-xl lg:block"
+    >
+      <div className="mx-auto grid h-topbar max-w-[110rem] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 px-6">
+        <nav aria-label={t('nav.main')} className="flex min-w-0 items-center gap-0.5">
           <TopLink item={SCAN} />
           <LazyTopMenu label={t('nav.modules')} items={MODULES} active={isModulesPath(pathname)} />
           <TopLink item={DASHBOARD} />
           <TopLink item={NETWORK} />
           <LazyTopMenu label={t('nav.learn')} items={LEARN} active={isLearnPath(pathname)} />
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <Logo />
+        <div className="flex min-w-0 items-center justify-end gap-1.5">
           <button
             type="button"
             onClick={() => openPalette(true)}
             aria-label={t('shell.openPalette')}
-            className="inline-flex min-h-10 items-center gap-2 rounded-chip border border-glass-border px-3 text-sm text-text-2 transition-colors hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
+            title={isMac() ? '⌘K' : 'Ctrl K'}
+            className={iconBtn}
           >
             <Search className="size-4" aria-hidden />
-            <kbd className="hidden font-mono text-xs whitespace-nowrap xl:inline">{isMac() ? '⌘K' : 'Ctrl K'}</kbd>
           </button>
           <button
             type="button"
@@ -98,11 +109,12 @@ export function TopBar() {
               setAskOpen(true);
             }}
             aria-label={t('ask.openPanel')}
-            className="inline-flex size-10 elder:size-tap items-center justify-center rounded-chip border border-glass-border text-text-2 transition-colors hover:text-text outline-none focus-visible:outline-2 focus-visible:outline-brand"
+            className={iconBtn}
           >
             <MessageCircleQuestion className="size-4" aria-hidden />
           </button>
           <LanguageSwitcher />
+          <ThemeToggle />
           <ElderToggle showLabel={false} className="px-1" />
           <SosPill />
         </div>

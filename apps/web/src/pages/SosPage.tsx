@@ -150,7 +150,7 @@ function EvidencePack({ onOpen }: { onOpen: (ids: string[]) => void }) {
             ].slice(0, 3);
             return (
               <li key={s.id}>
-                <label className="flex min-h-tap cursor-pointer items-start gap-3 rounded-chip p-2 hover:bg-white/5">
+                <label className="flex min-h-tap cursor-pointer items-start gap-3 rounded-chip p-2 hover:bg-overlay/5">
                   <input
                     type="checkbox"
                     className="mt-1 size-4.5 accent-[var(--brand)]"
@@ -278,7 +278,7 @@ export default function SosPage() {
                   key={x.id}
                   className={cn(
                     'h-1.5 flex-1 rounded-full',
-                    i < index ? 'bg-text' : i === index ? 'bg-text/60' : 'bg-white/10',
+                    i < index ? 'bg-text' : i === index ? 'bg-text/60' : 'bg-overlay/10',
                   )}
                 />
               ))}
@@ -310,7 +310,7 @@ export default function SosPage() {
                   <button
                     type="button"
                     onClick={() => answer(q.id, false)}
-                    className="min-h-16 rounded-card border-2 border-glass-border bg-surface-2 text-xl font-semibold outline-none hover:bg-white/8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                    className="min-h-16 rounded-card border-2 border-glass-border bg-surface-2 text-xl font-semibold outline-none hover:bg-overlay/8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                   >
                     {t('sos.no')}
                   </button>

@@ -150,7 +150,7 @@ export default function TourOverlay() {
           className="flex gap-1"
         >
           {TOUR_STEPS.map((s, i) => (
-            <span key={s.id} className="h-1 flex-1 overflow-hidden rounded-full bg-white/10">
+            <span key={s.id} className="h-1 flex-1 overflow-hidden rounded-full bg-overlay/10">
               <span
                 className="block h-full rounded-full bg-brand"
                 style={{

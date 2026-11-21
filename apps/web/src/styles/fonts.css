@@ -1,12 +1,17 @@
 /*
- * Self-hosted fonts via Fontsource (SPEC.md §4). Each face has unicode-range
- * subsets, so a browser only downloads the scripts the page actually shows.
- * font-display: swap is Fontsource's default.
+ * Self-hosted fonts via Fontsource (SPEC.md §4), so the app looks the same offline. Each face has
+ * unicode-range subsets: a browser downloads only the scripts the page shows. font-display: swap
+ * is Fontsource's default.
+ *
+ * Design (2026-11-20): Instrument Serif for headings, Inter Tight for text, Space Grotesk for the
+ * scam-pattern cards, Space Mono for scores, IDs and labels. Indic text uses Noto Sans.
  */
-
-/* Geist as variable fonts: one ~29 KB file for every weight (four static weights were ~137 KB). */
-@import '@fontsource-variable/geist/wght.css';
-@import '@fontsource-variable/geist-mono/wght.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+@import '@fontsource-variable/inter-tight/wght.css';
+@import '@fontsource-variable/space-grotesk/wght.css';
+@import '@fontsource/space-mono/400.css';
+@import '@fontsource/space-mono/700.css';
 
 @import '@fontsource/noto-sans-devanagari/devanagari-400.css';
 @import '@fontsource/noto-sans-devanagari/devanagari-600.css';

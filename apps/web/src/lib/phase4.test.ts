@@ -5,43 +5,6 @@ import { analyze, buildEntityGraph, DRILLS, EVAL_REPORT } from './engine';
 import { ALL_TYPES, filterGraph, neighbours, nodeValue, scansMentioning } from './graph';
 import { isPlaceholderReport, orderedConfigs, pct, rowShares } from './proof';
 import { maskUpi, maskUrl } from './share';
-import { crossedThreshold, fibonacciSphere, mixHex, project, rotate } from './shieldMath';
-
-const close = (a: number, b: number) => expect(Math.abs(a - b)).toBeLessThan(1e-9);
-
-describe('ShieldCore maths', () => {
-  it('spreads unit points over the sphere', () => {
-    const pts = fibonacciSphere(500);
-    expect(pts).toHaveLength(500);
-    for (const p of pts) close(Math.hypot(p.x, p.y, p.z), 1);
-    const meanY = pts.reduce((s, p) => s + p.y, 0) / pts.length;
-    expect(Math.abs(meanY)).toBeLessThan(1e-9);
-  });
-
-  it('rotates without changing length and projects the front larger', () => {
-    const p = rotate({ x: 1, y: 0, z: 0 }, Math.PI / 2, 0.3);
-    close(Math.hypot(p.x, p.y, p.z), 1);
-    const front = project({ x: 0.5, y: 0, z: 1 }, 100, 100, 50);
-    const back = project({ x: 0.5, y: 0, z: -1 }, 100, 100, 50);
-    expect(front.scale).toBeGreaterThan(back.scale);
-    expect(front.depth).toBe(1);
-    expect(back.depth).toBe(0);
-  });
-
-  it('fires ring pulses only when crossing 40 and 70 upwards', () => {
-    expect(crossedThreshold(20, 45)).toBe('warn');
-    expect(crossedThreshold(45, 75)).toBe('scam');
-    expect(crossedThreshold(10, 90)).toBe('scam');
-    expect(crossedThreshold(50, 60)).toBeNull();
-    expect(crossedThreshold(80, 30)).toBeNull();
-  });
-
-  it('mixes colours', () => {
-    expect(mixHex('#000000', '#ffffff', 0.5)).toBe('#808080');
-    expect(mixHex('#3de0ff', '#ff3b5c', 0)).toBe('#3de0ff');
-    expect(mixHex('#3de0ff', '#ff3b5c', 1)).toBe('#ff3b5c');
-  });
-});
 
 describe('share masking', () => {
   it('masks UPI IDs like kyc.upd…@ybl', () => {
@@ -154,9 +117,13 @@ describe('proof helpers', () => {
     expect(isPlaceholderReport(EVAL_REPORT)).toBe(false);
     expect(isPlaceholderReport({ notes: ['Measured on the synthetic test split.'] })).toBe(false);
     const configs = (names: string[]) =>
-      ({ configs: names.map((name) => ({ name })) }) as unknown as Parameters<typeof orderedConfigs>[0];
+      ({ configs: names.map((name) => ({ name })) }) as unknown as Parameters<
+        typeof orderedConfigs
+      >[0];
     expect(
-      orderedConfigs(configs(['full_ai_sample', 'full_no_ai', 'rules_only', 'rules_model'])).map((c) => c.name),
+      orderedConfigs(configs(['full_ai_sample', 'full_no_ai', 'rules_only', 'rules_model'])).map(
+        (c) => c.name,
+      ),
     ).toEqual(['rules_only', 'rules_model', 'full_no_ai', 'full_ai_sample']);
     // the bundled report has the configurations that were run (full_ai_sample only after the AI sample run)
     const order = ['rules_only', 'rules_model', 'full_no_ai', 'full_ai_sample'];

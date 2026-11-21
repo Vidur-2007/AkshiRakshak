@@ -48,7 +48,7 @@ function PctBar({
         {label}
         {sub && <span className="block text-xs text-text-2">{sub}</span>}
       </span>
-      <span className="h-2.5 overflow-hidden rounded-full bg-white/6" aria-hidden>
+      <span className="h-2.5 overflow-hidden rounded-full bg-overlay/6" aria-hidden>
         <m.span
           className="block h-full rounded-full bg-brand/70"
           style={{ originX: 0 }}

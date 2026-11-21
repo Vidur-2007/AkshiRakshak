@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { ElderToggle } from './ElderToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { ThemeToggle } from './ThemeToggle';
 import { LEARN, MODULES, NETWORK, SETTINGS, TOUR, type NavItem } from './nav';
 
 function SheetLink({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
@@ -12,7 +13,7 @@ function SheetLink({ item, onNavigate }: { item: NavItem; onNavigate: () => void
     <Link
       to={item.to}
       onClick={onNavigate}
-      className="tap flex min-h-tap items-center gap-3 rounded-chip px-3 py-2 text-text hover:bg-white/6 outline-none focus-visible:outline-2 focus-visible:outline-brand"
+      className="tap flex min-h-tap items-center gap-3 rounded-chip px-3 py-2 text-text hover:bg-overlay/6 outline-none focus-visible:outline-2 focus-visible:outline-brand"
     >
       <item.icon className="size-5 shrink-0 text-brand" aria-hidden />
       <span className="flex flex-col">
@@ -69,6 +70,7 @@ export function MoreSheet({
         <div className="flex flex-col gap-3 border-t border-glass-border pt-4">
           <LanguageSwitcher full className="w-full" />
           <ElderToggle showHint className="justify-between px-1" />
+          <ThemeToggle showLabel className="justify-between px-1" />
         </div>
       </SheetContent>
     </Sheet>

@@ -65,7 +65,7 @@ export default function DojoListPage() {
                         key={i}
                         className={cn(
                           'size-2 rounded-full',
-                          i <= d.difficulty ? 'bg-text' : 'bg-white/12',
+                          i <= d.difficulty ? 'bg-text' : 'bg-overlay/12',
                         )}
                         aria-hidden
                       />
