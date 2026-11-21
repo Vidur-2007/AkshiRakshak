@@ -20,6 +20,8 @@ import {
 export interface CampaignSamplesData {
   campaignOf: Partial<Record<ScamCategory, string>>;
   counts: Partial<Record<ScamCategory, { messages: number; langs: number }>>;
+  /** channel → scam messages of the category that arrived that way (sms, whatsapp, call, …) */
+  channelsOf: Partial<Record<ScamCategory, Record<string, number>>>;
   /** [category, lang, text], training split only */
   samples: [ScamCategory, string, string][];
 }
@@ -148,14 +150,20 @@ export function closestSample(
 
 // ── match ───────────────────────────────────────────────────────────────────
 
-/** Campaign Match for a result, or null when there is nothing honest to connect it to. */
-export function matchCampaign(result: Result, data: CampaignSamplesData): CampaignMatch | null {
+/**
+ * The campaign a result belongs to, without the closest-example search (cheap enough for every
+ * check in the history): a campaign that holds the most of the message's details, otherwise the
+ * campaign mapped from the engine's category. Null for "No warning signs found".
+ */
+export function campaignOfResult(
+  result: Result,
+  data: Pick<CampaignSamplesData, 'campaignOf'>,
+): { campaign: string | null; category: ScamCategory | null; shared: SharedDetail[] } | null {
   if (result.verdict === 'no_signs') return null;
   const hits = campaignHits(result);
   let campaign: string | null = null;
   let category = result.category ?? null;
   if (hits.length) {
-    // the campaign most of the message's details belong to
     const votes = new Map<string, number>();
     for (const h of hits) votes.set(h.match.campaign!, (votes.get(h.match.campaign!) ?? 0) + 1);
     campaign = [...votes].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]![0];
@@ -163,15 +171,26 @@ export function matchCampaign(result: Result, data: CampaignSamplesData): Campai
   } else if (category) {
     campaign = data.campaignOf[category] ?? null;
   }
-  if (!category) return null;
+  const shared = hits.filter((h) => h.match.campaign === campaign).map((h) => h.detail);
+  return {
+    campaign,
+    category,
+    shared: shared.filter((d, i) => shared.findIndex((x) => x.value === d.value) === i),
+  };
+}
+
+/** Campaign Match for a result, or null when there is nothing honest to connect it to. */
+export function matchCampaign(result: Result, data: CampaignSamplesData): CampaignMatch | null {
+  const found = campaignOfResult(result, data);
+  if (!found?.category) return null;
+  const { campaign, category, shared } = found;
   const count = data.counts[category];
   if (!count) return null;
   const closest = result.text ? closestSample(result.text, category, data) : null;
-  const shared = hits.filter((h) => h.match.campaign === campaign).map((h) => h.detail);
   return {
     category,
     campaign,
-    shared: shared.filter((d, i) => shared.findIndex((x) => x.value === d.value) === i),
+    shared,
     messages: count.messages,
     langs: count.langs,
     closest: closest && { text: closest.text, lang: closest.lang },

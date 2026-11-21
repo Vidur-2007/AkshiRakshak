@@ -4,6 +4,43 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Network redesigned: the "Scam network V2" console (21 Nov 2026)
+
+From the human's design file "Akshi — Scam network V2". The Network page is now a full-screen dark console in both themes; the top bar goes dark too (`nav-night`, moved into globals.css).
+
+- **Layout:** toolbar on top, month scrubber on the left, legend bottom-left, numbers and find bottom-right. Below 1024 px everything stacks.
+- **Canvas** (`components/network/ScamNetworkCanvas.tsx`, Canvas 2D, no library, 5.9 KB gz; the old react-force-graph chunk was 70 KB). It draws:
+  - your checks as the shield-eye with pulse rings;
+  - campaigns as glowing hexagons (red at risk 85+, amber below);
+  - channels with icons;
+  - details as small shapes (blocked ones red, yours ringed in cyan);
+  - your own risky details outside any campaign as small cyan shapes.
+- **Links:** glowing gradients with travelling sparks where your checks found a campaign, and faint dashed links where they didn't. Shared details are dashed red.
+- **Controls:** Orbit/Tree layouts (deterministic, animated), pan, wheel and button zoom, hover and select. The draggable **scan lens** magnifies 2.2× and shows a "SCANNING · RISK" readout of the nearest campaign.
+- **Card:** a floating card next to the selected node.
+  - Campaign card: real numbers, **Block all its details** (the real blocklist) and Report (cybercrime.gov.in).
+  - Detail card: Block/Unblock and Report.
+  - Channel card: the campaigns that use it, and its count of dataset messages.
+- **Every number has a source** (`lib/scamNetwork.ts`, tested). No invented figures: the design's "Kept safe ₹4.2 L", "Family · 3" and per-campaign months were replaced with real ones.
+  - Campaigns, details and report counts come from the sample indicators.
+  - A campaign's risk is the average risk of its details (`70 + 3 × reports`, capped at 100), which gives 74–97.
+  - Channels come from the dataset's `channel` field (new `channelsOf` in campaign-samples.json; a channel is drawn when ≥ 10% of a campaign's kinds' messages used it).
+  - Your checks are linked to campaigns through `campaignOfResult`, split out of Campaign Match.
+  - "Blocked by you" is the blocklist.
+  - The month scrubber filters your checks and blocks by date. The activity wave is your checks per day.
+  - The numbers are: checked, scams found, campaigns found, blocked.
+- **Find box:** finds a campaign by name (any language), or a detail by value or digits. It selects the node and answers in one line from the data. When nothing matches, it links to Ask Akshi.
+- **Sample checks:** a chip toggle shares the Dashboard's sample-checks switch (`hooks/useSampleHistory.ts`, moved out of DashboardPage).
+- **`?campaign=<id>`** (Campaign Match) selects that campaign, opens its card and flies to it.
+- **Accessibility:** a collapsible "Everything in the network" list below the console is the keyboard and screen-reader path to every node. Without canvas, the card still opens.
+- Storage errors (no IndexedDB) leave the blocklist unchanged instead of throwing.
+- **Removed:** `ForceGraphView.tsx`, `lib/graph.ts` and its tests, and the old `network.*` strings. New strings are `net.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review). The page title is now "Scam network".
+- **Follow-up:** `react-force-graph-2d` is still in apps/web/package.json but no longer imported, so it is not bundled. Remove it with a lockfile edit when there is time; this Windows npm strips `libc` fields, so check the lockfile diff.
+- Tests:
+  - `lib/scamNetwork.test.ts` (9, real indicators, dataset and engine);
+  - `pages/networkFlow.test.tsx` (4: legend, list, card, Block, `?campaign=`, find);
+  - 50/50 e2e in Edge, including axe in both themes. The Elder smoke test once timed out under the parallel load, then passed 3/3 on its own.
+
 ### Campaign Match: "You're not the only one" (21 Nov 2026)
 
 - A card on the Analysis screen (`components/analysis/CampaignMatchCard.tsx`, logic in `lib/campaignMatch.ts`). It connects a checked message to a scam campaign in the sample data:

@@ -2,6 +2,12 @@
 
 ## Production
 
+- **2026-11-21: `main` at 6f35823 (PR #10) is deployed.** PR #10 brought the cosmic intro, the landing details, the cosmic network, Scam Replay, Campaign Match and the Telegram bot.
+  - **Smoke check:** 9 pass, 2 warnings, 0 fail.
+    - `/api/analyze`: scam 95, 4 attack stages.
+    - `/api/telegram` warning: the bot is not set up yet (no `TELEGRAM_WEBHOOK_SECRET`). That is the human's setup step; see Done.
+    - `/api/reports` warning: Upstash is still not connected.
+  - **Live UI checked in Edge:** the cosmic intro opens straight on the web of particles. The fake KYC check shows Scam replay and "You're not the only one". "See it on the network" lights up the KYC block wave campaign (27 linked details, 2 from your own checks). No page errors.
 - **2026-11-21: `main` at a3c96ee (PR #9: the redesign, the Ask crash fix, dashboard sample data) is deployed.**
   - **Smoke check:** 9 pass, 1 warning (`/api/reports`: Upstash not connected), 0 fail. AI analyze is answered by Groq in 1.2 s (the PR #8 fix).
   - **Live UI checked in Edge:** the new landing (headline, 19-card deck, theme set), Ask opens and closes without crashing, and the dashboard shows the sample banner and entries. No page errors.

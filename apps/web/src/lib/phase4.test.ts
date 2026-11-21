@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { maxScore, scoreShare, tallyFlags } from './dojo';
-import { toScanRecord } from './db';
-import { analyze, buildEntityGraph, DRILLS, EVAL_REPORT } from './engine';
-import { ALL_TYPES, filterGraph, neighbours, nodeValue, scansMentioning } from './graph';
+import { DRILLS, EVAL_REPORT } from './engine';
 import { isPlaceholderReport, orderedConfigs, pct, rowShares } from './proof';
 import { maskUpi, maskUrl } from './share';
 
@@ -81,32 +79,6 @@ describe('Dojo logic', () => {
     expect(t).toEqual({ caught: ['LOOKALIKE_DOMAIN'], missed: ['ASKS_OTP'] });
     expect(scoreShare(5, 20)).toBe(0.25);
     expect(scoreShare(5, 0)).toBe(0);
-  });
-});
-
-describe('network helpers', () => {
-  const g = buildEntityGraph([], { includeBundled: true });
-
-  it('filters by type and "only mine" (keeping linked campaigns)', () => {
-    const phones = filterGraph(g, { types: new Set(['phone']), onlyMine: false });
-    expect(phones.nodes.every((n) => n.type === 'phone')).toBe(true);
-    const mine = filterGraph(g, { types: new Set(ALL_TYPES), onlyMine: true });
-    expect(mine.nodes.filter((n) => n.type !== 'campaign').every((n) => n.mine)).toBe(true);
-    const ids = new Set(mine.nodes.map((n) => n.id));
-    expect(mine.edges.every((e) => ids.has(String(e.source)) && ids.has(String(e.target)))).toBe(
-      true,
-    );
-  });
-
-  it('finds neighbours and scans that mention a node', async () => {
-    const node = g.nodes.find((n) => n.type === 'domain')!;
-    expect(neighbours(g, node.id).size).toBeGreaterThan(0);
-    const r = await analyze({
-      kind: 'message',
-      text: `Update KYC at http://${nodeValue(node)}/verify now`,
-      lang: 'en',
-    });
-    expect(scansMentioning([toScanRecord(r)], node)).toHaveLength(1);
   });
 });
 

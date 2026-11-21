@@ -1050,27 +1050,6 @@ html.elder .scr .scanline {
   color-scheme: dark;
 }
 
-/* The top bar goes dark over the dark moments (the design's nav colour follows the scene). */
-[data-shell-header] {
-  transition:
-    background-color 0.6s ease,
-    color 0.6s ease,
-    border-color 0.6s ease;
-}
-html.nav-night [data-shell-header] {
-  --bg: #05070b;
-  --surface: #0b1018;
-  --surface-2: #111826;
-  --text: #f1ebe0;
-  --text-2: #a39c90;
-  --overlay: #ffffff;
-  --glass-border: rgba(255, 255, 255, 0.09);
-  --brand: #3de0ff;
-  --brand-contrast: #04121a;
-  color: var(--text);
-  color-scheme: dark;
-}
-
 /* ── opening: the cosmic particle intro (design 2026-11-20) ──────────────── */
 .cosmic-intro {
   position: fixed;
