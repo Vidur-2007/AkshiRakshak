@@ -9,7 +9,7 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 From the human's second design file (index.html with a Three.js intro and rise.js) and a "cosmic web" reference image.
 
 - **Opening intro** (`components/home/CosmicIntro.tsx`, `lib/cosmic.ts`):
-  - A scroll-driven point cloud with a preloader (000→100), HUD, Skip, a progress bar and three captions:
+  - A scroll-driven point cloud that opens straight away (the human asked for no loading counter), with a HUD, Skip, a progress bar and three captions:
     1. messages flood in as a cosmic web (cyan filaments between glowing purple hubs);
     2. a few turn red ("traps");
     3. the traps are pushed away and the rest settle into the shield-eye, then the camera flies in.

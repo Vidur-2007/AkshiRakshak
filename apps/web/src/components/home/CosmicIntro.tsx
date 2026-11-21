@@ -187,8 +187,6 @@ export function CosmicIntro({ onDone }: { onDone(): void }) {
   const barRef = useRef<HTMLElement>(null);
   const seqRef = useRef<HTMLSpanElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
-  const preRef = useRef<HTMLDivElement>(null);
-  const pctRef = useRef<HTMLSpanElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef(false);
   const [leaving, setLeaving] = useState(false);
@@ -241,9 +239,9 @@ export function CosmicIntro({ onDone }: { onDone(): void }) {
     };
     window.addEventListener('keydown', onKey);
 
+    wrap.focus({ preventScroll: true }); // arrow keys and Page Down scroll the intro at once
     const t0 = performance.now();
     let last = t0;
-    let started = false;
     let spin = 0;
     let sp = 0;
     let raf = 0;
@@ -253,20 +251,11 @@ export function CosmicIntro({ onDone }: { onDone(): void }) {
       const time = (now - t0) / 1000;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      const pre = 1 - (1 - Math.min(1, time / 1.6)) ** 3;
-      if (pctRef.current)
-        pctRef.current.textContent = String(Math.round(pre * 100)).padStart(3, '0');
-      if (preRef.current) preRef.current.style.opacity = String(1 - smooth(1.7, 2.3, time));
-      if (time > 1.7 && !started) {
-        started = true;
-        wrap.style.overflowY = 'auto';
-        wrap.focus({ preventScroll: true });
-      }
       const lim = Math.max(1, wrap.scrollHeight - wrap.clientHeight);
       sp += (wrap.scrollTop / lim - sp) * 0.12;
       const p = Math.min(1, Math.max(0, sp));
       const s = sceneAt(p);
-      const fade = smooth(1.5, 2.6, time);
+      const fade = smooth(0, 0.6, time); // straight in: a quick fade, no loading screen
       spin += dt * (0.05 + (1 - s.morph) * 0.06);
       const ry = (1 - s.morph) * (spin + p * 2.6);
       const rx = (1 - s.morph) * 0.18 * Math.sin(time * 0.2);
@@ -292,8 +281,7 @@ export function CosmicIntro({ onDone }: { onDone(): void }) {
         el.style.opacity = String(o);
         el.style.transform = `translate(-50%, calc(-50% + ${(1 - o) * 24 * (p < (w[0] + w[1]) / 2 ? 1 : -1)}px))`;
       });
-      if (hintRef.current)
-        hintRef.current.style.opacity = String(started ? 1 - smooth(0, 0.04, p) : 0);
+      if (hintRef.current) hintRef.current.style.opacity = String(1 - smooth(0, 0.04, p));
       if (barRef.current) barRef.current.style.width = `${p * 100}%`;
       if (seqRef.current)
         seqRef.current.textContent = `${String(Math.round(p * 100)).padStart(3, '0')}%`;
@@ -369,12 +357,6 @@ export function CosmicIntro({ onDone }: { onDone(): void }) {
       <div className="cosmic-hud bot" aria-hidden>
         <span ref={seqRef}>000%</span>
         <span>{t('intro.drag')}</span>
-      </div>
-      <div ref={preRef} className="cosmic-pre" aria-hidden>
-        <div className="pct">
-          <span ref={pctRef}>000</span>
-          <small>{t('intro.loading')}</small>
-        </div>
       </div>
       <div ref={endRef} className="cosmic-end" aria-hidden />
     </div>

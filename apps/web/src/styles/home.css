@@ -1097,7 +1097,7 @@ html.nav-night [data-shell-header] {
   position: absolute;
   inset: 0;
   overflow-x: hidden;
-  overflow-y: hidden; /* scrolling starts once the preloader is done */
+  overflow-y: auto;
   scrollbar-width: none;
   outline: none;
 }
@@ -1218,30 +1218,6 @@ html.nav-night [data-shell-header] {
   width: 0;
   height: 100%;
   background: var(--cyan);
-}
-.cosmic-pre {
-  position: fixed;
-  inset: 0;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: clamp(18px, 3.4vw, 48px);
-  background: #050607;
-  pointer-events: none;
-}
-.cosmic-pre .pct {
-  font: 400 clamp(64px, 14vw, 200px) / 0.9 var(--font-display);
-  letter-spacing: -0.05em;
-  color: #e8eef6;
-  font-variant-numeric: tabular-nums;
-}
-.cosmic-pre small {
-  margin-left: 12px;
-  font: 400 13px var(--font-mono);
-  letter-spacing: 0;
-  color: #8b97a8;
-  vertical-align: top;
 }
 .cosmic-end {
   position: fixed;
