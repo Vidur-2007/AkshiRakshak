@@ -4,6 +4,18 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Scam Replay on the Analysis screen (21 Nov 2026)
+
+- A "Scam replay" card (`components/analysis/ScamReplay.tsx`, logic in `lib/replay.ts`) plays the attack a message sets up as a timeline.
+  - Steps: the bait → the pressure → the trap → the demand. Each step shows the engine's step text, the words of the message behind it (from the signal spans), and the tricks it uses (fear, artificial urgency, authority pressure, …).
+  - A cyan shield marks where Akshi's warning comes in: before the first step that asks you to act (open a link or app, share a code, pay). The steps after it have dashed outlines.
+  - The last row is "What they want next": your money, OTP or PIN; or you on a page or app they control.
+- **Built only from evidence:** steps come from `attackStory` and `manipulationTactics` (engine, PR #7), and every quote is a slice of the message. The card is shown only with warning signs and at least two stages.
+- **Animation:** plays once when scrolled into view, about 0.85 s per step; Replay plays it again. Reduced motion and Elder mode show every step at once, with no Replay button. Rows still to come are `visibility: hidden`, so screen readers and axe skip them until shown.
+- Strings in en/hi/te/bn (`replay.*`); the hi/te/bn strings are mine, for the i18n review.
+- Tests: `lib/replay.test.ts` (7, on the real engine incl. Hindi) and `ScamReplay.test.tsx` (3: order and shield position, Replay, Elder mode). 50/50 e2e in Edge.
+- `scanFlow.test.tsx`: the flow test now has a 15 s budget, and the ticker wait 4 s. On this laptop the first scan, including the engine load, takes about 4 s, past vitest's 5 s per-test default once rendering is added. It failed the same way without this change. This was the "known flake".
+
 ### Cosmic intro, landing details, cosmic network (21 Nov 2026)
 
 From the human's second design file (index.html with a Three.js intro and rise.js) and a "cosmic web" reference image.

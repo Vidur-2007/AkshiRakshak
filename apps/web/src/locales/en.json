@@ -974,5 +974,26 @@
     "c3": "Akshi sees them",
     "c3Em": "first.",
     "c3Sub": "Checked on your phone · works offline"
+  },
+  "replay": {
+    "title": "Scam replay",
+    "sub": "How this scam would play out, step by step. Built only from what Akshi found in this message.",
+    "play": "Replay",
+    "step": "Step {{n}}",
+    "stage": {
+      "hook": "The bait",
+      "pressure": "The pressure",
+      "compromise": "The trap",
+      "extraction": "The demand"
+    },
+    "shield": "Akshi warned you here",
+    "shieldSub": "Before you open, share or pay anything.",
+    "goalLead": "What they want next",
+    "goal": {
+      "money": "Your money, OTP or PIN",
+      "control": "You on a page or app they control"
+    },
+    "evidence": "From the message",
+    "tactics": "Tricks used"
   }
 }
