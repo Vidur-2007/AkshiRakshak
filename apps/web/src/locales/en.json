@@ -124,7 +124,7 @@
       "body": "Your scans, threats caught, and a lookup for UPI IDs, phone numbers and websites."
     },
     "network": {
-      "title": "Network",
+      "title": "A taxonomy of scams",
       "body": "How the phone numbers, UPI IDs and websites in your scans connect."
     },
     "sos": {
@@ -659,31 +659,6 @@
     "footerGithub": "Source code on GitHub",
     "footerBuilt": "Built for Arthaton 2026"
   },
-  "network": {
-    "phone": "Phone numbers",
-    "upi": "UPI IDs",
-    "domain": "Websites",
-    "campaign": "Campaigns",
-    "onlyMine": "Only my details",
-    "filters": "Show",
-    "stats": "{{clusters}} clusters · largest has {{largest}} linked details",
-    "legendMine": "Your details",
-    "legendSample": "Sample data (translucent)",
-    "loading": "Drawing the network…",
-    "empty": "Nothing to show with these filters.",
-    "panelReports": "{{n}} reports",
-    "panelCampaigns": "Campaigns",
-    "panelScans": "Your checks that mention it",
-    "panelNoScans": "None of your checks mention it.",
-    "typePhone": "Phone number",
-    "typeUpi": "UPI ID",
-    "typeDomain": "Website",
-    "typeCampaign": "Campaign",
-    "noGraph": "The interactive graph needs a browser with canvas support.",
-    "spotlight": "Lit up: the “{{campaign}}” campaign and {{n}} linked details (sample data).",
-    "spotlightMine": "{{n}} of them are from your own checks.",
-    "clearSpotlight": "Show all"
-  },
   "dojo": {
     "difficulty": "Difficulty {{n}} of 3",
     "best": "Best: {{score}} points",
@@ -954,7 +929,8 @@
     "flow3Sub": "Tone, pressure and intent",
     "flow4": "Link check",
     "flow4Sub": "Where a link really goes",
-    "flow5": "Verdict and next steps"
+    "flow5": "Verdict and next steps",
+    "replayIntro": "Replay intro"
   },
   "errors": {
     "title": "Something went wrong on this screen",
@@ -1023,5 +999,98 @@
     "digital-arrest-calls": "Digital arrest calls",
     "trading-tips-club": "Trading tips club",
     "apk-invite": "APK invite"
+  },
+  "tax": {
+    "title": "A taxonomy of {{em}}",
+    "titleEm": "scams",
+    "intro": "Every scam message pulls one of four levers.",
+    "introHover": "Drag to explore, hover to trace a thread, click a message to see how to spot it.",
+    "introTouch": "Drag to explore. Tap a message to see how to spot it.",
+    "leversLabel": "Levers",
+    "lever": {
+      "fear": {
+        "name": "Fear",
+        "line": "Makes you panic so you act before you think.",
+        "tip1": "Real banks, police and power boards never threaten you over SMS or video calls.",
+        "tip2": "Hang up, and call the official number yourself."
+      },
+      "trust": {
+        "name": "Trust",
+        "line": "Pretends to be someone you already trust.",
+        "tip1": "Check the sender and the website address letter by letter.",
+        "tip2": "Call the person or company back on a number you already have."
+      },
+      "greed": {
+        "name": "Greed",
+        "line": "Promises money that is too good to be true.",
+        "tip1": "You never have to pay to receive a prize, a loan or a salary.",
+        "tip2": "Returns that are \"guaranteed\" are a warning sign."
+      },
+      "urgency": {
+        "name": "Urgency",
+        "line": "Gives you no time: now, today, in 10 minutes.",
+        "tip1": "You never need a PIN or OTP to receive money.",
+        "tip2": "Anything that says \"right now\" deserves a 10-minute pause."
+      }
+    },
+    "searchPlaceholder": "Find a trick or message",
+    "searchLabel": "Search the taxonomy",
+    "check": "Check a message",
+    "note": "Sample messages from Akshi's synthetic dataset · not real senders",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "fit": "Show everything",
+    "capDefault": "{{n}} sample messages, {{levers}} levers. Hover or tap anything to trace its thread back to the lever it pulls.",
+    "capTactic": "a kind of scam that uses {{lever}}.",
+    "openHint": "Open it to see how to spot it.",
+    "canvas": "A taxonomy of scams: four levers at the centre, kinds of scam and the channels they use around them, and sample scam messages at the edge. The list below has every message.",
+    "details": "Message details",
+    "close": "Close",
+    "sampleFrom": "Sample message from Akshi's synthetic dataset",
+    "checking": "Checking…",
+    "verdictLine": "Akshi's check of this message · risk {{risk}}",
+    "found": "What Akshi found",
+    "noneFound": "No warning signs in this one.",
+    "spot": "How to spot it",
+    "checkLike": "Check one like it",
+    "report": "Report",
+    "listTitle": "Every sample message",
+    "listBody": "The same wall as a list. Choose a message to open it.",
+    "chan": {
+      "sms": "SMS",
+      "whatsapp": "WhatsApp",
+      "call": "Phone call",
+      "telegram": "Telegram",
+      "email": "Email"
+    },
+    "card": {
+      "sms": "SMS",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "call": "Incoming call",
+      "email": "Email",
+      "upi": "UPI · Collect request",
+      "pay": "Pay",
+      "decline": "Decline",
+      "qr": "Scan to receive",
+      "sample": "Sample"
+    },
+    "sumTitle": "Scam taxonomy",
+    "sumBody": "Every kind of scam in Akshi's dataset, the lever it pulls, and how it reaches people.",
+    "statKinds": "kinds of scam",
+    "statMessages": "scam messages in the dataset",
+    "statYours": "of your checks",
+    "statLargest": "in the largest kind",
+    "showLabel": "Show",
+    "onlyMine": "Only kinds from my checks",
+    "onlyMineEmpty": "Check a message and its kind shows up here.",
+    "scene": "Scene",
+    "scene_radar": "Radar",
+    "scene_nebula": "Nebula",
+    "scene_blueprint": "Blueprint",
+    "kindsKicker": "Kinds of scam · by size",
+    "kindsTitle": "Pick one to inspect",
+    "yourChecksTag": "your checks",
+    "kindsRow": "{{name}}: {{n}} scam messages in the dataset"
   }
 }

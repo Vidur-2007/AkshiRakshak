@@ -1,4 +1,4 @@
-import { ArrowRight, Play, X } from 'lucide-react';
+import { ArrowRight, Play, Sparkles, X } from 'lucide-react';
 import { m } from 'motion/react';
 import { useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -203,10 +203,13 @@ export function HeroXray({
   id,
   children,
   onXrayChange,
+  onReplayIntro,
 }: {
   id: string;
   children?: ReactNode;
   onXrayChange?: (on: boolean) => void;
+  /** plays the opening intro again; hidden when this browser cannot play it */
+  onReplayIntro?: () => void;
 }) {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
@@ -299,9 +302,22 @@ export function HeroXray({
 
       <div className="foot">
         <span className="note self-center">{t('home.heroFoot')}</span>
+        {onReplayIntro && (
+          <button
+            type="button"
+            onClick={onReplayIntro}
+            className="ml-auto inline-flex min-h-tap cursor-pointer items-center gap-2 rounded-full px-3 underline-offset-4 hover:underline"
+          >
+            <Sparkles className="size-4" aria-hidden />
+            {t('home.replayIntro')}
+          </button>
+        )}
         <Link
           to="/tour?start=1"
-          className="ml-auto inline-flex min-h-tap items-center gap-2 rounded-full px-3 underline-offset-4 hover:underline"
+          className={cn(
+            'inline-flex min-h-tap items-center gap-2 rounded-full px-3 underline-offset-4 hover:underline',
+            !onReplayIntro && 'ml-auto',
+          )}
         >
           <Play className="size-4" aria-hidden />
           {t('landing.tour')}

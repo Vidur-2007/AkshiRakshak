@@ -23,6 +23,7 @@ import {
 } from '@/components/dashboard/DashboardViews';
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { useSampleHistory } from '@/hooks/useSampleHistory';
 import { subscribe } from '@/lib/broadcast';
 import { byCategory, byDay, computeKpis, personalTips } from '@/lib/dashboard';
 import { allScans, toScanRecord, type ScanRecord } from '@/lib/db';
@@ -34,8 +35,7 @@ import {
   type IndicatorMatch,
 } from '@/lib/engine';
 import { l10n } from '@/lib/l10n';
-import { safeLocalStorage } from '@/lib/safeStorage';
-import { buildSampleHistory, isSampleCheck } from '@/lib/sampleHistory';
+import { isSampleCheck } from '@/lib/sampleHistory';
 import { loadResult } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
@@ -111,37 +111,6 @@ function Tips({ scans }: { scans: ScanRecord[] }) {
       ))}
     </ul>
   );
-}
-
-const SAMPLE_PREF_KEY = 'akshi-dash-sample';
-
-/**
- * Sample history on the dashboard: shown by default until the person has checks of their own,
- * and they can show or hide it at any time (the choice is remembered on this device).
- */
-function useSampleHistory(own: ScanRecord[] | null) {
-  const lang = useAppStore((s) => s.lang);
-  const [pref, setPref] = useState<'on' | 'off' | null>(() => {
-    const v = safeLocalStorage.getItem(SAMPLE_PREF_KEY);
-    return v === 'on' || v === 'off' ? v : null;
-  });
-  const show = own !== null && (pref ? pref === 'on' : own.length === 0);
-  const [samples, setSamples] = useState<ScanRecord[]>([]);
-  useEffect(() => {
-    if (!show) return;
-    let alive = true;
-    void buildSampleHistory(lang).then((list) => {
-      if (alive) setSamples(list);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [show, lang]);
-  const setShow = (on: boolean) => {
-    safeLocalStorage.setItem(SAMPLE_PREF_KEY, on ? 'on' : 'off');
-    setPref(on ? 'on' : 'off');
-  };
-  return { show, samples: show ? samples : [], setShow };
 }
 
 function SampleBanner({

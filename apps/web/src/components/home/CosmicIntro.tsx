@@ -14,27 +14,34 @@ import { useAppStore } from '@/lib/store';
 
 const SEEN_KEY = 'akshi-cosmic-seen';
 
-/**
- * Whether to open the landing with the particle intro: once per browser session, never with
- * reduced motion, in Elder mode, on low-end devices, for recording / tour / simple links, or under
- * browser automation (tests), and only when WebGL is available.
- */
-export function shouldPlayCosmic(search = typeof location === 'undefined' ? '' : location.search) {
+/** Whether this browser can play the intro at all: WebGL, and reduced motion off. */
+export function canPlayCosmic(): boolean {
   if (typeof window === 'undefined') return false;
   try {
-    if (sessionStorage.getItem(SEEN_KEY)) return false;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-  } catch {
-    return false;
-  }
-  if (navigator.webdriver) return false;
-  if (/[?&](demo|simple|start)=/.test(search)) return false;
-  try {
     const c = document.createElement('canvas');
     return Boolean(c.getContext('webgl'));
   } catch {
     return false;
   }
+}
+
+/**
+ * Whether to open the landing with the particle intro: once per browser session, never with
+ * reduced motion, for recording / tour / simple links, or under browser automation (tests), and
+ * only when WebGL is available. `?intro=1` asks for it again (a demo link; "Replay intro").
+ */
+export function shouldPlayCosmic(search = typeof location === 'undefined' ? '' : location.search) {
+  if (typeof window === 'undefined') return false;
+  if (/[?&]intro=1(?:&|$)/.test(search)) return canPlayCosmic();
+  try {
+    if (sessionStorage.getItem(SEEN_KEY)) return false;
+  } catch {
+    return false;
+  }
+  if (navigator.webdriver) return false;
+  if (/[?&](demo|simple|start)=/.test(search)) return false;
+  return canPlayCosmic();
 }
 
 const SHIELD = 'M100 14l66 26v48c0 44-28 80-66 98-38-18-66-54-66-98V40z';

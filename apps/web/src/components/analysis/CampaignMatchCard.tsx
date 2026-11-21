@@ -91,15 +91,14 @@ export function CampaignMatchCard({ match, lang }: { match: CampaignMatch; lang:
       )}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
-        {match.campaign && (
-          <Link
-            to={`/network?campaign=${encodeURIComponent(match.campaign)}`}
-            className={buttonVariants({ variant: 'secondary', size: 'sm' })}
-          >
-            <Network aria-hidden />
-            {t('campaign.seeNetwork')}
-          </Link>
-        )}
+        {/* the Network wall lights up this kind of scam among the others */}
+        <Link
+          to={`/network?category=${encodeURIComponent(match.category)}`}
+          className={buttonVariants({ variant: 'secondary', size: 'sm' })}
+        >
+          <Network aria-hidden />
+          {t('campaign.seeNetwork')}
+        </Link>
         <p className="inline-flex items-center gap-1.5 text-xs text-text-2">
           <FlaskConical className="size-3.5 shrink-0" aria-hidden />
           {t('campaign.sample')}

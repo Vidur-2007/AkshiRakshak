@@ -4,6 +4,60 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Network summaries (21 Nov 2026)
+
+From the human's two panel screenshots (a "Scam network" summary and "Campaigns · by size"), adapted to the taxonomy wall. Every number is real.
+
+- **Left panel, "Scam taxonomy":**
+  - **Stats:** kinds of scam (19); scam messages in the dataset (1,739, from `counts`); your checks that hit a kind (your own history, not samples); the largest kind (133).
+  - The **search** box.
+  - **Show:** the four levers with their message counts. These moved here from the top bar.
+  - **Only kinds from my checks:** a switch, disabled with a hint until you have checked a message. It narrows the wall through a new `kinds` prop on the canvas.
+  - **Scene:** Radar (rings and a turning sweep, still with reduced motion), Nebula (the default: a soft glow in each lever's quarter) or Blueprint (a blue grid), remembered in localStorage.
+- **Right panel, "Kinds of scam · by size":** "Pick one to inspect" lists all 19 kinds by dataset size, each with a bar in its lever's colour and a "your checks" tag where your checks hit it. A row lights the kind up on the wall and flies to it. It is hidden on desktop while a message panel is open.
+- **Layout:** "Check a message" moved to the top right. Below 1024 px the panels flow below the wall.
+- **Fix:** the colour variables now live on `.tx-wrap` and `.tx-list`, so the panels and the list outside the wall get them; the list below used to miss them.
+- **Tests:** `networkFlow.test.tsx` now has 7 (stats, switch disabled without checks, kinds sorted with the largest matching the stat, pick a kind, scene switch remembered). axe in both themes passes; one analysis-screen run caught a fade mid-way under load and passed 6/6 on its own.
+
+### Replay the intro (21 Nov 2026)
+
+- The human could not get back to the cosmic intro after it had played (it plays once per browser session). The home hero's footer now has **Replay intro**, next to the 60-second tour. It plays the intro again from wherever you are on the home page; Skip, Esc or scrolling to the end returns to the page.
+- **`/?intro=1`** opens the site straight into the intro, even after it was seen or in a test browser (a demo link).
+- Both stay off with reduced motion or without WebGL, and the button is hidden then (`canPlayCosmic()`).
+- Tests: `components/home/CosmicIntro.test.ts` (4: once per session, `?intro=1`, reduced motion / no WebGL, demo and automation). Checked in Edge: the button, replay, Skip and `?intro=1`. Landing a11y, perf and smoke e2e: 47/47.
+
+### Network redesigned: "A taxonomy of scams" (21 Nov 2026)
+
+From the human's design file "Akshi — Scam taxonomy (Network V3)". This replaced a V2 "scam network console" built earlier the same day: the human preferred V3, and V2 never reached `main`.
+
+- **The picture:** a wall where every scam message traces back to the one lever it pulls (Fear, Trust, Greed, Urgency). It is a full-screen dark wall in both themes, and the top bar goes dark too (`nav-night`, now in globals.css).
+  - **Levers:** the four at the centre.
+  - **Tactics:** Akshi's 19 scam kinds, grouped by lever in `lib/taxonomy.ts`. This is an editorial grouping; the detail panel shows what the engine really finds.
+  - **Tricks:** the channels each kind arrived through in the dataset (≥ 10% of its messages; SMS, WhatsApp, phone call, Telegram, email).
+  - **Messages:** 116 cards at the edge. They are real sample texts from the synthetic dataset's training split, in the person's language first, joined by threads in the lever's colour.
+- **Canvas** (`components/network/TaxonomyCanvas.tsx`): Canvas 2D, no library, and the whole page is 8.7 KB gz. Each card is drawn once, offscreen, as a little phone screen: SMS, WhatsApp/Telegram chat, call transcript, email, UPI collect request (with the message's own amount) or QR "receive money" (a decorative pattern, not a real code). No invented senders: each card shows its channel and a "Sample" tag.
+- **Interaction:** hover traces a thread back to its lever, with a caption. Click a card to open it, click a node to fly to it, drag to pan, and zoom with the wheel or buttons; Fit shows everything. A big title, "A taxonomy of scams", sits over the wall until the first interaction.
+  - **Lever filters** and a **search box**: search highlights matching messages and flies to the first one.
+- **Detail panel**, built for a picked message:
+  - the crumb lever → kind → channel, and the card drawn large;
+  - the full text, with "Sample message from Akshi's synthetic dataset · language";
+  - **the engine's real check of that message**, on-device only (no AI, link expansion or domain lookup): its verdict, risk, and "What Akshi found" (top reasons; a bundled-indicator match keeps its "(sample data)" note);
+  - "How to spot it" (two tips per lever), **Check one like it** (opens /scan with the message filled in) and Report.
+- **`?category=<kind>`** lights up that kind and flies to it. Campaign Match's "See it on the network" now links there, for every match.
+- **Accessibility:** a collapsible "Every sample message" list below the wall, grouped by lever and kind, is the keyboard and screen-reader path to every message. On phones the panel is a bottom sheet above the tab bar.
+- **Data:** each sample in campaign-samples.json now carries its channel (`[category, lang, text, channel]`), and `channelsOf` gives each kind's channel mix.
+- **Removed:**
+  - `ForceGraphView`, `lib/graph` and its tests;
+  - the old `network.*` strings;
+  - V2's `ScamNetworkCanvas`, `lib/scamNetwork` and `net.*` strings.
+- **Kept from V2:** `hooks/useSampleHistory.ts` (the Dashboard still uses it) and `campaignOfResult` in campaignMatch.ts.
+- **Strings:** `tax.*` in en/hi/te/bn. The title is one template, "A taxonomy of {{em}}", so the red word can move with the language. `page.network.title` is "A taxonomy of scams". The hi/te/bn strings are mine, for the i18n review.
+- **Follow-up:** `react-force-graph-2d` is still in apps/web/package.json but no longer imported (not bundled). Remove it with a careful lockfile edit.
+- Tests:
+  - `lib/taxonomy.test.ts` (5: every kind under one lever, real samples only, language first, cards apart, card types and amounts);
+  - `pages/networkFlow.test.tsx` (4: levers and caption, list → panel with the real check → Check one like it, close, `?category=`);
+  - 50 e2e in Edge, including axe in both themes. Two landing/scan tests timed out under load and passed 4/4 on their own.
+
 ### Campaign Match: "You're not the only one" (21 Nov 2026)
 
 - A card on the Analysis screen (`components/analysis/CampaignMatchCard.tsx`, logic in `lib/campaignMatch.ts`). It connects a checked message to a scam campaign in the sample data:

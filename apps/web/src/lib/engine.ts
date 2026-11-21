@@ -157,6 +157,7 @@ export {
   SAMPLE_STATEMENTS,
   analyzeStatement,
   buildEntityGraph,
+  normaliseEntity,
   parseStatementCsv,
 } from '@akshi/insights';
 

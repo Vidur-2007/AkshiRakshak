@@ -1,29 +1,46 @@
-import { FlaskConical } from 'lucide-react';
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import '@/styles/network.css';
+import { Maximize2, Minus, Plus, Search, X } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useSearchParams } from 'react-router';
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
+import { Link, useNavigate, useSearchParams } from 'react-router';
+import {
+  drawCard,
+  TaxonomyCanvas,
+  type CardLabels,
+  type HoverItem,
+  type TaxonomyHandle,
+} from '@/components/network/TaxonomyCanvas';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { subscribe } from '@/lib/broadcast';
+import type { CampaignSamplesData } from '@/lib/campaignMatch';
 import { allScans, type ScanRecord } from '@/lib/db';
-import { buildEntityGraph, type GraphNode } from '@/lib/engine';
-import { ALL_TYPES, filterGraph, neighbours, scansMentioning, type NodeType } from '@/lib/graph';
-import { VERDICT_ICON } from '@/lib/risk';
-import { cn } from '@/lib/utils';
+import {
+  analyze,
+  categoryText,
+  loadCampaignSamples,
+  type AnalysisResult,
+  type Lang,
+} from '@/lib/engine';
+import { safeLocalStorage } from '@/lib/safeStorage';
+import { useAppStore } from '@/lib/store';
+import {
+  buildTaxonomy,
+  LEVERS,
+  leverOf,
+  type LeverId,
+  type TaxMessage,
+  type TaxNode,
+} from '@/lib/taxonomy';
 
-const ForceGraphView = lazy(() => import('@/components/network/ForceGraphView'));
-
-const TYPE_DOT: Record<NodeType, string> = {
-  phone: 'bg-[#25b8ff] rounded-full',
-  upi: 'bg-[#3de0ff] rotate-45',
-  domain: 'bg-[#8fb3ff]',
-  campaign: 'bg-[#b04dff] rounded-[3px]',
-};
-
-const TYPE_LABEL_KEY: Record<NodeType, string> = {
-  phone: 'network.typePhone',
-  upi: 'network.typeUpi',
-  domain: 'network.typeDomain',
-  campaign: 'network.typeCampaign',
+const REPORT_URL = 'https://cybercrime.gov.in';
+const SCENES = ['radar', 'nebula', 'blueprint'] as const;
+type Scene = (typeof SCENES)[number];
+const SCENE_KEY = 'akshi-net-scene';
+const LANG_NAME: Record<string, string> = {
+  en: 'English',
+  hi: 'हिंदी',
+  te: 'తెలుగు',
+  bn: 'বাংলা',
 };
 
 export function canvasSupported(): boolean {
@@ -34,270 +51,576 @@ export function canvasSupported(): boolean {
   }
 }
 
-function EntityPanel({
-  node,
-  graph,
-  scans,
+/** The detail panel for one sample message: what Akshi's engine finds in it, and how to spot it. */
+function Detail({
+  m,
+  lang,
+  labels,
   onClose,
 }: {
-  node: GraphNode | null;
-  graph: ReturnType<typeof buildEntityGraph>;
-  scans: ScanRecord[];
+  m: TaxMessage;
+  lang: Lang;
+  labels: CardLabels;
   onClose: () => void;
 }) {
   const { t } = useTranslation();
-  const campaigns = node
-    ? graph.nodes.filter((n) => n.type === 'campaign' && neighbours(graph, node.id).has(n.id))
-    : [];
-  const mentions = node ? scansMentioning(scans, node) : [];
+  const navigate = useNavigate();
+  const big = useRef<HTMLCanvasElement>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+
+  useEffect(() => {
+    if (big.current) drawCard(big.current, m, labels);
+  }, [m, labels]);
+  useEffect(() => {
+    let live = true;
+    setResult(null);
+    // on-device only: no AI, link expansion or domain lookup for the synthetic samples
+    analyze({
+      kind: 'message',
+      text: m.text,
+      lang,
+      options: { cloudAI: false, expandLinks: false, domainAge: false },
+    })
+      .then((r) => {
+        if (live) setResult(r);
+      })
+      .catch(() => {
+        /* the panel keeps "Checking…"; the check page still works */
+      });
+    return () => {
+      live = false;
+    };
+  }, [m, lang]);
+
+  const lever = LEVERS.find((l) => l.id === m.lever)!;
+  const kind = categoryText(m.category, lang).name;
+  const found = (result?.signals ?? [])
+    .filter((s) => s.weight > 0)
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, 4);
   return (
-    <Sheet open={!!node} onOpenChange={(o) => !o && onClose()}>
-      <SheetContent side="right" closeLabel={t('shell.close')}>
-        {node && (
-          <>
-            <div>
-              <p className="text-xs tracking-wide text-text-2 uppercase">
-                {t(TYPE_LABEL_KEY[node.type])}
-              </p>
-              <SheetTitle className="mt-1 pr-10 font-mono text-base break-all">
-                {node.label}
-              </SheetTitle>
-              <SheetDescription className="mt-2 flex flex-wrap items-center gap-2">
-                <span>{t('network.panelReports', { n: node.reports })}</span>
-                {node.sampleData && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-glass-border px-2 py-0.5 text-xs">
-                    <FlaskConical className="size-3" aria-hidden />
-                    {t('placeholder.sampleData')}
-                  </span>
-                )}
-                {node.mine && (
-                  <span className="rounded-full border border-brand/40 px-2 py-0.5 text-xs text-brand">
-                    {t('network.legendMine')}
-                  </span>
-                )}
-              </SheetDescription>
-            </div>
-            {campaigns.length > 0 && (
-              <div>
-                <h3 className="text-sm font-medium">{t('network.panelCampaigns')}</h3>
-                <ul className="mt-2 flex flex-wrap gap-2">
-                  {campaigns.map((c) => (
-                    <li
-                      key={c.id}
-                      className="rounded-chip border border-ai/40 bg-ai/10 px-2.5 py-1 font-mono text-xs"
-                    >
-                      {c.label}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div>
-              <h3 className="text-sm font-medium">{t('network.panelScans')}</h3>
-              {mentions.length === 0 ? (
-                <p className="mt-1 text-sm text-text-2">{t('network.panelNoScans')}</p>
-              ) : (
-                <ul className="mt-2 flex flex-col gap-1">
-                  {mentions.slice(0, 10).map((s) => {
-                    const Icon = VERDICT_ICON[s.verdict];
-                    return (
-                      <li key={s.id}>
-                        <Link
-                          to={`/scan/${s.id}`}
-                          onClick={onClose}
-                          className="flex min-h-tap items-center gap-2 rounded-chip px-2 text-sm hover:bg-overlay/5"
-                        >
-                          <Icon className="size-4 shrink-0 text-text-2" aria-hidden />
-                          <span className="truncate">{s.inputPreview}</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </div>
-          </>
-        )}
-      </SheetContent>
-    </Sheet>
+    <>
+      <button type="button" className="tx-x" onClick={onClose} aria-label={t('tax.close')}>
+        <X size={16} aria-hidden />
+      </button>
+      <div className="crumb">
+        <span style={{ color: lever.color }}>{t(`tax.lever.${m.lever}.name`)}</span>
+        <i aria-hidden>→</i>
+        <span>{kind}</span>
+        <i aria-hidden>→</i>
+        <span>{t(`tax.chan.${m.channel}`, { defaultValue: m.channel })}</span>
+      </div>
+      <h2>{kind}</h2>
+      <canvas ref={big} aria-hidden />
+      <p className="say" lang={m.lang}>
+        “{m.text}”
+        <small lang={lang}>
+          {t('tax.sampleFrom')} · {LANG_NAME[m.lang] ?? m.lang}
+        </small>
+      </p>
+      <div className="tx-verdict" data-v={result?.verdict ?? 'checking'} aria-live="polite">
+        <b>{result ? t(`verdict.${result.verdict}`) : t('tax.checking')}</b>
+        {result && <span>{t('tax.verdictLine', { risk: result.riskScore })}</span>}
+      </div>
+      {result && (
+        <div>
+          <h3>{t('tax.found')}</h3>
+          {found.length ? (
+            <ul>
+              {found.map((s) => (
+                <li key={s.id}>
+                  {s.label}
+                  {/* a bundled-indicator match keeps its "(sample data)" note (truth rules) */}
+                  {s.id === 'KNOWN_INDICATOR' && s.detail ? `: ${s.detail}` : ''}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="say">{t('tax.noneFound')}</p>
+          )}
+        </div>
+      )}
+      <div>
+        <h3>{t('tax.spot')}</h3>
+        <ul>
+          <li>{t(`tax.lever.${m.lever}.tip1`)}</li>
+          <li>{t(`tax.lever.${m.lever}.tip2`)}</li>
+        </ul>
+      </div>
+      <div className="tx-acts">
+        <button
+          type="button"
+          className="p"
+          onClick={() => void navigate('/scan', { state: { prefill: m.text } })}
+        >
+          {t('tax.checkLike')}
+        </button>
+        <a href={REPORT_URL} target="_blank" rel="noreferrer">
+          {t('tax.report')} ↗
+        </a>
+      </div>
+    </>
   );
 }
 
-/** Network graph (§5.12, M9.1). */
+/** The Network page: a taxonomy of scams (design "Scam taxonomy · Network V3", 2026-11-21). */
 export default function NetworkPage() {
   const { t } = useTranslation();
   usePageTitle(t('page.network.title'));
-  const [scans, setScans] = useState<ScanRecord[]>([]);
-  const [types, setTypes] = useState<Set<NodeType>>(new Set(ALL_TYPES));
-  const [onlyMine, setOnlyMine] = useState(false);
-  const [selected, setSelected] = useState<GraphNode | null>(null);
+  const lang = useAppStore((s) => s.lang);
+  const [data, setData] = useState<CampaignSamplesData | null>(null);
   const [canvasOk] = useState(canvasSupported);
-
   useEffect(() => {
-    void allScans().then(setScans);
+    void loadCampaignSamples()
+      .then(setData)
+      .catch(() => {
+        /* offline before the data was cached: the page shows the title and the list stays empty */
+      });
   }, []);
 
-  const graph = useMemo(
-    () =>
-      buildEntityGraph(
-        scans.map((s) => s.result),
-        { includeBundled: true },
-      ),
-    [scans],
-  );
-  const shown = useMemo(() => filterGraph(graph, { types, onlyMine }), [graph, types, onlyMine]);
+  // the top bar goes dark over the wall
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add('nav-night');
+    return () => root.classList.remove('nav-night');
+  }, []);
 
-  // Campaign Match's "See it on the network": /network?campaign=<id> lights up that campaign
-  const [params, setParams] = useSearchParams();
-  const spotCampaign = params.get('campaign');
-  const spotId =
-    spotCampaign && shown.nodes.some((n) => n.id === `campaign:${spotCampaign}`)
-      ? `campaign:${spotCampaign}`
-      : null;
-  const spotLinked = useMemo(() => {
-    if (!spotId) return null;
-    const ids = neighbours(graph, spotId);
-    ids.delete(spotId);
-    const mine = graph.nodes.filter((n) => ids.has(n.id) && n.mine).length;
-    return { n: ids.size, mine };
-  }, [graph, spotId]);
+  const tax = useMemo(() => (data ? buildTaxonomy(data, lang) : null), [data, lang]);
+  const [on, setOn] = useState<Record<LeverId, boolean>>({
+    fear: true,
+    trust: true,
+    greed: true,
+    urgency: true,
+  });
+  const [interacted, setInteracted] = useState(false);
+  const [hover, setHover] = useState<HoverItem | null>(null);
+  const [selected, setSelected] = useState<TaxMessage | null>(null);
+  const [query, setQuery] = useState('');
+  const [focus, setFocus] = useState<string | null>(null);
+  const canvas = useRef<TaxonomyHandle>(null);
 
-  const toggle = (ty: NodeType) =>
-    setTypes((s) => {
-      const n = new Set(s);
-      if (n.has(ty)) n.delete(ty);
-      else n.add(ty);
-      return n;
+  // your own checks: which kinds of scam they found (for the summaries and "only my kinds")
+  const [own, setOwn] = useState<ScanRecord[]>([]);
+  useEffect(() => {
+    void allScans().then(setOwn);
+    return subscribe((msg) => {
+      if (msg.type === 'scan' || msg.type === 'cleared') void allScans().then(setOwn);
     });
+  }, []);
+  const myKinds = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const c of own)
+      if (c.verdict !== 'no_signs' && c.category && leverOf(c.category))
+        m.set(c.category, (m.get(c.category) ?? 0) + 1);
+    return m;
+  }, [own]);
+  const myChecks = [...myKinds.values()].reduce((a, n) => a + n, 0);
+  const [onlyMine, setOnlyMine] = useState(false);
+  const kindsFilter = useMemo(
+    () => (onlyMine && myKinds.size ? new Set(myKinds.keys()) : null),
+    [onlyMine, myKinds],
+  );
+  const [scene, setScene] = useState<Scene>(() => {
+    const v = safeLocalStorage.getItem(SCENE_KEY);
+    return (SCENES as readonly string[]).includes(v ?? '') ? (v as Scene) : 'nebula';
+  });
+  const pickScene = (v: Scene) => {
+    setScene(v);
+    safeLocalStorage.setItem(SCENE_KEY, v);
+  };
+
+  // the numbers in the summaries: the dataset's own counts, and your checks
+  const kindRows = useMemo(() => {
+    if (!data) return [];
+    return LEVERS.flatMap((L) =>
+      L.categories.map((c) => ({ c, lever: L, n: data.counts[c]?.messages ?? 0 })),
+    ).sort((a, b) => b.n - a.n || a.c.localeCompare(b.c));
+  }, [data]);
+  const datasetMessages = kindRows.reduce((a, r) => a + r.n, 0);
+  const largest = kindRows[0]?.n ?? 0;
+  // "A taxonomy of {{em}}": the red word can sit anywhere in the sentence, depending on the language
+  const titleParts = t('tax.title', { em: '\u0000' }).split('\u0000');
+  const interact = useCallback(() => setInteracted(true), []);
+
+  const labels: CardLabels = useMemo(
+    () => ({
+      sms: t('tax.card.sms'),
+      whatsapp: t('tax.card.whatsapp'),
+      telegram: t('tax.card.telegram'),
+      call: t('tax.card.call'),
+      email: t('tax.card.email'),
+      upi: t('tax.card.upi'),
+      pay: t('tax.card.pay'),
+      decline: t('tax.card.decline'),
+      qr: t('tax.card.qr'),
+      sample: t('tax.card.sample'),
+    }),
+    [t],
+  );
+  const leverName = useCallback((id: LeverId) => t(`tax.lever.${id}.name`), [t]);
+  const nodeName = useCallback(
+    (n: TaxNode) =>
+      n.kind === 'lever'
+        ? leverName(n.lever)
+        : n.kind === 'tactic'
+          ? categoryText(n.category!, lang).name
+          : t(`tax.chan.${n.channel}`, { defaultValue: n.channel ?? '' }),
+    [lang, leverName, t],
+  );
+  const names = useMemo(() => ({ lever: leverName, node: nodeName }), [leverName, nodeName]);
+
+  // Campaign Match's "See it on the network": /network?category=<kind> lights up that kind
+  const [params] = useSearchParams();
+  const wanted = params.get('category');
+  useEffect(() => {
+    if (!tax || !wanted) return;
+    const id = `tactic:${wanted}`;
+    if (!tax.nodes.some((n) => n.id === id)) return;
+    setInteracted(true);
+    setFocus(id);
+  }, [tax, wanted]);
+
+  // search: messages whose text, kind or channel matches
+  const matches = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!tax || q.length < 2) return null;
+    return new Set(
+      tax.messages
+        .filter(
+          (m) =>
+            m.text.toLowerCase().includes(q) ||
+            categoryText(m.category, lang).name.toLowerCase().includes(q) ||
+            t(`tax.chan.${m.channel}`).toLowerCase().includes(q),
+        )
+        .map((m) => m.id),
+    );
+  }, [tax, query, lang, t]);
+  useEffect(() => {
+    if (!matches || !tax) return;
+    const first = tax.messages.find((m) => matches.has(m.id));
+    if (first) canvas.current?.flyTo(first.id);
+  }, [matches, tax]);
+
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelected(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selected]);
+
+  const caption = (() => {
+    if (!tax) return null;
+    if (hover && 'node' in hover) {
+      const n = hover.node;
+      const L = LEVERS.find((l) => l.id === n.lever)!;
+      if (n.kind === 'lever')
+        return (
+          <>
+            <b style={{ color: L.color }}>{leverName(n.lever)}.</b> {t(`tax.lever.${n.lever}.line`)}
+          </>
+        );
+      if (n.kind === 'tactic')
+        return (
+          <>
+            <b>{nodeName(n)}</b> · {t('tax.capTactic', { lever: leverName(n.lever) })}{' '}
+            {t(`tax.lever.${n.lever}.line`)}
+          </>
+        );
+      return (
+        <>
+          <b>{nodeName(n)}</b> · {categoryText(n.category!, lang).name} · {leverName(n.lever)}
+        </>
+      );
+    }
+    if (hover && 'message' in hover) {
+      const m = hover.message;
+      return (
+        <>
+          <b>{t(`tax.chan.${m.channel}`)}</b> · {categoryText(m.category, lang).name} ·{' '}
+          {leverName(m.lever)}. {t('tax.openHint')}
+        </>
+      );
+    }
+    const n = tax.messages.filter(
+      (m) => on[m.lever] && (!kindsFilter || kindsFilter.has(m.category)),
+    ).length;
+    const levers = LEVERS.filter((l) => on[l.id]).length;
+    return <>{t('tax.capDefault', { n, levers })}</>;
+  })();
+
+  const byLever = useMemo(
+    () =>
+      LEVERS.map((L) => ({
+        L,
+        kinds: L.categories.map((c) => ({
+          c,
+          msgs: (tax?.messages ?? []).filter((m) => m.category === c),
+        })),
+      })),
+    [tax],
+  );
 
   return (
-    <section
-      aria-labelledby="page-title"
-      className="mx-auto w-full max-w-6xl px-4 pt-8 sm:px-6 lg:pt-12"
-    >
-      <h1 id="page-title" className="text-xl font-semibold tracking-tight sm:text-2xl">
-        {t('page.network.title')}
-      </h1>
-      <p className="mt-2 max-w-2xl text-text-2">{t('page.network.body')}</p>
-
-      <div
-        className="mt-6 flex flex-wrap items-center gap-2"
-        role="group"
-        aria-label={t('network.filters')}
-      >
-        {ALL_TYPES.map((ty) => (
-          <button
-            key={ty}
-            type="button"
-            aria-pressed={types.has(ty)}
-            onClick={() => toggle(ty)}
-            className={cn(
-              'inline-flex min-h-10 items-center gap-2 rounded-chip border px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-brand',
-              types.has(ty)
-                ? 'border-brand/40 bg-brand/10 text-text'
-                : 'border-glass-border text-text-2',
-            )}
-          >
-            <span className={cn('size-2.5', TYPE_DOT[ty])} aria-hidden />
-            {t(`network.${ty}`)}
-          </button>
-        ))}
-        <button
-          type="button"
-          aria-pressed={onlyMine}
-          onClick={() => setOnlyMine((v) => !v)}
-          className={cn(
-            'inline-flex min-h-10 items-center gap-2 rounded-chip border px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-brand',
-            onlyMine ? 'border-brand/40 bg-brand/10 text-text' : 'border-glass-border text-text-2',
-          )}
-        >
-          <span className="size-3 rounded-full border-2 border-brand" aria-hidden />
-          {t('network.onlyMine')}
-        </button>
-      </div>
-
-      <p className="mt-3 text-sm text-text-2" aria-live="polite">
-        {t('network.stats', {
-          clusters: graph.stats.clusters,
-          largest: graph.stats.largestCluster,
-        })}
-      </p>
-
-      {spotId && spotLinked && (
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-card border border-[#b04dff]/50 bg-[#b04dff]/10 px-4 py-3 text-sm text-text">
-          <p>
-            {t('network.spotlight', {
-              campaign: t(`campaigns.${spotCampaign}`, { defaultValue: spotCampaign ?? '' }),
-              n: spotLinked.n,
-            })}
-            {spotLinked.mine > 0 && ` ${t('network.spotlightMine', { n: spotLinked.mine })}`}
-          </p>
-          <button
-            type="button"
-            onClick={() => setParams({}, { replace: true })}
-            className="ml-auto min-h-9 rounded-chip border border-glass-border px-3 text-sm outline-none hover:bg-overlay/6 focus-visible:outline-2 focus-visible:outline-brand"
-          >
-            {t('network.clearSpotlight')}
-          </button>
-        </div>
-      )}
-
-      <div className="mt-4">
-        {shown.nodes.length === 0 ? (
-          <p className="surface p-8 text-center text-text-2">{t('network.empty')}</p>
-        ) : canvasOk ? (
-          <Suspense
-            fallback={
-              <div className="surface grid h-[420px] place-items-center text-sm text-text-2">
-                {t('network.loading')}
-              </div>
-            }
-          >
-            <ForceGraphView
-              graph={shown}
-              selectedId={selected?.id ?? spotId}
-              onSelect={setSelected}
-              zoomTo={spotId}
+    <>
+      <div className="tx-wrap">
+        <section className="tx-app" aria-labelledby="page-title" data-scene={scene}>
+          {tax && canvasOk && (
+            <TaxonomyCanvas
+              ref={canvas}
+              tax={tax}
+              on={on}
+              kinds={kindsFilter}
+              matches={matches}
+              focus={focus}
+              selected={selected?.id ?? null}
+              onHover={setHover}
+              onPick={setSelected}
+              onInteract={interact}
+              names={names}
+              labels={labels}
+              ariaLabel={t('tax.canvas')}
+              panelOpen={!!selected}
+              flyToId={focus}
             />
-          </Suspense>
-        ) : (
-          <p className="surface p-6 text-sm text-text-2">{t('network.noGraph')}</p>
-        )}
-      </div>
+          )}
 
-      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-text-2">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="size-3 rounded-full border-2 border-brand" aria-hidden />
-          {t('network.legendMine')}
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="size-3 rounded-full bg-text-2/40" aria-hidden />
-          {t('network.legendSample')}
-        </span>
-      </div>
+          <header className="tx-top">
+            <Link to="/scan" className="tx-cta">
+              {t('tax.check')}
+            </Link>
+          </header>
 
-      {/* Keyboard and screen-reader path to every node */}
-      <ul className="mt-6 flex flex-wrap gap-2" aria-label={t('page.network.title')}>
-        {shown.nodes.map((n) => (
-          <li key={n.id}>
+          <div className="tx-title" data-off={interacted}>
+            <h1 id="page-title">
+              {titleParts[0]}
+              <em>{t('tax.titleEm')}</em>
+              {titleParts[1]}
+            </h1>
+            <p>
+              {t('tax.intro')} <span className="tx-hover">{t('tax.introHover')}</span>
+              <span className="tx-touch">{t('tax.introTouch')}</span>
+            </p>
+          </div>
+
+          <p className="tx-cap tx-panel" aria-live="polite">
+            {caption}
+          </p>
+          <div className="tx-zoom tx-panel">
             <button
               type="button"
-              onClick={() => setSelected(n)}
-              className={cn(
-                'inline-flex min-h-9 items-center gap-2 rounded-chip border px-2.5 font-mono text-xs outline-none focus-visible:outline-2 focus-visible:outline-brand',
-                n.mine ? 'border-brand/50' : 'border-glass-border',
-                n.sampleData && 'opacity-70',
-              )}
+              aria-label={t('tax.zoomOut')}
+              onClick={() => canvas.current?.zoomBy(1 / 1.3)}
             >
-              <span className={cn('size-2', TYPE_DOT[n.type])} aria-hidden />
-              <span className="sr-only">{t(TYPE_LABEL_KEY[n.type])}: </span>
-              {n.label}
+              <Minus size={18} aria-hidden />
             </button>
-          </li>
-        ))}
-      </ul>
+            <button
+              type="button"
+              aria-label={t('tax.zoomIn')}
+              onClick={() => {
+                interact();
+                canvas.current?.zoomBy(1.3);
+              }}
+            >
+              <Plus size={18} aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label={t('tax.fit')}
+              onClick={() => {
+                setSelected(null);
+                setFocus(null);
+                canvas.current?.fit();
+              }}
+            >
+              <Maximize2 size={16} aria-hidden />
+            </button>
+          </div>
+          <span className="tx-note">{t('tax.note')}</span>
 
-      <EntityPanel node={selected} graph={graph} scans={scans} onClose={() => setSelected(null)} />
-    </section>
+          <aside
+            className="tx-det tx-panel"
+            data-on={!!selected}
+            aria-label={t('tax.details')}
+            aria-hidden={!selected}
+          >
+            {selected && (
+              <Detail m={selected} lang={lang} labels={labels} onClose={() => setSelected(null)} />
+            )}
+          </aside>
+        </section>
+
+        {/* summary: the wall at a glance, what to show, the scene */}
+        <aside className="tx-sum tx-panel" aria-labelledby="tx-sum-title">
+          <h2 id="tx-sum-title">{t('tax.sumTitle')}</h2>
+          <p className="d">{t('tax.sumBody')}</p>
+          <dl className="tx-stats">
+            <div>
+              <dt>{t('tax.statKinds')}</dt>
+              <dd className="r">{kindRows.length}</dd>
+            </div>
+            <div>
+              <dt>{t('tax.statMessages')}</dt>
+              <dd>{datasetMessages.toLocaleString('en-IN')}</dd>
+            </div>
+            <div>
+              <dt>{t('tax.statYours')}</dt>
+              <dd>{myChecks}</dd>
+            </div>
+            <div>
+              <dt>{t('tax.statLargest')}</dt>
+              <dd>{largest}</dd>
+            </div>
+          </dl>
+          <label className="tx-search">
+            <Search size={16} aria-hidden />
+            <input
+              value={query}
+              onChange={(e) => {
+                interact();
+                setQuery(e.target.value);
+              }}
+              placeholder={t('tax.searchPlaceholder')}
+              aria-label={t('tax.searchLabel')}
+            />
+          </label>
+          <div className="h">{t('tax.showLabel')}</div>
+          <div role="group" aria-label={t('tax.leversLabel')}>
+            {LEVERS.map((L) => (
+              <button
+                key={L.id}
+                type="button"
+                className="tx-row"
+                aria-pressed={on[L.id]}
+                onClick={() => {
+                  interact();
+                  setOn((o) => ({ ...o, [L.id]: !o[L.id] }));
+                }}
+              >
+                <i style={{ background: L.color }} aria-hidden />
+                <span className="t">{leverName(L.id)}</span>
+                <span className="n">
+                  {(tax?.messages ?? []).filter((m) => m.lever === L.id).length}
+                </span>
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            role="switch"
+            className="tx-switch"
+            aria-checked={onlyMine}
+            disabled={!myKinds.size}
+            onClick={() => {
+              interact();
+              setOnlyMine((v) => !v);
+            }}
+          >
+            <span>{t('tax.onlyMine')}</span>
+            <span className="track" aria-hidden>
+              <i />
+            </span>
+          </button>
+          {!myKinds.size && <p className="hint">{t('tax.onlyMineEmpty')}</p>}
+          <div className="h">{t('tax.scene')}</div>
+          <div className="tx-scenes" role="group" aria-label={t('tax.scene')}>
+            {SCENES.map((v) => (
+              <button key={v} type="button" aria-pressed={scene === v} onClick={() => pickScene(v)}>
+                {t(`tax.scene_${v}`)}
+              </button>
+            ))}
+          </div>
+        </aside>
+
+        {/* the kinds of scam by size: pick one to light it up on the wall */}
+        <aside
+          className="tx-kinds tx-panel"
+          aria-labelledby="tx-kinds-title"
+          data-hidden={!!selected}
+        >
+          <div className="k">{t('tax.kindsKicker')}</div>
+          <h2 id="tx-kinds-title">{t('tax.kindsTitle')}</h2>
+          <ul>
+            {kindRows.map(({ c, lever, n }) => {
+              const id = `tactic:${c}`;
+              const name = categoryText(c, lang).name;
+              return (
+                <li key={c}>
+                  <button
+                    type="button"
+                    aria-pressed={focus === id}
+                    aria-label={t('tax.kindsRow', { name, n })}
+                    onClick={() => {
+                      interact();
+                      setSelected(null);
+                      setFocus(id);
+                      canvas.current?.flyTo(id);
+                    }}
+                  >
+                    <span className="nm">
+                      {name}
+                      {myKinds.has(c) && <span className="tag">{t('tax.yourChecksTag')}</span>}
+                    </span>
+                    <span className="n">{n}</span>
+                    <span className="bar" aria-hidden>
+                      <i
+                        style={{
+                          width: `${largest ? (n / largest) * 100 : 0}%`,
+                          background: lever.color,
+                        }}
+                      />
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
+      </div>
+
+      {/* The same wall as a list: the keyboard and screen-reader path to every message */}
+      {tax && (
+        <details className="tx-list">
+          <summary>
+            <h2>{t('tax.listTitle')}</h2>
+          </summary>
+          <p>{t('tax.listBody')}</p>
+          {byLever.map(({ L, kinds }) => (
+            <section key={L.id} aria-label={leverName(L.id)}>
+              {kinds.map(({ c, msgs }) =>
+                msgs.length ? (
+                  <div key={c}>
+                    <h3>
+                      <span style={{ color: L.color }}>{leverName(L.id)}</span> ·{' '}
+                      {categoryText(c, lang).name}
+                    </h3>
+                    <ul>
+                      {msgs.map((m) => (
+                        <li key={m.id}>
+                          <button
+                            type="button"
+                            lang={m.lang}
+                            onClick={() => {
+                              interact();
+                              setSelected(m);
+                              canvas.current?.flyTo(m.id);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                          >
+                            {t(`tax.chan.${m.channel}`)} ·{' '}
+                            {m.text.length > 70 ? `${m.text.slice(0, 69)}…` : m.text}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null,
+              )}
+            </section>
+          ))}
+        </details>
+      )}
+    </>
   );
 }
