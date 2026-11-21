@@ -929,7 +929,8 @@
     "flow3Sub": "Tone, pressure and intent",
     "flow4": "Link check",
     "flow4Sub": "Where a link really goes",
-    "flow5": "Verdict and next steps"
+    "flow5": "Verdict and next steps",
+    "replayIntro": "Replay intro"
   },
   "errors": {
     "title": "Something went wrong on this screen",

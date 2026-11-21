@@ -4,6 +4,13 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Replay the intro (21 Nov 2026)
+
+- The human could not get back to the cosmic intro after it had played (it plays once per browser session). The home hero's footer now has **Replay intro**, next to the 60-second tour. It plays the intro again from wherever you are on the home page; Skip, Esc or scrolling to the end returns to the page.
+- **`/?intro=1`** opens the site straight into the intro, even after it was seen or in a test browser (a demo link).
+- Both stay off with reduced motion or without WebGL, and the button is hidden then (`canPlayCosmic()`).
+- Tests: `components/home/CosmicIntro.test.ts` (4: once per session, `?intro=1`, reduced motion / no WebGL, demo and automation). Checked in Edge: the button, replay, Skip and `?intro=1`. Landing a11y, perf and smoke e2e: 47/47.
+
 ### Network redesigned: "A taxonomy of scams" (21 Nov 2026)
 
 From the human's design file "Akshi — Scam taxonomy (Network V3)". This replaced a V2 "scam network console" built earlier the same day: the human preferred V3, and V2 never reached `main`.

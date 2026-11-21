@@ -1,7 +1,7 @@
 import '@/styles/home.css';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CosmicIntro, shouldPlayCosmic } from '@/components/home/CosmicIntro';
+import { canPlayCosmic, CosmicIntro, shouldPlayCosmic } from '@/components/home/CosmicIntro';
 import { HeroXray } from '@/components/home/HeroXray';
 import { IntroLoader } from '@/components/home/IntroLoader';
 import { ScamDeck } from '@/components/home/ScamDeck';
@@ -56,6 +56,11 @@ export default function LandingPage() {
   // the particle intro opens the page once per session; the short AKSHI loader is for the rest
   const [cosmic, setCosmic] = useState(() => shouldPlayCosmic());
   const [playedCosmic] = useState(cosmic);
+  const [canReplay] = useState(canPlayCosmic);
+  const replayIntro = () => {
+    window.scrollTo({ top: 0 });
+    setCosmic(true);
+  };
   useEffect(() => {
     if (!cosmic) return;
     const root = document.documentElement;
@@ -84,7 +89,11 @@ export default function LandingPage() {
           />
         ))}
       </nav>
-      <HeroXray id="home-check" onXrayChange={setXray} />
+      <HeroXray
+        id="home-check"
+        onXrayChange={setXray}
+        onReplayIntro={canReplay ? replayIntro : undefined}
+      />
       <ShieldMoment id="home-how" />
       <ScamDeck id="home-deck" />
     </>
