@@ -61,7 +61,7 @@
   border-radius: 14px;
 }
 
-/* top: "Check a message", on the right */
+/* top: the scene picker on the left, "Check a message" on the right */
 .tx-top {
   position: absolute;
   top: 16px;
@@ -70,7 +70,7 @@
   z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
   pointer-events: none;
 }
@@ -474,7 +474,7 @@
   z-index: 9;
   max-height: calc(100dvh - var(--topbar-h) - 172px);
   overflow: auto;
-  padding: 18px;
+  padding: 16px;
   border-radius: 20px;
   color: var(--tx-ink);
   color-scheme: dark;
@@ -490,7 +490,7 @@
 .tx-sum h2,
 .tx-kinds h2 {
   margin: 0;
-  font: 400 30px/1.05 var(--font-serif);
+  font: 400 26px/1.05 var(--font-serif);
   text-transform: none;
   letter-spacing: 0;
   color: var(--tx-ink);
@@ -500,13 +500,13 @@
   margin-top: 6px;
 }
 .tx-sum .d {
-  margin: 8px 0 0;
-  font-size: 13.5px;
+  margin: 6px 0 0;
+  font-size: 13px;
   color: var(--tx-mut);
 }
 .tx-sum .h,
 .tx-kinds .k {
-  margin: 16px 0 6px;
+  margin: 12px 0 4px;
   font: 400 11px var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -518,21 +518,21 @@
 .tx-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin: 14px 0;
+  gap: 6px;
+  margin: 12px 0;
 }
 .tx-stats div {
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: 1px solid var(--tx-line);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.03);
 }
 .tx-stats dd {
   margin: 0;
-  font: 400 28px/1.1 var(--font-serif);
+  font: 400 24px/1.1 var(--font-serif);
   color: var(--tx-ink);
 }
 .tx-stats dd.r {
@@ -547,8 +547,8 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  min-height: 38px;
-  padding: 4px 2px;
+  min-height: 32px;
+  padding: 2px;
   border: 0;
   background: none;
   color: var(--tx-ink);
@@ -579,8 +579,8 @@
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  margin-top: 12px;
-  padding: 12px 14px;
+  margin-top: 10px;
+  padding: 9px 12px;
   border: 1px solid var(--tx-line);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.03);
@@ -627,7 +627,16 @@
 .tx-scenes {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+}
+.tx-scenes .lbl {
+  padding: 0 6px 0 8px;
+  font: 400 11px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx-mut);
 }
 .tx-scenes button {
   min-height: 36px;
@@ -704,6 +713,14 @@
   /* an open message panel takes the right side */
   .tx-kinds[data-hidden='true'] {
     display: none;
+  }
+  /* the caption sits beside the summary panel, so the panel can use the full height */
+  .tx-sum {
+    max-height: calc(100dvh - var(--topbar-h) - 92px);
+  }
+  .tx-cap {
+    left: 322px;
+    max-width: min(560px, calc(100% - 520px));
   }
 }
 

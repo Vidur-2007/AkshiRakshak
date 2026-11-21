@@ -10,7 +10,7 @@
     - a message panel shows the engine's real check (Scam · risk 95);
     - Replay intro is on the home page;
     - no page errors.
-  - **Known issue:** for a person with no checks, the hint under "Only kinds from my checks" pushes the Scene buttons to the bottom of the left panel. They are reachable by scrolling the panel, but look clipped.
+  - **Known issue (fixed on feat/engine, 2026-11-22):** for a person with no checks, the Scene buttons looked clipped at the bottom of the left panel. They now live in the toolbar (see web.md).
 - **2026-11-21: `main` at 6f35823 (PR #10) is deployed.** PR #10 brought the cosmic intro, the landing details, the cosmic network, Scam Replay, Campaign Match and the Telegram bot.
   - **Smoke check:** 9 pass, 2 warnings, 0 fail.
     - `/api/analyze`: scam 95, 4 attack stages.

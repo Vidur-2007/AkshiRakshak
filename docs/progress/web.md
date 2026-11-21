@@ -4,6 +4,19 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Network: scene picker in the toolbar (22 Nov 2026)
+
+The fix for the known issue from the PR #11 deploy: for someone with no checks, the Scene buttons sat clipped at the bottom of the left summary panel.
+
+- **Scene picker** (Radar, Nebula, Blueprint) moved to the toolbar, top-left with a "Scene" label, opposite "Check a message". It is a view setting, and the panel no longer has to hold it.
+- **Caption** moved beside the summary panel on desktop (left 322 px), so the panel can use the full height.
+- **Panel spacing** tightened: title 26 px, stats 24 px, rows 32 px tall (still above the 24 px target size).
+- **Measured in Edge with no checks:**
+  - 1440×900 and 1366×768: the panel fits with no overflow.
+  - A 657 px-tall window: the panel scrolls by 60 px at the bottom; nothing is clipped.
+  - Phone: the Scene picker sits on its own row above "Check a message".
+- `networkFlow.test.tsx` now finds the scene picker in the toolbar group. Web tests 255/255, axe 36/36.
+
 ### "This payment vs your usual" profile (22 Nov 2026)
 
 The review asked for behavioural transaction profiling. The analysis already had a baseline and per-anomaly feature rows; `lib/txnProfile.ts` and `components/statements/TxnProfileCard.tsx` turn them into a card at the top of each flagged payment:

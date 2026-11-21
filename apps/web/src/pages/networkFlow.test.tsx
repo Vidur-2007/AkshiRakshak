@@ -74,7 +74,10 @@ describe('Network: a taxonomy of scams', { timeout: 15_000 }, () => {
     const sum = await screen.findByRole('complementary', { name: en.tax.sumTitle }, T);
     const app = sum.closest('.tx-wrap')!.querySelector('.tx-app')!;
     expect(app.getAttribute('data-scene')).toBe('nebula');
-    fireEvent.click(within(sum).getByRole('button', { name: en.tax.scene_blueprint }));
+    // the scene picker lives in the toolbar, not in the summary panel
+    const scenes = screen.getByRole('group', { name: en.tax.scene });
+    expect(within(sum).queryByRole('button', { name: en.tax.scene_blueprint })).toBeNull();
+    fireEvent.click(within(scenes).getByRole('button', { name: en.tax.scene_blueprint }));
     expect(app.getAttribute('data-scene')).toBe('blueprint');
     expect(localStorage.getItem('akshi-net-scene')).toBe('blueprint');
     localStorage.removeItem('akshi-net-scene');
