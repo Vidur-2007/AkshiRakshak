@@ -679,7 +679,10 @@
     "typeUpi": "UPI ID",
     "typeDomain": "Website",
     "typeCampaign": "Campaign",
-    "noGraph": "The interactive graph needs a browser with canvas support."
+    "noGraph": "The interactive graph needs a browser with canvas support.",
+    "spotlight": "Lit up: the “{{campaign}}” campaign and {{n}} linked details (sample data).",
+    "spotlightMine": "{{n}} of them are from your own checks.",
+    "clearSpotlight": "Show all"
   },
   "dojo": {
     "difficulty": "Difficulty {{n}} of 3",
@@ -995,5 +998,30 @@
     },
     "evidence": "From the message",
     "tactics": "Tricks used"
+  },
+  "campaign": {
+    "title": "You're not the only one",
+    "count": "messages like this ({{kind}}) in Akshi's sample dataset, in {{langs}} languages",
+    "shares": "This message shares these details with the “{{campaign}}” campaign:",
+    "looksLike": "It looks like the “{{campaign}}” campaign.",
+    "knownKind": "It looks like a known kind of scam: {{kind}}.",
+    "sharedLabel": "Details shared with the campaign",
+    "closest": "Closest example in the dataset",
+    "seeNetwork": "See it on the network",
+    "sample": "Sample data: synthetic messages made to test Akshi, not real reports."
+  },
+  "campaigns": {
+    "kyc-block-wave": "KYC block wave",
+    "refund-collect": "Refund collect requests",
+    "power-cut-tonight": "Power cut tonight",
+    "parcel-customs-fee": "Parcel customs fee",
+    "task-job-ring": "Task job ring",
+    "lucky-draw-prize": "Lucky draw prize",
+    "fake-govt-notice": "Fake government notice",
+    "instant-loan-apps": "Instant loan apps",
+    "fake-helpline": "Fake helpline",
+    "digital-arrest-calls": "Digital arrest calls",
+    "trading-tips-club": "Trading tips club",
+    "apk-invite": "APK invite"
   }
 }

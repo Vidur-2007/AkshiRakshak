@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router';
 import { ActionDock, WhatToDo } from '@/components/analysis/ActionDock';
+import { CampaignMatchCard, useCampaignMatch } from '@/components/analysis/CampaignMatchCard';
 import { ClaimVsRealityCard } from '@/components/analysis/ClaimVsRealityCard';
 import { EntityChips } from '@/components/analysis/EntityChips';
 import { HighlightedText } from '@/components/analysis/HighlightedText';
@@ -142,6 +143,7 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
   const hasEntities = e.urls.length + e.upiIds.length + e.phones.length + e.amounts.length > 0;
   const hasExtras = !!image || !!result.qr || !!urlFinding || !!result.chat?.length;
   const replay = useMemo(() => buildReplay(result, lang), [result, lang]);
+  const campaign = useCampaignMatch(result);
   usePageTitle(`${verdictWord} · ${result.riskScore}/100`);
 
   // One short vibration on a scam verdict, when the dock rises (Android, haptics on)
@@ -291,6 +293,11 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
                 className="order-4 lg:order-none"
               >
                 <ScamReplay replay={replay} />
+              </Section>
+            )}
+            {campaign && (
+              <Section title={t('campaign.title')} delayMs={0} className="order-4 lg:order-none">
+                <CampaignMatchCard match={campaign} lang={lang} />
               </Section>
             )}
             <Section

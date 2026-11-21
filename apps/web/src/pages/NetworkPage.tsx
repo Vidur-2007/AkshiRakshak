@@ -1,7 +1,7 @@
 import { FlaskConical } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { allScans, type ScanRecord } from '@/lib/db';
@@ -147,6 +147,21 @@ export default function NetworkPage() {
   );
   const shown = useMemo(() => filterGraph(graph, { types, onlyMine }), [graph, types, onlyMine]);
 
+  // Campaign Match's "See it on the network": /network?campaign=<id> lights up that campaign
+  const [params, setParams] = useSearchParams();
+  const spotCampaign = params.get('campaign');
+  const spotId =
+    spotCampaign && shown.nodes.some((n) => n.id === `campaign:${spotCampaign}`)
+      ? `campaign:${spotCampaign}`
+      : null;
+  const spotLinked = useMemo(() => {
+    if (!spotId) return null;
+    const ids = neighbours(graph, spotId);
+    ids.delete(spotId);
+    const mine = graph.nodes.filter((n) => ids.has(n.id) && n.mine).length;
+    return { n: ids.size, mine };
+  }, [graph, spotId]);
+
   const toggle = (ty: NodeType) =>
     setTypes((s) => {
       const n = new Set(s);
@@ -208,6 +223,25 @@ export default function NetworkPage() {
         })}
       </p>
 
+      {spotId && spotLinked && (
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-card border border-[#b04dff]/50 bg-[#b04dff]/10 px-4 py-3 text-sm text-text">
+          <p>
+            {t('network.spotlight', {
+              campaign: t(`campaigns.${spotCampaign}`, { defaultValue: spotCampaign ?? '' }),
+              n: spotLinked.n,
+            })}
+            {spotLinked.mine > 0 && ` ${t('network.spotlightMine', { n: spotLinked.mine })}`}
+          </p>
+          <button
+            type="button"
+            onClick={() => setParams({}, { replace: true })}
+            className="ml-auto min-h-9 rounded-chip border border-glass-border px-3 text-sm outline-none hover:bg-overlay/6 focus-visible:outline-2 focus-visible:outline-brand"
+          >
+            {t('network.clearSpotlight')}
+          </button>
+        </div>
+      )}
+
       <div className="mt-4">
         {shown.nodes.length === 0 ? (
           <p className="surface p-8 text-center text-text-2">{t('network.empty')}</p>
@@ -221,8 +255,9 @@ export default function NetworkPage() {
           >
             <ForceGraphView
               graph={shown}
-              selectedId={selected?.id ?? null}
+              selectedId={selected?.id ?? spotId}
               onSelect={setSelected}
+              zoomTo={spotId}
             />
           </Suspense>
         ) : (

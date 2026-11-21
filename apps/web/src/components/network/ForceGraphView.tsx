@@ -133,10 +133,13 @@ export default function ForceGraphView({
   graph,
   selectedId,
   onSelect,
+  zoomTo = null,
 }: {
   graph: EntityGraph;
   selectedId: string | null;
   onSelect: (node: GraphNode) => void;
+  /** a node to fly to once the layout settles (Campaign Match's "See it on the network") */
+  zoomTo?: string | null;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 600, h: 420 });
@@ -178,6 +181,24 @@ export default function ForceGraphView({
     fg.d3ReheatSimulation();
   }, [data]);
 
+  // frame the graph: close in on `zoomTo` when it is laid out, otherwise fit everything
+  const frame = () => {
+    const fg = fgRef.current;
+    if (!fg) return;
+    const ms = reduced ? 0 : 600;
+    const target = zoomTo ? data.nodes.find((n) => n.id === zoomTo) : undefined;
+    if (target?.x !== undefined && target.y !== undefined) {
+      fg.centerAt(target.x, target.y, ms);
+      fg.zoom(2.4, ms);
+    } else fg.zoomToFit(ms, 28);
+  };
+  const frameRef = useRef(frame);
+  frameRef.current = frame;
+  // a spotlight set or cleared after the first layout reframes at once
+  useEffect(() => {
+    if (fitted.current) frameRef.current();
+  }, [zoomTo]);
+
   const focus = hover ?? selectedId;
   const near = useMemo(() => (focus ? neighbours(graph, focus) : null), [graph, focus]);
   const onFocus = (l: FgLink) => !!focus && (idOf(l.source) === focus || idOf(l.target) === focus);
@@ -205,7 +226,7 @@ export default function ForceGraphView({
         onEngineStop={() => {
           if (fitted.current) return;
           fitted.current = true;
-          fgRef.current?.zoomToFit(reduced ? 0 : 500, 28);
+          frame();
         }}
         onNodeHover={(n: FgNode | null) => setHover(n ? n.id : null)}
         onNodeClick={(n: FgNode) => onSelect(n)}
@@ -304,7 +325,9 @@ export default function ForceGraphView({
             drawShape(ctx, n.type, x, y, r + 6);
             ctx.stroke();
           }
-          if (scale > 1.6 && !dim) {
+          // with a node selected or spotlit, label only it and the user's own details (no pile-up)
+          const quiet = !!selectedId && n.id !== selectedId && !n.mine;
+          if (scale > 1.6 && !dim && !quiet) {
             ctx.globalAlpha = 0.9;
             ctx.font = `${11 / scale}px Space Mono, monospace`;
             ctx.fillStyle = '#e8eef6';

@@ -101,6 +101,27 @@ describe('Network', () => {
     expect(within(dialog).getByText(en.placeholder.sampleData)).toBeTruthy();
   });
 
+  it('?campaign= lights up that campaign with a count of its linked details; Show all clears it', async () => {
+    const router = open('/network?campaign=kyc-block-wave');
+    const g = buildEntityGraph([], { includeBundled: true });
+    const linked = g.edges.filter(
+      (e) => e.source === 'campaign:kyc-block-wave' || e.target === 'campaign:kyc-block-wave',
+    ).length;
+    const text = en.network.spotlight
+      .replace('{{campaign}}', en.campaigns['kyc-block-wave'])
+      .replace('{{n}}', String(linked));
+    expect(await screen.findByText(text, {}, T)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: en.network.clearSpotlight }));
+    await waitFor(() => expect(screen.queryByText(text)).toBeNull());
+    expect(router.state.location.search).toBe('');
+  });
+
+  it('ignores an unknown ?campaign=', async () => {
+    open('/network?campaign=not-a-campaign');
+    await screen.findByRole('list', { name: en.page.network.title }, T);
+    expect(screen.queryByRole('button', { name: en.network.clearSpotlight })).toBeNull();
+  });
+
   it('"Only my details" keeps your own details', async () => {
     open('/network');
     const list = await screen.findByRole('list', { name: en.page.network.title }, T);

@@ -4,6 +4,30 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Campaign Match: "You're not the only one" (21 Nov 2026)
+
+- A card on the Analysis screen (`components/analysis/CampaignMatchCard.tsx`, logic in `lib/campaignMatch.ts`). It connects a checked message to a scam campaign in the sample data:
+  - the dataset count, e.g. "113 messages like this (Fake KYC update) in Akshi's sample dataset, in 4 languages";
+  - the details the message shares with that campaign (UPI ID, phone, website), as chips;
+  - the closest example from the dataset;
+  - **See it on the network**.
+- **How the campaign is chosen, strongest evidence first:**
+  1. a detail of the message is one of a campaign's bundled sample indicators. UPI IDs and phones carry `indicator.campaign`; websites go through `lookupIndicator`.
+  2. otherwise the engine's category, mapped through `campaignOf`.
+  - Text similarity only picks the closest example (character-trigram TF-IDF, cosine ≥ 0.15, within that category).
+- **Truth rules:** always "in Akshi's sample dataset", with a "Sample data: synthetic messages … not real reports" note. Never "reported by". The card is hidden for "No warning signs found".
+- The data (`@akshi/content/campaign-samples.json`) loads lazily through `loadCampaignSamples()` in `lib/engine.ts`. It is 51.5 KB gzipped, in its own chunk, precached for offline use.
+- **Network spotlight:** `/network?campaign=<id>` lights up that campaign hub and its details, and flies the graph to it once the layout settles (`ForceGraphView` `zoomTo`).
+  - A banner reads "Lit up: the … campaign and N linked details (sample data). M of them are from your own checks". **Show all** clears it.
+  - While a node is spotlit or selected, only it and the user's own details are labelled, so labels don't pile up.
+- Strings: `campaign.*`, `campaigns.*` (12 campaign names) and `network.spotlight*` in en/hi/te/bn. The hi/te/bn strings are mine, for the i18n review.
+- Tests:
+  - `lib/campaignMatch.test.ts` (6, real engine and data);
+  - `CampaignMatchCard.test.tsx` (3);
+  - 2 spotlight tests in `phase4Flow.test.tsx`;
+  - the content sync test (see data.md);
+  - 50/50 e2e in Edge.
+
 ### Scam Replay on the Analysis screen (21 Nov 2026)
 
 - A "Scam replay" card (`components/analysis/ScamReplay.tsx`, logic in `lib/replay.ts`) plays the attack a message sets up as a timeline.
