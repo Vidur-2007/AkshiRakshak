@@ -1070,3 +1070,372 @@ html.nav-night [data-shell-header] {
   color: var(--text);
   color-scheme: dark;
 }
+
+/* ── opening: the cosmic particle intro (design 2026-11-20) ──────────────── */
+.cosmic-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #050607;
+  color: #e8eef6;
+  font-family: var(--font-display);
+  transition: opacity 0.5s ease;
+}
+.cosmic-intro[data-leaving='yes'] {
+  opacity: 0;
+  pointer-events: none;
+}
+.cosmic-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+.cosmic-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: hidden; /* scrolling starts once the preloader is done */
+  scrollbar-width: none;
+  outline: none;
+}
+.cosmic-scroll::-webkit-scrollbar {
+  display: none;
+}
+.cosmic-track {
+  height: 600vh;
+}
+.cosmic-hud {
+  position: fixed;
+  left: clamp(18px, 3.4vw, 48px);
+  right: clamp(18px, 3.4vw, 48px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font: 400 12px/1.3 var(--font-mono);
+  color: #8b97a8;
+  pointer-events: none;
+}
+.cosmic-hud.top {
+  top: 22px;
+}
+.cosmic-hud.bot {
+  bottom: 22px;
+}
+.cosmic-hud .dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  vertical-align: 1px;
+}
+.cosmic-skip {
+  pointer-events: auto;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: rgb(255 255 255 / 0.06);
+  color: #e8eef6;
+  font: 400 12px var(--font-mono);
+  cursor: pointer;
+}
+.cosmic-skip:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+.cosmic-cap {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: min(760px, 88vw);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+.cosmic-cap p {
+  margin: 0;
+  font: 400 clamp(32px, 5vw, 68px) / 1.05 var(--font-serif);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgb(0 0 0 / 0.6);
+}
+.cosmic-cap span {
+  display: block;
+  margin-top: 14px;
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: #9aa6b8;
+}
+.cosmic-cap em {
+  color: #ff5470;
+}
+.cosmic-cap.c3 {
+  top: 83%;
+}
+.cosmic-cap.c3 em {
+  color: var(--cyan);
+}
+.cosmic-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 64px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: translateX(-50%);
+  font: 400 12px var(--font-mono);
+  color: #8b97a8;
+  pointer-events: none;
+  opacity: 0;
+}
+.cosmic-hint i {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(var(--cyan), transparent);
+}
+.cosmic-bar {
+  position: fixed;
+  left: clamp(18px, 3.4vw, 48px);
+  right: clamp(18px, 3.4vw, 48px);
+  bottom: 52px;
+  z-index: 3;
+  height: 1px;
+  background: rgb(255 255 255 / 0.1);
+}
+.cosmic-bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--cyan);
+}
+.cosmic-pre {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(18px, 3.4vw, 48px);
+  background: #050607;
+  pointer-events: none;
+}
+.cosmic-pre .pct {
+  font: 400 clamp(64px, 14vw, 200px) / 0.9 var(--font-display);
+  letter-spacing: -0.05em;
+  color: #e8eef6;
+  font-variant-numeric: tabular-nums;
+}
+.cosmic-pre small {
+  margin-left: 12px;
+  font: 400 13px var(--font-mono);
+  letter-spacing: 0;
+  color: #8b97a8;
+  vertical-align: top;
+}
+.cosmic-end {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #070707;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── hero callouts in Akshi view ─────────────────────────────────────────── */
+.ann {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.35s;
+}
+.hero[data-xray='on'] .ann {
+  opacity: 1;
+}
+.hero[data-checking='on'] .ann {
+  opacity: 0;
+}
+.ann svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.ann line {
+  stroke: #ff5470;
+  stroke-width: 0.14;
+  stroke-dasharray: 0.6 0.4;
+}
+.ann circle {
+  fill: #ff5470;
+}
+.ann .cl {
+  position: absolute;
+  transform: translateY(-50%);
+  padding: 0.75cqh 1.2cqh;
+  border-radius: 1cqh;
+  background: rgb(24 8 13 / 0.82);
+  border: 1px solid rgb(255 84 112 / 0.55);
+  box-shadow: 0 0 2cqh rgb(255 59 92 / 0.25);
+  white-space: nowrap;
+  font-family: var(--font-sans);
+}
+.ann .cl b {
+  display: block;
+  font: 600 1.45cqh/1.2 var(--font-sans);
+  color: #ffd0d8;
+}
+.ann .cl span {
+  font: 400 1.2cqh/1.3 var(--font-sans);
+  color: #e3c2c9;
+}
+.ann .cl.l {
+  text-align: right;
+  transform: translate(-100%, -50%);
+}
+@media (max-width: 760px) {
+  .ann {
+    display: none;
+  }
+}
+
+/* ── "How Akshi decides" (shield moment) ─────────────────────────────────── */
+.flow {
+  position: absolute;
+  left: clamp(18px, 3.4vw, 48px);
+  top: 28px;
+  z-index: 5;
+  width: min(320px, 30vw);
+  padding: 20px 20px 16px;
+  border-radius: 22px;
+  background: rgb(255 255 255 / 0.035);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(10px);
+  color: #f1ebe0;
+}
+.flow h3 {
+  margin: 0;
+  font: 400 26px/1.12 var(--font-serif);
+}
+.flow ol {
+  position: relative;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.flow ol::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 22px;
+  bottom: 30px;
+  width: 1px;
+  background: linear-gradient(rgb(61 224 255 / 0.7), rgb(61 224 255 / 0.15));
+}
+.flow li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 7px 0;
+  opacity: 0.3;
+  transition: opacity 0.5s ease;
+}
+.shield-moment[data-on='on'] .flow li {
+  opacity: 1;
+}
+.flow .nd {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgb(61 224 255 / 0.4);
+  background: #0a1118;
+  color: var(--cyan);
+  box-shadow: 0 0 14px -4px rgb(61 224 255 / 0.6);
+}
+.flow li b {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+.flow li span.s {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #a39c90;
+}
+.flow .vch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.flow .vch i {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+@media (max-height: 720px), (max-width: 1023px) {
+  .flow {
+    display: none;
+  }
+}
+
+/* ── rising letters (the design's rise.js, in CSS) ───────────────────────── */
+.rise .w {
+  display: inline-block;
+  white-space: nowrap;
+}
+.rise .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rise[data-shown='yes'] .ch {
+  opacity: 1;
+  transform: none;
+}
+.rise .ln {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise .ch {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+html.elder .rise .ch {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* deck intro: the cards wait below the fold, then fly up into the fan (far ones first) */
+.scard.waiting {
+  transition: none;
+}
+.scard.flying {
+  transition:
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.6s;
+}

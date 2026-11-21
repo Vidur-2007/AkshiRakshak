@@ -1,7 +1,51 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
+import { Bot, Link2, ListChecks, MessageCircle, ShieldCheck } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
+import { RiseText } from './RiseText';
+
+/** "How Akshi decides": the five steps light up one after another when the shield is on. */
+function Flow() {
+  const { t } = useTranslation();
+  const steps = [
+    { icon: MessageCircle, key: 'flow1' },
+    { icon: ListChecks, key: 'flow2' },
+    { icon: Bot, key: 'flow3' },
+    { icon: Link2, key: 'flow4' },
+    { icon: ShieldCheck, key: 'flow5' },
+  ] as const;
+  return (
+    <aside className="flow" aria-labelledby="home-flow-title">
+      <h3 id="home-flow-title">{t('home.flowTitle')}</h3>
+      <ol>
+        {steps.map(({ icon: Icon, key }, i) => (
+          <li key={key} style={{ transitionDelay: `${300 + i * 140}ms` }}>
+            <span className="nd" aria-hidden>
+              <Icon className="size-[17px]" strokeWidth={1.8} />
+            </span>
+            <div>
+              <b>{t(`home.${key}`)}</b>
+              {key === 'flow5' ? (
+                <span className="vch">
+                  <i style={{ background: '#d91f45', color: '#fff' }}>{t('verdict.scam')}</i>
+                  <i style={{ background: 'rgba(245,165,36,.18)', color: '#f5b547' }}>
+                    {t('verdict.suspicious')}
+                  </i>
+                  <i style={{ background: 'rgba(34,197,94,.16)', color: '#4ade80' }}>
+                    {t('verdict.no_signs')}
+                  </i>
+                </span>
+              ) : (
+                <span className="s">{t(`home.${key}Sub`)}</span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </aside>
+  );
+}
 
 const SHIELD = 'M100 14l66 26v48c0 44-28 80-66 98-38-18-66-54-66-98V40z';
 const EYE = 'M52 100s20-34 48-34 48 34 48 34-20 34-48 34-48-34-48-34z';
@@ -120,12 +164,15 @@ export function ShieldMoment({ id }: { id: string }) {
         {on ? t('home.tapOff') : t('home.tapShield')}
       </button>
 
+      <Flow />
+
       <div className="pcopy">
         <div className="mb-2.5 text-[13px] text-[#a39c90]">{t('home.shieldSmall')}</div>
         <h2 id="home-how-title">
-          {t('home.shieldTitleA')}
-          <br />
-          <em>{t('home.shieldTitleB')}</em>
+          <RiseText
+            lines={[[{ t: t('home.shieldTitleA') }], [{ t: t('home.shieldTitleB'), em: true }]]}
+            delay={400}
+          />
         </h2>
         <p>{t('home.shieldBody')}</p>
         <Link to="/scan" className={buttonVariants({ variant: 'cyan', size: 'lg' })}>

@@ -4,6 +4,35 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Cosmic intro, landing details, cosmic network (21 Nov 2026)
+
+From the human's second design file (index.html with a Three.js intro and rise.js) and a "cosmic web" reference image.
+
+- **Opening intro** (`components/home/CosmicIntro.tsx`, `lib/cosmic.ts`):
+  - A scroll-driven point cloud with a preloader (000→100), HUD, Skip, a progress bar and three captions:
+    1. messages flood in as a cosmic web (cyan filaments between glowing purple hubs);
+    2. a few turn red ("traps");
+    3. the traps are pushed away and the rest settle into the shield-eye, then the camera flies in.
+  - **Raw WebGL, no three.js**, to stay under the 100 KB dependency rule. Points: 9,000 on high-tier desktop, 5,500 otherwise, 3,200 on phones.
+  - **When it plays:** once per browser session. It never plays with reduced motion, under automation (`navigator.webdriver`), with `?demo`, `?simple` or `start=` links, or without WebGL. When it plays, the short AKSHI loader is skipped.
+  - **Exits:** Skip, Esc, or scrolling to the end.
+  - **Bug fixed during review:** the effect cleanup called `loseContext()`, so StrictMode's second effect run got a dead context and the intro closed itself at once. GL resources are now freed with `dispose()`.
+- **Hero callouts** (`.ann`): in Akshi view, four dashed callouts point at the sample SMS. They read Fake deadline, Look-alike link, KYC by SMS and Personal number. Hidden on phones.
+- **"How Akshi decides"** panel in the shield moment: five steps (message → rules → on-device model → link check → verdict chips). Hidden on short or narrow screens.
+- **Rising headings** (`RiseText`): letters rise in once on screen. Indic scripts rise word by word, so conjuncts stay intact. Screen readers get the plain text. Reduced motion and Elder mode show the text at once.
+- **Deck fly-in:** the first time the deck is on screen, the cards fly up from below, staggered, then autoplay (3.2 s) starts.
+  - Bug fixed during review: the 1.7 s flight timer lived in an effect that re-ran when `arrival` changed, so autoplay never started. It is now its own effect. The e2e perf test waits for the flight.
+- **Network "cosmic connections"** (`ForceGraphView.tsx`): always a dark space, in both themes.
+  - Campaigns are purple glowing hubs. Phone numbers, UPI IDs and websites are cyan sparks; the shapes still tell the type.
+  - Links are glowing filaments with sparks travelling along them, using additive light.
+  - A faint seeded web backdrop (decoration, drawn once to an offscreen canvas) with twinkling stars.
+  - The layout is looser so filaments read as lines. The legend swatches match the new palette.
+- Strings: the `intro.*` group and new `home.ann*` / `home.flow*` keys in en/hi/te/bn. The hi/te/bn strings are my translations, for the i18n review.
+- Checked:
+  - Edge screenshots of the intro at 0/10/38/70/90%, the landing on desktop and phone, and the network.
+  - `cosmic.test.ts` (6 tests).
+  - All 50 e2e tests in Edge, including axe in both themes.
+
 ### Redesign to the human's design file (20 Nov 2026)
 
 The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by night, cyan for Akshi, red only for danger. Instrument Serif headings with Inter Tight text, and Space Grotesk / Space Mono for the cards and numbers. Liquid-glass pills.

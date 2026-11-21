@@ -19,8 +19,9 @@ test('the scam deck flicks while in view and stays still off screen', async ({ p
   await page.waitForTimeout(3600);
   await expect(count).toHaveText(/^1 of \d+/);
 
-  // in view: it moves on by itself every 3.2 s
+  // in view: the cards fly up from below (1.7 s), then it moves on by itself every 3.2 s
   await page.evaluate(() => document.getElementById('home-deck')?.scrollIntoView());
+  await expect(page.locator('#home-deck .scard.front')).toBeAttached({ timeout: 4000 });
   await expect(count).toHaveText(/^2 of \d+/, { timeout: 6000 });
 
   // back off screen: it stops again
