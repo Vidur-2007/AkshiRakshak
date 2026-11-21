@@ -2,7 +2,10 @@
 
 ## Production
 
-- **URL: https://akshi-rakshak.vercel.app** (`main` at 7ce77ad, deployed 2026-11-18, after PR #6).
+- **2026-11-21: `main` at a3c96ee (PR #9: the redesign, the Ask crash fix, dashboard sample data) is deployed.**
+  - **Smoke check:** 9 pass, 1 warning (`/api/reports`: Upstash not connected), 0 fail. AI analyze is answered by Groq in 1.2 s (the PR #8 fix).
+  - **Live UI checked in Edge:** the new landing (headline, 19-card deck, theme set), Ask opens and closes without crashing, and the dashboard shows the sample banner and entries. No page errors.
+- **URL: https://akshi-rakshak.vercel.app** (first deployed from `main` at 7ce77ad, 2026-11-18, after PR #6).
 - **Smoke check** (`npm run smoke -- https://akshi-rakshak.vercel.app`): 8 pass, 1 warning, 0 fail.
   - **Pass:** app shell and service worker, security headers, health (groq true, gemini true), expand (2 hops), the SSRF refusal (`blocked_private_address`), domain age, AI analyze, ask.
   - **Warning:** `/api/reports` is not configured, because the Upstash integration is not connected yet.
