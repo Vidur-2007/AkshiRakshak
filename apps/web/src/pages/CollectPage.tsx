@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { InlineResult, ResultSection } from '@/components/analysis/InlineResult';
 import { REVEAL_MS } from '@/components/analysis/reveal';
+import { RepeatRequestHint, RepeatRequestsCard } from '@/components/analysis/RepeatRequests';
 import { ChoiceGroup } from '@/components/modules/ChoiceGroup';
 import { CollectRequestMock } from '@/components/modules/CollectRequestMock';
 import { PinPadExplainer } from '@/components/modules/PinPadExplainer';
@@ -51,7 +52,13 @@ const inputClass =
 export default function CollectPage() {
   const { t } = useTranslation();
   usePageTitle(t('page.collect.title'));
-  const ids = { name: useId(), upi: useId(), amount: useId(), note: useId() };
+  const ids = {
+    name: useId(),
+    upi: useId(),
+    upiHint: useId(),
+    amount: useId(),
+    note: useId(),
+  };
   const [form, setForm] = useState<CollectForm>(EMPTY_COLLECT);
   const [shotOpen, setShotOpen] = useState(false);
   const [prefillNote, setPrefillNote] = useState<string | null>(null);
@@ -183,8 +190,10 @@ export default function CollectPage() {
                   spellCheck={false}
                   placeholder="name@bank"
                   onChange={(e) => set('requesterUpi', e.target.value)}
+                  aria-describedby={ids.upiHint}
                   className={`${inputClass} font-mono text-sm`}
                 />
+                <RepeatRequestHint upi={form.requesterUpi} id={ids.upiHint} />
               </Field>
               <Field label={t('collect.amount')} id={ids.amount}>
                 <input
@@ -278,6 +287,7 @@ export default function CollectPage() {
       {result && !busy && (
         <div className="mt-2 max-w-3xl">
           <h2 className="sr-only">{t('collect.resultTitle')}</h2>
+          <RepeatRequestsCard result={result} className="mb-4" />
           <InlineResult
             result={result}
             before={

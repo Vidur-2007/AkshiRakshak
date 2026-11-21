@@ -1116,5 +1116,16 @@
     "more": "and {{n}} more",
     "out": "Paid out",
     "in": "Received"
+  },
+  "repeat": {
+    "title": "This UPI ID has asked you for money before ({{n}}×)",
+    "listLabel": "Earlier requests",
+    "noAmount": "no amount",
+    "same": "Same amount as before: {{amount}} ({{n}}×).",
+    "advice": "Scammers send the same request again and again, hoping you approve one by mistake. If you do not know this person, decline every request and block the UPI ID.",
+    "block": "Block this UPI ID",
+    "blocked": "Blocked",
+    "hint": "This UPI ID sent you collect requests before ({{n}}×, latest on {{date}}).",
+    "openLatest": "Open the latest"
   }
 }

@@ -23,6 +23,7 @@ import {
 } from '@/components/analysis/reveal';
 import { ScreenshotOverlay } from '@/components/analysis/ScreenshotOverlay';
 import { PaidBeforeCard, usePaidBefore } from '@/components/statements/ScamLinks';
+import { RepeatRequestsCard } from '@/components/analysis/RepeatRequests';
 import { VerdictHeader } from '@/components/analysis/VerdictHeader';
 import { ElderVerdict, firstSentence } from '@/components/elder/ElderViews';
 import { ChatExtras } from '@/components/modules/ChatViews';
@@ -276,6 +277,10 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
               <div className="order-1 lg:order-none">
                 <PaidBeforeCard payments={paidBefore} />
               </div>
+            )}
+            {/* only collect requests have a requester to count; skip the history read otherwise */}
+            {result.kind === 'collect_request' && (
+              <RepeatRequestsCard result={result} className="order-1 lg:order-none" />
             )}
             <Section
               title={t('analysis.reasonsTitle')}

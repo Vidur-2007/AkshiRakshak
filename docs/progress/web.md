@@ -4,6 +4,22 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Repeated collect requests (22 Nov 2026)
+
+Scammers send the same collect request again and again, hoping one is approved by mistake. `lib/repeatRequests.ts` counts earlier collect-request checks from the same requester UPI ID in your history (lower-case match; the check being shown is left out).
+
+- **Result card** (`components/analysis/RepeatRequests.tsx`), on the Collect page's inline result and on a collect check opened from history:
+  - "This UPI ID has asked you for money before (N×)";
+  - the earlier requests (amount, date, verdict, each linking to its check);
+  - "Same amount as before: ₹4,999 (N×)";
+  - advice to decline every request from someone you don't know, and **Block this UPI ID**.
+  - Hidden for a first request.
+- **Form hint**, under the requester UPI field as you type: "This UPI ID sent you collect requests before (N×, latest on 22 Nov). Open the latest". It is a polite live region the field describes, empty until there is something to say.
+- Counts use "(N×)" so there are no plural forms to get wrong in four languages. Strings `repeat.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review).
+- The card mounts only for collect-request results, so other results don't read the history.
+- **Tests:** `lib/repeatRequests.test.ts` (2, real engine) and `components/analysis/RepeatRequests.test.tsx` (3, history mocked). Checked in Edge: the first check shows nothing, the second shows the hint and the card (1×), the third shows 2× and the same amount 2×.
+- In the full parallel e2e run on this laptop, three analysis-page tests timed out. All passed when run one at a time (6/6, twice each).
+
 ### Cross-module links: statements ↔ scam checks (22 Nov 2026)
 
 An outside review's top advice was to connect the three detection modules (messages, collect requests, transactions). `lib/crossLinks.ts` matches UPI IDs and Indian mobile numbers (normalised: lower-case UPI IDs; +91 and the last ten digits) across them.
