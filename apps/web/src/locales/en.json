@@ -533,7 +533,8 @@
     "deleteTitle": "Delete everything",
     "deleteBody": "Removes every saved check, screenshot, statement, blocklist entry and setting from this device. This cannot be undone.",
     "deleteConfirm": "Yes, delete everything",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "storeFeedback": "\"Was Akshi right?\" answers"
   },
   "tx": {
     "upload": "Upload CSV",
@@ -744,7 +745,14 @@
     "mLimitsBody": "Very short messages, new scam scripts and other languages are harder. A verdict is advice to help you decide, not a guarantee.",
     "datasetsTitle": "Datasets",
     "generated": "Report generated {{date}} · engine {{engine}} · model {{model}}",
-    "notes": "Notes"
+    "notes": "Notes",
+    "reliabilityTitle": "Do the risk numbers mean what they say?",
+    "reliabilityHint": "The held-out test messages, grouped by the risk Akshi gave them, and how many in each group really were scams. Measured, never tuned.",
+    "bandScam": "Risk {{from}}–{{to}} · Scam",
+    "bandSuspicious": "Risk {{from}}–{{to}} · Suspicious",
+    "bandNone": "Risk {{from}}–{{to}} · No warning signs",
+    "bandMessages": "{{n}} messages, {{scams}} really scams",
+    "brier": "Brier score {{b}}: 0 is perfect, 0.25 is a coin toss. Synthetic test data, so expect lower on real messages."
   },
   "share": {
     "button": "Share as image",
@@ -1144,5 +1152,26 @@
     "usualHour": "Usual for you",
     "noTime": "No time in the statement",
     "note": "An unusual pattern compared with your own payments, not proof of fraud. Check it if you don't recognise it."
+  },
+  "feedback": {
+    "title": "Was Akshi right?",
+    "scam": "This is a scam",
+    "legit": "This looks legitimate",
+    "privacy": "Your answer stays on this phone. It does not change Akshi's checks.",
+    "savedScam": "Thanks: you marked this as a scam.",
+    "savedLegit": "Thanks: you marked this as legitimate.",
+    "agreed": "Akshi agreed.",
+    "missed": "Akshi found no warning signs here, so this helps us find what we missed. If money left your account, call 1930 now.",
+    "falseAlarm": "Akshi flagged it, so this helps us find false alarms.",
+    "change": "Change my answer",
+    "settingsTitle": "Your feedback",
+    "settingsHint": "Your \"Was Akshi right?\" answers. They stay on this phone and never change a check.",
+    "none": "No answers yet. After a check, tell Akshi whether it was right.",
+    "statTotal": "Answers",
+    "statAgreed": "Akshi agreed",
+    "statFalseAlarms": "Possible false alarms",
+    "statMisses": "Possible misses",
+    "download": "Download labelled examples",
+    "downloadNote": "A JSON file with each message, your answer and what Akshi said. It includes your messages, so share it with care."
   }
 }
