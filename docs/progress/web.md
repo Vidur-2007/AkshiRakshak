@@ -4,6 +4,26 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### "Was Akshi right?" feedback buttons (22 Nov 2026)
+
+From the second external review: let people say whether a check was right, without the answer ever changing a verdict.
+
+- **Under every result** (the Analysis page and the inline result on the module pages), after "What to do": "Was Akshi right?" with **This is a scam** and **This looks legitimate**.
+  - After an answer: thanks, plus whether Akshi agreed, or that this helps find a possible false alarm or a possible miss. A possible miss (no warning signs, you said scam) adds a "Get help now" button to /sos and the 1930 line.
+  - **Change my answer** removes it.
+- **Stored on this device only:** Dexie v3 table `feedback` (key `scanId`, with the verdict, risk and kind Akshi gave at the time). `clearHistory` and "Delete everything" clear it. The privacy panel counts it.
+- **Never used for anything automatic:** no verdict changes, no training, nothing sent anywhere.
+- **Settings → Your feedback:**
+  - answers, Akshi agreed, possible false alarms, possible misses;
+  - **Download labelled examples**: a JSON file joining each answer with its check (text, language, category, Akshi's verdict and risk). Deleted checks are left out. The note warns that it includes your messages.
+- Code: `lib/feedback.ts` (summary, join, download), `components/analysis/FeedbackBar.tsx`. Tests: `lib/feedback.test.ts` (2), `FeedbackBar.test.tsx` (3). Strings in en/hi/te/bn (`feedback.*`, `settings.storeFeedback`).
+
+### Proof page: "Do the risk numbers mean what they say?" (22 Nov 2026)
+
+- A new block after the confusion matrix: the held-out test messages grouped by risk band (70–100 Scam, 40–69 Suspicious, 0–39 No warning signs), with how many in each band really were scams, plus the Brier score.
+- `PctBar` has a `wide` option for these longer labels (they wrap instead of being cut off).
+- Data: `RISK_CALIBRATION` from `@akshi/content` (see the data log).
+
 ### Network: scene picker in the toolbar (22 Nov 2026)
 
 The fix for the known issue from the PR #11 deploy: for someone with no checks, the Scene buttons sat clipped at the bottom of the left summary panel.

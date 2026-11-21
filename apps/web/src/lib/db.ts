@@ -45,12 +45,27 @@ export interface DojoRecord {
   completedAt: string;
 }
 
+/**
+ * "Was Akshi right?" (2026-11-22): the person's own label for a check, kept on this device. It
+ * never changes a verdict and never trains anything; it can be downloaded as labelled examples.
+ */
+export interface FeedbackRecord {
+  scanId: string;
+  at: string;
+  label: 'scam' | 'legit';
+  /** what Akshi said when the label was given */
+  verdict: Verdict;
+  riskScore: number;
+  kind: InputKind;
+}
+
 export class AkshiDB extends Dexie {
   scans!: EntityTable<ScanRecord, 'id'>;
   blocklist!: EntityTable<BlockEntry, 'value'>;
   statements!: EntityTable<StatementRecord, 'id'>;
   dojo!: EntityTable<DojoRecord, 'drillId'>;
   images!: EntityTable<ImageRecord, 'id'>;
+  feedback!: EntityTable<FeedbackRecord, 'scanId'>;
 
   constructor(name = 'akshi') {
     super(name);
@@ -62,6 +77,8 @@ export class AkshiDB extends Dexie {
     });
     // v2 (Phase 2): screenshots for image scans, keyed by scan id
     this.version(2).stores({ images: 'id, createdAt' });
+    // v3 (2026-11-22): "Was Akshi right?" labels, one per check
+    this.version(3).stores({ feedback: 'scanId, at, label' });
   }
 }
 
@@ -137,16 +154,46 @@ export async function deleteEverything(): Promise<void> {
  * keeps settings, language and the trusted contact. Used by `?demo=1`.
  */
 export async function clearHistory(): Promise<void> {
-  await db.transaction('rw', [db.scans, db.images, db.statements, db.blocklist, db.dojo], () =>
-    Promise.all([
-      db.scans.clear(),
-      db.images.clear(),
-      db.statements.clear(),
-      db.blocklist.clear(),
-      db.dojo.clear(),
-    ]),
+  await db.transaction(
+    'rw',
+    [db.scans, db.images, db.statements, db.blocklist, db.dojo, db.feedback],
+    () =>
+      Promise.all([
+        db.scans.clear(),
+        db.images.clear(),
+        db.statements.clear(),
+        db.blocklist.clear(),
+        db.dojo.clear(),
+        db.feedback.clear(),
+      ]),
   );
   broadcast({ type: 'cleared' });
+}
+
+// ── "Was Akshi right?" feedback ─────────────────────────────────────────────
+
+export async function saveFeedback(rec: FeedbackRecord): Promise<void> {
+  await db.feedback.put(rec);
+}
+
+export async function removeFeedback(scanId: string): Promise<void> {
+  await db.feedback.delete(scanId);
+}
+
+export async function getFeedback(scanId: string): Promise<FeedbackRecord | undefined> {
+  try {
+    return await db.feedback.get(scanId);
+  } catch {
+    return undefined;
+  }
+}
+
+export async function listFeedback(): Promise<FeedbackRecord[]> {
+  try {
+    return await db.feedback.orderBy('at').reverse().toArray();
+  } catch {
+    return [];
+  }
 }
 
 // ── Phase 3: statements, blocklist management, privacy counts ───────────────
@@ -197,6 +244,7 @@ export interface StorageCounts {
   statements: number;
   images: number;
   dojo: number;
+  feedback: number;
 }
 
 /** What is stored on this device, for the privacy panel. */
@@ -208,14 +256,15 @@ export async function storageCounts(): Promise<StorageCounts> {
       return 0;
     }
   };
-  const [scans, blocklist, statements, images, dojo] = await Promise.all([
+  const [scans, blocklist, statements, images, dojo, feedback] = await Promise.all([
     count(db.scans),
     count(db.blocklist),
     count(db.statements),
     count(db.images),
     count(db.dojo),
+    count(db.feedback),
   ]);
-  return { scans, blocklist, statements, images, dojo };
+  return { scans, blocklist, statements, images, dojo, feedback };
 }
 
 export async function allScans(): Promise<ScanRecord[]> {

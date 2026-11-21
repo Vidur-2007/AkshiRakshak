@@ -6,6 +6,7 @@ import { Link, useLocation, useParams } from 'react-router';
 import { ActionDock, WhatToDo } from '@/components/analysis/ActionDock';
 import { CampaignMatchCard, useCampaignMatch } from '@/components/analysis/CampaignMatchCard';
 import { ClaimVsRealityCard } from '@/components/analysis/ClaimVsRealityCard';
+import { FeedbackBar } from '@/components/analysis/FeedbackBar';
 import { EntityChips } from '@/components/analysis/EntityChips';
 import { HighlightedText } from '@/components/analysis/HighlightedText';
 import { LayerBreakdownBar } from '@/components/analysis/LayerBreakdownBar';
@@ -318,6 +319,13 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
               className="order-6 lg:order-none"
             >
               <WhatToDo result={result} />
+            </Section>
+            <Section
+              title={t('feedback.title')}
+              delayMs={REVEAL_MS.reasons + 200}
+              className="order-6 lg:order-none"
+            >
+              <FeedbackBar result={result} />
             </Section>
             <Section
               title={t('analysis.layersTitle')}

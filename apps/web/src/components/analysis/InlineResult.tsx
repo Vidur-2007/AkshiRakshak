@@ -14,6 +14,7 @@ import { PrivacyFooter } from './PrivacyFooter';
 import { ReasonList } from './ReasonList';
 import { REVEAL_MS, RevealProvider, useRevealTransition } from './reveal';
 import { VerdictHeader } from './VerdictHeader';
+import { FeedbackBar } from './FeedbackBar';
 
 export function ResultSection({
   title,
@@ -75,6 +76,9 @@ function Body({
       {after}
       <ResultSection title={t('analysis.actionsTitle')} delayMs={REVEAL_MS.reasons + 150}>
         <WhatToDo result={result} />
+      </ResultSection>
+      <ResultSection title={t('feedback.title')} delayMs={REVEAL_MS.reasons + 200}>
+        <FeedbackBar result={result} />
       </ResultSection>
       <ResultSection title={t('analysis.layersTitle')} delayMs={REVEAL_MS.reasons + 250}>
         <LayerBreakdownBar layers={result.layers} online={online} aiUsed={result.aiUsed} />
