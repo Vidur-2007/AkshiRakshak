@@ -4,6 +4,24 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Cross-module links: statements ↔ scam checks (22 Nov 2026)
+
+An outside review's top advice was to connect the three detection modules (messages, collect requests, transactions). `lib/crossLinks.ts` matches UPI IDs and Indian mobile numbers (normalised: lower-case UPI IDs; +91 and the last ten digits) across them.
+
+- **Transactions page, "Linked to scams"** (`components/statements/ScamLinks.tsx`), right under the risk gauge:
+  - one block per UPI ID or number in the statement that also appears in a scam or suspicious check (message, collect request, QR), on your blocklist, or in the bundled sample indicators;
+  - each block shows totals paid out and received, the payments themselves, and evidence chips: "In a message / collect request you checked on 22 Nov · Scam 95" (links to that check), "On your blocklist", or "In Akshi's sample scam data · campaign";
+  - advice (call 1930 and report for money out; don't send money back yourself for money in), **Block this**, and **Get help now** (/sos).
+  - Red when you paid someone your own checks or blocklist flagged; amber for sample data or money in only.
+- **Analysis page, "You have paid this before":** when a checked scam's UPI ID or number appears in a statement you uploaded (the last 20), it lists those payments and links to help and to your statements. Hidden for "No warning signs found".
+- **Rules:** checks with no warning signs are not evidence. Sample data is always labelled. A bare "91" prefix needs a separator, so 12-digit bank reference numbers are not read as phone numbers. A number inside a UPI ID counts as that UPI ID. The same statement uploaded twice shows each payment once.
+- **Demo:** the built-in student statement pays `refund.desk2026@ybl` (₹1 in, then ₹9,999 out) and `task.payout.hr@ybl` (4 × ₹499), both in the sample scam data. Checking the refund scam then adds "In a message you checked" to the statement, and the check itself shows "You have paid this before".
+- Strings `links.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review).
+- **Tests:**
+  - `lib/crossLinks.test.ts` (6: extraction including reference numbers, own check vs credit level, no-signs ignored, blocklist, sample statement, grouping with in/out totals, paymentsFor once each);
+  - `pages/linksFlow.test.tsx` (1);
+  - e2e 49/50 in the full run. axe on /dashboard caught a top-bar target-size blip once; dashboard, transactions and analysis axe passed 14/14 on their own.
+
 ### Network summaries (21 Nov 2026)
 
 From the human's two panel screenshots (a "Scam network" summary and "Campaigns · by size"), adapted to the taxonomy wall. Every number is real.

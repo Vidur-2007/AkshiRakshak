@@ -1092,5 +1092,29 @@
     "kindsTitle": "Pick one to inspect",
     "yourChecksTag": "your checks",
     "kindsRow": "{{name}}: {{n}} scam messages in the dataset"
+  },
+  "links": {
+    "title": "Linked to scams",
+    "hint": "These payments involve UPI IDs or numbers that also appear in scams you checked, on your blocklist or in Akshi's sample scam data.",
+    "fromCheck": "In a message you checked on {{date}} · {{verdict}} {{risk}}",
+    "fromCollect": "In a collect request you checked on {{date}} · {{verdict}} {{risk}}",
+    "blocklist": "On your blocklist",
+    "sample": "In Akshi's sample scam data",
+    "sampleCampaign": "In Akshi's sample scam data · {{campaign}}",
+    "adviceDebit": "If you were tricked into this payment, call 1930 now and report it at cybercrime.gov.in. The sooner you report, the better the chance of stopping the money.",
+    "adviceCredit": "Money from a scam-linked account: do not send it back yourself, even if they ask. Ask your bank to handle any reversal.",
+    "block": "Block this",
+    "help": "Get help now",
+    "paidBeforeTitle": "You have paid this before",
+    "receivedBeforeTitle": "You have received money from this before",
+    "paidRow": "{{amount}} to {{who}} on {{date}} · in “{{statement}}”",
+    "receivedRow": "{{amount}} from {{who}} on {{date}} · in “{{statement}}”",
+    "openStatements": "Open your statements",
+    "paidTotal": "{{total}} paid out ({{n}}×)",
+    "receivedTotal": "{{total}} received ({{n}}×)",
+    "paymentsLabel": "Payments",
+    "more": "and {{n}} more",
+    "out": "Paid out",
+    "in": "Received"
   }
 }

@@ -14,6 +14,7 @@ import {
 } from '@/components/statements/StatementViews';
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { TxnLinksCard } from '@/components/statements/ScamLinks';
 import { recentStatements, saveStatement, type StatementRecord } from '@/lib/db';
 import {
   analyzeStatement,
@@ -254,6 +255,8 @@ export default function TransactionsPage() {
                 <p className="mt-2 text-base">{a.narrative}</p>
               </div>
             </section>
+            {/* payments to people your scam checks, blocklist or the sample scam data know */}
+            <TxnLinksCard txns={a.txns} />
             <ResultSection title={t('tx.chartTitle')} delayMs={150}>
               <StatementChart analysis={a} selected={current?.id ?? null} onSelect={setSelected} />
             </ResultSection>

@@ -22,6 +22,7 @@ import {
   useRevealTransition,
 } from '@/components/analysis/reveal';
 import { ScreenshotOverlay } from '@/components/analysis/ScreenshotOverlay';
+import { PaidBeforeCard, usePaidBefore } from '@/components/statements/ScamLinks';
 import { VerdictHeader } from '@/components/analysis/VerdictHeader';
 import { ElderVerdict, firstSentence } from '@/components/elder/ElderViews';
 import { ChatExtras } from '@/components/modules/ChatViews';
@@ -144,6 +145,7 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
   const hasExtras = !!image || !!result.qr || !!urlFinding || !!result.chat?.length;
   const replay = useMemo(() => buildReplay(result, lang), [result, lang]);
   const campaign = useCampaignMatch(result);
+  const paidBefore = usePaidBefore(result);
   usePageTitle(`${verdictWord} · ${result.riskScore}/100`);
 
   // One short vibration on a scam verdict, when the dock rises (Android, haptics on)
@@ -270,6 +272,11 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
             <section data-tour="verdict" className="order-1 surface p-5 sm:p-6 lg:order-none">
               <VerdictHeader result={result} />
             </section>
+            {paidBefore.length > 0 && (
+              <div className="order-1 lg:order-none">
+                <PaidBeforeCard payments={paidBefore} />
+              </div>
+            )}
             <Section
               title={t('analysis.reasonsTitle')}
               delayMs={REVEAL_MS.reasons}
