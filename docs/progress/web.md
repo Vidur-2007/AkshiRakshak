@@ -38,6 +38,7 @@ From the human's second design file (index.html with a Three.js intro and rise.j
 The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by night, cyan for Akshi, red only for danger. Instrument Serif headings with Inter Tight text, and Space Grotesk / Space Mono for the cards and numbers. Liquid-glass pills.
 
 **Foundation (every page)**
+
 - **Two themes:** `tokens.css` has a night and a day token set on `<html data-theme>`.
   - The preference is follow the phone (default), day or night. It's set in the store and applied before first paint by `index.html`.
   - Switches: a day/night switch in the top bar, a switch in the More sheet on phones, and a three-way choice in Settings.
@@ -53,6 +54,7 @@ The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by ni
 - **Fonts:** self-hosted via Fontsource, so they work offline. Geist was removed.
 
 **Landing (`/`)**: three full-screen moments that snap one at a time with normal scrolling (CSS scroll-snap; no wheel hijacking), with section dots.
+
 1. **Phone x-ray:**
    - The bundled fake-KYC sample is analysed by the real engine. Akshi view shows its real highlights and score (Scam 95).
    - The Normal / Akshi view switch is from the design.
@@ -63,6 +65,7 @@ The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by ni
    - Flick, drag, arrows and arrow keys all work. It autoplays only while on screen.
    - The "Shield on" switch turns every card to "Caught".
    - Help links underneath: 1930, cybercrime.gov.in, Chakshu.
+
 - **Loader:** the "AKSHI" loader plays on the first visit only. It's skipped with reduced motion, in Elder mode, with `?demo` / `?simple` / tour links, and under automation.
 - **Top bar:** turns dark over the dark moments.
 - **Copy changed for the truth rules (§1.3):**
@@ -72,6 +75,7 @@ The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by ni
 - **Removed:** ShieldCore, ShieldPoster, Story, `shieldMath.ts`, `lenis`.
 
 **Tests**
+
 - Landing unit tests rewritten. Browser smoke test 1 now opens the check first.
 - The performance test now checks that the deck only moves while on screen. The canvas test is gone.
 - The axe check runs on every page in **both themes**.
