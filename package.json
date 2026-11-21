@@ -24,6 +24,7 @@
     "eval": "npm run eval --workspaces --if-present",
     "fixtures": "tsx scripts/build-fixtures.ts",
     "campaign-samples": "tsx scripts/build-campaign-samples.ts",
+    "telegram:setup": "tsx scripts/telegram-setup.ts",
     "ocr-assets": "tsx scripts/ocr-assets.ts",
     "size": "tsx scripts/bundle-size.ts",
     "smoke": "tsx scripts/smoke.ts",
