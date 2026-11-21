@@ -1,34 +1,16 @@
 /**
- * The Network page (Scam network V2): legend, numbers, the list, cards, Block, ?campaign= and find.
- * IndexedDB is not available here, so the blocklist is kept in memory.
+ * The Network page (Scam taxonomy · Network V3): title, levers, caption, the message list, the
+ * detail panel with the engine's real verdict, ?category= and "Check one like it".
  */
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import en from '@/locales/en.json';
-import type * as Db from '@/lib/db';
-import type { BlockEntry, BlockType } from '@/lib/db';
-import { INDICATORS } from '@/lib/engine';
 import { initI18n } from '@/lib/i18n';
 import { DEFAULT_PREFS, useAppStore } from '@/lib/store';
 import { routes } from '@/routes';
 
-const store = new Map<string, BlockEntry>();
-vi.mock('@/lib/db', async (orig) => ({
-  ...(await orig<typeof Db>()),
-  allScans: async () => [],
-  listBlocklist: async () => [...store.values()],
-  blocklistValues: async () => [...store.keys()],
-  addToBlocklist: async (value: string, type: BlockType) => {
-    const v = value.trim().toLowerCase();
-    store.set(v, { value: v, type, addedAt: new Date().toISOString() });
-  },
-  removeFromBlocklist: async (value: string) => {
-    store.delete(value);
-  },
-}));
-
-const T = { timeout: 5000 };
+const T = { timeout: 8000 };
 function open(path: string) {
   const router = createMemoryRouter(routes, { initialEntries: [path] });
   render(<RouterProvider router={router} />);
@@ -36,67 +18,60 @@ function open(path: string) {
 }
 
 beforeEach(() => {
-  store.clear();
   useAppStore.setState({ ...DEFAULT_PREFS, lang: 'en' });
   void initI18n();
 });
 
-describe('Network', () => {
-  const openList = async () => {
-    fireEvent.click(await screen.findByText(en.net.listTitle, {}, T));
-    return screen.getByRole('list', { name: en.net.listTitle });
-  };
-
-  it('shows the console: title, legend, numbers and every node in the list', async () => {
+// the first test loads the page and the dataset chunk, which can take a few seconds
+describe('Network: a taxonomy of scams', { timeout: 15_000 }, () => {
+  it('shows the title, the four levers and how many sample messages there are', async () => {
     open('/network');
     expect(await screen.findByRole('heading', { name: en.page.network.title }, T)).toBeTruthy();
-    const legend = screen.getByRole('complementary', { name: en.net.legend });
-    const campaigns = new Set(INDICATORS.map((i) => i.campaign).filter(Boolean));
-    const campBtn = within(legend).getByRole('button', { name: new RegExp(en.net.campaigns) });
-    // the network appears once the sample data has loaded
-    await waitFor(() => expect(campBtn.textContent).toContain(String(campaigns.size)), T);
-    // a legend item hides that layer
-    expect(campBtn.getAttribute('aria-pressed')).toBe('true');
-    fireEvent.click(campBtn);
-    expect(campBtn.getAttribute('aria-pressed')).toBe('false');
-    expect(screen.getByText(en.net.kChecked)).toBeTruthy();
-    const list = await openList();
-    expect(within(list).getByRole('button', { name: en.campaigns['kyc-block-wave'] })).toBeTruthy();
-    expect(within(list).getByRole('button', { name: 'sbi-kyc-update.xyz' })).toBeTruthy();
+    const levers = screen.getByRole('navigation', { name: en.tax.leversLabel });
+    const fear = within(levers).getByRole('button', { name: en.tax.lever.fear.name });
+    expect(within(levers).getAllByRole('button')).toHaveLength(4);
+    expect(await screen.findByText(/sample messages, 4 levers/, {}, T)).toBeTruthy();
+    fireEvent.click(fear);
+    expect(fear.getAttribute('aria-pressed')).toBe('false');
+    expect(await screen.findByText(/sample messages, 3 levers/, {}, T)).toBeTruthy();
   });
 
-  it('opens a card from the list, and Block puts the detail on the blocklist', async () => {
-    open('/network');
-    const list = await openList();
-    fireEvent.click(within(list).getByRole('button', { name: 'sbi-kyc-update.xyz' }));
-    const card = await screen.findByRole('region', { name: 'sbi-kyc-update.xyz' }, T);
-    expect(within(card).getByText(/sample data/)).toBeTruthy();
-    fireEvent.click(within(card).getByRole('button', { name: en.net.block }));
-    await waitFor(() => expect(store.has('sbi-kyc-update.xyz')).toBe(true), T);
-    await within(card).findByRole('button', { name: en.net.unblock }, T);
-    fireEvent.click(within(card).getByRole('button', { name: en.net.close }));
-    expect(screen.queryByRole('region', { name: 'sbi-kyc-update.xyz' })).toBeNull();
-  });
-
-  it('?campaign= opens that campaign (Campaign Match "See it on the network")', async () => {
-    open('/network?campaign=kyc-block-wave');
-    const card = await screen.findByRole('region', { name: en.campaigns['kyc-block-wave'] }, T);
-    expect(within(card).getByRole('button', { name: en.net.blockAll })).toBeTruthy();
-    expect(within(card).getByRole('link', { name: new RegExp(en.net.report) })).toBeTruthy();
-  });
-
-  it('finds a campaign by name, and says so when nothing matches', async () => {
-    open('/network');
-    const input = await screen.findByLabelText(en.net.askLabel, {}, T);
-    await screen.findByText(en.net.listTitle, {}, T); // the network has loaded
-    fireEvent.change(input, { target: { value: 'parcel' } });
-    fireEvent.submit(input.closest('form')!);
+  it('opens a message from the list: the engine checks it, with tips and actions', async () => {
+    const router = open('/network');
+    fireEvent.click(await screen.findByText(en.tax.listTitle, {}, T));
+    const fearKyc = screen.getByRole('heading', { name: /Fear · Fake KYC/ });
+    const first = within(fearKyc.parentElement!).getAllByRole('button')[0]!;
+    fireEvent.click(first);
+    const panel = screen.getByRole('complementary', { name: en.tax.details });
+    expect(within(panel).getByRole('heading', { level: 2 }).textContent).toMatch(/KYC/);
+    // the real check of this sample message
     expect(
-      await screen.findByRole('region', { name: en.campaigns['parcel-customs-fee'] }, T),
+      await within(panel).findByText(/Akshi's check of this message · risk \d+/, {}, T),
     ).toBeTruthy();
-    fireEvent.change(input, { target: { value: 'zzqq' } });
-    fireEvent.submit(input.closest('form')!);
-    expect(await screen.findByText(en.net.answerNone, { exact: false }, T)).toBeTruthy();
-    expect(screen.getByRole('link', { name: en.net.askAkshi })).toBeTruthy();
+    expect(within(panel).getByText(en.tax.found)).toBeTruthy();
+    expect(within(panel).getByText(en.tax.lever.fear.tip1)).toBeTruthy();
+    expect(within(panel).getByRole('link', { name: new RegExp(en.tax.report) })).toBeTruthy();
+    fireEvent.click(within(panel).getByRole('button', { name: en.tax.checkLike }));
+    // "Check one like it" opens the check with this message filled in
+    await screen.findByLabelText(en.scan.inputLabel, {}, T);
+    expect(router.state.location.pathname).toBe('/scan');
+    expect((screen.getByLabelText(en.scan.inputLabel) as HTMLTextAreaElement).value).toMatch(/\S/);
+  });
+
+  it('closes the panel with its close button', async () => {
+    open('/network');
+    fireEvent.click(await screen.findByText(en.tax.listTitle, {}, T));
+    fireEvent.click(screen.getAllByRole('button', { name: /^SMS · / })[0]!);
+    const panel = screen.getByRole('complementary', { name: en.tax.details });
+    fireEvent.click(within(panel).getByRole('button', { name: en.tax.close }));
+    expect(screen.queryByRole('complementary', { name: en.tax.details })).toBeNull();
+  });
+
+  it('?category= (Campaign Match) goes straight to the wall', async () => {
+    open('/network?category=fake_kyc');
+    const title = (await screen.findByRole('heading', { name: en.page.network.title }, T))
+      .parentElement!;
+    await screen.findByText(en.tax.listTitle, {}, T);
+    await waitFor(() => expect(title.getAttribute('data-off')).toBe('true'));
   });
 });

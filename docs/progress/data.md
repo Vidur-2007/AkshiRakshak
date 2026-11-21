@@ -12,7 +12,7 @@
 - **Threshold, set on the validation split:** the closest example is shown at cosine ≥ 0.15 (character-trigram TF-IDF). That shows one for 85% of validation scams; the median best same-category similarity is 0.28.
   - Top-1 nearest neighbour gets the category right only about 50% of the time. So the category always comes from the engine, or from a shared indicator, never from text similarity.
 - Size: 356 KB, 51.5 KB gzipped, a lazy web chunk, precached by the service worker.
-- 2026-11-21: added `channelsOf` (category → how its scam messages arrived: sms, whatsapp, call, telegram, email; all splits) for the Network page's channels; test included.
+- 2026-11-21: added `channelsOf` (category → how its scam messages arrived: sms, whatsapp, call, telegram, email; all splits), and each sample now carries its channel (`[category, lang, text, channel]`), for the Network taxonomy wall.
 
 ### Phase 6 — demo script and submission checklist (2026-11-18)
 

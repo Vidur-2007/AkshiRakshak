@@ -4,42 +4,37 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
-### Network redesigned: the "Scam network V2" console (21 Nov 2026)
+### Network redesigned: "A taxonomy of scams" (21 Nov 2026)
 
-From the human's design file "Akshi — Scam network V2". The Network page is now a full-screen dark console in both themes; the top bar goes dark too (`nav-night`, moved into globals.css).
+From the human's design file "Akshi — Scam taxonomy (Network V3)". This replaced a V2 "scam network console" built earlier the same day: the human preferred V3, and V2 never reached `main`.
 
-- **Layout:** toolbar on top, month scrubber on the left, legend bottom-left, numbers and find bottom-right. Below 1024 px everything stacks.
-- **Canvas** (`components/network/ScamNetworkCanvas.tsx`, Canvas 2D, no library, 5.9 KB gz; the old react-force-graph chunk was 70 KB). It draws:
-  - your checks as the shield-eye with pulse rings;
-  - campaigns as glowing hexagons (red at risk 85+, amber below);
-  - channels with icons;
-  - details as small shapes (blocked ones red, yours ringed in cyan);
-  - your own risky details outside any campaign as small cyan shapes.
-- **Links:** glowing gradients with travelling sparks where your checks found a campaign, and faint dashed links where they didn't. Shared details are dashed red.
-- **Controls:** Orbit/Tree layouts (deterministic, animated), pan, wheel and button zoom, hover and select. The draggable **scan lens** magnifies 2.2× and shows a "SCANNING · RISK" readout of the nearest campaign.
-- **Card:** a floating card next to the selected node.
-  - Campaign card: real numbers, **Block all its details** (the real blocklist) and Report (cybercrime.gov.in).
-  - Detail card: Block/Unblock and Report.
-  - Channel card: the campaigns that use it, and its count of dataset messages.
-- **Every number has a source** (`lib/scamNetwork.ts`, tested). No invented figures: the design's "Kept safe ₹4.2 L", "Family · 3" and per-campaign months were replaced with real ones.
-  - Campaigns, details and report counts come from the sample indicators.
-  - A campaign's risk is the average risk of its details (`70 + 3 × reports`, capped at 100), which gives 74–97.
-  - Channels come from the dataset's `channel` field (new `channelsOf` in campaign-samples.json; a channel is drawn when ≥ 10% of a campaign's kinds' messages used it).
-  - Your checks are linked to campaigns through `campaignOfResult`, split out of Campaign Match.
-  - "Blocked by you" is the blocklist.
-  - The month scrubber filters your checks and blocks by date. The activity wave is your checks per day.
-  - The numbers are: checked, scams found, campaigns found, blocked.
-- **Find box:** finds a campaign by name (any language), or a detail by value or digits. It selects the node and answers in one line from the data. When nothing matches, it links to Ask Akshi.
-- **Sample checks:** a chip toggle shares the Dashboard's sample-checks switch (`hooks/useSampleHistory.ts`, moved out of DashboardPage).
-- **`?campaign=<id>`** (Campaign Match) selects that campaign, opens its card and flies to it.
-- **Accessibility:** a collapsible "Everything in the network" list below the console is the keyboard and screen-reader path to every node. Without canvas, the card still opens.
-- Storage errors (no IndexedDB) leave the blocklist unchanged instead of throwing.
-- **Removed:** `ForceGraphView.tsx`, `lib/graph.ts` and its tests, and the old `network.*` strings. New strings are `net.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review). The page title is now "Scam network".
-- **Follow-up:** `react-force-graph-2d` is still in apps/web/package.json but no longer imported, so it is not bundled. Remove it with a lockfile edit when there is time; this Windows npm strips `libc` fields, so check the lockfile diff.
+- **The picture:** a wall where every scam message traces back to the one lever it pulls (Fear, Trust, Greed, Urgency). It is a full-screen dark wall in both themes, and the top bar goes dark too (`nav-night`, now in globals.css).
+  - **Levers:** the four at the centre.
+  - **Tactics:** Akshi's 19 scam kinds, grouped by lever in `lib/taxonomy.ts`. This is an editorial grouping; the detail panel shows what the engine really finds.
+  - **Tricks:** the channels each kind arrived through in the dataset (≥ 10% of its messages; SMS, WhatsApp, phone call, Telegram, email).
+  - **Messages:** 116 cards at the edge. They are real sample texts from the synthetic dataset's training split, in the person's language first, joined by threads in the lever's colour.
+- **Canvas** (`components/network/TaxonomyCanvas.tsx`): Canvas 2D, no library, and the whole page is 8.7 KB gz. Each card is drawn once, offscreen, as a little phone screen: SMS, WhatsApp/Telegram chat, call transcript, email, UPI collect request (with the message's own amount) or QR "receive money" (a decorative pattern, not a real code). No invented senders: each card shows its channel and a "Sample" tag.
+- **Interaction:** hover traces a thread back to its lever, with a caption. Click a card to open it, click a node to fly to it, drag to pan, and zoom with the wheel or buttons; Fit shows everything. A big title, "A taxonomy of scams", sits over the wall until the first interaction.
+  - **Lever filters** and a **search box**: search highlights matching messages and flies to the first one.
+- **Detail panel**, built for a picked message:
+  - the crumb lever → kind → channel, and the card drawn large;
+  - the full text, with "Sample message from Akshi's synthetic dataset · language";
+  - **the engine's real check of that message**, on-device only (no AI, link expansion or domain lookup): its verdict, risk, and "What Akshi found" (top reasons; a bundled-indicator match keeps its "(sample data)" note);
+  - "How to spot it" (two tips per lever), **Check one like it** (opens /scan with the message filled in) and Report.
+- **`?category=<kind>`** lights up that kind and flies to it. Campaign Match's "See it on the network" now links there, for every match.
+- **Accessibility:** a collapsible "Every sample message" list below the wall, grouped by lever and kind, is the keyboard and screen-reader path to every message. On phones the panel is a bottom sheet above the tab bar.
+- **Data:** each sample in campaign-samples.json now carries its channel (`[category, lang, text, channel]`), and `channelsOf` gives each kind's channel mix.
+- **Removed:**
+  - `ForceGraphView`, `lib/graph` and its tests;
+  - the old `network.*` strings;
+  - V2's `ScamNetworkCanvas`, `lib/scamNetwork` and `net.*` strings.
+- **Kept from V2:** `hooks/useSampleHistory.ts` (the Dashboard still uses it) and `campaignOfResult` in campaignMatch.ts.
+- **Strings:** `tax.*` in en/hi/te/bn. The title is one template, "A taxonomy of {{em}}", so the red word can move with the language. `page.network.title` is "A taxonomy of scams". The hi/te/bn strings are mine, for the i18n review.
+- **Follow-up:** `react-force-graph-2d` is still in apps/web/package.json but no longer imported (not bundled). Remove it with a careful lockfile edit.
 - Tests:
-  - `lib/scamNetwork.test.ts` (9, real indicators, dataset and engine);
-  - `pages/networkFlow.test.tsx` (4: legend, list, card, Block, `?campaign=`, find);
-  - 50/50 e2e in Edge, including axe in both themes. The Elder smoke test once timed out under the parallel load, then passed 3/3 on its own.
+  - `lib/taxonomy.test.ts` (5: every kind under one lever, real samples only, language first, cards apart, card types and amounts);
+  - `pages/networkFlow.test.tsx` (4: levers and caption, list → panel with the real check → Check one like it, close, `?category=`);
+  - 50 e2e in Edge, including axe in both themes. Two landing/scan tests timed out under load and passed 4/4 on their own.
 
 ### Campaign Match: "You're not the only one" (21 Nov 2026)
 

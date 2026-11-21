@@ -50,7 +50,7 @@ describe('CampaignMatchCard', () => {
     ).toEqual(['sbi-kyc-update.xyz', '+919876500001']);
     expect(screen.getByText('“alert! sbi kyc pending”')).toBeTruthy();
     const link = screen.getByRole('link', { name: en.campaign.seeNetwork });
-    expect(link.getAttribute('href')).toBe('/network?campaign=kyc-block-wave');
+    expect(link.getAttribute('href')).toBe('/network?category=fake_kyc');
     // always labelled as sample data, never as reports
     expect(screen.getByText(en.campaign.sample)).toBeTruthy();
     expect(screen.queryByText(/reported/i)).toBeNull();
@@ -66,10 +66,13 @@ describe('CampaignMatchCard', () => {
     expect(screen.queryByText(en.campaign.closest)).toBeNull();
   });
 
-  it('names only the kind of scam when no campaign has it', () => {
+  it('names only the kind of scam when no campaign has it, and still links to the wall', () => {
     show({ ...BASE, category: 'romance', campaign: null, shared: [] });
     const kind = categoryText('romance', 'en').name;
     expect(screen.getByText(en.campaign.knownKind.replace('{{kind}}', kind))).toBeTruthy();
-    expect(screen.queryByRole('link', { name: en.campaign.seeNetwork })).toBeNull();
+    // the wall still has this kind of scam, so the link is there
+    expect(screen.getByRole('link', { name: en.campaign.seeNetwork }).getAttribute('href')).toBe(
+      '/network?category=romance',
+    );
   });
 });

@@ -22,8 +22,8 @@ export interface CampaignSamplesData {
   counts: Partial<Record<ScamCategory, { messages: number; langs: number }>>;
   /** channel → scam messages of the category that arrived that way (sms, whatsapp, call, …) */
   channelsOf: Partial<Record<ScamCategory, Record<string, number>>>;
-  /** [category, lang, text], training split only */
-  samples: [ScamCategory, string, string][];
+  /** [category, lang, text, channel], training split only */
+  samples: [ScamCategory, string, string, string][];
 }
 
 export interface SharedDetail {
