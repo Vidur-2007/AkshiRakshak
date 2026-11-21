@@ -2,6 +2,14 @@
 
 ## Production
 
+- **2026-11-22: `main` at 51dc740 (PR #12) is deployed.** PR #12 brought statements ↔ scam checks, repeated collect requests, the "This payment vs your usual" profile, and the Network scene picker in the toolbar.
+  - **Smoke check:** 9 pass, 2 warnings (Telegram bot not set up; Upstash not connected), 0 fail.
+  - **Live UI checked in Edge**, one fresh browser:
+    - the student statement shows "Linked to scams" and the profile card;
+    - a refund scam check shows "You have paid this before";
+    - a second collect request from the same UPI ID shows the repeat card;
+    - the Network scene picker is in the toolbar, and the left panel no longer overflows;
+    - no page errors.
 - **2026-11-22: `main` at d8708ca (PR #11) is deployed.** PR #11 brought the Network page as "A taxonomy of scams" with its summary panels, and Replay intro.
   - **Smoke check:** 9 pass, 2 warnings (Telegram bot not set up yet; Upstash not connected), 0 fail.
   - **Live UI checked in Edge:**
