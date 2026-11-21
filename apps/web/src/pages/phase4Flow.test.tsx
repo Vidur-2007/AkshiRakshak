@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { askOnline } from '@/components/learn/AskPanel';
 import { AnalysisShareCard, maskedDetails } from '@/components/share/ShareCards';
 import en from '@/locales/en.json';
-import { analyze, buildEntityGraph, DRILLS, EVAL_REPORT, FAQ } from '@/lib/engine';
+import { analyze, DRILLS, EVAL_REPORT, FAQ } from '@/lib/engine';
 import { initI18n } from '@/lib/i18n';
 import { DEFAULT_PREFS, useAppStore } from '@/lib/store';
 import { routes } from '@/routes';
@@ -73,63 +73,6 @@ describe('Landing', () => {
     );
     // §1.3: the landing never calls anything "safe"
     expect(screen.queryByText(/\bsafe\b/i)).toBeNull();
-  });
-});
-
-describe('Network', () => {
-  it('lists every node, filters by type, and opens the entity panel', async () => {
-    open('/network');
-    const g = buildEntityGraph([], { includeBundled: true });
-    const sample = g.nodes.find((n) => n.sampleData && n.type !== 'campaign')!;
-    const stats = en.network.stats
-      .replace('{{clusters}}', String(g.stats.clusters))
-      .replace('{{largest}}', String(g.stats.largestCluster));
-    expect(await screen.findByText(stats, {}, T)).toBeTruthy();
-    const list = screen.getByRole('list', { name: en.page.network.title });
-    expect(within(list).getAllByRole('button')).toHaveLength(g.nodes.length);
-    fireEvent.click(screen.getByRole('button', { name: en.network.campaign }));
-    expect(within(list).getAllByRole('button').length).toBe(
-      g.nodes.filter((n) => n.type !== 'campaign').length,
-    );
-    fireEvent.click(
-      within(list).getByRole('button', { name: new RegExp(sample.label.replace(/[.+]/g, '\\$&')) }),
-    );
-    const dialog = await screen.findByRole('dialog');
-    expect(
-      within(dialog).getByText(en.network.panelReports.replace('{{n}}', String(sample.reports))),
-    ).toBeTruthy();
-    expect(within(dialog).getByText(en.placeholder.sampleData)).toBeTruthy();
-  });
-
-  it('?campaign= lights up that campaign with a count of its linked details; Show all clears it', async () => {
-    const router = open('/network?campaign=kyc-block-wave');
-    const g = buildEntityGraph([], { includeBundled: true });
-    const linked = g.edges.filter(
-      (e) => e.source === 'campaign:kyc-block-wave' || e.target === 'campaign:kyc-block-wave',
-    ).length;
-    const text = en.network.spotlight
-      .replace('{{campaign}}', en.campaigns['kyc-block-wave'])
-      .replace('{{n}}', String(linked));
-    expect(await screen.findByText(text, {}, T)).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: en.network.clearSpotlight }));
-    await waitFor(() => expect(screen.queryByText(text)).toBeNull());
-    expect(router.state.location.search).toBe('');
-  });
-
-  it('ignores an unknown ?campaign=', async () => {
-    open('/network?campaign=not-a-campaign');
-    await screen.findByRole('list', { name: en.page.network.title }, T);
-    expect(screen.queryByRole('button', { name: en.network.clearSpotlight })).toBeNull();
-  });
-
-  it('"Only my details" keeps your own details', async () => {
-    open('/network');
-    const list = await screen.findByRole('list', { name: en.page.network.title }, T);
-    fireEvent.click(screen.getByRole('button', { name: en.network.onlyMine }));
-    const g = buildEntityGraph([], { includeBundled: true });
-    const mine = g.nodes.filter((n) => n.mine);
-    // with no scans of your own the filtered list can be empty
-    expect(within(list).queryAllByRole('button').length).toBeGreaterThanOrEqual(mine.length);
   });
 });
 

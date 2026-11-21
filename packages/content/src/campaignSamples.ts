@@ -8,6 +8,8 @@
  * - samples: the texts the closest-example search runs over. Train split only, so validation and
  *   test messages are never shown or searched.
  * - campaignOf: the network campaign most of a category's sample indicators belong to.
+ * - channelsOf: how the dataset's scam messages of each category arrived (sms, whatsapp, call, …),
+ *   for the channels ring on the Network view.
  */
 import type { ScamCategory } from '@akshi/contracts';
 
@@ -17,6 +19,8 @@ export interface DatasetRow {
   label: string;
   category: string | null;
   split: string;
+  /** sms, whatsapp, call, telegram, email */
+  channel: string;
 }
 export interface IndicatorRow {
   category?: string;
@@ -30,6 +34,7 @@ export interface CampaignSamples {
   note: string;
   campaignOf: Partial<Record<ScamCategory, string>>;
   counts: Partial<Record<ScamCategory, { messages: number; langs: number }>>;
+  channelsOf: Partial<Record<ScamCategory, Record<string, number>>>;
   samples: CampaignSample[];
 }
 
@@ -73,6 +78,13 @@ export function buildCampaignSamples(
     campaignOf[category as ScamCategory] = best[0];
   }
 
+  const channelsOf: CampaignSamples['channelsOf'] = {};
+  for (const r of scams) {
+    const c = r.category as ScamCategory;
+    const m = (channelsOf[c] ??= {});
+    m[r.channel] = (m[r.channel] ?? 0) + 1;
+  }
+
   const samples: CampaignSample[] = scams
     .filter((r) => r.split === 'train')
     .map((r) => [r.category as ScamCategory, r.lang, trimSample(r.text)]);
@@ -83,6 +95,14 @@ export function buildCampaignSamples(
     counts: Object.fromEntries(
       Object.entries(counts).sort(([a], [b]) => a.localeCompare(b)),
     ) as CampaignSamples['counts'],
+    channelsOf: Object.fromEntries(
+      Object.entries(channelsOf)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([c, m]) => [
+          c,
+          Object.fromEntries(Object.entries(m).sort(([a], [b]) => a.localeCompare(b))),
+        ]),
+    ) as CampaignSamples['channelsOf'],
     samples,
   };
 }

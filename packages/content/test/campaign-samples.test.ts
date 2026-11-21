@@ -44,6 +44,13 @@ describe('campaign-samples.json', () => {
     for (const c of Object.values(json.campaignOf)) expect(campaigns.has(c)).toBe(true);
   });
 
+  it('records how each kind of scam arrived', () => {
+    const rowsKyc = rows.filter((r) => r.label === 'scam' && r.category === 'fake_kyc');
+    const total = Object.values(json.channelsOf.fake_kyc ?? {}).reduce((a, n) => a + n, 0);
+    expect(total).toBe(rowsKyc.length);
+    expect(Object.keys(json.channelsOf.fake_kyc ?? {})).toContain('sms');
+  });
+
   it('trimSample cuts long text at a word and marks the cut', () => {
     expect(trimSample('short  text')).toBe('short text');
     const long = trimSample('word '.repeat(100));
