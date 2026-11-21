@@ -11,6 +11,7 @@ import { useEngine } from '@/lib/engineLoader';
 import { MAX_INPUT } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
+import { RiseText } from './RiseText';
 
 /** The bundled fake-KYC sample, analysed for real so the highlights and score are the engine's. */
 const SAMPLE_ID = 'sample-fake-kyc';
@@ -103,6 +104,44 @@ function XrayToggle({ on, onToggle }: { on: boolean; onToggle(): void }) {
         />
       </span>
     </button>
+  );
+}
+
+/**
+ * Akshi view callouts around the phone (the design's annotations): what each marked phrase of the
+ * sample means. Positions are in the stage's container units, so they track the phone.
+ */
+function Callouts() {
+  const { t } = useTranslation();
+  return (
+    <div className="ann" aria-hidden>
+      <svg viewBox="0 0 179.09 100" preserveAspectRatio="none">
+        <line x1="68" y1="64" x2="80.5" y2="65" />
+        <circle cx="80.5" cy="65" r=".45" />
+        <line x1="68" y1="73" x2="81" y2="71.5" />
+        <circle cx="81" cy="71.5" r=".45" />
+        <line x1="111" y1="67" x2="98.5" y2="67.5" />
+        <circle cx="98.5" cy="67.5" r=".45" />
+        <line x1="111" y1="76" x2="96" y2="74.5" />
+        <circle cx="96" cy="74.5" r=".45" />
+      </svg>
+      <div className="cl l" style={{ left: '67.4cqh', top: '64cqh' }}>
+        <b>{t('home.ann1')}</b>
+        <span>{t('home.ann1Sub')}</span>
+      </div>
+      <div className="cl l" style={{ left: '67.4cqh', top: '73cqh' }}>
+        <b>{t('home.ann2')}</b>
+        <span>{t('home.ann2Sub')}</span>
+      </div>
+      <div className="cl" style={{ left: '111.6cqh', top: '67cqh' }}>
+        <b>{t('home.ann3')}</b>
+        <span>{t('home.ann3Sub')}</span>
+      </div>
+      <div className="cl" style={{ left: '111.6cqh', top: '76cqh' }}>
+        <b>{t('home.ann4')}</b>
+        <span>{t('home.ann4Sub')}</span>
+      </div>
+    </div>
   );
 }
 
@@ -216,6 +255,7 @@ export function HeroXray({
               <Screen dark sample={sample.text} result={result} />
             </div>
           )}
+          <Callouts />
         </div>
       </div>
 
@@ -229,11 +269,14 @@ export function HeroXray({
 
       <div className="copy">
         <div className="eyebrow enter-rise">{t('home.eyebrow')}</div>
-        <h1 id="hero-title" className="enter-rise">
-          <span className="a">{t('home.h1a')}</span>
-          <span className="b">
-            {t('home.h1b')} <em>{t('home.h1bEm')}</em>
-          </span>
+        <h1 id="hero-title">
+          <RiseText
+            lines={[
+              [{ t: t('home.h1a') }],
+              [{ t: `${t('home.h1b')} ` }, { t: t('home.h1bEm'), em: true }],
+            ]}
+            lineClassName={['a', 'b']}
+          />
         </h1>
         <p className="sub enter-rise">{t('home.sub')}</p>
         {checking ? (

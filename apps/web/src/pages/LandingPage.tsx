@@ -1,6 +1,7 @@
 import '@/styles/home.css';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CosmicIntro, shouldPlayCosmic } from '@/components/home/CosmicIntro';
 import { HeroXray } from '@/components/home/HeroXray';
 import { IntroLoader } from '@/components/home/IntroLoader';
 import { ScamDeck } from '@/components/home/ScamDeck';
@@ -52,6 +53,17 @@ export default function LandingPage() {
   useSnapScroll();
   const current = useCurrentMoment();
   const [xray, setXray] = useState(false);
+  // the particle intro opens the page once per session; the short AKSHI loader is for the rest
+  const [cosmic, setCosmic] = useState(() => shouldPlayCosmic());
+  const [playedCosmic] = useState(cosmic);
+  useEffect(() => {
+    if (!cosmic) return;
+    const root = document.documentElement;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = '';
+    };
+  }, [cosmic]);
   // the top bar turns dark over the dark moments, as in the design
   useEffect(() => {
     const root = document.documentElement;
@@ -60,7 +72,8 @@ export default function LandingPage() {
   }, [current, xray]);
   return (
     <>
-      <IntroLoader />
+      {cosmic && <CosmicIntro onDone={() => setCosmic(false)} />}
+      {!playedCosmic && <IntroLoader />}
       <nav aria-label={t('home.sections')} className="moment-dots">
         {MOMENTS.map((m) => (
           <a

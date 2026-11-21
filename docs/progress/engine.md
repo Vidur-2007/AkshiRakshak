@@ -2,7 +2,10 @@
 
 ## Production
 
-- **URL: https://akshi-rakshak.vercel.app** (`main` at 7ce77ad, deployed 2026-11-18, after PR #6).
+- **2026-11-21: `main` at a3c96ee (PR #9: the redesign, the Ask crash fix, dashboard sample data) is deployed.**
+  - **Smoke check:** 9 pass, 1 warning (`/api/reports`: Upstash not connected), 0 fail. AI analyze is answered by Groq in 1.2 s (the PR #8 fix).
+  - **Live UI checked in Edge:** the new landing (headline, 19-card deck, theme set), Ask opens and closes without crashing, and the dashboard shows the sample banner and entries. No page errors.
+- **URL: https://akshi-rakshak.vercel.app** (first deployed from `main` at 7ce77ad, 2026-11-18, after PR #6).
 - **Smoke check** (`npm run smoke -- https://akshi-rakshak.vercel.app`): 8 pass, 1 warning, 0 fail.
   - **Pass:** app shell and service worker, security headers, health (groq true, gemini true), expand (2 hops), the SSRF refusal (`blocked_private_address`), domain age, AI analyze, ask.
   - **Warning:** `/api/reports` is not configured, because the Upstash integration is not connected yet.
@@ -13,7 +16,33 @@
 
 ## Done
 
+**Akshi on Telegram (2026-11-21).** `POST /api/telegram` is the webhook for a Telegram bot. People forward a suspicious message and get:
+
+- the verdict and risk;
+- the kind of scam;
+- the explanation, which includes the attack story;
+- up to four reasons and four "what to do" steps;
+- a link to the full check on the site.
+- **Engine:** the same offline engine as `/api/analyze` (no AI, no link expansion, no domain lookup).
+- **Language:** the reply is in the language of the message when it is hi/te/bn, otherwise in the Telegram app language (en fallback).
+  - `/start` and `/help` show the welcome.
+  - Photos without text point to the website (no OCR on the server).
+  - Group chats are ignored.
+- **No token on the server.** The reply is the webhook response itself (Telegram performs the `sendMessage`), so the function makes no outbound call. Only `TELEGRAM_WEBHOOK_SECRET` is set in Vercel.
+  - Telegram sends the secret in `X-Telegram-Bot-Api-Secret-Token`; it is compared in constant time. Without it the endpoint answers 401; without the env var, 503 (switched off).
+- **Privacy and limits:** 20 checks a minute per chat (`LIMITS.telegram`). Logs carry kind, verdict, language and ms only: no text, no chat id.
+- **Truth rules:**
+  - "No warning signs found" plus a reminder never to share an OTP or PIN, and never "safe".
+  - The bot never repeats the message.
+  - A `KNOWN_INDICATOR` reason keeps its "(sample data)" detail.
+- Strings in en/hi/te/bn in `api/_lib/telegram.ts`. Verdict words match the website.
+- **Setup** (`scripts/telegram-setup.ts`, run on your own computer):
+  1. `npm run telegram:setup -- --new-secret`, then add the printed value in Vercel as `TELEGRAM_WEBHOOK_SECRET` and redeploy.
+  2. `TELEGRAM_BOT_TOKEN=… TELEGRAM_WEBHOOK_SECRET=… npm run telegram:setup -- https://akshi-rakshak.vercel.app`. This sets the webhook (`allowed_updates: ['message']`), the commands and the short and long descriptions in en/hi/te/bn, then checks that the site answers 401 without the secret.
+- Tests: `api/_test/telegram.test.ts` (12). `npm run smoke` now checks `/api/telegram`: pass on 401, warning on 503. `build:api --check` bundles it (1.28 MB, like `/api/analyze`).
+
 **New features, Phase 3: AI evidence guard + developer API (2026-11-20).**
+
 - **Evidence guard** (`api/_lib/truth.ts` `unsupportedClaim`, used by `cleanOutput` and `/api/ask`). AI text that states a fact no check found is dropped. The AI score still counts, and the app falls back to its own text. Dropped text:
   - report counts, "blacklisted" or "known scammer", unless the device's own lookup found the value (KNOWN_INDICATOR or BLOCKLISTED);
   - "verified" or "confirmed fraud" claims;
@@ -30,6 +59,7 @@
 - **Tests:** API 60/60 (evidence guard, analyze endpoint, its rate limit, no CORS, no text in logs).
 
 **New features, Phase 2: "understand the scam" (2026-11-20).** Everything appears in existing UI, with no contract change.
+
 - **Attack story** (`pipeline/story.ts`):
   - When a flagged result shows three or more stages (hook → pressure → device → money), one sentence is added at the **end** of the explanation, in all four languages.
   - English example: "How this scam works: pretends to be your bank → threatens to block your account → sends a link to a fake website → asks for your OTP."
@@ -47,6 +77,7 @@
 - **Known issue seen while testing:** "Stay on this video call" and "a case is registered against you" are not in the lexicons (no STAY_ON_CALL or THREAT_LEGAL), so a written "digital arrest" can score only Suspicious with the category task_job. A lexicon change waits for C's validation analysis.
 
 **New features, Phase 1: adversarial hardening (2026-11-20).** The user asked for features that need no UI change and no contract change. Phase 1 catches disguised scam words.
+
 - **Matching view** (`rules/view.ts`, used by `matchRules`) undoes disguises before the lexicons run:
   - Cyrillic and Greek lookalikes are folded to Latin.
   - Split letters are joined: "S H A R E", "O.T.P.", "P*I*N", emoji between letters.
@@ -58,17 +89,17 @@
 - **Evasion suite** (`test/adversarial.test.ts`): 12 base scams (en, Hinglish, hi, te, bn) × 9 disguises applied to the words a scammer would hide.
   - Main signal still found: **50/108 before → 108/108 after**.
 
-    | Disguise | Before | After |
-    |---|---|---|
-    | Spaced | 3 | 12 |
-    | Dotted | 2 | 12 |
-    | Starred | 3 | 12 |
-    | Homoglyph | 1 | 12 |
-    | Repeated | 5 | 12 |
-    | Emoji | 1 | 12 |
-    | Leetspeak | 11 | 12 |
-    | Zero-width | 12 | 12 |
-    | Mixed case | 12 | 12 |
+    | Disguise   | Before | After |
+    | ---------- | ------ | ----- |
+    | Spaced     | 3      | 12    |
+    | Dotted     | 2      | 12    |
+    | Starred    | 3      | 12    |
+    | Homoglyph  | 1      | 12    |
+    | Repeated   | 5      | 12    |
+    | Emoji      | 1      | 12    |
+    | Leetspeak  | 11     | 12    |
+    | Zero-width | 12     | 12    |
+    | Mixed case | 12     | 12    |
 
   - 4 genuine messages × 9 disguises: 0 become "scam".
 - **No regression on validation** (`npm run eval -w @akshi/eval -- --split val`): full_no_ai F1 99.6%, false alarms 0.3%, genuine bank, OTP and UPI messages flagged 0.0% of 160. All three are unchanged.
@@ -85,12 +116,12 @@
 - **Speed:** a 50 KB chat re-ran the rules on every turn for the escalation pass. Each distinct turn is now scored once, and only the other person's turns are re-read. Slowest fuzz input 884 → 594 ms. The fuzz test now times CPU work (parallel test files can't fail it) and warms up on one large input per kind.
 - **Rehearsal on C's branches** (`feat/data-calibration` + these fixes, C's model and tuned calibration): typecheck 0 errors, lint clean, **559 tests pass**. C's eval, full system without AI:
 
-  | Split | F1 | Precision | Recall | False alarms | Genuine bank/OTP/UPI flagged |
-  |---|---|---|---|---|---|
-  | Validation, C's PR #4 (before these fixes) | 97.6% | 97.2% | 98.0% | 2.3% | 3.75% |
-  | Validation, with these fixes (optimistic: fixes came from it) | 99.6% | 99.6% | 99.6% | 0.3% | 0.0% of 160 |
-  | **Test, C's PR #4 (before)** | 93.4% | — | — | 7.1% | 12.9% |
-  | **Test, with these fixes (reported only)** | **95.7%** | 96.7% | 94.7% | **2.9%** | **4.3% of 140** |
+  | Split                                                         | F1        | Precision | Recall | False alarms | Genuine bank/OTP/UPI flagged |
+  | ------------------------------------------------------------- | --------- | --------- | ------ | ------------ | ---------------------------- |
+  | Validation, C's PR #4 (before these fixes)                    | 97.6%     | 97.2%     | 98.0%  | 2.3%         | 3.75%                        |
+  | Validation, with these fixes (optimistic: fixes came from it) | 99.6%     | 99.6%     | 99.6%  | 0.3%         | 0.0% of 160                  |
+  | **Test, C's PR #4 (before)**                                  | 93.4%     | —         | —      | 7.1%         | 12.9%                        |
+  | **Test, with these fixes (reported only)**                    | **95.7%** | 96.7%     | 94.7%  | **2.9%**     | **4.3% of 140**              |
 
   Test by language: en 96.5%, hi 95.2%, te 92.0% (precision 88.1%), **bn 100%** (was 81.4% at Merge 1). Statements: 6 of 6, no false flags.
 
@@ -107,13 +138,14 @@
 - **After the fixes, merged tree:** typecheck 0 errors, lint clean, **526 tests pass** (C's JS tests included); `feat/engine` alone (stub model) 418 pass. Benchmark on C's 200 validation texts with the real model: analyze **p95 4.2 ms** (p50 0.7, max 16.4); scoreLive 0.8 ms per 1,000 chars; engine core 54.3 KB gz without lexicons.
 - **First real eval (C's harness, held-out test split, 433 messages; A tuned nothing on it):**
 
-  | Configuration | Precision | Recall | F1 | False-alarm rate |
-  |---|---|---|---|---|
-  | rules_only | 95.8% | 54.0% | 69.1% | 2.3% |
-  | rules_model | 97.1% | 79.3% | 87.3% | 2.3% |
-  | full_no_ai | 97.4% | 88.7% | 92.9% | 2.3% |
+  | Configuration | Precision | Recall | F1    | False-alarm rate |
+  | ------------- | --------- | ------ | ----- | ---------------- |
+  | rules_only    | 95.8%     | 54.0%  | 69.1% | 2.3%             |
+  | rules_model   | 97.1%     | 79.3%  | 87.3% | 2.3%             |
+  | full_no_ai    | 97.4%     | 88.7%  | 92.9% | 2.3%             |
 
   By language (full_no_ai): en F1 94.6%, hi 92.6%, te 100%, **bn 81.4% (precision 82.8%: every false alarm is Bengali)**. Statements: 6 of 6 planted scams caught, 0 false flags per 100.
+
 - The Vercel preview of PR #1 fails because `vercel.json` builds `@akshi/web`, which arrives only with B's merge; expected, not a fault in C's PR.
 
 **Phase 6 — hardening and release prep (2026-11-15), branch `feat/engine`.** Merge was not possible (main unchanged, C and B unmerged); everything below is on `feat/engine`. 410 tests pass (engine 309, API 50, contracts 45, stubs 6); typecheck, lint, `npm run size` (core 54.2 KB gz without lexicons) pass.
@@ -126,7 +158,7 @@
   - SSRF guard: all expand tests pass; the metadata address is refused before connecting.
   - Logs: every API log line is typed metadata (route, status, ms, provider, counts, fixed error codes); a test turns logging on and drives all seven endpoints with a marker in every text/URL/value — no line contains it or the client IP. dev-api logs path without query. The engine logs only the invalid-calibration warning.
   - Rate limits: ai 20/min, ask 20/min, expand 60/min, domain-age 60/min (all with retry-after), reports POST 10/day — **fixed:** `/api/reports` GET had none; now 60/min/IP for GET and POST (protects the Upstash free quota).
-  - AI responses: zod-validated on the server and again in the engine; quotes must be exact substrings of the masked text (both sides). **Fixed (truth rules §1.3):** model text was only *asked* not to say "safe". New `api/_lib/truth.ts` detects "safe / not a scam / genuine / nothing to worry" in English and the "safe" stem in Hindi, Telugu and Bengali: such AI explanations and advice are blanked (the AI score still counts and the engine shows its own explanation), such red-flag reasons are dropped, and such `/api/ask` answers are rejected (next provider, then the offline FAQ answer).
+  - AI responses: zod-validated on the server and again in the engine; quotes must be exact substrings of the masked text (both sides). **Fixed (truth rules §1.3):** model text was only _asked_ not to say "safe". New `api/_lib/truth.ts` detects "safe / not a scam / genuine / nothing to worry" in English and the "safe" stem in Hindi, Telugu and Bengali: such AI explanations and advice are blanked (the AI score still counts and the engine shows its own explanation), such red-flag reasons are dropped, and such `/api/ask` answers are rejected (next provider, then the offline FAQ answer).
   - Masking: only `maskPII`'d text goes to `/api/ai/analyze` and `/api/ask`; vision sends the image (opt-in); reports send the reported value only.
   - **Fixed:** `vercel.json` now sends `X-Frame-Options: DENY` and `Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'` (no script restrictions, so OCR workers and wasm are unaffected).
   - Dependencies: `npm audit --omit=dev` → 0 vulnerabilities; dev-only minimatch advisory via typescript-eslint 8.72.2 (still the latest; lint only).
@@ -138,17 +170,17 @@
 - **Calibration (task 2):** analyze() and scoreLive() already read thresholds, fusion weights and the AI blend from `loadCalibration()`. New `pipeline/calibration.ts` checks C's values by hand (no zod in the core): `0 < suspicious < scam < 100`, weights in [0, 1] with `rules > 0`, `aiBlend` in [0, 1]; anything invalid (or a throwing loader) falls back to the spec defaults as a whole, with one console warning. Severity keeps the §7.3 bands but is clamped to the verdict, so moved thresholds cannot give "scam / medium" or "No warning signs found / high". `test/calibration.test.ts` mocks C's loader and checks verdicts, layer weights, scoreLive and the fallback.
 - **Performance (task 3), SPEC_A §14:**
 
-  | Budget | Result |
-  |---|---|
-  | `scoreLive` 1,000 chars < 5 ms | **2.2 ms** median (laptop) |
-  | `analyze` p95 < 150 ms, model loaded, offline, ≤ 2,000 chars | **17.4 ms** p95 (p50 4.7, max 23) on 200 messages |
-  | Engine core ≤ 60 KB gz excluding lexicons and model JSON | **54.2 KB** (60.0 KB with the two Latin lexicon packs) |
-  | Lexicons lazy per script, ≤ 40 KB gz total | **13.7 KB** total; Devanagari 3.0, Telugu 2.7, Bengali 2.5 KB load on first use |
-
+  | Budget                                                       | Result                                                                          |
+  | ------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+  | `scoreLive` 1,000 chars < 5 ms                               | **2.2 ms** median (laptop)                                                      |
+  | `analyze` p95 < 150 ms, model loaded, offline, ≤ 2,000 chars | **17.4 ms** p95 (p50 4.7, max 23) on 200 messages                               |
+  | Engine core ≤ 60 KB gz excluding lexicons and model JSON     | **54.2 KB** (60.0 KB with the two Latin lexicon packs)                          |
+  | Lexicons lazy per script, ≤ 40 KB gz total                   | **13.7 KB** total; Devanagari 3.0, Telugu 2.7, Bengali 2.5 KB load on first use |
   - The analyze benchmark (`test/perf.test.ts`) uses C's 200 validation texts (`packages/model/test/parity-fixtures.json`) and C's model when they exist. Until then it runs on a synthetic 200-message corpus (four languages, scam and genuine, chats, emails, 40–2,000 chars) with a **proxy model** built to C's §4.1/§4.4 spec (same featuriser, 20,000-feature cap, TF-IDF + L2, sparse category logits, top-25 contributions with spans). **Rerun after Merge 2 for the real number.** Stage p95: links 6.2 ms, patterns 7.0 ms, model 7.2 ms.
   - Bundle work: tldts → **tldts-icann 7.5.2** (same API and maintainer; the engine never enabled private suffixes, so results are identical — checked on 34 hosts and the full suite; −16 KB gz). Romanised Hindi split out to `hi-latn.json` (core, with English); `hi`/`te`/`bn` lexicon packs load per script. hi/te/bn **strings** load lazily and fall back to English per string until loaded. The **analyze pipeline** is its own 11 KB chunk. `warmup(lang?)` preloads model, pipeline, packs and strings (only that language's with `lang`). analyze() awaits what it needs, so every scan is complete; scoreLive() and the live listener use what has loaded and start loading the rest (next keystroke has it). zod stays in a 30 KB lazy chunk.
   - **`npm run size`** (`scripts/bundle-size.ts`) builds a scan entry (`analyze`, `scoreLive`, `warmup`) with Vite, minifies, gzips, separates eager and lazy chunks and exits 1 over budget. Total of all engine chunks: 126 KB gz.
   - **Found: Vite 8 (Rolldown) copies the tldts trie three times.** Its default `inlineConst` inlines tldts's large exported `labelText` string at each use site: the scan entry's core goes from 59.7 to **102.8 KB gz**. Setting `build.rolldownOptions.optimization.inlineConst: false` fixes it — B's request below.
+
 - **Deploy prep (task 4):** `npm run smoke -- https://<project>.vercel.app` covers the API half of §16 (app shell and service worker, security headers, health with both providers, expand + SSRF refusal, domain-age, AI second opinion, ask, reports), validating each reply with the contract schemas. The phone checks stay manual.
 - **Requests to A (task 5):** none new. B's four requests in web.md are the ones answered in Phase 4 (below); C's log has none.
 - Docs: SPEC.md §6.5 `warmup(lang?)` (additive, optional); SPEC_A §3/§5.1 lexicon layout.
@@ -164,7 +196,7 @@
 - **P2 — cloud vision (M2.3):** `POST /api/ai/vision` with Gemini (`GEMINI_API_KEY` + `GEMINI_VISION_MODEL`), PNG/JPEG/WebP ≤ 1.5 MB (raw base64 or data URL), transcription-only prompt that ignores instructions in the image, 8 s, 20/min/IP. Engine: `ocrWithCloudVision(blob, lang)` in `@akshi/engine/browser` returns an `OcrResult` without boxes (confidence 75) or null.
 - **P2 — live listen (M1.15):** `createLiveListener(lang)` → `push(text, isFinal)` returns `{ score, alerts, transcript }`; each call-danger signal (OTP, PIN, CVV, screen sharing, receive-with-PIN, QR-to-receive, APK, stay on call, legal threat, secrecy, advance fee) alerts once; OTP/PIN/screen-share alert on interim text, others once the words are final. Rules only, synchronous, nothing leaves the device.
 - **P2 — community reports (M8.6, §12.5):** `GET/POST /api/reports` over Upstash's REST pipeline API (no SDK), env `KV_REST_API_URL`/`KV_REST_API_TOKEN` or `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` (read in `api/_lib/redis.ts`); key `rep:<type>:<sha256(normalised value)>` → `{count, category}`; counts shown only from 3; 10 reports per IP per day under `rl:rep:<sha256(ip)>` with a 24 h TTL; raw values and IPs never stored or logged. Engine: `communityReports(type, value)` → `IndicatorMatch` (`source: 'community'`) or null; `reportToCommunity(type, value, category)`.
-- **Bundle (B's request 2):** the engine no longer imports fixtures; zod schemas for network replies load lazily (`src/schemas-lazy.ts` → `@akshi/contracts/schemas`), so the offline core carries no zod. Measured with esbuild (minified, gzip -9), engine core without C's packages: **≈ 112 KB gzipped** (tldts public-suffix trie, strings in four languages, lexicons); zod loads only with the first network call. C's content *stub* still pulls zod through `@akshi/contracts/fixtures` (see Requests).
+- **Bundle (B's request 2):** the engine no longer imports fixtures; zod schemas for network replies load lazily (`src/schemas-lazy.ts` → `@akshi/contracts/schemas`), so the offline core carries no zod. Measured with esbuild (minified, gzip -9), engine core without C's packages: **≈ 112 KB gzipped** (tldts public-suffix trie, strings in four languages, lexicons); zod loads only with the first network call. C's content _stub_ still pulls zod through `@akshi/contracts/fixtures` (see Requests).
 - **Contracts (internal refactor, exports unchanged):** enum arrays moved to `packages/contracts/src/enums.ts`; new subpath export `@akshi/contracts/schemas`. No type or shape changed, so no §9.4 contract PR was needed.
 - **Root:** `npm run typecheck` = `tsc -b && npm run typecheck --workspaces --if-present` (covers apps/web as soon as it has a `typecheck` script — B's request 1).
 - **Tests:** 369 repo-wide (engine 276 incl. **60 golden cases**, contracts 45, API 42, stubs 6): chat formats, senders, both escalation rules, the contracts chat and email fixtures (both `scam`, chat `courier_customs`, email `impersonation_govt`), genuine order email and family chat → `no_signs`, assistant answers every FAQ item from its own question in every language it has, paraphrases and romanised Hindi, lookups, collect screens in four languages, weak OCR, vision, live listen, reports. No real network.
@@ -187,6 +219,7 @@
 ## Known issues
 
 **For the demo recording (until Merge 2 and a deploy happen):**
+
 - **The engine on `main` is the Phase 0 stub.** A demo from `main` or a deploy of `main` shows stub results. Record from a build that includes `feat/engine` (and B's `inlineConst` setting), or after Merge 2.
 - Call `warmup(lang)` when the scan page opens; otherwise the first keystroke of Hindi/Telugu/Bengali text in the live score can miss phrases and show English labels (the full scan is always complete).
 - Avoid pasting very large chat exports on a slow phone: 50 KB takes up to ~0.6 s on a laptop, so it may pass 1 s on a mid-range phone.
@@ -255,7 +288,13 @@ For B's Merge 2: after merging `origin/main` (C's and A's work), the `stageText`
 
 - **To B — Vite 8 duplicates the tldts trie (−43 KB gz on the scan page):** add to `apps/web/vite.config.ts`:
   ```ts
-  build: { rolldownOptions: { optimization: { inlineConst: false } } }
+  build: {
+    rolldownOptions: {
+      optimization: {
+        inlineConst: false;
+      }
+    }
+  }
   ```
   Rolldown's default constant inlining copies tldts's ~120 KB `labelText` string to each of its 3 use sites. Measured on the scan entry: engine core 102.8 → 59.7 KB gz. Check with your bundle report (search the output for `orgmilcomschnetedugovdrrforms`: it should appear once).
 - **To B — lazy engine chunks:** the engine now has lazy chunks (analyze pipeline, hi/te/bn lexicon packs and strings, zod schemas). Please make sure the service worker precaches **all** engine chunks so the airplane-mode scan works in every language after one visit (vite-plugin-pwa's default `globPatterns` covers `**/*.js`; check the hashed `analyze-*`, `hi-*`, `te-*`, `bn-*`, `schemas-*` files are in the precache manifest). Call `warmup(userLang)` when the scan page opens (and `warmup(newLang)` on a language switch). Before warmup, `scoreLive` may miss Indic-script phrases on the first keystroke and show English labels; analyze() is always complete.
@@ -264,11 +303,10 @@ For B's Merge 2: after merging `origin/main` (C's and A's work), the `stageText`
 
 **Earlier:**
 
-
 Answers to Laptop B's requests (docs/progress/web.md on `feat/web`):
 
 1. **Root typecheck covers apps/web:** done without a tsconfig reference (that would break `tsc -b` on `main` until `apps/web` lands). Please add `"typecheck": "tsc -b"` to `apps/web/package.json`; the root `npm run typecheck` now runs every workspace `typecheck` script. A will also add the `apps/web` reference at Merge 1 if you prefer.
-2. **Engine bundle** *(superseded in Phase 5: core is now 54 KB gz without lexicons, with B's `inlineConst` fix)*: fixtures are out of the engine, `sideEffects: false` is set on contracts and engine, and zod is lazy. Core ≈ 112 KB gzipped — together with the 189 KB shell that is over `/scan`'s 200 KB, so **please load the engine after first paint** (dynamic `import('@/lib/engine')` on the scan page, `warmup()` when the page opens). If that is not enough, tell A and A will split the hi/te/bn strings per language.
+2. **Engine bundle** _(superseded in Phase 5: core is now 54 KB gz without lexicons, with B's `inlineConst` fix)_: fixtures are out of the engine, `sideEffects: false` is set on contracts and engine, and zod is lazy. Core ≈ 112 KB gzipped — together with the 189 KB shell that is over `/scan`'s 200 KB, so **please load the engine after first paint** (dynamic `import('@/lib/engine')` on the scan page, `warmup()` when the page opens). If that is not enough, tell A and A will split the hi/te/bn strings per language.
 3. **Fake KYC sample verdict:** fixed since Phase 2 — `sample-fake-kyc` scores **80 (scam)** on `feat/engine`; you will see it after Merge 1.
 4. **typescript-eslint advisory:** no fixed release yet (8.72.2 is still the latest); A will bump it when one ships.
 

@@ -11,6 +11,8 @@ export const LIMITS = {
   'domain-age': 60,
   reports: 60,
   analyze: 30,
+  /** per Telegram chat, not per IP (every update comes from Telegram's servers) */
+  telegram: 20,
 } as const;
 export type LimitName = keyof typeof LIMITS;
 const WINDOW_MS = 60_000;

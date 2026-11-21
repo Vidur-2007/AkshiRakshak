@@ -6,6 +6,7 @@
 import type { Lang, LiveScore, OcrResult, SignalId, StageTiming } from '@akshi/contracts';
 import * as engineNs from '@akshi/engine';
 import i18n from './i18n';
+import type { CampaignSamplesData } from './campaignMatch';
 
 // ── Types (SPEC.md §6) ────────────────────────────────────────────────────────
 export type {
@@ -79,6 +80,11 @@ export {
   analyze,
   apiHealth,
   askAssistant,
+  attackStory,
+  manipulationTactics,
+  type AttackStage,
+  type AttackStep,
+  type TacticFound,
   categoryText,
   detectInputKind,
   inspectUrl,
@@ -165,3 +171,10 @@ export {
   PATTERN_CARDS,
   SAMPLE_MESSAGES,
 } from '@akshi/content';
+
+// ── Campaign Match data (@akshi/content, synthetic dataset, about 50 KB gzipped): its own chunk,
+//    loaded only when a result with warning signs is shown.
+export async function loadCampaignSamples(): Promise<CampaignSamplesData> {
+  const m = await import('@akshi/content/campaign-samples.json');
+  return m.default as unknown as CampaignSamplesData;
+}

@@ -4,7 +4,8 @@
  *   npm run smoke -- https://<project>.vercel.app
  *
  * Checks the app shell, security headers, /api/health (both providers), link expansion,
- * domain age, the AI second opinion, the developer analyze endpoint, the grounded assistant and
+ * domain age, the AI second opinion, the developer analyze endpoint, the Telegram webhook (refuses
+ * requests without its secret), the grounded assistant and
  * community reports, and validates every reply with the contract schemas. Sends only synthetic
  * sample text.
  * The phone checks (sample scan, QR sample, airplane-mode scan after one visit) stay manual.
@@ -184,6 +185,15 @@ await check('/api/analyze', async () => {
     r.verdict === 'scam' && (b.attackStory?.length ?? 0) >= 3 ? 'pass' : 'warn',
     `${r.verdict} ${r.riskScore}, ${b.attackStory?.length ?? 0} attack stages, ${b.tactics?.length ?? 0} tactics (${ms} ms)`,
   ];
+});
+
+// The Telegram webhook must refuse anyone without the webhook secret. 503 means the bot is not set
+// up on this deployment yet (TELEGRAM_WEBHOOK_SECRET missing), which is allowed but worth a note.
+await check('/api/telegram', async () => {
+  const { res, ms } = await call('/api/telegram', post({ update_id: 1 }));
+  if (res.status === 401) return ['pass', `refuses requests without the secret (${ms} ms)`];
+  if (res.status === 503) return ['warn', 'bot not set up: TELEGRAM_WEBHOOK_SECRET is not set'];
+  return ['fail', `HTTP ${res.status}: expected 401 without the secret`];
 });
 
 await check('/api/ask', async () => {

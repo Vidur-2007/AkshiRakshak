@@ -679,7 +679,10 @@
     "typeUpi": "UPI ID",
     "typeDomain": "Website",
     "typeCampaign": "Campaign",
-    "noGraph": "The interactive graph needs a browser with canvas support."
+    "noGraph": "The interactive graph needs a browser with canvas support.",
+    "spotlight": "Lit up: the “{{campaign}}” campaign and {{n}} linked details (sample data).",
+    "spotlightMine": "{{n}} of them are from your own checks.",
+    "clearSpotlight": "Show all"
   },
   "dojo": {
     "difficulty": "Difficulty {{n}} of 3",
@@ -933,7 +936,25 @@
     "sections": "Sections of this page",
     "secCheck": "Check",
     "secHow": "How it works",
-    "secDeck": "Scam patterns"
+    "secDeck": "Scam patterns",
+    "ann1": "Fake deadline",
+    "ann1Sub": "Rushes you to act",
+    "ann2": "Look-alike link",
+    "ann2Sub": "Not SBI's website",
+    "ann3": "KYC by SMS",
+    "ann3Sub": "Banks never ask this way",
+    "ann4": "Personal number",
+    "ann4Sub": "Not an official helpline",
+    "flowTitle": "How Akshi decides",
+    "flow1": "Your message",
+    "flow1Sub": "SMS, chat, link, UPI ID or screenshot",
+    "flow2": "Rules",
+    "flow2Sub": "Known scam phrases and tricks",
+    "flow3": "On-device model",
+    "flow3Sub": "Tone, pressure and intent",
+    "flow4": "Link check",
+    "flow4Sub": "Where a link really goes",
+    "flow5": "Verdict and next steps"
   },
   "errors": {
     "title": "Something went wrong on this screen",
@@ -941,5 +962,66 @@
     "reload": "Reload",
     "home": "Go home",
     "call1930": "Call 1930"
+  },
+  "intro": {
+    "label": "Intro animation",
+    "hud": "Akshi intro",
+    "skip": "Skip intro →",
+    "hint": "Scroll to begin",
+    "drag": "Drag or scroll",
+    "c1": "Every day, messages flood your phone.",
+    "c1Sub": "Bank alerts · OTPs · offers · parcel updates",
+    "c2": "A few of them are",
+    "c2Em": "traps.",
+    "c2Sub": "Fake KYC · refund requests · digital arrest",
+    "c3": "Akshi sees them",
+    "c3Em": "first.",
+    "c3Sub": "Checked on your phone · works offline"
+  },
+  "replay": {
+    "title": "Scam replay",
+    "sub": "How this scam would play out, step by step. Built only from what Akshi found in this message.",
+    "play": "Replay",
+    "step": "Step {{n}}",
+    "stage": {
+      "hook": "The bait",
+      "pressure": "The pressure",
+      "compromise": "The trap",
+      "extraction": "The demand"
+    },
+    "shield": "Akshi warned you here",
+    "shieldSub": "Before you open, share or pay anything.",
+    "goalLead": "What they want next",
+    "goal": {
+      "money": "Your money, OTP or PIN",
+      "control": "You on a page or app they control"
+    },
+    "evidence": "From the message",
+    "tactics": "Tricks used"
+  },
+  "campaign": {
+    "title": "You're not the only one",
+    "count": "messages like this ({{kind}}) in Akshi's sample dataset, in {{langs}} languages",
+    "shares": "This message shares these details with the “{{campaign}}” campaign:",
+    "looksLike": "It looks like the “{{campaign}}” campaign.",
+    "knownKind": "It looks like a known kind of scam: {{kind}}.",
+    "sharedLabel": "Details shared with the campaign",
+    "closest": "Closest example in the dataset",
+    "seeNetwork": "See it on the network",
+    "sample": "Sample data: synthetic messages made to test Akshi, not real reports."
+  },
+  "campaigns": {
+    "kyc-block-wave": "KYC block wave",
+    "refund-collect": "Refund collect requests",
+    "power-cut-tonight": "Power cut tonight",
+    "parcel-customs-fee": "Parcel customs fee",
+    "task-job-ring": "Task job ring",
+    "lucky-draw-prize": "Lucky draw prize",
+    "fake-govt-notice": "Fake government notice",
+    "instant-loan-apps": "Instant loan apps",
+    "fake-helpline": "Fake helpline",
+    "digital-arrest-calls": "Digital arrest calls",
+    "trading-tips-club": "Trading tips club",
+    "apk-invite": "APK invite"
   }
 }

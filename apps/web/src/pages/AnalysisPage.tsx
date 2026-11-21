@@ -1,9 +1,10 @@
 import { ArrowLeft, SearchX } from 'lucide-react';
 import { m } from 'motion/react';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router';
 import { ActionDock, WhatToDo } from '@/components/analysis/ActionDock';
+import { CampaignMatchCard, useCampaignMatch } from '@/components/analysis/CampaignMatchCard';
 import { ClaimVsRealityCard } from '@/components/analysis/ClaimVsRealityCard';
 import { EntityChips } from '@/components/analysis/EntityChips';
 import { HighlightedText } from '@/components/analysis/HighlightedText';
@@ -12,6 +13,7 @@ import { PrivacyFooter } from '@/components/analysis/PrivacyFooter';
 import { ReasonList } from '@/components/analysis/ReasonList';
 import { ResultSection } from '@/components/analysis/InlineResult';
 import { ReadAloudButton } from '@/components/analysis/ReadAloudButton';
+import { ScamReplay } from '@/components/analysis/ScamReplay';
 import {
   REVEAL_MS,
   RevealProvider,
@@ -31,6 +33,7 @@ import { PageFallback } from '@/components/shell/PageFallback';
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { categoryText, LANGS, type AnalysisResult, type Lang } from '@/lib/engine';
+import { buildReplay } from '@/lib/replay';
 import { loadImage, loadResult, peekResult } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
 import { VERDICT_COLOR } from '@/lib/risk';
@@ -139,6 +142,8 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
   const e = result.entities;
   const hasEntities = e.urls.length + e.upiIds.length + e.phones.length + e.amounts.length > 0;
   const hasExtras = !!image || !!result.qr || !!urlFinding || !!result.chat?.length;
+  const replay = useMemo(() => buildReplay(result, lang), [result, lang]);
+  const campaign = useCampaignMatch(result);
   usePageTitle(`${verdictWord} · ${result.riskScore}/100`);
 
   // One short vibration on a scam verdict, when the dock rises (Android, haptics on)
@@ -279,6 +284,20 @@ function Analysis({ result, fresh }: { result: AnalysisResult; fresh: boolean })
                 className="order-4 lg:order-none"
               >
                 <ClaimVsRealityCard claims={result.claimVsReality} />
+              </Section>
+            )}
+            {replay && (
+              <Section
+                title={t('replay.title')}
+                delayMs={REVEAL_MS.reasons + 120}
+                className="order-4 lg:order-none"
+              >
+                <ScamReplay replay={replay} />
+              </Section>
+            )}
+            {campaign && (
+              <Section title={t('campaign.title')} delayMs={0} className="order-4 lg:order-none">
+                <CampaignMatchCard match={campaign} lang={lang} />
               </Section>
             )}
             <Section

@@ -12,6 +12,7 @@ import {
 import { CATEGORY_ICON } from '@/lib/risk';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
+import { RiseText } from './RiseText';
 
 /** Two warning signs that typically come with each scam type (labels come from the engine). */
 export const CATEGORY_TAGS: Record<Exclude<ScamCategory, 'other'>, [SignalId, SignalId]> = {
@@ -102,6 +103,8 @@ export function ScamDeck({ id }: { id: string }) {
   const dragStart = useRef<{ x: number; t: number; lastX: number; v: number } | null>(null);
   const hover = useRef(false);
   const [inView, setInView] = useState(false);
+  // the cards rise into the deck from below the first time it is on screen, then start flicking
+  const [arrival, setArrival] = useState<'waiting' | 'flying' | 'done'>('waiting');
 
   const go = useCallback((dir: number) => setActive((a) => (a + dir + N) % N), []);
 
@@ -120,9 +123,12 @@ export function ScamDeck({ id }: { id: string }) {
   // flick to the next card every 3.2 s while the deck is on screen and left alone
   useEffect(() => {
     const el = sectionRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setArrival('done');
+      return;
+    }
     const io = new IntersectionObserver(([e]) => setInView(Boolean(e?.isIntersecting)), {
-      threshold: 0.5,
+      threshold: 0.35,
     });
     io.observe(el);
     return () => io.disconnect();
@@ -134,12 +140,34 @@ export function ScamDeck({ id }: { id: string }) {
     } catch {
       reduced = false;
     }
-    if (!inView || reduced || elder) return;
+    if (reduced || elder) {
+      setArrival('done');
+      return;
+    }
+    if (!inView || arrival !== 'waiting') return;
+    // one frame in the starting position, then fly
+    const raf = requestAnimationFrame(() => setArrival('flying'));
+    return () => cancelAnimationFrame(raf);
+  }, [inView, elder, arrival]);
+  // its own effect: the flight must finish even though `arrival` changing re-runs the one above
+  useEffect(() => {
+    if (arrival !== 'flying') return;
+    const timer = window.setTimeout(() => setArrival('done'), 1700);
+    return () => window.clearTimeout(timer);
+  }, [arrival]);
+  useEffect(() => {
+    let reduced: boolean;
+    try {
+      reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch {
+      reduced = false;
+    }
+    if (!inView || reduced || elder || arrival !== 'done') return;
     const timer = window.setInterval(() => {
       if (!hover.current && !dragStart.current && !document.hidden) go(1);
     }, 3200);
     return () => window.clearInterval(timer);
-  }, [inView, elder, go]);
+  }, [inView, elder, go, arrival]);
 
   const onPointerDown = (e: PointerEvent<HTMLElement>, i: number) => {
     if (distance(i, active) !== 0 || (e.target as HTMLElement).closest('a')) return;
@@ -179,7 +207,14 @@ export function ScamDeck({ id }: { id: string }) {
       <div className="chead">
         <div>
           <h2 id="home-deck-title">
-            {t('home.deckTitle', { n: N })} <em>{t('home.deckTitleEm')}</em>
+            <RiseText
+              lines={[
+                [
+                  { t: `${t('home.deckTitle', { n: N })} ` },
+                  { t: t('home.deckTitleEm'), em: true },
+                ],
+              ]}
+            />
           </h2>
           <p>{t('home.deckSub')}</p>
         </div>
@@ -243,13 +278,23 @@ export function ScamDeck({ id }: { id: string }) {
             const front = d === 0;
             const ct = categoryText(c, lang);
             const dragging = front && drag !== null;
-            const transform = dragging
-              ? `translate3d(${drag.dx}px,0,0) rotateZ(${drag.dx * 0.025}deg) rotateY(${drag.dx * 0.03}deg)`
-              : pose(d, width);
+            const transform =
+              arrival === 'waiting'
+                ? `translate3d(0, 110vh, 0) rotateZ(${((i * 37) % 48) - 24}deg)`
+                : dragging
+                  ? `translate3d(${drag.dx}px,0,0) rotateZ(${drag.dx * 0.025}deg) rotateY(${drag.dx * 0.03}deg)`
+                  : pose(d, width);
+            // far cards land first, the front card last (the design's deck intro)
+            const flyDelay = (3 - Math.min(a, 3)) * 0.14 + (d > 0 ? 0.07 : 0);
             return (
               <article
                 key={c}
-                className={cn('scard', front && 'front', dragging && 'dragging')}
+                className={cn(
+                  'scard',
+                  front && arrival === 'done' && 'front',
+                  dragging && 'dragging',
+                  arrival !== 'done' && arrival,
+                )}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={t('home.slide', { i: i + 1, n: N, name: ct.name })}
@@ -259,7 +304,8 @@ export function ScamDeck({ id }: { id: string }) {
                   zIndex: 20 - a * 2,
                   opacity: a > 3 ? 0 : 1,
                   visibility: a > 3 ? 'hidden' : 'visible',
-                  transitionDelay: front ? '0s' : `${0.03 * a}s`,
+                  transitionDelay:
+                    arrival === 'flying' ? `${flyDelay}s` : front ? '0s' : `${0.03 * a}s`,
                 }}
                 onPointerDown={(e) => onPointerDown(e, i)}
                 onPointerMove={onPointerMove}

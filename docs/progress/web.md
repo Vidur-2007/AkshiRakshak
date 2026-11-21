@@ -4,11 +4,77 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Campaign Match: "You're not the only one" (21 Nov 2026)
+
+- A card on the Analysis screen (`components/analysis/CampaignMatchCard.tsx`, logic in `lib/campaignMatch.ts`). It connects a checked message to a scam campaign in the sample data:
+  - the dataset count, e.g. "113 messages like this (Fake KYC update) in Akshi's sample dataset, in 4 languages";
+  - the details the message shares with that campaign (UPI ID, phone, website), as chips;
+  - the closest example from the dataset;
+  - **See it on the network**.
+- **How the campaign is chosen, strongest evidence first:**
+  1. a detail of the message is one of a campaign's bundled sample indicators. UPI IDs and phones carry `indicator.campaign`; websites go through `lookupIndicator`.
+  2. otherwise the engine's category, mapped through `campaignOf`.
+  - Text similarity only picks the closest example (character-trigram TF-IDF, cosine ≥ 0.15, within that category).
+- **Truth rules:** always "in Akshi's sample dataset", with a "Sample data: synthetic messages … not real reports" note. Never "reported by". The card is hidden for "No warning signs found".
+- The data (`@akshi/content/campaign-samples.json`) loads lazily through `loadCampaignSamples()` in `lib/engine.ts`. It is 51.5 KB gzipped, in its own chunk, precached for offline use.
+- **Network spotlight:** `/network?campaign=<id>` lights up that campaign hub and its details, and flies the graph to it once the layout settles (`ForceGraphView` `zoomTo`).
+  - A banner reads "Lit up: the … campaign and N linked details (sample data). M of them are from your own checks". **Show all** clears it.
+  - While a node is spotlit or selected, only it and the user's own details are labelled, so labels don't pile up.
+- Strings: `campaign.*`, `campaigns.*` (12 campaign names) and `network.spotlight*` in en/hi/te/bn. The hi/te/bn strings are mine, for the i18n review.
+- Tests:
+  - `lib/campaignMatch.test.ts` (6, real engine and data);
+  - `CampaignMatchCard.test.tsx` (3);
+  - 2 spotlight tests in `phase4Flow.test.tsx`;
+  - the content sync test (see data.md);
+  - 50/50 e2e in Edge.
+
+### Scam Replay on the Analysis screen (21 Nov 2026)
+
+- A "Scam replay" card (`components/analysis/ScamReplay.tsx`, logic in `lib/replay.ts`) plays the attack a message sets up as a timeline.
+  - Steps: the bait → the pressure → the trap → the demand. Each step shows the engine's step text, the words of the message behind it (from the signal spans), and the tricks it uses (fear, artificial urgency, authority pressure, …).
+  - A cyan shield marks where Akshi's warning comes in: before the first step that asks you to act (open a link or app, share a code, pay). The steps after it have dashed outlines.
+  - The last row is "What they want next": your money, OTP or PIN; or you on a page or app they control.
+- **Built only from evidence:** steps come from `attackStory` and `manipulationTactics` (engine, PR #7), and every quote is a slice of the message. The card is shown only with warning signs and at least two stages.
+- **Animation:** plays once when scrolled into view, about 0.85 s per step; Replay plays it again. Reduced motion and Elder mode show every step at once, with no Replay button. Rows still to come are `visibility: hidden`, so screen readers and axe skip them until shown.
+- Strings in en/hi/te/bn (`replay.*`); the hi/te/bn strings are mine, for the i18n review.
+- Tests: `lib/replay.test.ts` (7, on the real engine incl. Hindi) and `ScamReplay.test.tsx` (3: order and shield position, Replay, Elder mode). 50/50 e2e in Edge.
+- `scanFlow.test.tsx`: the flow test now has a 15 s budget, and the ticker wait 4 s. On this laptop the first scan, including the engine load, takes about 4 s, past vitest's 5 s per-test default once rendering is added. It failed the same way without this change. This was the "known flake".
+
+### Cosmic intro, landing details, cosmic network (21 Nov 2026)
+
+From the human's second design file (index.html with a Three.js intro and rise.js) and a "cosmic web" reference image.
+
+- **Opening intro** (`components/home/CosmicIntro.tsx`, `lib/cosmic.ts`):
+  - A scroll-driven point cloud that opens straight away (the human asked for no loading counter), with a HUD, Skip, a progress bar and three captions:
+    1. messages flood in as a cosmic web (cyan filaments between glowing purple hubs);
+    2. a few turn red ("traps");
+    3. the traps are pushed away and the rest settle into the shield-eye, then the camera flies in.
+  - **Raw WebGL, no three.js**, to stay under the 100 KB dependency rule. Points: 9,000 on high-tier desktop, 5,500 otherwise, 3,200 on phones.
+  - **When it plays:** once per browser session. It never plays with reduced motion, under automation (`navigator.webdriver`), with `?demo`, `?simple` or `start=` links, or without WebGL. When it plays, the short AKSHI loader is skipped.
+  - **Exits:** Skip, Esc, or scrolling to the end.
+  - **Bug fixed during review:** the effect cleanup called `loseContext()`, so StrictMode's second effect run got a dead context and the intro closed itself at once. GL resources are now freed with `dispose()`.
+- **Hero callouts** (`.ann`): in Akshi view, four dashed callouts point at the sample SMS. They read Fake deadline, Look-alike link, KYC by SMS and Personal number. Hidden on phones.
+- **"How Akshi decides"** panel in the shield moment: five steps (message → rules → on-device model → link check → verdict chips). Hidden on short or narrow screens.
+- **Rising headings** (`RiseText`): letters rise in once on screen. Indic scripts rise word by word, so conjuncts stay intact. Screen readers get the plain text. Reduced motion and Elder mode show the text at once.
+- **Deck fly-in:** the first time the deck is on screen, the cards fly up from below, staggered, then autoplay (3.2 s) starts.
+  - Bug fixed during review: the 1.7 s flight timer lived in an effect that re-ran when `arrival` changed, so autoplay never started. It is now its own effect. The e2e perf test waits for the flight.
+- **Network "cosmic connections"** (`ForceGraphView.tsx`): always a dark space, in both themes.
+  - Campaigns are purple glowing hubs. Phone numbers, UPI IDs and websites are cyan sparks; the shapes still tell the type.
+  - Links are glowing filaments with sparks travelling along them, using additive light.
+  - A faint seeded web backdrop (decoration, drawn once to an offscreen canvas) with twinkling stars.
+  - The layout is looser so filaments read as lines. The legend swatches match the new palette.
+- Strings: the `intro.*` group and new `home.ann*` / `home.flow*` keys in en/hi/te/bn. The hi/te/bn strings are my translations, for the i18n review.
+- Checked:
+  - Edge screenshots of the intro at 0/10/38/70/90%, the landing on desktop and phone, and the network.
+  - `cosmic.test.ts` (6 tests).
+  - All 50 e2e tests in Edge, including axe in both themes.
+
 ### Redesign to the human's design file (20 Nov 2026)
 
 The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by night, cyan for Akshi, red only for danger. Instrument Serif headings with Inter Tight text, and Space Grotesk / Space Mono for the cards and numbers. Liquid-glass pills.
 
 **Foundation (every page)**
+
 - **Two themes:** `tokens.css` has a night and a day token set on `<html data-theme>`.
   - The preference is follow the phone (default), day or night. It's set in the store and applied before first paint by `index.html`.
   - Switches: a day/night switch in the top bar, a switch in the More sheet on phones, and a three-way choice in Settings.
@@ -24,6 +90,7 @@ The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by ni
 - **Fonts:** self-hosted via Fontsource, so they work offline. Geist was removed.
 
 **Landing (`/`)**: three full-screen moments that snap one at a time with normal scrolling (CSS scroll-snap; no wheel hijacking), with section dots.
+
 1. **Phone x-ray:**
    - The bundled fake-KYC sample is analysed by the real engine. Akshi view shows its real highlights and score (Scam 95).
    - The Normal / Akshi view switch is from the design.
@@ -34,6 +101,7 @@ The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by ni
    - Flick, drag, arrows and arrow keys all work. It autoplays only while on screen.
    - The "Shield on" switch turns every card to "Caught".
    - Help links underneath: 1930, cybercrime.gov.in, Chakshu.
+
 - **Loader:** the "AKSHI" loader plays on the first visit only. It's skipped with reduced motion, in Elder mode, with `?demo` / `?simple` / tour links, and under automation.
 - **Top bar:** turns dark over the dark moments.
 - **Copy changed for the truth rules (§1.3):**
@@ -43,6 +111,7 @@ The design: "Akshi Rakshak — Scam shield". Cool paper by day, near-black by ni
 - **Removed:** ShieldCore, ShieldPoster, Story, `shieldMath.ts`, `lenis`.
 
 **Tests**
+
 - Landing unit tests rewritten. Browser smoke test 1 now opens the check first.
 - The performance test now checks that the deck only moves while on screen. The canvas test is gone.
 - The axe check runs on every page in **both themes**.

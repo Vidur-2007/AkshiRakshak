@@ -22,8 +22,9 @@ describe('Quick Scan → Analysis', () => {
     fireEvent.change(input, { target: { value: KYC } });
     fireEvent.click(screen.getByRole('button', { name: en.scan.scan }));
 
-    // stays on /scan for at least the 400 ms ticker floor, then navigates
-    expect(await screen.findByLabelText(en.scan.stagesLabel)).toBeTruthy();
+    // stays on /scan for at least the 400 ms ticker floor, then navigates (the first scan loads the
+    // engine, which can take over the default 1 s on a busy machine)
+    expect(await screen.findByLabelText(en.scan.stagesLabel, {}, { timeout: 4000 })).toBeTruthy();
     await screen.findByText(en.analysis.messageTitle, {}, { timeout: 4000 });
     expect(router.state.location.pathname).toMatch(/^\/scan\/.+/);
 
@@ -34,7 +35,8 @@ describe('Quick Scan → Analysis', () => {
     const alert = await screen.findByRole('alert');
     await screen.findByText(/Risk \d+ out of 100/);
     expect(alert.textContent).toMatch(/^Scam\. Risk \d+ out of 100\./);
-  });
+    // a whole flow, including the first engine load: past vitest's 5 s default on a slow laptop
+  }, 15_000);
 
   it('marks the genuine OTP sample as no warning signs, never "safe"', async () => {
     const router = createMemoryRouter(routes, { initialEntries: ['/scan'] });

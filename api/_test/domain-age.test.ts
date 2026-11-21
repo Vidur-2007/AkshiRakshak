@@ -106,6 +106,7 @@ describe('rate limiter', () => {
       'domain-age': 60,
       reports: 60,
       analyze: 30,
+      telegram: 20,
     });
     const t = 1_000_000;
     for (let i = 0; i < 60; i++) expect(checkRate('expand', '1.2.3.4', t + i).ok).toBe(true);
