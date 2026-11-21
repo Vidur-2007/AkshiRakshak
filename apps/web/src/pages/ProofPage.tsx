@@ -4,7 +4,13 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RevealProvider, useRevealTransition } from '@/components/analysis/reveal';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { categoryText, EVAL_REPORT, type EvalReport, type Metrics } from '@/lib/engine';
+import {
+  categoryText,
+  EVAL_REPORT,
+  RISK_CALIBRATION,
+  type EvalReport,
+  type Metrics,
+} from '@/lib/engine';
 import { isPlaceholderReport, orderedConfigs, pct, rowShares } from '@/lib/proof';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
@@ -35,16 +41,25 @@ function PctBar({
   value,
   sub,
   i = 0,
+  wide = false,
 }: {
   label: string;
   value: number;
   sub?: string;
   i?: number;
+  /** a wider label column that wraps instead of cutting the text off */
+  wide?: boolean;
 }) {
   const tr = useRevealTransition();
   return (
-    <li className="grid grid-cols-[minmax(0,10rem)_minmax(0,1fr)_3.5rem] items-center gap-3 text-sm">
-      <span className="truncate">
+    <li
+      className={`grid items-center gap-3 text-sm ${
+        wide
+          ? 'grid-cols-[minmax(0,9.5rem)_minmax(0,1fr)_3.5rem] sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_3.5rem]'
+          : 'grid-cols-[minmax(0,10rem)_minmax(0,1fr)_3.5rem]'
+      }`}
+    >
+      <span className={wide ? 'break-words' : 'truncate'}>
         {label}
         {sub && <span className="block text-xs text-text-2">{sub}</span>}
       </span>
@@ -294,6 +309,32 @@ function Proof({ r }: { r: EvalReport }) {
           <Confusion c={r.confusion} />
         </Block>
       </div>
+
+      {/* do the risk numbers mean what they say? measured on the test split, never tuned */}
+      <Block title={t('proof.reliabilityTitle')} hint={t('proof.reliabilityHint')}>
+        <ul className="flex flex-col gap-3" aria-label={t('proof.reliabilityTitle')}>
+          {[...RISK_CALIBRATION.verdictBands].reverse().map((b, i) => (
+            <PctBar
+              wide
+              key={b.from}
+              label={t(
+                b.from >= 70
+                  ? 'proof.bandScam'
+                  : b.from >= 40
+                    ? 'proof.bandSuspicious'
+                    : 'proof.bandNone',
+                { from: b.from, to: b.to },
+              )}
+              sub={t('proof.bandMessages', { n: b.messages, scams: b.scams })}
+              value={b.messages ? b.scams / b.messages : 0}
+              i={i}
+            />
+          ))}
+        </ul>
+        <p className="mt-4 text-sm text-text-2">
+          {t('proof.brier', { b: RISK_CALIBRATION.brier.toFixed(2) })}
+        </p>
+      </Block>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Block title={t('proof.latencyTitle')}>

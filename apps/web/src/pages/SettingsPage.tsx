@@ -11,13 +11,17 @@ import { usePageTitle } from '@/hooks/usePageTitle';
 import { subscribe } from '@/lib/broadcast';
 import { telHref } from '@/lib/dashboard';
 import {
+  allScans,
   deleteEverything,
   listBlocklist,
+  listFeedback,
   removeFromBlocklist,
   storageCounts,
   type BlockEntry,
+  type FeedbackRecord,
   type StorageCounts,
 } from '@/lib/db';
+import { downloadExamples, labelledExamples, summarise } from '@/lib/feedback';
 import { useSession } from '@/lib/session';
 import { useAppStore } from '@/lib/store';
 import type { ThemePref } from '@/lib/theme';
@@ -172,6 +176,7 @@ function PrivacyPanel() {
     [t('settings.storeStatements'), counts?.statements],
     [t('settings.storeBlocklist'), counts?.blocklist],
     [t('settings.storeDojo'), counts?.dojo],
+    [t('settings.storeFeedback'), counts?.feedback],
     [t('settings.aiCalls'), aiCalls],
   ];
   return (
@@ -208,6 +213,50 @@ function PrivacyPanel() {
             ))}
           </ul>
         )}
+      </div>
+    </>
+  );
+}
+
+/** "Was Akshi right?" answers: how often Akshi agreed with you, and a download of the examples. */
+function FeedbackPanel() {
+  const { t } = useTranslation();
+  const [list, setList] = useState<FeedbackRecord[]>([]);
+  useEffect(() => {
+    const load = () => void listFeedback().then(setList);
+    load();
+    return subscribe(load);
+  }, []);
+  const s = summarise(list);
+  if (!s.total) return <p className="text-sm text-text-2">{t('feedback.none')}</p>;
+  return (
+    <>
+      <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {(
+          [
+            [t('feedback.statTotal'), s.total],
+            [t('feedback.statAgreed'), s.agreed],
+            [t('feedback.statFalseAlarms'), s.falseAlarms],
+            [t('feedback.statMisses'), s.misses],
+          ] as const
+        ).map(([label, n]) => (
+          <div key={label} className="rounded-card border border-glass-border p-3">
+            <dt className="text-xs text-text-2">{label}</dt>
+            <dd className="mt-1 font-mono text-xl tabular-nums">{n}</dd>
+          </div>
+        ))}
+      </dl>
+      <div>
+        <button
+          type="button"
+          className={buttonVariants({ variant: 'outline', size: 'sm' })}
+          onClick={() =>
+            void allScans().then((scans) => downloadExamples(labelledExamples(list, scans)))
+          }
+        >
+          {t('feedback.download')}
+        </button>
+        <p className="mt-2 text-xs text-text-2">{t('feedback.downloadNote')}</p>
       </div>
     </>
   );
@@ -299,6 +348,9 @@ export default function SettingsPage() {
 
       <Card title={t('settings.privacyTitle')} hint={t('settings.privacyHint')}>
         <PrivacyPanel />
+      </Card>
+      <Card title={t('feedback.settingsTitle')} hint={t('feedback.settingsHint')}>
+        <FeedbackPanel />
       </Card>
 
       <Card title={t('settings.deleteTitle')} hint={t('settings.deleteBody')}>

@@ -1,5 +1,6 @@
 import type { EvalReport, Indicator, Landscape, SampleMessage } from '@akshi/contracts';
 import evalReport from './eval-report.json';
+import riskCalibration from './risk-calibration.json';
 import indicators from './indicators.json';
 import landscape from './landscape.json';
 import samples from './samples.json';
@@ -25,3 +26,5 @@ export const LANDSCAPE: Landscape = landscape as Landscape;
  * Its `notes` say plainly when a run used the placeholder engine. Validated against EvalReportSchema in tests.
  */
 export const EVAL_REPORT: EvalReport = evalReport as EvalReport;
+/** How often each risk band was really a scam on the test split (npm run reliability -w @akshi/eval). */
+export const RISK_CALIBRATION = riskCalibration;

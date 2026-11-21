@@ -7,7 +7,8 @@
     "eval": "tsx src/run.ts",
     "errors": "tsx src/errors.ts",
     "calibrate": "tsx src/calibrate.ts",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "reliability": "tsx src/reliability.ts"
   },
   "dependencies": {
     "@akshi/content": "*",

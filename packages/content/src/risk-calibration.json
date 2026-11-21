@@ -1,0 +1,91 @@
+{
+  "engineVersion": "0.3.0",
+  "modelVersion": "2026.11.18-a",
+  "generatedAt": "2026-11-21T20:43:31.812Z",
+  "split": "test",
+  "messages": 527,
+  "scams": 247,
+  "verdictBands": [
+    {
+      "from": 0,
+      "to": 39,
+      "messages": 285,
+      "scams": 13
+    },
+    {
+      "from": 40,
+      "to": 69,
+      "messages": 116,
+      "scams": 108
+    },
+    {
+      "from": 70,
+      "to": 100,
+      "messages": 126,
+      "scams": 126
+    }
+  ],
+  "bins": [
+    {
+      "from": 0,
+      "to": 9,
+      "messages": 109,
+      "scams": 0
+    },
+    {
+      "from": 10,
+      "to": 19,
+      "messages": 101,
+      "scams": 0
+    },
+    {
+      "from": 20,
+      "to": 29,
+      "messages": 49,
+      "scams": 1
+    },
+    {
+      "from": 30,
+      "to": 39,
+      "messages": 26,
+      "scams": 12
+    },
+    {
+      "from": 40,
+      "to": 49,
+      "messages": 32,
+      "scams": 24
+    },
+    {
+      "from": 50,
+      "to": 59,
+      "messages": 40,
+      "scams": 40
+    },
+    {
+      "from": 60,
+      "to": 69,
+      "messages": 44,
+      "scams": 44
+    },
+    {
+      "from": 70,
+      "to": 79,
+      "messages": 20,
+      "scams": 20
+    },
+    {
+      "from": 80,
+      "to": 89,
+      "messages": 18,
+      "scams": 18
+    },
+    {
+      "from": 90,
+      "to": 100,
+      "messages": 88,
+      "scams": 88
+    }
+  ],
+  "brier": 0.0705
+}
