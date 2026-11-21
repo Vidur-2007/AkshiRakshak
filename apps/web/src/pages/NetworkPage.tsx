@@ -387,6 +387,22 @@ export default function NetworkPage() {
           )}
 
           <header className="tx-top">
+            {/* the scene is a view setting: it lives in the toolbar, not in the summary panel */}
+            <div className="tx-scenes tx-panel" role="group" aria-label={t('tax.scene')}>
+              <span className="lbl" aria-hidden>
+                {t('tax.scene')}
+              </span>
+              {SCENES.map((v) => (
+                <button
+                  key={v}
+                  type="button"
+                  aria-pressed={scene === v}
+                  onClick={() => pickScene(v)}
+                >
+                  {t(`tax.scene_${v}`)}
+                </button>
+              ))}
+            </div>
             <Link to="/scan" className="tx-cta">
               {t('tax.check')}
             </Link>
@@ -523,14 +539,6 @@ export default function NetworkPage() {
             </span>
           </button>
           {!myKinds.size && <p className="hint">{t('tax.onlyMineEmpty')}</p>}
-          <div className="h">{t('tax.scene')}</div>
-          <div className="tx-scenes" role="group" aria-label={t('tax.scene')}>
-            {SCENES.map((v) => (
-              <button key={v} type="button" aria-pressed={scene === v} onClick={() => pickScene(v)}>
-                {t(`tax.scene_${v}`)}
-              </button>
-            ))}
-          </div>
         </aside>
 
         {/* the kinds of scam by size: pick one to light it up on the wall */}

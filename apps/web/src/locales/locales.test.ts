@@ -45,10 +45,12 @@ describe('locales', () => {
   });
 
   it('keeps interpolation placeholders in every language', () => {
+    // flatten each language once (flattening per key made this test slow as the strings grew)
+    const flatOthers = Object.values(others).map((file) => flatten(file as Tree));
     for (const [k, v] of Object.entries(flatEn)) {
       const vars = v.match(/\{\{\w+\}\}/g) ?? [];
-      for (const file of Object.values(others)) {
-        const t = flatten(file as Tree)[k] ?? '';
+      for (const flat of flatOthers) {
+        const t = flat[k] ?? '';
         for (const name of vars) expect(t, k).toContain(name);
       }
     }

@@ -4,6 +4,75 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Network: scene picker in the toolbar (22 Nov 2026)
+
+The fix for the known issue from the PR #11 deploy: for someone with no checks, the Scene buttons sat clipped at the bottom of the left summary panel.
+
+- **Scene picker** (Radar, Nebula, Blueprint) moved to the toolbar, top-left with a "Scene" label, opposite "Check a message". It is a view setting, and the panel no longer has to hold it.
+- **Caption** moved beside the summary panel on desktop (left 322 px), so the panel can use the full height.
+- **Panel spacing** tightened: title 26 px, stats 24 px, rows 32 px tall (still above the 24 px target size).
+- **Measured in Edge with no checks:**
+  - 1440×900 and 1366×768: the panel fits with no overflow.
+  - A 657 px-tall window: the panel scrolls by 60 px at the bottom; nothing is clipped.
+  - Phone: the Scene picker sits on its own row above "Check a message".
+- `networkFlow.test.tsx` now finds the scene picker in the toolbar group. Web tests 255/255, axe 36/36.
+
+### "This payment vs your usual" profile (22 Nov 2026)
+
+The review asked for behavioural transaction profiling. The analysis already had a baseline and per-anomaly feature rows; `lib/txnProfile.ts` and `components/statements/TxnProfileCard.tsx` turn them into a card at the top of each flagged payment:
+
+- **Your usual payment** (the statement's median, rounded);
+- **This payment** (or "These N payments", totalled for a pattern), with "84× your usual" from 1.5× up (rounded from 10×);
+- **Recipient:** First time, Paid before (N×), or Regular payee;
+- **Time:** the clock time, usual or unusual for you;
+- **How unusual: N/100** from the anomaly's own score;
+- "An unusual pattern compared with your own payments, not proof of fraud."
+
+Details:
+
+- The recipient counts only payments outside the flagged pattern. Four payments in a burst to someone new are "First time", matching the analysis text, not "Regular". "Regular" is three or more other payments, the analysis's own rule.
+- Usual hours use the analysis's baseline window. Statements without times show "—".
+- **Demo:** the salaried sample shows usual ₹573 → ₹48,000 (84×) · First time · 02:47, unusual for you.
+- Strings `profile.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review).
+- **Tests:** `lib/txnProfile.test.ts` (6: large first-time payment at an odd hour, a pattern total, a burst to someone new, regular payee, unknowns, every anomaly of the sample statements, hours past midnight). e2e 50/50 with two workers.
+- **Test fixes:**
+  - `locales.test.ts` re-flattened each language once per key, so it grew past 8 s as strings were added. It now flattens each language once: 13 ms.
+  - The hero real-scan flow test now has a 15 s budget.
+
+### Repeated collect requests (22 Nov 2026)
+
+Scammers send the same collect request again and again, hoping one is approved by mistake. `lib/repeatRequests.ts` counts earlier collect-request checks from the same requester UPI ID in your history (lower-case match; the check being shown is left out).
+
+- **Result card** (`components/analysis/RepeatRequests.tsx`), on the Collect page's inline result and on a collect check opened from history:
+  - "This UPI ID has asked you for money before (N×)";
+  - the earlier requests (amount, date, verdict, each linking to its check);
+  - "Same amount as before: ₹4,999 (N×)";
+  - advice to decline every request from someone you don't know, and **Block this UPI ID**.
+  - Hidden for a first request.
+- **Form hint**, under the requester UPI field as you type: "This UPI ID sent you collect requests before (N×, latest on 22 Nov). Open the latest". It is a polite live region the field describes, empty until there is something to say.
+- Counts use "(N×)" so there are no plural forms to get wrong in four languages. Strings `repeat.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review).
+- The card mounts only for collect-request results, so other results don't read the history.
+- **Tests:** `lib/repeatRequests.test.ts` (2, real engine) and `components/analysis/RepeatRequests.test.tsx` (3, history mocked). Checked in Edge: the first check shows nothing, the second shows the hint and the card (1×), the third shows 2× and the same amount 2×.
+- In the full parallel e2e run on this laptop, three analysis-page tests timed out. All passed when run one at a time (6/6, twice each).
+
+### Cross-module links: statements ↔ scam checks (22 Nov 2026)
+
+An outside review's top advice was to connect the three detection modules (messages, collect requests, transactions). `lib/crossLinks.ts` matches UPI IDs and Indian mobile numbers (normalised: lower-case UPI IDs; +91 and the last ten digits) across them.
+
+- **Transactions page, "Linked to scams"** (`components/statements/ScamLinks.tsx`), right under the risk gauge:
+  - one block per UPI ID or number in the statement that also appears in a scam or suspicious check (message, collect request, QR), on your blocklist, or in the bundled sample indicators;
+  - each block shows totals paid out and received, the payments themselves, and evidence chips: "In a message / collect request you checked on 22 Nov · Scam 95" (links to that check), "On your blocklist", or "In Akshi's sample scam data · campaign";
+  - advice (call 1930 and report for money out; don't send money back yourself for money in), **Block this**, and **Get help now** (/sos).
+  - Red when you paid someone your own checks or blocklist flagged; amber for sample data or money in only.
+- **Analysis page, "You have paid this before":** when a checked scam's UPI ID or number appears in a statement you uploaded (the last 20), it lists those payments and links to help and to your statements. Hidden for "No warning signs found".
+- **Rules:** checks with no warning signs are not evidence. Sample data is always labelled. A bare "91" prefix needs a separator, so 12-digit bank reference numbers are not read as phone numbers. A number inside a UPI ID counts as that UPI ID. The same statement uploaded twice shows each payment once.
+- **Demo:** the built-in student statement pays `refund.desk2026@ybl` (₹1 in, then ₹9,999 out) and `task.payout.hr@ybl` (4 × ₹499), both in the sample scam data. Checking the refund scam then adds "In a message you checked" to the statement, and the check itself shows "You have paid this before".
+- Strings `links.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review).
+- **Tests:**
+  - `lib/crossLinks.test.ts` (6: extraction including reference numbers, own check vs credit level, no-signs ignored, blocklist, sample statement, grouping with in/out totals, paymentsFor once each);
+  - `pages/linksFlow.test.tsx` (1);
+  - e2e 49/50 in the full run. axe on /dashboard caught a top-bar target-size blip once; dashboard, transactions and analysis axe passed 14/14 on their own.
+
 ### Network summaries (21 Nov 2026)
 
 From the human's two panel screenshots (a "Scam network" summary and "Campaigns · by size"), adapted to the taxonomy wall. Every number is real.
