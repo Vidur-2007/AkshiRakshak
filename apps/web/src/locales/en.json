@@ -1074,6 +1074,23 @@
       "decline": "Decline",
       "qr": "Scan to receive",
       "sample": "Sample"
-    }
+    },
+    "sumTitle": "Scam taxonomy",
+    "sumBody": "Every kind of scam in Akshi's dataset, the lever it pulls, and how it reaches people.",
+    "statKinds": "kinds of scam",
+    "statMessages": "scam messages in the dataset",
+    "statYours": "of your checks",
+    "statLargest": "in the largest kind",
+    "showLabel": "Show",
+    "onlyMine": "Only kinds from my checks",
+    "onlyMineEmpty": "Check a message and its kind shows up here.",
+    "scene": "Scene",
+    "scene_radar": "Radar",
+    "scene_nebula": "Nebula",
+    "scene_blueprint": "Blueprint",
+    "kindsKicker": "Kinds of scam · by size",
+    "kindsTitle": "Pick one to inspect",
+    "yourChecksTag": "your checks",
+    "kindsRow": "{{name}}: {{n}} scam messages in the dataset"
   }
 }

@@ -46,6 +46,10 @@ export const CARD_PX_W = CARD_W * SC;
 export const CARD_PX_H = CARD_H * SC;
 const COLOR = Object.fromEntries(LEVERS.map((l) => [l.id, l.color])) as Record<LeverId, string>;
 
+/** A kind is shown unless a kinds filter is on and leaves it out (levers have no kind). */
+const shownIn = (kinds: Set<string> | null | undefined, category: string | undefined) =>
+  !kinds || !category || kinds.has(category);
+
 const rgba = (hex: string, a: number) => {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
@@ -270,6 +274,8 @@ export const TaxonomyCanvas = forwardRef<
   {
     tax: Taxonomy;
     on: Record<LeverId, boolean>;
+    /** when set, only these kinds of scam are drawn ("Only kinds from my checks") */
+    kinds?: Set<string> | null;
     /** message ids that match the search, or null when not searching */
     matches: Set<string> | null;
     /** a node lit up without hovering (?category=) */
@@ -383,13 +389,18 @@ export const TaxonomyCanvas = forwardRef<
       const wy = (sy - L.view.y) / L.view.k;
       for (let i = tax.messages.length - 1; i >= 0; i--) {
         const m = tax.messages[i]!;
-        if (on[m.lever] && Math.abs(wx - m.x) < CARD_W / 2 && Math.abs(wy - m.y) < CARD_H / 2)
+        if (
+          on[m.lever] &&
+          shownIn(L.props.kinds, m.category) &&
+          Math.abs(wx - m.x) < CARD_W / 2 &&
+          Math.abs(wy - m.y) < CARD_H / 2
+        )
           return { message: m };
       }
       let best: TaxNode | null = null;
       let bd = Infinity;
       for (const n of tax.nodes) {
-        if (!on[n.lever]) continue;
+        if (!on[n.lever] || !shownIn(L.props.kinds, n.category)) continue;
         const d = Math.hypot(wx - n.x, wy - n.y);
         const lim = n.kind === 'lever' ? 60 : n.kind === 'tactic' ? 40 : 24;
         if (d < lim && d < bd) {
@@ -478,7 +489,7 @@ export const TaxonomyCanvas = forwardRef<
     let raf = 0;
 
     const frame = () => {
-      const { tax, on, matches, focus, selected, names, labels } = L.props;
+      const { tax, on, kinds, matches, focus, selected, names, labels } = L.props;
       if (L.props.flyToId && L.props.flyToId !== L.flown && L.size.w) {
         L.flown = L.props.flyToId;
         flyToId(L.props.flyToId);
@@ -528,7 +539,7 @@ export const TaxonomyCanvas = forwardRef<
 
       // threads from each card back to its trick
       for (const m of tax.messages) {
-        if (!on[m.lever]) continue;
+        if (!on[m.lever] || !shownIn(kinds, m.category)) continue;
         const rel = related(m) || selected === m.id;
         const a = lit ? (rel ? 0.75 : 0.05) : matches ? (matches.has(m.id) ? 0.7 : 0.05) : 0.16;
         const t = tax.nodes.find((n) => n.id === trickIdOf(m));
@@ -549,7 +560,7 @@ export const TaxonomyCanvas = forwardRef<
       for (const [ai, bi] of tax.links) {
         const A = byId.get(ai)!;
         const B = byId.get(bi)!;
-        if (!on[A.lever]) continue;
+        if (!on[A.lever] || !shownIn(kinds, B.category)) continue;
         const rel = related(A) && related(B);
         const [x1, y1] = toS(A.x, A.y);
         const [x2, y2] = toS(B.x, B.y);
@@ -562,7 +573,7 @@ export const TaxonomyCanvas = forwardRef<
       }
       // message cards
       for (const m of tax.messages) {
-        if (!on[m.lever]) continue;
+        if (!on[m.lever] || !shownIn(kinds, m.category)) continue;
         const [x, y] = toS(m.x, m.y);
         const w = CARD_W * k;
         const h = CARD_H * k;
@@ -593,7 +604,7 @@ export const TaxonomyCanvas = forwardRef<
       }
       // tricks and tactics
       for (const n of tax.nodes) {
-        if (!on[n.lever] || n.kind === 'lever') continue;
+        if (!on[n.lever] || n.kind === 'lever' || !shownIn(kinds, n.category)) continue;
         const [x, y] = toS(n.x, n.y);
         const rel = related(n);
         cx.globalAlpha = lit && !rel ? 0.2 : 1;

@@ -11,7 +11,9 @@ import {
   type TaxonomyHandle,
 } from '@/components/network/TaxonomyCanvas';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { subscribe } from '@/lib/broadcast';
 import type { CampaignSamplesData } from '@/lib/campaignMatch';
+import { allScans, type ScanRecord } from '@/lib/db';
 import {
   analyze,
   categoryText,
@@ -19,10 +21,21 @@ import {
   type AnalysisResult,
   type Lang,
 } from '@/lib/engine';
+import { safeLocalStorage } from '@/lib/safeStorage';
 import { useAppStore } from '@/lib/store';
-import { buildTaxonomy, LEVERS, type LeverId, type TaxMessage, type TaxNode } from '@/lib/taxonomy';
+import {
+  buildTaxonomy,
+  LEVERS,
+  leverOf,
+  type LeverId,
+  type TaxMessage,
+  type TaxNode,
+} from '@/lib/taxonomy';
 
 const REPORT_URL = 'https://cybercrime.gov.in';
+const SCENES = ['radar', 'nebula', 'blueprint'] as const;
+type Scene = (typeof SCENES)[number];
+const SCENE_KEY = 'akshi-net-scene';
 const LANG_NAME: Record<string, string> = {
   en: 'English',
   hi: 'हिंदी',
@@ -185,6 +198,46 @@ export default function NetworkPage() {
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState<string | null>(null);
   const canvas = useRef<TaxonomyHandle>(null);
+
+  // your own checks: which kinds of scam they found (for the summaries and "only my kinds")
+  const [own, setOwn] = useState<ScanRecord[]>([]);
+  useEffect(() => {
+    void allScans().then(setOwn);
+    return subscribe((msg) => {
+      if (msg.type === 'scan' || msg.type === 'cleared') void allScans().then(setOwn);
+    });
+  }, []);
+  const myKinds = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const c of own)
+      if (c.verdict !== 'no_signs' && c.category && leverOf(c.category))
+        m.set(c.category, (m.get(c.category) ?? 0) + 1);
+    return m;
+  }, [own]);
+  const myChecks = [...myKinds.values()].reduce((a, n) => a + n, 0);
+  const [onlyMine, setOnlyMine] = useState(false);
+  const kindsFilter = useMemo(
+    () => (onlyMine && myKinds.size ? new Set(myKinds.keys()) : null),
+    [onlyMine, myKinds],
+  );
+  const [scene, setScene] = useState<Scene>(() => {
+    const v = safeLocalStorage.getItem(SCENE_KEY);
+    return (SCENES as readonly string[]).includes(v ?? '') ? (v as Scene) : 'nebula';
+  });
+  const pickScene = (v: Scene) => {
+    setScene(v);
+    safeLocalStorage.setItem(SCENE_KEY, v);
+  };
+
+  // the numbers in the summaries: the dataset's own counts, and your checks
+  const kindRows = useMemo(() => {
+    if (!data) return [];
+    return LEVERS.flatMap((L) =>
+      L.categories.map((c) => ({ c, lever: L, n: data.counts[c]?.messages ?? 0 })),
+    ).sort((a, b) => b.n - a.n || a.c.localeCompare(b.c));
+  }, [data]);
+  const datasetMessages = kindRows.reduce((a, r) => a + r.n, 0);
+  const largest = kindRows[0]?.n ?? 0;
   // "A taxonomy of {{em}}": the red word can sit anywhere in the sentence, depending on the language
   const titleParts = t('tax.title', { em: '\u0000' }).split('\u0000');
   const interact = useCallback(() => setInteracted(true), []);
@@ -290,7 +343,9 @@ export default function NetworkPage() {
         </>
       );
     }
-    const n = tax.messages.filter((m) => on[m.lever]).length;
+    const n = tax.messages.filter(
+      (m) => on[m.lever] && (!kindsFilter || kindsFilter.has(m.category)),
+    ).length;
     const levers = LEVERS.filter((l) => on[l.id]).length;
     return <>{t('tax.capDefault', { n, levers })}</>;
   })();
@@ -309,46 +364,116 @@ export default function NetworkPage() {
 
   return (
     <>
-      <section className="tx-app" aria-labelledby="page-title">
-        {tax && canvasOk && (
-          <TaxonomyCanvas
-            ref={canvas}
-            tax={tax}
-            on={on}
-            matches={matches}
-            focus={focus}
-            selected={selected?.id ?? null}
-            onHover={setHover}
-            onPick={setSelected}
-            onInteract={interact}
-            names={names}
-            labels={labels}
-            ariaLabel={t('tax.canvas')}
-            panelOpen={!!selected}
-            flyToId={focus}
-          />
-        )}
+      <div className="tx-wrap">
+        <section className="tx-app" aria-labelledby="page-title" data-scene={scene}>
+          {tax && canvasOk && (
+            <TaxonomyCanvas
+              ref={canvas}
+              tax={tax}
+              on={on}
+              kinds={kindsFilter}
+              matches={matches}
+              focus={focus}
+              selected={selected?.id ?? null}
+              onHover={setHover}
+              onPick={setSelected}
+              onInteract={interact}
+              names={names}
+              labels={labels}
+              ariaLabel={t('tax.canvas')}
+              panelOpen={!!selected}
+              flyToId={focus}
+            />
+          )}
 
-        <header className="tx-top">
-          <nav className="tx-levers tx-panel" aria-label={t('tax.leversLabel')}>
-            {LEVERS.map((L) => (
-              <button
-                key={L.id}
-                type="button"
-                className="tx-lv"
-                aria-pressed={on[L.id]}
-                style={{ ['--c' as string]: L.color }}
-                onClick={() => {
-                  interact();
-                  setOn((o) => ({ ...o, [L.id]: !o[L.id] }));
-                }}
-              >
-                <i aria-hidden />
-                {leverName(L.id)}
-              </button>
-            ))}
-          </nav>
-          <label className="tx-search tx-panel">
+          <header className="tx-top">
+            <Link to="/scan" className="tx-cta">
+              {t('tax.check')}
+            </Link>
+          </header>
+
+          <div className="tx-title" data-off={interacted}>
+            <h1 id="page-title">
+              {titleParts[0]}
+              <em>{t('tax.titleEm')}</em>
+              {titleParts[1]}
+            </h1>
+            <p>
+              {t('tax.intro')} <span className="tx-hover">{t('tax.introHover')}</span>
+              <span className="tx-touch">{t('tax.introTouch')}</span>
+            </p>
+          </div>
+
+          <p className="tx-cap tx-panel" aria-live="polite">
+            {caption}
+          </p>
+          <div className="tx-zoom tx-panel">
+            <button
+              type="button"
+              aria-label={t('tax.zoomOut')}
+              onClick={() => canvas.current?.zoomBy(1 / 1.3)}
+            >
+              <Minus size={18} aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label={t('tax.zoomIn')}
+              onClick={() => {
+                interact();
+                canvas.current?.zoomBy(1.3);
+              }}
+            >
+              <Plus size={18} aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label={t('tax.fit')}
+              onClick={() => {
+                setSelected(null);
+                setFocus(null);
+                canvas.current?.fit();
+              }}
+            >
+              <Maximize2 size={16} aria-hidden />
+            </button>
+          </div>
+          <span className="tx-note">{t('tax.note')}</span>
+
+          <aside
+            className="tx-det tx-panel"
+            data-on={!!selected}
+            aria-label={t('tax.details')}
+            aria-hidden={!selected}
+          >
+            {selected && (
+              <Detail m={selected} lang={lang} labels={labels} onClose={() => setSelected(null)} />
+            )}
+          </aside>
+        </section>
+
+        {/* summary: the wall at a glance, what to show, the scene */}
+        <aside className="tx-sum tx-panel" aria-labelledby="tx-sum-title">
+          <h2 id="tx-sum-title">{t('tax.sumTitle')}</h2>
+          <p className="d">{t('tax.sumBody')}</p>
+          <dl className="tx-stats">
+            <div>
+              <dt>{t('tax.statKinds')}</dt>
+              <dd className="r">{kindRows.length}</dd>
+            </div>
+            <div>
+              <dt>{t('tax.statMessages')}</dt>
+              <dd>{datasetMessages.toLocaleString('en-IN')}</dd>
+            </div>
+            <div>
+              <dt>{t('tax.statYours')}</dt>
+              <dd>{myChecks}</dd>
+            </div>
+            <div>
+              <dt>{t('tax.statLargest')}</dt>
+              <dd>{largest}</dd>
+            </div>
+          </dl>
+          <label className="tx-search">
             <Search size={16} aria-hidden />
             <input
               value={query}
@@ -360,69 +485,99 @@ export default function NetworkPage() {
               aria-label={t('tax.searchLabel')}
             />
           </label>
-          <Link to="/scan" className="tx-cta">
-            {t('tax.check')}
-          </Link>
-        </header>
-
-        <div className="tx-title" data-off={interacted}>
-          <h1 id="page-title">
-            {titleParts[0]}
-            <em>{t('tax.titleEm')}</em>
-            {titleParts[1]}
-          </h1>
-          <p>
-            {t('tax.intro')} <span className="tx-hover">{t('tax.introHover')}</span>
-            <span className="tx-touch">{t('tax.introTouch')}</span>
-          </p>
-        </div>
-
-        <p className="tx-cap tx-panel" aria-live="polite">
-          {caption}
-        </p>
-        <div className="tx-zoom tx-panel">
+          <div className="h">{t('tax.showLabel')}</div>
+          <div role="group" aria-label={t('tax.leversLabel')}>
+            {LEVERS.map((L) => (
+              <button
+                key={L.id}
+                type="button"
+                className="tx-row"
+                aria-pressed={on[L.id]}
+                onClick={() => {
+                  interact();
+                  setOn((o) => ({ ...o, [L.id]: !o[L.id] }));
+                }}
+              >
+                <i style={{ background: L.color }} aria-hidden />
+                <span className="t">{leverName(L.id)}</span>
+                <span className="n">
+                  {(tax?.messages ?? []).filter((m) => m.lever === L.id).length}
+                </span>
+              </button>
+            ))}
+          </div>
           <button
             type="button"
-            aria-label={t('tax.zoomOut')}
-            onClick={() => canvas.current?.zoomBy(1 / 1.3)}
-          >
-            <Minus size={18} aria-hidden />
-          </button>
-          <button
-            type="button"
-            aria-label={t('tax.zoomIn')}
+            role="switch"
+            className="tx-switch"
+            aria-checked={onlyMine}
+            disabled={!myKinds.size}
             onClick={() => {
               interact();
-              canvas.current?.zoomBy(1.3);
+              setOnlyMine((v) => !v);
             }}
           >
-            <Plus size={18} aria-hidden />
+            <span>{t('tax.onlyMine')}</span>
+            <span className="track" aria-hidden>
+              <i />
+            </span>
           </button>
-          <button
-            type="button"
-            aria-label={t('tax.fit')}
-            onClick={() => {
-              setSelected(null);
-              setFocus(null);
-              canvas.current?.fit();
-            }}
-          >
-            <Maximize2 size={16} aria-hidden />
-          </button>
-        </div>
-        <span className="tx-note">{t('tax.note')}</span>
-
-        <aside
-          className="tx-det tx-panel"
-          data-on={!!selected}
-          aria-label={t('tax.details')}
-          aria-hidden={!selected}
-        >
-          {selected && (
-            <Detail m={selected} lang={lang} labels={labels} onClose={() => setSelected(null)} />
-          )}
+          {!myKinds.size && <p className="hint">{t('tax.onlyMineEmpty')}</p>}
+          <div className="h">{t('tax.scene')}</div>
+          <div className="tx-scenes" role="group" aria-label={t('tax.scene')}>
+            {SCENES.map((v) => (
+              <button key={v} type="button" aria-pressed={scene === v} onClick={() => pickScene(v)}>
+                {t(`tax.scene_${v}`)}
+              </button>
+            ))}
+          </div>
         </aside>
-      </section>
+
+        {/* the kinds of scam by size: pick one to light it up on the wall */}
+        <aside
+          className="tx-kinds tx-panel"
+          aria-labelledby="tx-kinds-title"
+          data-hidden={!!selected}
+        >
+          <div className="k">{t('tax.kindsKicker')}</div>
+          <h2 id="tx-kinds-title">{t('tax.kindsTitle')}</h2>
+          <ul>
+            {kindRows.map(({ c, lever, n }) => {
+              const id = `tactic:${c}`;
+              const name = categoryText(c, lang).name;
+              return (
+                <li key={c}>
+                  <button
+                    type="button"
+                    aria-pressed={focus === id}
+                    aria-label={t('tax.kindsRow', { name, n })}
+                    onClick={() => {
+                      interact();
+                      setSelected(null);
+                      setFocus(id);
+                      canvas.current?.flyTo(id);
+                    }}
+                  >
+                    <span className="nm">
+                      {name}
+                      {myKinds.has(c) && <span className="tag">{t('tax.yourChecksTag')}</span>}
+                    </span>
+                    <span className="n">{n}</span>
+                    <span className="bar" aria-hidden>
+                      <i
+                        style={{
+                          width: `${largest ? (n / largest) * 100 : 0}%`,
+                          background: lever.color,
+                        }}
+                      />
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
+      </div>
 
       {/* The same wall as a list: the keyboard and screen-reader path to every message */}
       {tax && (

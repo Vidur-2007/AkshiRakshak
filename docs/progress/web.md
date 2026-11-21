@@ -4,6 +4,21 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Network summaries (21 Nov 2026)
+
+From the human's two panel screenshots (a "Scam network" summary and "Campaigns · by size"), adapted to the taxonomy wall. Every number is real.
+
+- **Left panel, "Scam taxonomy":**
+  - **Stats:** kinds of scam (19); scam messages in the dataset (1,739, from `counts`); your checks that hit a kind (your own history, not samples); the largest kind (133).
+  - The **search** box.
+  - **Show:** the four levers with their message counts. These moved here from the top bar.
+  - **Only kinds from my checks:** a switch, disabled with a hint until you have checked a message. It narrows the wall through a new `kinds` prop on the canvas.
+  - **Scene:** Radar (rings and a turning sweep, still with reduced motion), Nebula (the default: a soft glow in each lever's quarter) or Blueprint (a blue grid), remembered in localStorage.
+- **Right panel, "Kinds of scam · by size":** "Pick one to inspect" lists all 19 kinds by dataset size, each with a bar in its lever's colour and a "your checks" tag where your checks hit it. A row lights the kind up on the wall and flies to it. It is hidden on desktop while a message panel is open.
+- **Layout:** "Check a message" moved to the top right. Below 1024 px the panels flow below the wall.
+- **Fix:** the colour variables now live on `.tx-wrap` and `.tx-list`, so the panels and the list outside the wall get them; the list below used to miss them.
+- **Tests:** `networkFlow.test.tsx` now has 7 (stats, switch disabled without checks, kinds sorted with the largest matching the stat, pick a kind, scene switch remembered). axe in both themes passes; one analysis-screen run caught a fade mid-way under load and passed 6/6 on its own.
+
 ### Replay the intro (21 Nov 2026)
 
 - The human could not get back to the cosmic intro after it had played (it plays once per browser session). The home hero's footer now has **Replay intro**, next to the 60-second tour. It plays the intro again from wherever you are on the home page; Skip, Esc or scrolling to the end returns to the page.

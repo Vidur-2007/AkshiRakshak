@@ -1,9 +1,11 @@
 /* Scam taxonomy wall (design "Scam taxonomy · Network V3", 2026-11-21): a field guide, not a
    dashboard. Akshi night in both themes; one quiet colour per lever, used only on threads and
-   marks. The wall fills the screen; lever filter and search on top, a caption bottom-left, zoom
-   bottom-right, the detail panel on the right when a message is open. Below 1024 px the panel
-   becomes a bottom sheet. */
-.tx-app {
+   marks. The wall fills the screen; summaries left and right, "Check a message" top-right, a
+   caption bottom-left, zoom bottom-right, the detail panel on the right when a message is open.
+   Below 1024 px the panel becomes a bottom sheet and the summaries flow below the wall. */
+/* the colours live on everything the page draws: the wall, its summaries and the list below */
+.tx-wrap,
+.tx-list {
   --tx-bg: #05070b;
   --tx-ink: #e8eef6;
   --tx-mut: #9aa8bb;
@@ -11,6 +13,13 @@
   --tx-line: rgba(255, 255, 255, 0.08);
   --tx-glass: rgba(11, 16, 24, 0.84);
   --tx-cy: #3de0ff;
+}
+.tx-wrap :focus-visible,
+.tx-list :focus-visible {
+  outline: 2px solid var(--tx-cy);
+  outline-offset: 2px;
+}
+.tx-app {
   position: relative;
   height: calc(100dvh - var(--topbar-h));
   min-height: 600px;
@@ -28,10 +37,6 @@
   pointer-events: none;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.3px) 0 0 / 24px
     24px;
-}
-.tx-app :focus-visible {
-  outline: 2px solid var(--tx-cy);
-  outline-offset: 2px;
 }
 .tx-stage {
   position: absolute;
@@ -56,7 +61,7 @@
   border-radius: 14px;
 }
 
-/* top: levers, search, check */
+/* top: "Check a message", on the right */
 .tx-top {
   position: absolute;
   top: 16px;
@@ -65,6 +70,7 @@
   z-index: 10;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
   pointer-events: none;
 }
@@ -109,8 +115,13 @@
   align-items: center;
   gap: 8px;
   height: 44px;
-  padding: 0 12px;
-  width: 260px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--tx-line);
+  background: rgba(255, 255, 255, 0.04);
+}
+.tx-search:focus-within {
+  border-color: var(--tx-cy);
 }
 .tx-search input {
   flex: 1;
@@ -452,22 +463,308 @@
   cursor: pointer;
 }
 
+/* ── summaries (2026-11-21): the wall at a glance (left), kinds of scam by size (right) ── */
+.tx-wrap {
+  position: relative;
+}
+.tx-sum,
+.tx-kinds {
+  position: absolute;
+  top: 76px;
+  z-index: 9;
+  max-height: calc(100dvh - var(--topbar-h) - 172px);
+  overflow: auto;
+  padding: 18px;
+  border-radius: 20px;
+  color: var(--tx-ink);
+  color-scheme: dark;
+}
+.tx-sum {
+  left: 16px;
+  width: 290px;
+}
+.tx-kinds {
+  right: 16px;
+  width: 310px;
+}
+.tx-sum h2,
+.tx-kinds h2 {
+  margin: 0;
+  font: 400 30px/1.05 var(--font-serif);
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--tx-ink);
+}
+.tx-kinds h2 {
+  font-size: 26px;
+  margin-top: 6px;
+}
+.tx-sum .d {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  color: var(--tx-mut);
+}
+.tx-sum .h,
+.tx-kinds .k {
+  margin: 16px 0 6px;
+  font: 400 11px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx-mut);
+}
+.tx-kinds .k {
+  margin: 0;
+}
+.tx-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 14px 0;
+}
+.tx-stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  padding: 10px 12px;
+  border: 1px solid var(--tx-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.tx-stats dd {
+  margin: 0;
+  font: 400 28px/1.1 var(--font-serif);
+  color: var(--tx-ink);
+}
+.tx-stats dd.r {
+  color: #ff6b84;
+}
+.tx-stats dt {
+  font-size: 12px;
+  color: var(--tx-mut);
+}
+.tx-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 38px;
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  color: var(--tx-ink);
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+}
+.tx-row i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: none;
+  box-shadow: 0 0 10px currentColor;
+}
+.tx-row .t {
+  flex: 1;
+}
+.tx-row .n {
+  font: 400 12px var(--font-mono);
+  color: var(--tx-mut);
+}
+.tx-row[aria-pressed='false'] {
+  opacity: 0.45;
+}
+.tx-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--tx-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--tx-ink);
+  font-size: 13.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.tx-switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.tx-switch .track {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  flex: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background 0.2s;
+}
+.tx-switch .track i {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #e8eef6;
+  transition: transform 0.2s;
+}
+.tx-switch[aria-checked='true'] .track {
+  background: var(--tx-cy);
+}
+.tx-switch[aria-checked='true'] .track i {
+  transform: translateX(16px);
+  background: #04121a;
+}
+.tx-sum .hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--tx-mut);
+}
+.tx-scenes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tx-scenes button {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--tx-line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--tx-mut);
+  font: 400 12px var(--font-mono);
+  cursor: pointer;
+}
+.tx-scenes button[aria-pressed='true'] {
+  background: var(--tx-cy);
+  border-color: var(--tx-cy);
+  color: #04121a;
+}
+.tx-kinds ul {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+.tx-kinds li button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px 10px;
+  width: 100%;
+  padding: 8px 2px;
+  border: 0;
+  background: none;
+  color: var(--tx-ink);
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.tx-kinds li button:hover .nm,
+.tx-kinds li button[aria-pressed='true'] .nm {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.tx-kinds .nm {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.tx-kinds .tag {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  color: var(--tx-ink);
+  text-decoration: none;
+}
+.tx-kinds .n {
+  font: 400 12px var(--font-mono);
+  color: var(--tx-mut);
+}
+.tx-kinds .bar {
+  grid-column: 1 / -1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+.tx-kinds .bar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+@media (min-width: 1024px) {
+  /* an open message panel takes the right side */
+  .tx-kinds[data-hidden='true'] {
+    display: none;
+  }
+}
+
+/* scenes: the wall's backdrop (the canvas is transparent) */
+.tx-app[data-scene='nebula'] {
+  background:
+    radial-gradient(40% 32% at 50% 14%, rgba(255, 59, 92, 0.1), transparent 70%),
+    radial-gradient(30% 40% at 86% 52%, rgba(61, 224, 255, 0.1), transparent 70%),
+    radial-gradient(40% 32% at 50% 90%, rgba(245, 165, 36, 0.09), transparent 70%),
+    radial-gradient(30% 40% at 14% 52%, rgba(180, 163, 240, 0.1), transparent 70%), var(--tx-bg);
+}
+.tx-app[data-scene='blueprint'] {
+  background:
+    linear-gradient(rgba(80, 160, 255, 0.07) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, rgba(80, 160, 255, 0.07) 1px, transparent 1px) 0 0 / 40px 40px,
+    radial-gradient(70% 70% at 50% 50%, #0a1b33, #051021);
+}
+.tx-app[data-scene='blueprint']::before {
+  display: none;
+}
+.tx-app[data-scene='radar']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-radial-gradient(
+      circle at 50% 52%,
+      transparent 0 119px,
+      rgba(61, 224, 255, 0.07) 119px 120px
+    ),
+    conic-gradient(from var(--tx-sweep) at 50% 52%, rgba(61, 224, 255, 0.1), transparent 50deg);
+  animation: tx-sweep 9s linear infinite;
+}
+/* only the sweep turns; browsers without @property show it still */
+@property --tx-sweep {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes tx-sweep {
+  to {
+    --tx-sweep: 360deg;
+  }
+}
+
 @media (max-width: 1023px) {
   /* leave room for the bottom tab bar */
   .tx-app {
     height: calc(100dvh - var(--topbar-h) - var(--tabbar-h) - env(safe-area-inset-bottom));
   }
-  .tx-search {
-    display: none;
+  /* the summaries flow below the wall */
+  .tx-sum,
+  .tx-kinds {
+    position: static;
+    width: auto;
+    max-height: none;
+    margin: 12px;
   }
   .tx-top {
     flex-wrap: wrap;
-  }
-  .tx-levers {
-    order: 3;
-    margin: 0;
-    width: 100%;
-    overflow-x: auto;
   }
   .tx-det {
     top: auto;
@@ -499,7 +796,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tx-det,
-  .tx-title {
+  .tx-title,
+  .tx-switch .track,
+  .tx-switch .track i {
     transition: none;
+  }
+  .tx-app[data-scene='radar']::after {
+    animation: none;
   }
 }

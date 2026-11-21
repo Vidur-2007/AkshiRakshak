@@ -27,13 +27,57 @@ describe('Network: a taxonomy of scams', { timeout: 15_000 }, () => {
   it('shows the title, the four levers and how many sample messages there are', async () => {
     open('/network');
     expect(await screen.findByRole('heading', { name: en.page.network.title }, T)).toBeTruthy();
-    const levers = screen.getByRole('navigation', { name: en.tax.leversLabel });
-    const fear = within(levers).getByRole('button', { name: en.tax.lever.fear.name });
+    const levers = screen.getByRole('group', { name: en.tax.leversLabel });
+    const fear = within(levers).getByRole('button', {
+      name: new RegExp(`^${en.tax.lever.fear.name}`),
+    });
     expect(within(levers).getAllByRole('button')).toHaveLength(4);
     expect(await screen.findByText(/sample messages, 4 levers/, {}, T)).toBeTruthy();
     fireEvent.click(fear);
     expect(fear.getAttribute('aria-pressed')).toBe('false');
     expect(await screen.findByText(/sample messages, 3 levers/, {}, T)).toBeTruthy();
+  });
+
+  it('summarises the wall: kinds, dataset messages, your checks, the largest kind', async () => {
+    open('/network');
+    const sum = await screen.findByRole('complementary', { name: en.tax.sumTitle }, T);
+    const stat = (label: string) =>
+      within(sum).getByText(label).parentElement!.querySelector('dd')!.textContent;
+    await waitFor(() => expect(stat(en.tax.statKinds)).toBe('19'), T);
+    expect(Number(stat(en.tax.statMessages)!.replace(/,/g, ''))).toBeGreaterThan(1000);
+    expect(stat(en.tax.statYours)).toBe('0');
+    // with no checks of your own, "only my kinds" waits for one
+    const only = within(sum).getByRole('switch', { name: en.tax.onlyMine });
+    expect((only as HTMLButtonElement).disabled).toBe(true);
+    expect(within(sum).getByText(en.tax.onlyMineEmpty)).toBeTruthy();
+  });
+
+  it('lists the kinds of scam by size; picking one lights it up', async () => {
+    open('/network');
+    const kinds = await screen.findByRole('complementary', { name: en.tax.kindsTitle }, T);
+    const rows = await within(kinds).findAllByRole('button', {}, T);
+    expect(rows).toHaveLength(19);
+    const sizes = rows.map((r) =>
+      Number(/(\d+) scam messages/.exec(r.getAttribute('aria-label')!)![1]),
+    );
+    expect([...sizes].sort((x, y) => y - x)).toEqual(sizes);
+    const largest = within(screen.getByRole('complementary', { name: en.tax.sumTitle }))
+      .getByText(en.tax.statLargest)
+      .parentElement!.querySelector('dd')!.textContent;
+    expect(String(sizes[0])).toBe(largest);
+    fireEvent.click(rows[2]!);
+    expect(rows[2]!.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('switches the scene and remembers it', async () => {
+    open('/network');
+    const sum = await screen.findByRole('complementary', { name: en.tax.sumTitle }, T);
+    const app = sum.closest('.tx-wrap')!.querySelector('.tx-app')!;
+    expect(app.getAttribute('data-scene')).toBe('nebula');
+    fireEvent.click(within(sum).getByRole('button', { name: en.tax.scene_blueprint }));
+    expect(app.getAttribute('data-scene')).toBe('blueprint');
+    expect(localStorage.getItem('akshi-net-scene')).toBe('blueprint');
+    localStorage.removeItem('akshi-net-scene');
   });
 
   it('opens a message from the list: the engine checks it, with tips and actions', async () => {
