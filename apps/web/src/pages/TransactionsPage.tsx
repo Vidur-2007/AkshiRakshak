@@ -282,7 +282,7 @@ export default function TransactionsPage() {
                       </li>
                     ))}
                   </ul>
-                  {current && <AnomalyCard anomaly={current} txns={a.txns} />}
+                  {current && <AnomalyCard anomaly={current} txns={a.txns} baseline={a.baseline} />}
                 </div>
               )}
             </ResultSection>

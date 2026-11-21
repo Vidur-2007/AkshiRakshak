@@ -4,6 +4,28 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### "This payment vs your usual" profile (22 Nov 2026)
+
+The review asked for behavioural transaction profiling. The analysis already had a baseline and per-anomaly feature rows; `lib/txnProfile.ts` and `components/statements/TxnProfileCard.tsx` turn them into a card at the top of each flagged payment:
+
+- **Your usual payment** (the statement's median, rounded);
+- **This payment** (or "These N payments", totalled for a pattern), with "84× your usual" from 1.5× up (rounded from 10×);
+- **Recipient:** First time, Paid before (N×), or Regular payee;
+- **Time:** the clock time, usual or unusual for you;
+- **How unusual: N/100** from the anomaly's own score;
+- "An unusual pattern compared with your own payments, not proof of fraud."
+
+Details:
+
+- The recipient counts only payments outside the flagged pattern. Four payments in a burst to someone new are "First time", matching the analysis text, not "Regular". "Regular" is three or more other payments, the analysis's own rule.
+- Usual hours use the analysis's baseline window. Statements without times show "—".
+- **Demo:** the salaried sample shows usual ₹573 → ₹48,000 (84×) · First time · 02:47, unusual for you.
+- Strings `profile.*` in en/hi/te/bn (hi/te/bn are mine, for the i18n review).
+- **Tests:** `lib/txnProfile.test.ts` (6: large first-time payment at an odd hour, a pattern total, a burst to someone new, regular payee, unknowns, every anomaly of the sample statements, hours past midnight). e2e 50/50 with two workers.
+- **Test fixes:**
+  - `locales.test.ts` re-flattened each language once per key, so it grew past 8 s as strings were added. It now flattens each language once: 13 ms.
+  - The hero real-scan flow test now has a 15 s budget.
+
 ### Repeated collect requests (22 Nov 2026)
 
 Scammers send the same collect request again and again, hoping one is approved by mistake. `lib/repeatRequests.ts` counts earlier collect-request checks from the same requester UPI ID in your history (lower-case match; the check being shown is left out).

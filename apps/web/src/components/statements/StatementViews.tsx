@@ -8,6 +8,7 @@ import type { Anomaly, StatementAnalysis, Txn } from '@/lib/engine';
 import { TONE_COLOR } from '@/lib/risk';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
+import { TxnProfileCard } from './TxnProfileCard';
 
 export const ANOMALY_TONE: Record<Anomaly['severity'], 'scam' | 'warn'> = {
   high: 'scam',
@@ -212,7 +213,16 @@ export function StatementChart({
 }
 
 /** One unusual payment with its "why unusual" feature table (§5.8). */
-export function AnomalyCard({ anomaly, txns }: { anomaly: Anomaly; txns: Txn[] }) {
+export function AnomalyCard({
+  anomaly,
+  txns,
+  baseline,
+}: {
+  anomaly: Anomaly;
+  txns: Txn[];
+  /** the statement's own baseline, for the "This payment vs your usual" profile */
+  baseline?: StatementAnalysis['baseline'];
+}) {
   const { t } = useTranslation();
   const lang = useAppStore((s) => s.lang);
   const color = TONE_COLOR[ANOMALY_TONE[anomaly.severity]];
@@ -231,6 +241,7 @@ export function AnomalyCard({ anomaly, txns }: { anomaly: Anomaly; txns: Txn[] }
         <SeverityChip severity={anomaly.severity} />
       </div>
       <p className="mt-2 text-sm text-text">{anomaly.explanation}</p>
+      {baseline && <TxnProfileCard anomaly={anomaly} analysis={{ txns, baseline }} />}
       {anomaly.features.length > 0 && (
         <table className="mt-4 w-full text-left text-sm">
           <thead>

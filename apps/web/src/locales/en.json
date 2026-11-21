@@ -1127,5 +1127,22 @@
     "blocked": "Blocked",
     "hint": "This UPI ID sent you collect requests before ({{n}}×, latest on {{date}}).",
     "openLatest": "Open the latest"
+  },
+  "profile": {
+    "title": "This payment vs your usual",
+    "score": "How unusual: {{n}}/100",
+    "usual": "Your usual payment",
+    "thisOne": "This payment",
+    "these": "These {{n}} payments",
+    "times": "{{n}}× your usual",
+    "recipient": "Recipient",
+    "firstTime": "First time",
+    "regular": "Regular payee",
+    "paidBefore": "Paid before ({{n}}×)",
+    "time": "Time",
+    "oddHour": "Unusual for you",
+    "usualHour": "Usual for you",
+    "noTime": "No time in the statement",
+    "note": "An unusual pattern compared with your own payments, not proof of fraud. Check it if you don't recognise it."
   }
 }

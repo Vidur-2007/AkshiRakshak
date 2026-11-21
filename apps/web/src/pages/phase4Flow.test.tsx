@@ -24,24 +24,29 @@ beforeEach(() => {
 });
 
 describe('Landing', () => {
-  it('opens the real check from the hero: scores as you type, then Scan runs the real scan', async () => {
-    const router = open('/');
-    fireEvent.click(await screen.findByRole('button', { name: en.home.check }, T));
-    const input = await screen.findByLabelText(en.landing.inputLabel, {}, T);
-    fireEvent.change(input, {
-      target: {
-        value: 'Your SBI account will be BLOCKED today. Update KYC at http://sbi-kyc.xyz now',
-      },
-    });
-    const meter = await screen.findByRole(
-      'img',
-      { name: new RegExp(`^${en.landing.liveRisk}: [1-9]`) },
-      T,
-    );
-    expect(meter).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: new RegExp(en.placeholder.scanNow) }));
-    await waitFor(() => expect(router.state.location.pathname).toMatch(/^\/scan\/.+/), T);
-  });
+  // the real engine end to end, including its first load: past vitest's 5 s default on a slow laptop
+  it(
+    'opens the real check from the hero: scores as you type, then Scan runs the real scan',
+    { timeout: 15_000 },
+    async () => {
+      const router = open('/');
+      fireEvent.click(await screen.findByRole('button', { name: en.home.check }, T));
+      const input = await screen.findByLabelText(en.landing.inputLabel, {}, T);
+      fireEvent.change(input, {
+        target: {
+          value: 'Your SBI account will be BLOCKED today. Update KYC at http://sbi-kyc.xyz now',
+        },
+      });
+      const meter = await screen.findByRole(
+        'img',
+        { name: new RegExp(`^${en.landing.liveRisk}: [1-9]`) },
+        T,
+      );
+      expect(meter).toBeTruthy();
+      fireEvent.click(screen.getByRole('button', { name: new RegExp(en.placeholder.scanNow) }));
+      await waitFor(() => expect(router.state.location.pathname).toMatch(/^\/scan\/.+/), T);
+    },
+  );
 
   it('has the three moments, the Akshi view switch, the scam deck and the help links', async () => {
     open('/');
