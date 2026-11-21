@@ -2,6 +2,15 @@
 
 ## Production
 
+- **2026-11-22: `main` at d8708ca (PR #11) is deployed.** PR #11 brought the Network page as "A taxonomy of scams" with its summary panels, and Replay intro.
+  - **Smoke check:** 9 pass, 2 warnings (Telegram bot not set up yet; Upstash not connected), 0 fail.
+  - **Live UI checked in Edge:**
+    - the heading "A taxonomy of scams", 19 kinds in both panels;
+    - picking "Digital arrest" lights it up with its two channels;
+    - a message panel shows the engine's real check (Scam · risk 95);
+    - Replay intro is on the home page;
+    - no page errors.
+  - **Known issue:** for a person with no checks, the hint under "Only kinds from my checks" pushes the Scene buttons to the bottom of the left panel. They are reachable by scrolling the panel, but look clipped.
 - **2026-11-21: `main` at 6f35823 (PR #10) is deployed.** PR #10 brought the cosmic intro, the landing details, the cosmic network, Scam Replay, Campaign Match and the Telegram bot.
   - **Smoke check:** 9 pass, 2 warnings, 0 fail.
     - `/api/analyze`: scam 95, 4 attack stages.
