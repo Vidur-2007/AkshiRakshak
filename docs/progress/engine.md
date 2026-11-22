@@ -346,3 +346,9 @@ New for B: `createLiveListener` (live listen), `ocrWithCloudVision` (opt-in; ask
 - **To C:** please add `"sideEffects": false` to `packages/{model,insights,content}/package.json`, and do not import `@akshi/contracts/fixtures` from the real content package (it parses every fixture with zod at load time and drags zod into the web bundle). The assistant tests ask every FAQ item its own question in every language it has — keep questions distinct enough that BM25 can tell them apart.
 - **To the human — keys for manual checks (local `.env`, never committed; same names in Vercel):** `GROQ_API_KEY`, `GROQ_MODEL`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_VISION_MODEL` (a vision-capable free-tier Gemini model); for reports add the Upstash Redis integration from the Vercel Marketplace (it injects `KV_REST_API_URL`/`KV_REST_API_TOKEN` or `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`). Then `npm run dev:api` and the curl from Phase 3's notes for `/api/ai/analyze`; for `/api/ask`: `curl -s -X POST http://localhost:3001/api/ask -H "content-type: application/json" -d "{\"question\":\"Do I need my PIN to receive money?\",\"lang\":\"en\",\"faqIds\":[\"faq-pin-sends-money\"]}"`.
 - Still open: open `https://www.indusind.bank.in` and `https://www.yes.bank.in` in a browser and tell A which load.
+
+### 2026-11-22 — PR #14 merged (ca69f14)
+- README rewrite with 23 screenshots (day/night themes, Hindi, Telugu, Bengali, phone), sample screenshot chips, Hindi Elder-mode strings fix.
+- CI check + e2e passed; Vercel preview passed. Production smoke: 9 pass, 2 warnings (Telegram not set up, Upstash not connected), 0 failed.
+- Live check: sample screenshots served (200, image/png); a directly opened Elder-mode result in Hindi shows no English action card.
+- Still open: team name, members and demo video link in the README (TODO).

@@ -18,7 +18,7 @@
 ![Vercel](https://img.shields.io/badge/Hosting-Vercel-000000?logo=vercel&logoColor=white)
 ![Cost](<https://img.shields.io/badge/Cost-%E2%82%B90%20(100%25%20free%20tier)-brightgreen>)
 
-![Akshi Rakshak landing page](docs/screenshots/hero.png)
+![Akshi Rakshak landing page in the night theme, with Akshi view on: the sample fake KYC SMS is marked Scam 95/100 and each risky phrase is labelled](docs/screenshots/hero-dark-akshi.png)
 
 </div>
 
@@ -26,9 +26,13 @@
 
 ## Team
 
-**Team name:** _TODO: team name_
+**Team name:** Maximus Decimus Meridius
 
-**Members:** _TODO: names_
+**Members:**
+
+- Vidur Bandaru
+- Anugnya.S
+- Murari Geddam
 
 We split the work into three parts, each built on its own branch from one shared specification ([`docs/SPEC.md`](docs/SPEC.md)): the detection engine, API and deployment (`feat/engine`), the web app (`feat/web`), and the dataset, model, evaluation and content (`feat/data`).
 
@@ -264,6 +268,44 @@ From `npm run eval` on the held-out **test split** (527 messages, full system wi
 
 **Genuine bank, OTP and UPI messages:** 6 of 140 (4.3%) were marked "suspicious"; **none** got the "scam" verdict.
 
+**Confusion matrix** (same 527 test messages; rows are the truth, columns are Akshi's verdict):
+
+|                    | Scam | Suspicious | No warning signs | Total |
+| ------------------ | ---: | ---------: | ---------------: | ----: |
+| **Really a scam**  |  125 |        109 |               13 |   247 |
+| **Really genuine** |    0 |          8 |              272 |   280 |
+
+Every message that got the Scam verdict really was a scam (counting only Scam as flagged: precision 100%, recall 50.6%). Most of the other scams land in Suspicious, which still tells you to stop and check. The scam type was named correctly for 68.4% of the flagged scams.
+
+<details>
+<summary><b>Caught, by scam type</b> (test split, Scam or Suspicious counts as caught)</summary>
+
+| Scam type                          | Caught |
+| ---------------------------------- | -----: |
+| Bill disconnection threat          |  10/10 |
+| Courier or customs fee             |  10/10 |
+| Digital arrest                     |  27/27 |
+| Fake customer care                 |  10/10 |
+| Fake KYC update                    |  10/10 |
+| Government impersonation           |    9/9 |
+| Investment or crypto               |  24/24 |
+| Task or job scam                   |  25/27 |
+| Loan app                           |  10/10 |
+| Lottery or prize                   |  10/10 |
+| Malicious app (APK)                |    9/9 |
+| OTP theft                          |    9/9 |
+| Phishing link                      |  10/15 |
+| QR code to "receive" money         |  10/10 |
+| Refund or cashback                 |  10/10 |
+| Remote access app                  |  14/14 |
+| Romance                            |    3/9 |
+| UPI collect request                |  15/15 |
+| "Sent by mistake" (wrong transfer) |    9/9 |
+
+</details>
+
+**How we tested:** the dataset is split by template family, so no test message shares a template with a training message. Model settings, thresholds and weights were chosen on the validation split only; the test split is used only to report these numbers. Speed: 0.15 ms median, 0.94 ms at the 95th percentile per text check, on a laptop.
+
 **Do the risk numbers mean what they say?** The same test messages grouped by the risk Akshi gave them (Brier score 0.07; 0 is perfect, 0.25 is a coin toss):
 
 | Risk                    | Messages | Really scams |
@@ -347,6 +389,18 @@ Everything below is free and open source, or used on a free tier.
 ---
 
 ## 8. Screenshots
+
+### Landing page
+
+![How Akshi decides: message, rules, on-device model, link check, then the verdict and next steps](docs/screenshots/home-how-akshi-decides.png)
+
+**How Akshi decides:** your message goes through the rules, the on-device model and the link check, then you get a verdict and what to do next.
+
+|                                                                                                                           |                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| ![19 tricks, shield off](docs/screenshots/home-deck-off.png) **"19 tricks, caught": flick through common scams in India** | ![19 tricks, shield on](docs/screenshots/home-deck-on.png) **Shield on: every card is marked Caught, with its warning signs** |
+
+### The checks
 
 |                                                                                                                      |                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -446,6 +500,18 @@ python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 Vercel (Hobby plan): import the repository, framework "Other", root directory = repository root. `vercel.json` sets the install and build commands, output folder, API functions and security headers. Add the environment variables above for Production and Preview, and optionally connect Upstash Redis from the Vercel Marketplace. Then run `npm run smoke -- https://<project>.vercel.app`.
 
+### 9.6 Troubleshooting
+
+| Problem                                                      | What to do                                                                                                                    |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `npm install` complains about the engine, or the build fails | Check `node -v`. You need Node.js 22 or later.                                                                                |
+| The local API won't start: port in use                       | Something else is on port 3001. Set `PORT` in `.env`, or stop the other process.                                              |
+| No AI second opinion                                         | Expected without keys. Text checks still work. Open `http://localhost:3001/api/health` to see which providers are configured. |
+| `/api/reports` answers 503                                   | Expected without Upstash. The app works without report counts.                                                                |
+| Screenshot check is slow the first time                      | The OCR language file (0.5–2 MB per language) downloads on first use, then they are cached and work offline.                  |
+| Playwright tests fail to launch a browser                    | Run `npx playwright install chromium`. The Edge project runs only when Microsoft Edge is installed.                           |
+| The full test run times out on a slow laptop                 | Run one project at a time, e.g. `npx vitest run --project web`, or rerun the failing file on its own.                         |
+
 ---
 
 ## 10. Demo walkthrough
@@ -479,6 +545,20 @@ All sample messages, statements, numbers, UPI IDs and links are **synthetic** an
 - **Community reports** (optional) send only the reported value (a UPI ID, number or link), never the message.
 - **Hardened API:** rate limits, SSRF guard on link expansion, no message text in logs, security headers, input validation with zod.
 - **Synthetic data only:** no real messages, names, bank details, PAN or Aadhaar numbers anywhere in the repository.
+
+### What works offline
+
+Once the app has loaded (it installs as a PWA), these keep working with no connection:
+
+| Works offline                                                                   | Needs the internet                                                   |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Text checks: SMS, chats, emails, UPI IDs, phone numbers (rules + our own model) | AI second opinion (Groq, then Gemini)                                |
+| Link checks on the text itself: lookalike brands, odd domains, shorteners       | Following a short link to where it really goes, and the domain's age |
+| Screenshot OCR (after each language has been used once)                         | Cloud screenshot transcription (opt-in)                              |
+| QR code decoding and the "what this QR really does" check                       | Community report counts (Upstash)                                    |
+| Collect-request and payment checks                                              | Ask with AI rewriting (the offline FAQ guide is used otherwise)      |
+| Bank-statement scan                                                             | The Telegram bot                                                     |
+| History, blocklist, feedback, Dojo drills, SOS steps and the evidence report    | Calling 1930 or opening cybercrime.gov.in (your phone's network)     |
 
 ---
 
@@ -548,6 +628,8 @@ AkshiRakshak/
 └─ docs/                    specs, prompts, progress logs, dataset card, eval notes, demo script, screenshots
 ```
 
+**Contributing.** Issues and pull requests are welcome. Please keep to the project rules: synthetic data only (no real messages, names, bank details, PAN or Aadhaar numbers), TypeScript strict, tests for new logic, `npm run typecheck && npm test && npm run lint` before a PR, and short conventional commit messages. Tune detection only on the validation split, never on the test or handwritten sets.
+
 **Credits.** Emergency steps point to the National Cyber Crime Reporting Portal (cybercrime.gov.in, helpline 1930) and Sanchar Saathi Chakshu (sancharsaathi.gov.in). OCR trained data from [tesseract-ocr/tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast). Full list of open-source packages: see the `package.json` files and `ml/requirements.txt`.
 
 **Licence:** [MIT](LICENSE)
@@ -556,7 +638,7 @@ AkshiRakshak/
 
 <div align="center">
 
-Built for **Arthaton 2026** by _TODO: team name_.
+Built for **Arthaton 2026** by **Maximus Decimus Meridius**.
 
 _Akshi Rakshak: the eye that protects._
 
