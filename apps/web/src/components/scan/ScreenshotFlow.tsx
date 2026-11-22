@@ -6,6 +6,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { ocrImage, type Lang, type OcrResult } from '@/lib/engine';
 import { acceptableImage, isWeakOcr } from '@/lib/ocrQuality';
+import { SampleShots } from './SampleShots';
 import { useAppStore } from '@/lib/store';
 
 export type ScreenshotPayload =
@@ -28,12 +29,15 @@ export function ScreenshotFlow({
   open,
   onOpenChange,
   file,
+  fileLangs,
   onReady,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   /** a file already chosen (drop or picker outside the sheet) */
   file?: File | null;
+  /** OCR languages for `file` (a sample screenshot knows its own); default: the UI language */
+  fileLangs?: Lang[];
   onReady: (payload: ScreenshotPayload) => void;
 }) {
   const { t } = useTranslation();
@@ -61,7 +65,7 @@ export function ScreenshotFlow({
   }, [blob]);
 
   const read = useCallback(
-    async (f: File) => {
+    async (f: File, langs: Lang[] = ocrLangs(lang)) => {
       if (!acceptableImage(f)) {
         setStep({ kind: 'choose', error: t('shot.notImage') });
         return;
@@ -72,7 +76,7 @@ export function ScreenshotFlow({
       try {
         const ocr = await ocrImage(
           f,
-          ocrLangs(lang),
+          langs,
           (p) => id === runId.current && setStep({ kind: 'reading', progress: p }),
         );
         if (id !== runId.current) return;
@@ -96,8 +100,8 @@ export function ScreenshotFlow({
     }
     setStep({ kind: 'choose' });
     setBlob(null);
-    if (file) void read(file);
-  }, [open, file, read]);
+    if (file) void read(file, fileLangs);
+  }, [open, file, fileLangs, read]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -149,6 +153,7 @@ export function ScreenshotFlow({
                 {step.error}
               </p>
             )}
+            <SampleShots title={false} onPick={(f, langs) => void read(f, langs)} />
           </>
         )}
 

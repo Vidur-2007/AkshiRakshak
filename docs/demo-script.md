@@ -24,10 +24,11 @@ Swap roles freely; the narrator should be the clearest speaker of English with o
 
 1. App running with all three branches merged (deployed URL, or locally: `npm install`, `npm run build`, `npm run preview -w @akshi/web`; for the API, `npm run dev:api`).
 2. Open `/?demo=1` once while online, wait about 10 seconds for the offline cache, then reload.
-3. **Telugu screenshot (shot 5).** On a phone, open any notes app, set a large font, and type or paste this invented message exactly; take a screenshot and copy it to the recording computer (or upload from the phone):
-   > హలో! ఇంటి నుండే పార్ట్ టైమ్ ఉద్యోగం. యూట్యూబ్ వీడియోలకు లైక్ చేస్తే రోజుకు ₹2,000 సంపాదించండి. మొదటి టాస్క్ కోసం ₹500 రిజిస్ట్రేషన్ ఫీజు చెల్లించండి.
+3. **Telugu screenshot (shot 5).** No phone needed: `/scan` (and the Messages page) has **Sample screenshots**. **Telugu job SMS** is a made-up phone screenshot of this message:
+   > హలో! ఇంటి నుండే పార్ట్ టైమ్ ఉద్యోగం. యూట్యూబ్ వీడియోలకు లైక్ చేస్తే రోజుకు ₹2,000 సంపాదించండి. మొదటి టాస్క్ కోసం ₹500 నమోదు రుసుము చెల్లించండి.
 
-   Checked as text: **Scam, 75**, part-time task job (ADVANCE_FEE, TASK_JOB_PAYMENT). Do a dry run: OCR quality depends on the screenshot.
+   Tapping it runs the real on-device OCR (Telugu + English, whatever the UI language). Checked 2026-11-22: **Scam, 74**, part-time task job (ADVANCE_FEE, TASK_JOB_PAYMENT). The first OCR of a session takes about 10 seconds while the reader loads, so tap it once before recording. The other two samples: **Bank KYC SMS** (Scam 95) and **Chat asking for OTP** (Scam 92, screen-sharing scam).
+
 4. Volume on (Hindi voice in shot 7). In Settings, add an invented family contact (e.g. "Amma", 98765 00000) so Elder mode shows **Call my family**. Do not show any real phone number, name or notification on screen.
 
 ## Shot list and narration
@@ -38,7 +39,7 @@ Swap roles freely; the narrator should be the clearest speaker of English with o
 | 2 | 0:20–1:10 | 50 s | Desktop, `/scan` | Tap the first sample chip, **Fake KYC SMS** (`sample-fake-kyc`) | **Scam, 95**, fake KYC. Highlights on "BLOCKED today" and the link; claims vs reality (claims to be SBI, link is `sbi-kyc-update.xyz`); signals: known indicator, lookalike domain, brand mismatch, threat to block. Open "How we decided". |
 | 3 | 1:10–1:50 | 40 s | Desktop, `/modules/collect?sample=refund` | Prefilled: SBI Refund Desk, `sbi.refund.desk@ybl`, ₹5,000, "Refund of Rs 5,000", told you will receive: yes | **Scam, 95**, UPI collect. Then the PIN-pad explainer. |
 | 4 | 1:50–2:20 | 30 s | Desktop, `/modules/qr-link` | QR sample (`upi://pay?pa=refund.desk@ybl&pn=SBI%20Refund%20Desk&am=4999…`), then the link sample `http://sbi-kyc-update.xyz/verify?id=88213` | QR: **Scam, 85** (QR to receive, name vs handle mismatch, personal handle, prefilled amount). Link: **Scam, 95**, URL anatomy with the lookalike domain and risky TLD. |
-| 5 | 2:20–2:50 | 30 s | Desktop or phone, `/scan` → screenshot; header language **Telugu** | The Telugu screenshot from "Before recording" | OCR boxes over the text, verdict in Telugu: **Scam, 75**, part-time task job. |
+| 5 | 2:20–2:50 | 30 s | Desktop or phone, `/scan`; header language **Telugu** | Sample screenshot **Telugu job SMS** (తెలుగు ఉద్యోగ SMS) | OCR progress, then boxes over the text and the verdict in Telugu: **Scam, 74**, part-time task job. |
 | 6 | 2:50–3:20 | 30 s | Desktop, `/modules/transactions` | Sample statement **College student (sample)** | Two cards: "Many payments in a few minutes" (4 × ₹499 to a new payee) and "Large payment to someone new" (₹1 credit, then ₹9,999 at 23:40). Open "why unusual" on one. |
 | 7 | 3:20–3:45 | 25 s | Desktop, header **Aa** (Elder mode) on, language **Hindi**, voice on, `/scan` | Sample **Electricity cut-off (Hindi)** (`sample-electricity-hi`) | Full-screen **STOP**, spoken in Hindi (**Scam, 76**, bill disconnection), with **Call my family** (set an invented family contact in Settings beforehand). Open the details and tap **Warn family** for the share card. |
 | 8 | 3:45–4:10 | 25 s | Desktop: Wi-Fi off (or DevTools → Network → Offline), language English, Elder mode off; then Wi-Fi on, `/proof` | Fake KYC SMS sample again | "Offline" pill, same **Scam, 95**. Then Proof: F1 95.7%, false alarms 2.9% on the synthetic test set, the by-language table. |
