@@ -352,6 +352,18 @@ Everything below is free and open source, or used on a free tier.
 
 ## 8. Screenshots
 
+### Landing page
+
+![How Akshi decides: message, rules, on-device model, link check, then the verdict and next steps](docs/screenshots/home-how-akshi-decides.png)
+
+**How Akshi decides:** your message goes through the rules, the on-device model and the link check, then you get a verdict and what to do next.
+
+|                                                                                                                           |                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| ![19 tricks, shield off](docs/screenshots/home-deck-off.png) **"19 tricks, caught": flick through common scams in India** | ![19 tricks, shield on](docs/screenshots/home-deck-on.png) **Shield on: every card is marked Caught, with its warning signs** |
+
+### The checks
+
 |                                                                                                                      |                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | ![Analysis](docs/screenshots/analysis.png) **Scam, 95: underlined phrases and the reasons**                          | ![Claims vs reality and Scam Replay](docs/screenshots/analysis-why.png) **Claims vs reality, and how the scam would play out** |
