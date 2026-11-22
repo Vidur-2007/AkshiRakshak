@@ -18,7 +18,7 @@
 ![Vercel](https://img.shields.io/badge/Hosting-Vercel-000000?logo=vercel&logoColor=white)
 ![Cost](<https://img.shields.io/badge/Cost-%E2%82%B90%20(100%25%20free%20tier)-brightgreen>)
 
-![Akshi Rakshak landing page](docs/screenshots/hero.png)
+![Akshi Rakshak landing page in the night theme, with Akshi view on: the sample fake KYC SMS is marked Scam 95/100 and each risky phrase is labelled](docs/screenshots/hero-dark-akshi.png)
 
 </div>
 
@@ -26,9 +26,13 @@
 
 ## Team
 
-**Team name:** _TODO: team name_
+**Team name:** Maximus Decimus Meridius
 
-**Members:** _TODO: names_
+**Members:**
+
+- Vidur Bandaru
+- Anugnya.S
+- Murari Geddam
 
 We split the work into three parts, each built on its own branch from one shared specification ([`docs/SPEC.md`](docs/SPEC.md)): the detection engine, API and deployment (`feat/engine`), the web app (`feat/web`), and the dataset, model, evaluation and content (`feat/data`).
 
@@ -556,7 +560,7 @@ AkshiRakshak/
 
 <div align="center">
 
-Built for **Arthaton 2026** by _TODO: team name_.
+Built for **Arthaton 2026** by **Maximus Decimus Meridius**.
 
 _Akshi Rakshak: the eye that protects._
 
