@@ -35,7 +35,7 @@ import type { AnalysisLocationState } from '@/components/scan/useScan';
 import { PageFallback } from '@/components/shell/PageFallback';
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { categoryText, LANGS, type AnalysisResult, type Lang } from '@/lib/engine';
+import { categoryText, LANGS, warmup, type AnalysisResult, type Lang } from '@/lib/engine';
 import { buildReplay } from '@/lib/replay';
 import { loadImage, loadResult, peekResult } from '@/lib/scan';
 import { useAppStore } from '@/lib/store';
@@ -360,6 +360,21 @@ export default function AnalysisPage() {
   const load = useResult(id);
   const elderMode = useAppStore((s) => s.elderMode);
   const [details, setDetails] = useState(false);
+  // A result opened directly (family ?simple=1 link, history, reload) has not passed through
+  // Quick Scan's warmup, so the engine's strings for this language may not be loaded yet:
+  // load them, then re-render, so actions and reasons are not shown in English.
+  const lang = useAppStore((s) => s.lang);
+  const [, setStringsReady] = useState(0);
+  useEffect(() => {
+    let live = true;
+    warmup(lang).then(
+      () => live && setStringsReady((n) => n + 1),
+      () => undefined,
+    );
+    return () => {
+      live = false;
+    };
+  }, [lang]);
 
   if (load.state === 'loading') return <PageFallback />;
   if (load.state === 'missing') {

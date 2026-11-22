@@ -4,6 +4,19 @@ Since 2026-11-20 the web app is maintained in the single session on `feat/engine
 
 ## Done
 
+### Sample screenshots, and engine strings on a directly opened result (22 Nov 2026)
+
+- **Sample screenshots** on `/scan`, on the Messages page and inside the screenshot sheet: **Bank KYC SMS**, **Chat asking for OTP**, **Telugu job SMS**.
+  - These are made-up phone screenshots in `public/samples/` (rendered from HTML, every detail invented), labelled "Sample data".
+  - Tapping one runs the real on-device OCR in the screenshot's own language, plus English.
+  - Checked in Edge: Scam 95, Scam 92 (screen-sharing scam), and Scam 74 for the Telugu one.
+  - The Telugu one says "నమోదు రుసుము": OCR misread the conjuncts in "రిజిస్ట్రేషన్", which left it at Suspicious 62.
+  - Code: `lib/sampleShots.ts`, `components/scan/SampleShots.tsx`, and `ScreenshotFlow` now takes `fileLangs`.
+- **Fix:** a result opened directly showed the engine's text (actions, reasons) in English for hi, te and bn users. "Opened directly" means a family `?simple=1` link, history, or a reload.
+  - Only Quick Scan loaded the engine strings for the language.
+  - `AnalysisPage` now calls `warmup(lang)` and re-renders.
+  - Checked in Edge on a phone in Hindi: the live site showed "Don't pay" on the Elder STOP screen; the fix shows "भुगतान न करें".
+
 ### "Was Akshi right?" feedback buttons (22 Nov 2026)
 
 From the second external review: let people say whether a check was right, without the answer ever changing a verdict.
