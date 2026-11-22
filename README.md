@@ -8,7 +8,11 @@
 
 **Arthaton 2026 · AI for finance**
 
-[**Live app**](https://akshi-rakshak.vercel.app) · [**Demo video**](#) _(link added on submission)_ · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
+[![Watch the 1-minute Akshi Rakshak video](docs/videos/akshi-rakshak-video-poster.png)](docs/videos/akshi-rakshak-video.mp4)
+
+_▶ Click to watch the 1-minute video (58 s, MP4)_
+
+[**Live app**](https://akshi-rakshak.vercel.app) · [**Video (1 min)**](docs/videos/akshi-rakshak-video.mp4) · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
 
 ![TypeScript](https://img.shields.io/badge/Engine-TypeScript-3178C6?logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/UI-React%2019-61DAFB?logo=react&logoColor=black)
