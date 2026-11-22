@@ -17,6 +17,8 @@ import { ElderScan } from '@/components/elder/ElderScan';
 import { AiToggle } from '@/components/scan/AiToggle';
 import { DropZone, type DropPayload } from '@/components/scan/DropZone';
 import { SampleChips } from '@/components/scan/SampleChips';
+import { SampleShots } from '@/components/scan/SampleShots';
+import type { Lang } from '@/lib/engine';
 import type { ScreenshotPayload } from '@/components/scan/ScreenshotFlow';
 import { ScanButton } from '@/components/scan/ScanButton';
 import { StageTicker } from '@/components/scan/StageTicker';
@@ -77,6 +79,7 @@ export default function ScanPage() {
   const [pasteHint, setPasteHint] = useState(false);
   const [sheet, setSheet] = useState<Sheet>(null);
   const [droppedImage, setDroppedImage] = useState<File | null>(null);
+  const [droppedLangs, setDroppedLangs] = useState<Lang[] | undefined>(undefined);
   const { run, runCore, busy, failed, ticker } = useScan();
   const inputRef = useAutoGrow(text);
   const elderMode = useAppStore((s) => s.elderMode);
@@ -146,6 +149,7 @@ export default function ScanPage() {
   const onDrop = (p: DropPayload) => {
     if (p.kind === 'image') {
       setDroppedImage(p.file);
+      setDroppedLangs(undefined);
       setSheet('screenshot');
     } else setText(p.text.slice(0, MAX_INPUT));
   };
@@ -159,6 +163,7 @@ export default function ScanPage() {
         open={sheet === 'screenshot'}
         onOpenChange={(o) => !o && setSheet(null)}
         file={droppedImage}
+        fileLangs={droppedLangs}
         onReady={onScreenshot}
       />
       <QRScannerSheet
@@ -341,6 +346,14 @@ export default function ScanPage() {
           onPick={(s) => {
             setText(s.text);
             void run(s.text);
+          }}
+        />
+        <SampleShots
+          disabled={busy}
+          onPick={(file, langs) => {
+            setDroppedImage(file);
+            setDroppedLangs(langs);
+            setSheet('screenshot');
           }}
         />
         <p className={cn('inline-flex items-start gap-2 text-sm text-text-2')}>

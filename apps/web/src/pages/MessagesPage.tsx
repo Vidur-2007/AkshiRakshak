@@ -6,12 +6,13 @@ import { InlineResult, ResultSection } from '@/components/analysis/InlineResult'
 import { REVEAL_MS } from '@/components/analysis/reveal';
 import { ChatExtras, EmailHeaderCard } from '@/components/modules/ChatViews';
 import { ChoiceGroup } from '@/components/modules/ChoiceGroup';
+import { SampleShots } from '@/components/scan/SampleShots';
 import { ScreenshotFlow, type ScreenshotPayload } from '@/components/scan/ScreenshotFlow';
 import { StageTicker } from '@/components/scan/StageTicker';
 import { useAnalysis, useScan } from '@/components/scan/useScan';
 import { buttonVariants } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { detectInputKind } from '@/lib/engine';
+import { detectInputKind, type Lang } from '@/lib/engine';
 import { looksLikeEmail } from '@/lib/emailHeaders';
 import { fadeUp, stagger } from '@/lib/motion';
 import { MAX_INPUT } from '@/lib/scan';
@@ -34,6 +35,8 @@ export default function MessagesPage() {
   const [text, setText] = useState('');
   const [mode, setMode] = useState<MessageMode>('auto');
   const [shotOpen, setShotOpen] = useState(false);
+  // a sample screenshot handed to the sheet, with its own OCR languages
+  const [shot, setShot] = useState<{ file: File; langs: Lang[] } | null>(null);
   const { run, busy, failed, ticker, result } = useAnalysis();
   const scan = useScan();
   const areaRef = useRef<HTMLTextAreaElement>(null);
@@ -118,7 +121,10 @@ export default function MessagesPage() {
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={() => setShotOpen(true)}
+            onClick={() => {
+              setShot(null);
+              setShotOpen(true);
+            }}
             disabled={working}
             className={buttonVariants({ variant: 'outline' })}
           >
@@ -140,6 +146,16 @@ export default function MessagesPage() {
           </button>
         </div>
       </m.form>
+
+      <m.div variants={fadeUp} className="mt-6">
+        <SampleShots
+          disabled={working}
+          onPick={(file, langs) => {
+            setShot({ file, langs });
+            setShotOpen(true);
+          }}
+        />
+      </m.div>
 
       <div className="min-h-10 px-1 pt-4" aria-live="polite">
         {working && <StageTicker state={busy ? ticker : scan.ticker} stages={TEXT_STAGES} />}
@@ -168,7 +184,13 @@ export default function MessagesPage() {
         </div>
       )}
 
-      <ScreenshotFlow open={shotOpen} onOpenChange={setShotOpen} onReady={onScreenshot} />
+      <ScreenshotFlow
+        open={shotOpen}
+        onOpenChange={setShotOpen}
+        file={shot?.file}
+        fileLangs={shot?.langs}
+        onReady={onScreenshot}
+      />
     </m.section>
   );
 }

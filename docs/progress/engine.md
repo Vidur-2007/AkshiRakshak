@@ -2,6 +2,14 @@
 
 ## Production
 
+- **2026-11-22: `main` at de50e1e (PR #13) is deployed.** PR #13 brought the Proof page's risk calibration ("Do the risk numbers mean what they say?") and the "Was Akshi right?" feedback buttons with the Settings summary and download.
+  - **CI:** check and e2e pass; the Vercel preview passes.
+  - **Smoke check:** 9 pass, 2 warnings (Telegram bot not set up; Upstash not connected), 0 fail.
+  - **Live UI checked in Edge:**
+    - the Proof page shows the calibration block;
+    - a fake KYC check shows "Was Akshi right?", and answering "This is a scam" says Akshi agreed;
+    - Settings → Your feedback counts the answer;
+    - no page errors.
 - **2026-11-22: `main` at 51dc740 (PR #12) is deployed.** PR #12 brought statements ↔ scam checks, repeated collect requests, the "This payment vs your usual" profile, and the Network scene picker in the toolbar.
   - **Smoke check:** 9 pass, 2 warnings (Telegram bot not set up; Upstash not connected), 0 fail.
   - **Live UI checked in Edge**, one fresh browser:

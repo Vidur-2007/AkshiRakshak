@@ -452,7 +452,13 @@
     "notImage": "That file is not an image, or it is over 15 MB.",
     "failed": "Could not read this image. Type the message instead.",
     "preview": "Screenshot preview",
-    "another": "Choose another"
+    "another": "Choose another",
+    "samplesTitle": "Sample screenshots",
+    "trySample": "No screenshot handy? Try a sample:",
+    "sampleKyc": "Bank KYC SMS",
+    "sampleChat": "Chat asking for OTP",
+    "sampleTelugu": "Telugu job SMS",
+    "sampleFailed": "Could not load the sample. Try again."
   },
   "overlay": {
     "title": "Your screenshot",
