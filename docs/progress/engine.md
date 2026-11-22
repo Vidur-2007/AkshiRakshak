@@ -352,3 +352,8 @@ New for B: `createLiveListener` (live listen), `ocrWithCloudVision` (opt-in; ask
 - CI check + e2e passed; Vercel preview passed. Production smoke: 9 pass, 2 warnings (Telegram not set up, Upstash not connected), 0 failed.
 - Live check: sample screenshots served (200, image/png); a directly opened Elder-mode result in Hindi shows no English action card.
 - Still open: team name, members and demo video link in the README (TODO).
+
+### 2026-11-22 — PR #15 and #16 merged (aaba80e, c306a96)
+- README: team (Maximus Decimus Meridius: Vidur Bandaru, Anugnya.S, Murari Geddam), dark Akshi-view hero, landing-page shots, confusion matrix, per-type results, offline table, troubleshooting, contributing.
+- Video: 1-minute intro served from the site at /video/akshi-rakshak.mp4 (video/mp4, plays in the browser; GitHub serves repo MP4s as downloads). /video/ is in the service worker's navigateFallbackDenylist and is not precached. Full 5-minute demo: https://youtu.be/FD6xtVlQ9hk, linked in the README header, under the thumbnail and in the walkthrough.
+- CI check + e2e passed on both PRs. Production smoke after #16: 9 pass, 2 warnings (Telegram, Upstash), 0 failed.
