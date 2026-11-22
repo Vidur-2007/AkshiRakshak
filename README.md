@@ -8,7 +8,7 @@
 
 **Arthaton 2026 · AI for finance**
 
-[**Live app**](https://akshi-rakshak.vercel.app) · [**Demo video (YouTube, 5 min)**](https://youtu.be/FD6xtVlQ9hk) · [**1-minute intro**](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4) · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
+[**Live app**](https://akshi-rakshak.vercel.app) · [**Demo video (YouTube, 5 min)**](https://youtu.be/FD6xtVlQ9hk) · [**1-minute intro**](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4) · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour) · [**Full feature list (PDF)**](docs/akshi-rakshak-feature-list.pdf)
 
 ![TypeScript](https://img.shields.io/badge/Engine-TypeScript-3178C6?logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/UI-React%2019-61DAFB?logo=react&logoColor=black)
@@ -103,6 +103,8 @@ Six design principles drove every decision:
 ---
 
 ## 3. Features
+
+Every feature, including the small ones, is in the [**full feature list (PDF, 9 pages)**](docs/akshi-rakshak-feature-list.pdf). The main ones:
 
 <details open>
 <summary><b>Checking something</b></summary>
