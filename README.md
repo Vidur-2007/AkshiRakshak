@@ -22,9 +22,9 @@
 
 ### ▶ Watch Akshi Rakshak in 1 minute
 
-[![Watch the 1-minute Akshi Rakshak video](docs/videos/akshi-rakshak-video-poster.png)](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4)
+[![Akshi Rakshak in 1 minute: a flood of messages, a fake KYC SMS scored Scam 95, the UPI PIN trap, SOS and 1930](docs/videos/akshi-rakshak-intro.gif)](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4)
 
-_▶ Click to watch the 1-minute intro (58 s)_ · **[▶ Full demo video on YouTube (5 min)](https://youtu.be/FD6xtVlQ9hk)**
+_Plays here without sound · click it to watch with sound (58 s)_ · **[▶ Full demo video on YouTube (5 min)](https://youtu.be/FD6xtVlQ9hk)**
 
 </div>
 
