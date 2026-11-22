@@ -1,96 +1,409 @@
-# Akshi Rakshak
+<div align="center">
 
-**अक्षि रक्षक, "the eye that protects": a scam and fraud checker for UPI users in India.**
+# Akshi Rakshak — अक्षि रक्षक · అక్షి రక్షక · অক্ষি রক্ষক
 
-- Live app: *TODO (Phase 6): production URL once the Vercel project is deployed*
-- Demo video: *TODO (Phase 6)*
+### _Scan Anything. Stop Fraud Before It Happens._
 
-## What it does
+**"The eye that protects": a scam and fraud checker for UPI users in India, that runs on your phone, offline, in four languages**
 
-Paste a message, chat, email or screenshot, or check a UPI collect request, QR code, link, UPI ID, phone number or bank statement. In about a second, Akshi Rakshak gives a verdict, a 0–100 risk score, the exact phrases that gave a scam away, what the sender claims to be against what it really is, and what to do next. Text checks run on your phone, also offline, in English, Hindi, Telugu and Bengali.
+**Arthaton 2026 · AI for finance**
 
-## Screenshots
+[**Live app**](https://akshi-rakshak.vercel.app) · [**Demo video**](#) _(link added on submission)_ · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
 
-*TODO (Phase 6): landing, analysis, collect-request explainer, Elder STOP screen and Proof page, in `docs/screenshots/`.*
+![TypeScript](https://img.shields.io/badge/Engine-TypeScript-3178C6?logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/UI-React%2019-61DAFB?logo=react&logoColor=black)
+![scikit-learn](<https://img.shields.io/badge/Model-scikit--learn%20(runs%20in%20the%20browser)-F7931E?logo=scikitlearn&logoColor=white>)
+![Python](https://img.shields.io/badge/Training-Python%203.11-3776AB?logo=python&logoColor=white)
+![Offline](https://img.shields.io/badge/Text%20checks-work%20offline-0F766E)
+![Vercel](https://img.shields.io/badge/Hosting-Vercel-000000?logo=vercel&logoColor=white)
+![Cost](<https://img.shields.io/badge/Cost-%E2%82%B90%20(100%25%20free%20tier)-brightgreen>)
 
-## How it works
+![Akshi Rakshak landing page](docs/screenshots/hero.png)
+
+</div>
+
+---
+
+## Team
+
+**Team name:** _TODO: team name_
+
+**Members:** _TODO: names_
+
+We split the work into three parts, each built on its own branch from one shared specification ([`docs/SPEC.md`](docs/SPEC.md)): the detection engine, API and deployment (`feat/engine`), the web app (`feat/web`), and the dataset, model, evaluation and content (`feat/data`).
+
+---
+
+## Table of contents
+
+1. [The problem](#1-the-problem)
+2. [Our approach](#2-our-approach)
+3. [Features](#3-features)
+4. [How the AI works](#4-how-the-ai-works)
+5. [Our ML model and results](#5-our-ml-model-and-results)
+6. [Architecture](#6-architecture)
+7. [Tech stack](#7-tech-stack)
+8. [Screenshots](#8-screenshots)
+9. [Run it locally](#9-run-it-locally)
+10. [Demo walkthrough](#10-demo-walkthrough)
+11. [Privacy, safety and responsible AI](#11-privacy-safety-and-responsible-ai)
+12. [AI tools used](#12-ai-tools-used)
+13. [Limitations and future work](#13-limitations-and-future-work)
+14. [Repository structure](#14-repository-structure)
+
+---
+
+## 1. The problem
+
+UPI made paying anyone in India instant. It also made it instant to lose money to a stranger. The tricks are old, but they now arrive by SMS, WhatsApp, calls, QR codes and payment requests, in the user's own language:
+
+- **"Enter your PIN to receive money."** A collect request or QR code is presented as a refund, prize or "wrong transfer". On UPI a PIN only ever _sends_ money, but many people don't know that.
+- **Fake authority.** "Your SBI account will be blocked today", "This is CBI, you are under digital arrest", "Your electricity will be cut tonight". Fear and a deadline leave no time to think.
+- **Disguised text.** Scammers write "0TP", "S H A R E", "O.T.P" or use lookalike letters to slip past filters.
+- **Language.** Most warnings and tools are in English. Many people get scams in Hindi, Telugu, Bengali or romanised Hinglish.
+- **Older users and families.** Parents and grandparents are often targeted, and the family member who looks after them is not there when the message arrives.
+- **After the loss.** People don't know the first steps: call 1930 and report at cybercrime.gov.in, fast.
+
+A useful checker has to answer in about a second, explain _why_ in plain words, work on a cheap phone with a weak connection, and never upload a person's private messages to do it.
+
+---
+
+## 2. Our approach
+
+Akshi Rakshak is **one detection engine behind several ways to check**, plus help before and after a scam:
+
+| Part                 | For                            | What it does                                                                                                                          |
+| -------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Quick Scan**       | Anyone                         | Paste a message, chat, email, link, UPI ID or phone number, or upload a screenshot; get a verdict, a 0–100 risk score and the reasons |
+| **Modules**          | Specific traps                 | Collect-request guard, QR and link inspector, messages and chats, bank-statement scan                                                 |
+| **Detection engine** | (in the browser)               | Rules in four languages, our own trained model, link and UPI checks, known indicators, fusion                                         |
+| **Learn**            | Everyone                       | Scam taxonomy network, Dojo drills, Ask (answers with sources)                                                                        |
+| **SOS**              | Someone who already lost money | Six questions, then the steps that matter most right now (1930 first)                                                                 |
+| **Proof**            | Judges, sceptics               | Every number we measured, including the weak spots                                                                                    |
+
+Six design principles drove every decision:
+
+1. **On the device first.** Text, screenshots and statements are checked in the browser. Nothing is uploaded for a normal check, and text checks work in airplane mode.
+2. **Our own model, not just an API wrapper.** The core is our rules plus a model we trained and ship to the browser. An LLM second opinion is optional, sees masked text only, and can move the score by at most 15 points.
+3. **Explain, don't just flag.** Every verdict shows the exact phrases, what the sender claims against what it really is, how the scam works step by step, and what to do next.
+4. **Never say "safe".** The lowest verdict is "No warning signs found". A clean result can still be a scam we don't know yet.
+5. **Honest numbers.** Every number is our own measurement, on a split we never tuned on, with where it came from. Sample data is labelled as sample data.
+6. **₹0 to run.** Free tiers and open-source packages only.
+
+---
+
+## 3. Features
+
+<details open>
+<summary><b>Checking something</b></summary>
+
+- **Quick Scan** (`/scan`) for messages, chats, emails, links, UPI IDs and phone numbers, with a **live risk meter** that moves while you type.
+- **Screenshot check:** on-device OCR (English, Hindi, Telugu, Bengali), with boxes drawn over the risky words on your screenshot. **Sample screenshots** (a bank SMS, a chat asking for the OTP, a Telugu job SMS) let you try it without a phone.
+- **Messages and chats:** full chat threads are read turn by turn, with a risk line that shows the conversation turning into a scam.
+- **Collect-request guard:** a short form about a UPI collect request, a live preview of the request, and the **PIN explainer** ("entering your PIN always sends money").
+- **QR and link inspector:** what a QR really pays (payee, UPI ID, prefilled amount), link anatomy (the real domain, lookalikes, risky endings), short-link expansion and domain age (optional, online).
+- **Bank-statement scan:** upload a statement CSV; unusual payments are flagged on the device, each with a plain reason.
+- **Live listen:** checks a call as it is spoken (browser speech recognition).
+- **Share target:** on Android, share a message straight into the app.
+
+</details>
+
+<details open>
+<summary><b>Understanding the result</b></summary>
+
+- **Verdict, risk score and confidence**, with the scam category.
+- **Underlined phrases:** tap one to see why it was flagged.
+- **Claims to be vs actually is:** "Says it is from SBI" against "Link goes to sbi-kyc-update.xyz". Includes **payment truth** ("you'll receive ₹5,000" really means ₹5,000 leaves your account) and an **authority check** (police, CBI or ED asking for money on a personal UPI ID).
+- **Attack story and manipulation tactics:** how this scam works, step by step, and which levers it pulls (fear, urgency, authority, secrecy, greed).
+- **Scam Replay:** how the scam would have played out, built only from what was found in the message.
+- **"You're not the only one" (Campaign Match):** how many similar messages are in our sample dataset, the closest example, and the campaign it shares details with.
+- **How we decided:** what each layer (rules, model, links, known reports, AI) added to the score.
+- **What to do now:** up to five actions in order, plus buttons to block, report on Chakshu, copy evidence, warn family, or get help.
+- **Repeated collect requests:** a warning when the same UPI ID has asked you for money before.
+- **Was Akshi right?** Tell the app whether it was right. Answers stay on the phone, never change a verdict, and can be downloaded as labelled examples.
+
+</details>
+
+<details open>
+<summary><b>Detection (the engine)</b></summary>
+
+- **43 warning signals** across 19 scam types, matched in English, Hindi (Devanagari and romanised Hinglish), Telugu and Bengali, with negation handling ("we will never ask for your OTP" is not an OTP request).
+- **Our own scam model**, trained in Python and run in the browser (section 5).
+- **Disguise-proof matching:** spaced, dotted and starred letters, digits for letters, lookalike Cyrillic and Greek letters, hidden characters and repeated letters are read through, while underlines still land on the original characters.
+- **Link and UPI checks:** lookalike and punycode domains, risky endings, shortened links, bank names on personal UPI handles, "pay to receive" QR codes, prefilled amounts.
+- **Known indicators** (sample data) and **your own blocklist:** a number, UPI ID or website you blocked is flagged if it comes back.
+- **Optional AI second opinion** on masked text, with an evidence guard that drops any AI claim the message doesn't support.
+
+</details>
+
+<details open>
+<summary><b>After a scam</b></summary>
+
+- **SOS** (`/sos`): six questions lead to tagged recovery steps, with **call 1930** and **cybercrime.gov.in** first when money has left the account.
+- **Evidence report** (`/sos/report`): a ready-to-file summary of what happened.
+- **Statements linked to scams:** a payment in your statement is linked to scam checks about the same person or UPI ID, with "This payment vs your usual" spending.
+
+</details>
+
+<details open>
+<summary><b>Learning</b></summary>
+
+- **Network** (`/network`): "A taxonomy of scams", an interactive map of all 19 scam types, the lever each one pulls (fear, trust, greed, urgency) and how it reaches people (SMS, WhatsApp, call, Telegram, email). Three scenes: Radar, Nebula, Blueprint.
+- **Dojo:** practice drills where you spot the scam.
+- **Ask:** questions about scams and UPI safety, answered with the source.
+- **Landing story** with a cosmic intro (replayable) and a 60-second guided tour.
+
+</details>
+
+<details open>
+<summary><b>Accessibility and reach</b></summary>
+
+- **Four languages:** English, Hindi, Telugu, Bengali, for the app, the verdicts and the explanations.
+- **Elder Safety Mode:** one full-screen answer (STOP / CAREFUL / No warning signs found), read aloud in the user's language, with **Call my family**. Families can send `?simple=1` links.
+- **Share cards** to warn family and friends.
+- **Installable app (PWA)** that works offline after one visit.
+- Screen-reader and keyboard support, large tap targets, reduced motion, dark mode; checked with axe on every page.
+
+</details>
+
+<details open>
+<summary><b>Proof and developer API</b></summary>
+
+- **Proof page** (`/proof`): precision, recall and F1 by layer, by language and by scam type, the confusion matrix, risk calibration, speed and statement results.
+- **Public API:** `POST /api/analyze` returns the same check as the app (text kinds, no AI), rate-limited.
+- **Telegram bot:** forward a message to the bot to check it (code deployed; switched off until a webhook secret is set).
+
+</details>
+
+---
+
+## 4. How the AI works
+
+Every check passes through this pipeline. The solid path runs in the browser in under a millisecond for a typical message (median 0.15 ms, 95th percentile 0.94 ms, measured on the test split). The dashed path is optional and online.
+
+```mermaid
+flowchart TD
+    A["Input<br/>message / chat / email / screenshot /<br/>QR / link / UPI ID / phone / statement"] --> B["1. Read<br/>OCR for images (tesseract.js, on device),<br/>detect language and input type"]
+    B --> C["2. Extract<br/>links, UPI IDs, phone numbers, amounts"]
+    B --> V["3. Matching view<br/>undo disguises: S H A R E, O.T.P,<br/>0TP, lookalike letters"]
+    V --> R["4a. Rules<br/>43 signals in en / hi / te / bn,<br/>with negation"]
+    V --> M["4b. Our scam model<br/>TF-IDF + logistic regression<br/>(runs in the browser)"]
+    C --> L["4c. Link and UPI checks<br/>lookalikes, risky endings,<br/>personal handles, QR traps"]
+    C --> K["4d. Known indicators<br/>sample data + your blocklist"]
+    R --> F{"5. Fusion and calibration"}
+    M --> F
+    L --> F
+    K --> F
+    F --> O["6. Verdict, risk score, confidence, category,<br/>claims vs reality, attack story, actions"]
+    F -. "optional, online,<br/>masked text only" .-> AI["AI second opinion<br/>Groq, then Gemini"]
+    AI -. "evidence guard,<br/>at most +15 points" .-> O
+```
+
+### Fusion
+
+Each layer gives a score from 0 to 100. The weights come from our calibration file (`packages/model/model/calibration.json`, set on the validation split):
+
+```
+rules   R = 100 × (1 − Π(1 − wᵢ))        over the warning signals that fired
+model   M = 100 × P(scam)
+links   L = highest link or UPI risk      (only when the input has links or UPI IDs)
+
+base    = (0.30 × R + 0.35 × M + 0.35 × L) / (sum of the weights of the layers present)
+base    = max(base, known-indicator score)
+final   = AI used ? 0.8 × base + 0.2 × AI : base
+final   = min(final, base + 15)           // the AI alone can never add more than 15 points
+final   = max(final, any safety floor)    // e.g. "enter your PIN to receive" is always a scam
+```
+
+| Risk score | Verdict                                   |
+| ---------- | ----------------------------------------- |
+| 70–100     | **Scam**                                  |
+| 40–69      | **Suspicious**                            |
+| 0–39       | **No warning signs found** (never "safe") |
+
+**Confidence** = 0.55 + 0.1 × (strong signals, max 3) + 0.15 × (agreement between rules and model), kept between 0.5 and 0.98.
+
+### Which AI does what
+
+| Task                        | Primary                                        | Fallback                                  |
+| --------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| Verdict, score, reasons     | **Our rules + our model** (in the browser)     | Always available, no network              |
+| Screenshot reading          | tesseract.js on the device                     | Optional Gemini transcription, asks first |
+| Second opinion (optional)   | Groq (`openai/gpt-oss-20b`)                    | Google Gemini Flash-Lite                  |
+| Ask (questions and answers) | Our FAQ with sources; Groq rewrites the answer | The FAQ answer as written                 |
+| Statement anomalies         | Our rules + an Isolation Forest in TypeScript  | Always available, no network              |
+
+---
+
+## 5. Our ML model and results
+
+### The model
+
+|                    |                                                                                                                                                                                                                                   |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Task**           | Is a message a scam (binary), and which of 19 scam types (category)                                                                                                                                                               |
+| **Features**       | TF-IDF over word 1–2-grams and character 2–5-grams (18,793 features), with Indian-language normalisation                                                                                                                          |
+| **Classifier**     | Logistic regression (scikit-learn), plus a sparse second model for the category                                                                                                                                                   |
+| **Shipped as**     | JSON, 133 KB gzipped, run in TypeScript in the browser. Python and TypeScript give the same results (checked on 200 texts)                                                                                                        |
+| **Version**        | `2026.11.18-a` · validation F1 0.963 · category macro-F1 0.650                                                                                                                                                                    |
+| **Training data**  | 3,579 synthetic messages (1,739 scams in 19 categories, 1,840 genuine) in English, Hindi (41% romanised), Telugu and Bengali, from 250 hand-written template families. Families never cross the train, validation and test splits |
+| **Hard negatives** | 900 genuine messages that look like scams: real-style OTPs, debit alerts, UPI confirmations, delivery updates, bank offers, fraud-awareness notices                                                                               |
+| **Training time**  | Seconds on a laptop CPU, no GPU                                                                                                                                                                                                   |
+
+### Results
+
+From `npm run eval` on the held-out **test split** (527 messages, full system without the AI second opinion; "flagged" = Scam or Suspicious). Engine 0.3.0, model 2026.11.18-a. Nothing was tuned on this split.
+
+|                        | Precision |    Recall |        F1 | False alarms |
+| ---------------------- | --------: | --------: | --------: | -----------: |
+| Rules only             |     95.3% |     49.8% |     65.4% |         2.1% |
+| Rules + model          |     96.4% |     85.4% |     90.6% |         2.9% |
+| **Full system, no AI** | **96.7%** | **94.7%** | **95.7%** |     **2.9%** |
+
+**By language (F1):** English 96.5% · Hindi 95.2% · Telugu 92.0% · Bengali 100%.
+
+**Genuine bank, OTP and UPI messages:** 6 of 140 (4.3%) were marked "suspicious"; **none** got the "scam" verdict.
+
+**Do the risk numbers mean what they say?** The same test messages grouped by the risk Akshi gave them (Brier score 0.07; 0 is perfect, 0.25 is a coin toss):
+
+| Risk                    | Messages | Really scams |
+| ----------------------- | -------: | -----------: |
+| 70–100 (Scam)           |      126 |   126 (100%) |
+| 40–69 (Suspicious)      |      116 |    108 (93%) |
+| 0–39 (No warning signs) |      285 |      13 (5%) |
+
+**Disguised text:** 12 base scams in five languages × 9 disguises (spaced, dotted, starred, lookalike letters, digits for letters, hidden characters…): the main warning signal is still found in **108 of 108** (50 of 108 before the matching view was added).
+
+**Statement scan:** 6 of 6 planted unusual payments caught, 0 false flags per 100 transactions on the sample statements.
+
+**Weak spots:** romance scams (3 of 9 caught) and phishing links (10 of 15).
+
+The data is synthetic, so expect lower numbers on real messages. Every number above, by language and by scam type, is on the app's [**Proof** page](https://akshi-rakshak.vercel.app/proof). How they were produced: [`docs/eval-notes.md`](docs/eval-notes.md) and [`docs/dataset-card.md`](docs/dataset-card.md). Reproduce with `npm run eval` and `npm run reliability -w @akshi/eval`.
+
+> **Why our own model plus rules, and the LLM only as an option?** Rules are exact and explainable, but miss new wording. Our model generalises, is tiny, free, works offline and never sees the network. An LLM is strong but can be confidently wrong, is rate-limited on free tiers, and would need the message to leave the phone. So the LLM gets masked text, a fixed 20% share, and can never add more than 15 points.
+
+---
+
+## 6. Architecture
 
 ```mermaid
 flowchart LR
-  IN["Message, chat, email,<br/>screenshot, QR, link,<br/>UPI ID, phone, statement"] --> READ["Read<br/>(OCR for images:<br/>tesseract.js, on device)"]
-  READ --> RULES["Rules and lexicons<br/>en / hi / te / bn"]
-  READ --> LINKS["Link and UPI checks<br/>(lookalike domains, risky TLDs,<br/>personal UPI handles)"]
-  READ --> MODEL["Scam model<br/>(logistic regression,<br/>runs in the browser)"]
-  READ --> IND["Known indicators<br/>(sample data)"]
-  RULES --> FUSE["Fusion and calibration"]
-  LINKS --> FUSE
-  MODEL --> FUSE
-  IND --> FUSE
-  FUSE --> OUT["Verdict, risk score,<br/>highlighted phrases,<br/>what to do next"]
-  FUSE -. "optional, online,<br/>masked text only" .-> AI["AI second opinion<br/>(Groq, then Gemini)"]
-  AI -.-> OUT
+    subgraph Phone["Browser on the phone (PWA, works offline)"]
+        UI["React 19 app<br/>Scan · Modules · Learn · SOS · Proof"]
+        EN["Detection engine (TypeScript)<br/>rules · model · links · UPI · fusion"]
+        OCR["tesseract.js OCR<br/>en / hi / te / bn"]
+        INS["Statement scan<br/>rules + Isolation Forest"]
+        DB[("IndexedDB (Dexie)<br/>history, blocklist, feedback")]
+        SW["Service worker<br/>offline cache"]
+    end
+    subgraph VC["Vercel (free tier)"]
+        API["Serverless functions /api<br/>health · analyze · ai/analyze · ai/vision ·<br/>ask · expand · domain-age · reports · telegram"]
+    end
+    GRQ["Groq API"]
+    GEM["Gemini API"]
+    RDAP["RDAP<br/>(domain age)"]
+    UP[("Upstash Redis<br/>(optional report counts)")]
+
+    UI --> EN
+    UI --> OCR
+    UI --> INS
+    UI --> DB
+    UI -. "optional, masked text" .-> API
+    API --> GRQ
+    API --> GEM
+    API --> RDAP
+    API --> UP
 ```
 
-Everything on the solid path runs in the browser. The dashed path is optional: it needs the network, sends text only after phone numbers, account numbers and similar details are masked, and the app works without it.
+**Key decisions**
 
-## The AI and ML
+- **The engine is a library, not a server.** The same `@akshi/engine` package runs in the browser, in the API (`/api/analyze`) and in the evaluation harness, so the Proof numbers are the app's numbers.
+- **Offline core.** Rules, the model, link checks, OCR assets and the app shell are cached by the service worker. Only the optional extras (AI second opinion, short-link expansion, domain age, report counts) need the network, and the app works without each of them.
+- **Contracts first.** `packages/contracts` holds the shared types and zod schemas; anything crossing a package or network boundary is validated.
+- **Hardened API.** Rate limits on every route, an SSRF guard on link expansion (private addresses refused before connecting), no message text in logs, and security headers on every response.
 
-- **Rules and lexicons** (`packages/engine`): scam signals such as "enter your PIN to receive", OTP requests, threats of arrest or blocking, secrecy, screen-sharing apps and too-good returns, in four languages, each with the phrase it matched.
-- **Scam model** (`packages/model`, trained in `ml/`): TF-IDF over word 1–2-grams and character 2–5-grams with logistic regression (scikit-learn), exported to JSON (about 133 KB gzipped) and run in TypeScript with the same results as Python (checked on 200 texts). A second, sparse model suggests the scam category.
-- **Link and UPI checks**: lookalike and punycode domains, risky TLDs, shortened links, brand names on personal UPI handles, prefilled amounts in QR codes. Online extras (expanding a short link, domain age) are optional.
-- **OCR**: tesseract.js with English, Hindi, Telugu and Bengali trained data, on the device.
-- **Statement anomaly detection** (`packages/insights`): a bank-statement CSV is parsed on the device; rules (credit followed by a return payment, bursts, large or round payments to a new payee, odd hours, duplicates, velocity) and an Isolation Forest implemented in TypeScript flag unusual payments.
-- **LLM second opinion** (optional): Groq first, Google Gemini as fallback, through the Vercel AI SDK, with a JSON schema for the answer. Its reply is checked on the server and again in the app. Its score is blended in at a fixed 20% share and can raise the local score by at most 15 points.
+---
 
-### Measured results
+## 7. Tech stack
 
-From `npm run eval` on the held-out **test split of our synthetic dataset** (527 messages, full system without the AI second opinion; a message counts as flagged when the verdict is "scam" or "suspicious"). Engine 0.3.0, model 2026.11.18-a:
+Everything below is free and open source, or used on a free tier.
 
-| | Precision | Recall | F1 | False alarms |
-|---|---:|---:|---:|---:|
-| Rules only | 95.3% | 49.8% | 65.4% | 2.1% |
-| Rules + model | 96.4% | 85.4% | 90.6% | 2.9% |
-| Full system, no AI | 96.7% | 94.7% | 95.7% | 2.9% |
+| Layer                          | Technologies                                                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **Engine**                     | TypeScript (strict), zod, tldts, our own rule and fusion code                                                  |
+| **ML (training, not shipped)** | Python 3.11, scikit-learn, NumPy, SciPy, pandas, joblib, PyYAML, pytest                                        |
+| **ML (in the browser)**        | Our TypeScript inference for the exported model; Isolation Forest in TypeScript                                |
+| **OCR**                        | tesseract.js with `eng`, `hin`, `tel`, `ben` from tessdata_fast, self-hosted                                   |
+| **LLM providers (optional)**   | Groq and Google Gemini through the Vercel AI SDK (`ai`, `@ai-sdk/groq`, `@ai-sdk/google`), JSON-schema answers |
+| **API**                        | Vercel Functions (Node), undici, Upstash Redis (optional)                                                      |
+| **Frontend**                   | React 19, React Router, Vite, Tailwind CSS v4, shadcn/ui (Radix), lucide-react, cmdk, sonner                   |
+| **Motion and graphics**        | Motion, Lenis, Canvas 2D and WebGL (no 3D library), react-force-graph-2d                                       |
+| **Data and state**             | Dexie (IndexedDB), zustand, i18next                                                                            |
+| **Offline**                    | vite-plugin-pwa (Workbox)                                                                                      |
+| **Testing**                    | Vitest (≈870 tests), Testing Library, jsdom, Playwright (Chrome, Edge, mobile Chrome), axe-core                |
+| **Hosting**                    | Vercel (static app + functions), GitHub Actions CI                                                             |
+| **Fonts**                      | Geist, Geist Mono, Noto Sans Devanagari, Noto Sans Telugu, Noto Sans Bengali (Fontsource)                      |
 
-By language, F1 is 96.5% for English, 95.2% for Hindi, 92.0% for Telugu and 100% for Bengali. On genuine bank, OTP and UPI messages, 4.3% (6 of 140) are wrongly marked "suspicious"; no genuine message got the "scam" verdict. Weak spots: romance scams (3 of 9 caught) and phishing links (10 of 15). The training data is synthetic, so expect lower numbers on real messages. A team-written test set and a sample run with the AI second opinion are added before submission (TODO). Every number, by language and by scam type, is on the app's **Proof** page (`/proof`), and how they were produced is in `docs/eval-notes.md`.
+---
 
-## Privacy and offline use
+## 8. Screenshots
 
-- Text, images and statements are checked **on your device**. Nothing is uploaded for a normal check.
-- The AI second opinion is optional and receives **masked** text only. Screenshot transcription by a cloud model is opt-in and asks first.
-- After one visit, the app works in **airplane mode** (installable PWA).
-- No accounts and no analytics scripts. Community reports send only the reported value (a UPI ID, number or link).
+|                                                                                                                      |                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| ![Analysis](docs/screenshots/analysis.png) **Scam, 95: underlined phrases and the reasons**                          | ![Claims vs reality and Scam Replay](docs/screenshots/analysis-why.png) **Claims vs reality, and how the scam would play out** |
+| ![Campaign Match](docs/screenshots/campaign-replay.png) **"You're not the only one": similar messages and campaign** | ![Collect request](docs/screenshots/collect.png) **Collect-request trap and "What the PIN really does"**                       |
+| ![QR inspector](docs/screenshots/qr-link.png) **What this QR really does**                                           | ![Statement scan](docs/screenshots/statement.png) **Statement scan, linked to scams**                                          |
+| ![Network](docs/screenshots/network.png) **A taxonomy of scams**                                                     | ![Dojo](docs/screenshots/dojo.png) **Dojo practice drills**                                                                    |
+| ![Proof](docs/screenshots/proof.png) **Proof: every number we measured**                                             | ![Risk calibration](docs/screenshots/proof-calibration.png) **Do the risk numbers mean what they say?**                        |
+| ![Emergency help](docs/screenshots/sos.png) **SOS: the steps that matter most, 1930 first**                          | ![Elder mode in Hindi](docs/screenshots/elder-mode.png) **Elder Safety Mode in Hindi, on a phone**                             |
 
-## Languages
+---
 
-English, Hindi (Devanagari and romanised Hinglish), Telugu and Bengali for checks, explanations and content. Hindi, Telugu and Bengali text was drafted with AI help and is being reviewed by native readers (`docs/i18n-review.md`).
+## 9. Run it locally
 
-## Run locally
+> **Fastest way to look around:** text checks need **no keys and no backend**. `npm install && npm run dev` is enough.
 
-Needs Node.js 22 or later.
+### 9.1 Prerequisites
+
+- Node.js 22 or later and npm
+- Python 3.11 (only to retrain the model)
+- Optional free accounts: [Groq](https://console.groq.com), [Google AI Studio](https://aistudio.google.com), [Upstash](https://upstash.com)
 
 ```bash
+git clone https://github.com/Vidur-2007/AkshiRakshak.git
+cd AkshiRakshak
 npm install
-npm run dev          # web app + local API (http://localhost:3001/api)
+npm run dev          # web app + local API (app: http://localhost:5173, API: http://localhost:3001/api)
 ```
 
-Other commands: `npm test`, `npm run typecheck`, `npm run lint`, `npm run eval` (writes the Proof page report), `npm run dev:api` (API only).
+### 9.2 Environment variables (optional)
 
-**Text checks need no keys and work offline.** The optional online features read these environment variables. Copy `.env.example` to `.env` (never commit `.env`):
+Copy `.env.example` to `.env` (never commit `.env`):
 
-| Variable | Needed for | Notes |
-|---|---|---|
-| `GROQ_API_KEY` | AI second opinion, Ask Akshi rewrite | Free-tier key from console.groq.com |
-| `GROQ_MODEL` | same | A Groq model with JSON Schema structured output, e.g. `openai/gpt-oss-20b` |
-| `GEMINI_API_KEY` | fallback AI provider; screenshot transcription | Free-tier key from Google AI Studio |
-| `GEMINI_MODEL` | fallback AI provider | A Flash or Flash-Lite model, e.g. `gemini-3.1-flash-lite` |
-| `GEMINI_VISION_MODEL` | screenshot transcription (opt-in) | An image-capable model; can be the same as `GEMINI_MODEL` |
-| `KV_REST_API_URL` + `KV_REST_API_TOKEN` | community report counts (optional) | Or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (used first if both pairs are set). Injected by Vercel's Upstash integration. Without them `/api/reports` answers 503 and the app works without counts |
-| `PORT` | local API server (optional) | Default `3001` |
+| Variable                                | Needed for                        | Notes                                                                                                                              |
+| --------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `GROQ_API_KEY`, `GROQ_MODEL`            | AI second opinion, Ask rewrite    | A Groq model with JSON-schema output, e.g. `openai/gpt-oss-20b`                                                                    |
+| `GEMINI_API_KEY`, `GEMINI_MODEL`        | Fallback AI provider              | A Flash or Flash-Lite model                                                                                                        |
+| `GEMINI_VISION_MODEL`                   | Screenshot transcription (opt-in) | Image-capable; can equal `GEMINI_MODEL`                                                                                            |
+| `KV_REST_API_URL` + `KV_REST_API_TOKEN` | Community report counts           | Or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`. Without them `/api/reports` answers 503 and the app works without counts |
+| `TELEGRAM_WEBHOOK_SECRET`               | Telegram bot (optional)           | The bot token is used only by `npm run telegram:setup` on your own machine; it is never stored in the repo or on the server        |
+| `PORT`                                  | Local API server                  | Default `3001`                                                                                                                     |
 
-A provider is used only when both its key and its model are set. `/api/health` shows which providers are configured, never the values.
+A provider is used only when both its key and its model are set. `/api/health` shows which are configured, never the values.
 
-### Retraining the model (optional)
+### 9.3 Commands
+
+```bash
+npm test                    # all unit and component tests (Vitest)
+npm run typecheck           # TypeScript, all packages
+npm run lint                # ESLint
+npm run eval                # evaluate on the test split, writes the Proof page report
+npm run build -w @akshi/web # production build of the web app
+npm run smoke -- https://akshi-rakshak.vercel.app   # check a deployment
+npx playwright test -c apps/web                     # end-to-end, accessibility and performance
+```
+
+### 9.4 Retraining the model (optional)
 
 ```bash
 cd ml
@@ -101,55 +414,122 @@ python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m pytest
 ```
 
-## Deploy
+### 9.5 Deploy
 
-Vercel (Hobby plan): import the repository, framework "Other", root directory = repository root. `vercel.json` sets the install and build commands, the output folder, the API functions and security headers. Add the environment variables above for Production and Preview, and optionally connect Upstash Redis from the Vercel Marketplace. `npm run smoke -- https://<project>.vercel.app` checks the deployed API.
+Vercel (Hobby plan): import the repository, framework "Other", root directory = repository root. `vercel.json` sets the install and build commands, output folder, API functions and security headers. Add the environment variables above for Production and Preview, and optionally connect Upstash Redis from the Vercel Marketplace. Then run `npm run smoke -- https://<project>.vercel.app`.
 
-## Project structure
+---
+
+## 10. Demo walkthrough
+
+No accounts needed. Open [akshi-rakshak.vercel.app](https://akshi-rakshak.vercel.app), or [`/tour`](https://akshi-rakshak.vercel.app/tour) for a 60-second guided tour. `/?demo=1` resets to a clean demo state.
+
+### Try these (5 minutes)
+
+1. **Fake KYC SMS:** `/scan` → sample **Fake KYC SMS** → **Scam, 95**. Tap the underlined words, read "Claims to be vs actually is", Scam Replay and "You're not the only one".
+2. **Collect request:** `/modules/collect?sample=refund` → **Check this request** → **Scam, 95**, and the PIN explainer.
+3. **Refund QR:** `/modules/qr-link` → **Refund QR** → **Scam, 85**: what the QR really pays.
+4. **Telugu screenshot:** switch to **తె**, `/scan` → sample screenshot **తెలుగు ఉద్యోగ SMS** → the text is read on the device, then the verdict in Telugu.
+5. **Disguised text:** paste `Your SBI acc0unt will be bl0cked t0day. Update KYC at http://sbi-kyc-update.xyz and sh@re the O.T.P n0w.` → still **Scam, 95**.
+6. **Statement:** `/modules/transactions` → **College student (sample)** → bursts of small payments, a ₹1 credit then ₹9,999 out, linked to scams.
+7. **Elder mode:** tap **Aa**, switch to **हि**, scan the **Electricity cut-off (Hindi)** sample → full-screen **रुकिए** (STOP), read aloud.
+8. **Offline:** turn the network off and scan again → same answer.
+9. **SOS:** tap **SOS** → "Did money leave your account?" → **Yes** → call 1930 first.
+
+All sample messages, statements, numbers, UPI IDs and links are **synthetic** and were made for this project.
+
+---
+
+## 11. Privacy, safety and responsible AI
+
+- **On the device:** text, screenshots and statements are checked in the browser. Nothing is uploaded for a normal check.
+- **Masked before any AI:** the optional AI second opinion receives text only after phone numbers, UPI IDs, account numbers, emails, PAN and Aadhaar-like numbers are masked. Screenshot transcription by a cloud model is opt-in and asks first.
+- **The AI can't take over:** it gets a fixed 20% share, can add at most 15 points, and an evidence guard drops AI claims the message doesn't support (made-up report counts, "verified", UPI IDs or links that aren't in the message).
+- **Safety floors:** signals like "enter your PIN to receive" always give a Scam verdict, whatever the other layers say.
+- **Truth rules in every screen:** never "safe"; "unverified", not "fake", unless there is a concrete mismatch; sample data labelled as sample data; no scam statistics without a source.
+- **No accounts, no analytics scripts.** History, blocklist and feedback live in IndexedDB on the phone; "Delete everything" in Settings removes it all.
+- **Community reports** (optional) send only the reported value (a UPI ID, number or link), never the message.
+- **Hardened API:** rate limits, SSRF guard on link expansion, no message text in logs, security headers, input validation with zod.
+- **Synthetic data only:** no real messages, names, bank details, PAN or Aadhaar numbers anywhere in the repository.
+
+---
+
+## 12. AI tools used
+
+**To build the project**
+
+| Tool                                | How we used it                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Claude** (Anthropic): Claude Code | Our AI development tool. We wrote a shared specification with Claude ([`docs/SPEC.md`](docs/SPEC.md) and one spec per part), then used Claude Code on three laptops, one per part (engine, web, data), each on its own branch, following phase-by-phase prompts ([`docs/PROMPTS_A_ENGINE.md`](docs/PROMPTS_A_ENGINE.md), [`docs/PROMPTS_B_WEB.md`](docs/PROMPTS_B_WEB.md), [`docs/PROMPTS_C_DATA.md`](docs/PROMPTS_C_DATA.md)). Progress logs for every phase are in [`docs/progress/`](docs/progress). |
+
+Hindi, Telugu and Bengali text was drafted with AI help and is being reviewed by native readers ([`docs/i18n-review.md`](docs/i18n-review.md)). All AI-generated code was reviewed, run and tested by the team.
+
+**Inside the product (runtime)**
+
+| Tool                                            | How the product uses it                                  |
+| ----------------------------------------------- | -------------------------------------------------------- |
+| **Our own scam model** (scikit-learn, exported) | Scam probability and category, in the browser            |
+| **tesseract.js**                                | Screenshot OCR on the device                             |
+| **Groq** (open LLMs)                            | Optional second opinion; rewriting Ask answers           |
+| **Google Gemini**                               | Fallback second opinion; opt-in screenshot transcription |
+
+---
+
+## 13. Limitations and future work
+
+**Honest limitations**
+
+- **Synthetic data.** The training and test data are template-generated. Real messages are messier, so expect lower numbers. A team-written test set ([`data/handwritten/`](data/handwritten)) is prepared but not yet filled in.
+- **Weak spots.** Romance scams (3 of 9 caught) and phishing links (10 of 15). A disguised message _without_ a link scores lower (Suspicious rather than Scam).
+- **Sample indicators.** The known-scam numbers, UPI IDs and links are sample data, not a live fraud feed.
+- **OCR quality.** On-device OCR depends on the screenshot; complex Telugu and Bengali conjuncts are sometimes misread. When a read is weak, the app asks you to correct the text.
+- **Browser voices.** Read-aloud depends on the voices installed on the device.
+- **Optional services.** Community report counts need Upstash; the Telegram bot is switched off until it is set up.
+
+**Next steps**
+
+- Measure on real, consented messages, and fill in the team-written test set.
+- A live, verified indicator feed (with signed updates) instead of sample data.
+- More languages (Tamil, Kannada, Marathi and others), with native-speaker review.
+- Android share-to-check and SMS integration, and a WhatsApp channel through an approved provider.
+- Use the "Was Akshi right?" labels (with consent) to find false alarms and misses for the next model.
+
+---
+
+## 14. Repository structure
 
 ```
-apps/web/            React web app (PWA)
-packages/contracts/  shared types and zod schemas
-packages/engine/     analysis engine: rules, lexicons, links, UPI, OCR, fusion
-packages/model/      exported scam model and TypeScript inference
-packages/insights/   bank statement parser and anomaly detection
-packages/content/    drills, FAQ, emergency steps, pattern cards, samples, eval report
-api/                 Vercel Functions: AI second opinion, ask, link expand, domain age, reports
-eval/                evaluation harness (npm run eval), error listing, calibration search
-ml/                  Python: dataset generator, validator, training, parity
-data/                templates, fillers, generated messages, sample statements, handwritten set
-scripts/             dev API server, OCR assets, bundle size, smoke test
-docs/                specs, progress logs, dataset card, evaluation notes
+AkshiRakshak/
+├─ apps/web/                React web app (PWA)
+│  ├─ src/pages/            Scan, Analysis, modules, Network, Learn, SOS, Proof, Settings
+│  ├─ src/components/       analysis, scan, modules, statements, elder, shell, ui
+│  ├─ src/lib/              engine bridge, IndexedDB, i18n, store, campaign match, replay
+│  ├─ src/locales/          en, hi, te, bn
+│  ├─ public/samples/       sample screenshots (synthetic)
+│  └─ e2e/                  Playwright: smoke, accessibility, performance, tour
+├─ packages/contracts/      shared types and zod schemas
+├─ packages/engine/         detection engine: rules, lexicons, links, UPI, OCR, fusion, story
+├─ packages/model/          exported scam model, calibration and TypeScript inference
+├─ packages/insights/       bank-statement parser and anomaly detection
+├─ packages/content/        drills, FAQ, emergency steps, samples, eval report, calibration
+├─ api/                     Vercel Functions: analyze, AI, ask, expand, domain age, reports, telegram
+├─ eval/                    evaluation harness (npm run eval), reliability, error listing
+├─ ml/                      Python: dataset generator, validator, training, parity
+├─ data/                    templates, fillers, generated messages, sample statements, handwritten set
+├─ scripts/                 dev API server, OCR assets, bundle size, smoke test, API build
+└─ docs/                    specs, prompts, progress logs, dataset card, eval notes, demo script, screenshots
 ```
 
-## Dataset statement
+**Credits.** Emergency steps point to the National Cyber Crime Reporting Portal (cybercrime.gov.in, helpline 1930) and Sanchar Saathi Chakshu (sancharsaathi.gov.in). OCR trained data from [tesseract-ocr/tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast). Full list of open-source packages: see the `package.json` files and `ml/requirements.txt`.
 
-The model is trained on a **synthetic** dataset made for this project: 3,579 messages (1,739 scams in 19 categories, 1,840 genuine) in English, Hindi (41% of it romanised), Telugu and Bengali, generated from 250 hand-written template families with variations (spelling, casing, emoji, spaced-out words, Hinglish spellings). Families never cross the train, validation and test splits. About half of the genuine messages (900) are "hard negatives" that look like scams: real-style OTPs, debit alerts, UPI confirmations, delivery updates, bank offers and fraud-awareness notices. Every phone number, UPI ID, link and account number is invented; scam domains are strings that were never visited. A test set of about 150 messages written by the team is kept apart from training and tuning. Limits: synthetic text is cleaner and more regular than real messages, and the Hindi, Telugu and Bengali templates were drafted with AI help. Details: `docs/dataset-card.md`.
+**Licence:** [MIT](LICENSE)
 
-The indicator list and community counts in the app are **sample data**, labelled as such.
+---
 
-## Credits
+<div align="center">
 
-**AI APIs:** [Groq](https://groq.com) (LLM second opinion and assistant), [Google Gemini](https://ai.google.dev) (fallback and screenshot transcription), via the [Vercel AI SDK](https://ai-sdk.dev) (`ai`, `@ai-sdk/groq`, `@ai-sdk/google`).
+Built for **Arthaton 2026** by _TODO: team name_.
 
-**OCR:** [tesseract.js](https://github.com/naptha/tesseract.js) and tesseract.js-core, with `eng`, `hin`, `tel` and `ben` trained data from [tesseract-ocr/tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast).
+_Akshi Rakshak: the eye that protects._
 
-**Engine and API:** [zod](https://zod.dev), [tldts / tldts-icann](https://github.com/remusao/tldts), [undici](https://github.com/nodejs/undici).
-
-**Web app:** [React](https://react.dev), [React Router](https://reactrouter.com), [Vite](https://vite.dev), [vite-plugin-pwa](https://vite-pwa-org.netlify.app), vite-plugin-static-copy, [Tailwind CSS](https://tailwindcss.com) and tw-animate-css, [shadcn/ui](https://ui.shadcn.com) with [Radix UI](https://www.radix-ui.com), class-variance-authority, clsx, tailwind-merge, [cmdk](https://cmdk.paco.me), [sonner](https://sonner.emilkowal.ski), [lucide-react](https://lucide.dev), [Motion](https://motion.dev), [Lenis](https://lenis.darkroom.engineering), [react-force-graph-2d](https://github.com/vasturiano/react-force-graph), [i18next](https://www.i18next.com) and react-i18next, [zustand](https://zustand.docs.pmnd.rs), [Dexie](https://dexie.org), [jsQR](https://github.com/cozmo/jsQR), html-to-image, and [Fontsource](https://fontsource.org) fonts (Geist, Geist Mono, Noto Sans Devanagari, Noto Sans Telugu, Noto Sans Bengali).
-
-**Machine learning (training only, not shipped):** [scikit-learn](https://scikit-learn.org), [NumPy](https://numpy.org), [SciPy](https://scipy.org), [pandas](https://pandas.pydata.org), [joblib](https://joblib.readthedocs.io), [PyYAML](https://pyyaml.org), [pytest](https://pytest.org).
-
-**Tooling:** [TypeScript](https://www.typescriptlang.org), [Vitest](https://vitest.dev), [Playwright](https://playwright.dev) and axe-core, Testing Library, jsdom, [ESLint](https://eslint.org) and typescript-eslint, [Prettier](https://prettier.io), [tsx](https://tsx.is), concurrently.
-
-**Content sources:** emergency steps point to the National Cyber Crime Reporting Portal (cybercrime.gov.in, helpline 1930) and Sanchar Saathi Chakshu (sancharsaathi.gov.in).
-
-Built with help from AI coding assistants (Claude Code).
-
-## Team
-
-*TODO (Phase 6): team names.*
-
-## Licence
-
-[MIT](LICENSE)
+</div>

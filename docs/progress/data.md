@@ -2,6 +2,14 @@
 
 ## Done
 
+### README rewritten for submission (2026-11-22, single session)
+
+- `README.md` now follows the structure of the team's earlier hackathon README:
+  - problem, approach, features, how the AI works (pipeline and fusion formula), model and results (including risk calibration and the evasion suite);
+  - architecture, tech stack, screenshots, run locally, demo walkthrough, privacy and responsible AI, AI tools used, limitations, repository structure.
+- 14 screenshots in `docs/screenshots/`, taken from the live site in Edge (Elder mode in Hindi from the build with the strings fix).
+- **Still to fill in by the team:** team name and members, demo video link.
+
 ### Risk calibration on the test split (2026-11-22, single session)
 
 - `npm run reliability -w @akshi/eval` (`eval/src/reliability.ts`) runs the **test split** with the full system and no AI (engine 0.3.0, model 2026.11.18-a), then writes `packages/content/src/risk-calibration.json` (exported as `RISK_CALIBRATION`).
