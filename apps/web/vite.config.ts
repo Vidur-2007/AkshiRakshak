@@ -82,7 +82,8 @@ export default defineConfig({
         globIgnores: ['engine-assets/tessdata/**', 'engine-assets/tesseract/tesseract-core-*'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/api\//],
+        // /video/ is the README's team video: open it as a file, never as the app shell
+        navigateFallbackDenylist: [/^\/api\//, /^\/video\//],
         cleanupOutdatedCaches: true,
         // take control of the first visit, so going offline right after it still works
         clientsClaim: true,
