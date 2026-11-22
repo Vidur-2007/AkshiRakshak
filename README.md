@@ -357,6 +357,34 @@ Everything below is free and open source, or used on a free tier.
 | ![Proof](docs/screenshots/proof.png) **Proof: every number we measured**                                             | ![Risk calibration](docs/screenshots/proof-calibration.png) **Do the risk numbers mean what they say?**                        |
 | ![Emergency help](docs/screenshots/sos.png) **SOS: the steps that matter most, 1930 first**                          | ![Elder mode in Hindi](docs/screenshots/elder-mode.png) **Elder Safety Mode in Hindi, on a phone**                             |
 
+### Dark theme
+
+The app has day and night themes. It follows the phone's setting, or you can pick one with the switch in the header.
+
+|                                                                                    |                                                                                                   |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| ![Landing page, night theme](docs/screenshots/dark-hero.png) **Landing page**      | ![Analysis, night theme](docs/screenshots/dark-analysis.png) **Scam, 95, at night**               |
+| ![Proof page, night theme](docs/screenshots/dark-proof.png) **Proof, night theme** | ![Telugu result, night theme](docs/screenshots/lang-te-analysis-dark.png) **Telugu job scam, 75** |
+
+### In Hindi, Telugu and Bengali
+
+Every screen, reason and action is in English, हिन्दी, తెలుగు and বাংলা. The scam checks read all four languages and Hinglish.
+
+|                                                                                                |                                                                                     |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| ![Hindi result](docs/screenshots/lang-hi-analysis.png) **Hindi: electricity cut-off scam, 76** | ![Bengali landing page](docs/screenshots/lang-bn-home.png) **Bengali landing page** |
+
+### On a phone
+
+<table>
+  <tr>
+    <td align="center" width="25%"><img src="docs/screenshots/mobile-analysis.png" alt="Hindi result on a phone" width="200" /><br /><b>Hindi: Scam, 95</b></td>
+    <td align="center" width="25%"><img src="docs/screenshots/mobile-bn.png" alt="Bengali result on a phone" width="200" /><br /><b>Bengali: courier fee scam, 95</b></td>
+    <td align="center" width="25%"><img src="docs/screenshots/mobile-te-dark.png" alt="Telugu result on a phone, night theme" width="200" /><br /><b>Telugu, night: "sent by mistake", Suspicious 60</b></td>
+    <td align="center" width="25%"><img src="docs/screenshots/mobile-hi-dark-sos.png" alt="Hindi emergency help on a phone, night theme" width="200" /><br /><b>Hindi, night: SOS, call 1930</b></td>
+  </tr>
+</table>
+
 ---
 
 ## 9. Run it locally
