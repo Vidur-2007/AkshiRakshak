@@ -8,10 +8,6 @@
 
 **Arthaton 2026 · AI for finance**
 
-[![Watch the 1-minute Akshi Rakshak video](docs/videos/akshi-rakshak-video-poster.png)](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4)
-
-_▶ Click to watch the 1-minute intro (58 s)_ · **[▶ Full demo video on YouTube (5 min)](https://youtu.be/FD6xtVlQ9hk)**
-
 [**Live app**](https://akshi-rakshak.vercel.app) · [**Demo video (YouTube, 5 min)**](https://youtu.be/FD6xtVlQ9hk) · [**1-minute intro**](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4) · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
 
 ![TypeScript](https://img.shields.io/badge/Engine-TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -23,6 +19,12 @@ _▶ Click to watch the 1-minute intro (58 s)_ · **[▶ Full demo video on YouT
 ![Cost](<https://img.shields.io/badge/Cost-%E2%82%B90%20(100%25%20free%20tier)-brightgreen>)
 
 ![Akshi Rakshak landing page in the night theme, with Akshi view on: the sample fake KYC SMS is marked Scam 95/100 and each risky phrase is labelled](docs/screenshots/hero-dark-akshi.png)
+
+### ▶ Watch Akshi Rakshak in 1 minute
+
+[![Watch the 1-minute Akshi Rakshak video](docs/videos/akshi-rakshak-video-poster.png)](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4)
+
+_▶ Click to watch the 1-minute intro (58 s)_ · **[▶ Full demo video on YouTube (5 min)](https://youtu.be/FD6xtVlQ9hk)**
 
 </div>
 
