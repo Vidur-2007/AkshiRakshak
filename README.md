@@ -10,9 +10,9 @@
 
 [![Watch the 1-minute Akshi Rakshak video](docs/videos/akshi-rakshak-video-poster.png)](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4)
 
-_▶ Click to watch the 1-minute video (58 s, MP4)_
+_▶ Click to watch the 1-minute intro (58 s)_ · **[▶ Full demo video on YouTube (5 min)](https://youtu.be/FD6xtVlQ9hk)**
 
-[**Live app**](https://akshi-rakshak.vercel.app) · [**Video (1 min)**](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4) · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
+[**Live app**](https://akshi-rakshak.vercel.app) · [**Demo video (YouTube, 5 min)**](https://youtu.be/FD6xtVlQ9hk) · [**1-minute intro**](https://akshi-rakshak.vercel.app/video/akshi-rakshak.mp4) · [**Proof page (our measured results)**](https://akshi-rakshak.vercel.app/proof) · [**API health**](https://akshi-rakshak.vercel.app/api/health) · [**60-second tour**](https://akshi-rakshak.vercel.app/tour)
 
 ![TypeScript](https://img.shields.io/badge/Engine-TypeScript-3178C6?logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/UI-React%2019-61DAFB?logo=react&logoColor=black)
@@ -519,6 +519,8 @@ Vercel (Hobby plan): import the repository, framework "Other", root directory = 
 ---
 
 ## 10. Demo walkthrough
+
+**Watch first:** the [5-minute demo video on YouTube](https://youtu.be/FD6xtVlQ9hk) walks through the main checks.
 
 No accounts needed. Open [akshi-rakshak.vercel.app](https://akshi-rakshak.vercel.app), or [`/tour`](https://akshi-rakshak.vercel.app/tour) for a 60-second guided tour. `/?demo=1` resets to a clean demo state.
 
